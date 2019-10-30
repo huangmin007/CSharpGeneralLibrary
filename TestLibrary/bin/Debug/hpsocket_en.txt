@@ -1,0 +1,1 @@
+﻿Windows supported, x86 & x64 platform supported. Please switch to the target platform before compile your application.

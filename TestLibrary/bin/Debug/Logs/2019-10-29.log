@@ -1,0 +1,82 @@
+﻿[Header]
+[2019-10-29 09:38:29] [9] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (1613) 
+[2019-10-29 09:38:29] [9] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (1922) 
+[2019-10-29 09:38:39] [9] INFO  ApplicationLogger [Button_Click(48)] - Hello 0 (11665) 
+[2019-10-29 09:38:40] [9] INFO  ApplicationLogger [Button_Click(48)] - Hello 1 (12547) 
+[2019-10-29 09:38:40] [9] INFO  ApplicationLogger [Button_Click(48)] - Hello 2 (13164) 
+[2019-10-29 09:38:42] [9] INFO  ApplicationLogger [Button_Click(48)] - Hello 3 (14713) 
+[2019-10-29 09:38:48] [9] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (20630) 
+[Footer]
+
+[Header]
+[2019-10-29 09:39:46] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (74) 
+[2019-10-29 09:39:46] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (251) 
+[2019-10-29 09:51:46] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (720571) 
+[Footer]
+
+[Header]
+[2019-10-29 09:52:23] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (79) 
+[2019-10-29 09:52:23] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (262) 
+[Header]
+[2019-10-29 09:53:51] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (80) 
+[2019-10-29 09:53:51] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (238) 
+[2019-10-29 09:53:55] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (4435) 
+[Footer]
+
+[Header]
+[2019-10-29 09:54:57] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (77) 
+[2019-10-29 09:54:57] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (240) 
+[2019-10-29 09:57:40] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (317561) 
+[Footer]
+
+[2019-10-29 09:57:41] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (164152) 
+[Footer]
+
+[Header]
+[2019-10-29 09:58:46] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (84) 
+[2019-10-29 09:58:46] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (258) 
+[2019-10-29 09:58:54] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (8477) 
+[Footer]
+
+[Header]
+[2019-10-29 10:01:39] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (78) 
+[2019-10-29 10:01:39] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (240) 
+[Header]
+[2019-10-29 10:02:20] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (91) 
+[2019-10-29 10:02:20] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (248) 
+[Header]
+[2019-10-29 10:03:44] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (85) 
+[2019-10-29 10:03:45] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (255) 
+[Header]
+[2019-10-29 10:08:05] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (72) 
+[2019-10-29 10:08:05] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (218) 
+[2019-10-29 10:10:44] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (545796) 
+[Footer]
+
+[2019-10-29 10:10:45] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (505751) 
+[Footer]
+
+[2019-10-29 10:10:47] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (422280) 
+[Footer]
+
+[2019-10-29 10:10:48] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (163015) 
+[Footer]
+
+[Header]
+[2019-10-29 10:28:04] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (67) 
+[2019-10-29 10:28:04] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (224) 
+[Header]
+[2019-10-29 10:31:28] [1] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (70) 
+[2019-10-29 10:31:28] [1] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (221) 
+[2019-10-29 10:31:40] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (12454) 
+[Footer]
+
+[2019-10-29 10:31:41] [1] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (217156) 
+[Footer]
+
+[Header]
+[2019-10-29 14:22:55] [9] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (371) 
+[2019-10-29 14:22:55] [9] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (695) 
+[2019-10-29 14:22:57] [9] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (2144) 
+[Footer]
+

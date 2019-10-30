@@ -1,0 +1,10 @@
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\Log4Net.Config
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\hpsocket_en.txt
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\hpsocket_cn.txt
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\SpaceCGLibrary.dll
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\SpaceCGLibrary.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\log4net.dll
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\log4net.xml
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.dll
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.csprojResolveAssemblyReference.cache

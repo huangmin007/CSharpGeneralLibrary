@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B0BEC753-29F1-4BAC-9BA6-4A4DF9F5462B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SpaceCG</RootNamespace>
+    <AssemblyName>SpaceCGLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="HPSocket\Common.cs" />
+    <Compile Include="HPSocket\ErrorResult.cs" />
+    <Compile Include="HPSocket\Extra.cs" />
+    <Compile Include="HPSocket\HPThreadPool.cs" />
+    <Compile Include="HPSocket\HttpAgent.cs" />
+    <Compile Include="HPSocket\HttpClient.cs" />
+    <Compile Include="HPSocket\HttpSdk.cs" />
+    <Compile Include="HPSocket\HttpServer.cs" />
+    <Compile Include="HPSocket\IpAddress.cs" />
+    <Compile Include="HPSocket\Sdk.cs" />
+    <Compile Include="HPSocket\SSLAgent.cs" />
+    <Compile Include="HPSocket\SSLClient.cs" />
+    <Compile Include="HPSocket\SSLHttpAgent.cs" />
+    <Compile Include="HPSocket\SSLHttpClient.cs" />
+    <Compile Include="HPSocket\SSLHttpSdk.cs" />
+    <Compile Include="HPSocket\SSLHttpServer.cs" />
+    <Compile Include="HPSocket\SSLPackAgent.CS" />
+    <Compile Include="HPSocket\SSLPackClient.cs" />
+    <Compile Include="HPSocket\SSLPackServer.cs" />
+    <Compile Include="HPSocket\SSLPullAgent.cs" />
+    <Compile Include="HPSocket\SSLPullClient.cs" />
+    <Compile Include="HPSocket\SSLPullServer.cs" />
+    <Compile Include="HPSocket\SSLSdk.cs" />
+    <Compile Include="HPSocket\SSLServer.cs" />
+    <Compile Include="HPSocket\TcpAgent.cs" />
+    <Compile Include="HPSocket\TcpClient.cs" />
+    <Compile Include="HPSocket\TcpPackAgent.cs" />
+    <Compile Include="HPSocket\TcpPackClient.cs" />
+    <Compile Include="HPSocket\TcpPackServer.cs" />
+    <Compile Include="HPSocket\TcpPullAgent.cs" />
+    <Compile Include="HPSocket\TcpPullClient.cs" />
+    <Compile Include="HPSocket\TcpPullServer.cs" />
+    <Compile Include="HPSocket\TcpServer.cs" />
+    <Compile Include="HPSocket\ThreadPoolSdk.cs" />
+    <Compile Include="HPSocket\WebSocketServer.cs" />
+    <Compile Include="Log4Net\TextBoxBaseAppender.cs" />
+    <Compile Include="SpaceCG.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Log4Net.Config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HPSocket\x64\HPSocket4C.dll" />
+    <Content Include="HPSocket\x86\HPSocket4C.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Examples\" />
+    <Folder Include="Framework\" />
+    <Folder Include="General\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\HP-Socket.win.5.6.1\build\HP-Socket.win.targets" Condition="Exists('..\packages\HP-Socket.win.5.6.1\build\HP-Socket.win.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\HP-Socket.win.5.6.1\build\HP-Socket.win.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HP-Socket.win.5.6.1\build\HP-Socket.win.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,37 @@
+[Header]
+[2019-10-26 15:53:56] [9] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (387) 
+[2019-10-26 15:53:56] [9] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (587) 
+[2019-10-26 15:53:58] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 0 (2523) 
+[2019-10-26 15:53:58] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 1 (2669) 
+[2019-10-26 15:53:58] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 2 (2867) 
+[2019-10-26 15:53:59] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 3 (3073) 
+[2019-10-26 15:53:59] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 4 (3258) 
+[2019-10-26 15:54:01] [9] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (5368) 
+[Footer]
+
+[Header]
+[2019-10-26 16:42:55] [10] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (416) 
+[2019-10-26 16:42:55] [10] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (626) 
+[2019-10-26 16:42:56] [10] INFO  ApplicationLogger [Button_Click(49)] - Hello 0 (1692) 
+[2019-10-26 16:42:57] [10] INFO  ApplicationLogger [Button_Click(49)] - Hello 1 (2201) 
+[2019-10-26 16:42:57] [10] INFO  ApplicationLogger [Button_Click(49)] - Hello 2 (2461) 
+[2019-10-26 16:42:57] [10] INFO  ApplicationLogger [Button_Click(49)] - Hello 3 (2673) 
+[2019-10-26 16:42:59] [10] INFO  ApplicationLogger [Button_Click(49)] - Hello 4 (4502) 
+[2019-10-26 16:43:00] [10] INFO  ApplicationLogger [Button_Click(49)] - Hello 5 (5520) 
+[2019-10-26 16:43:05] [10] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (10140) 
+[Footer]
+
+[Header]
+[2019-10-26 16:45:31] [9] INFO  ApplicationLogger [OnStartup(21)] - Application OnStartup (321) 
+[2019-10-26 16:45:31] [9] INFO  ApplicationLogger [.ctor(29)] - MainWindow. (505) 
+[2019-10-26 16:45:32] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 0 (1738) 
+[2019-10-26 16:45:33] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 1 (2705) 
+[2019-10-26 16:45:34] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 2 (3009) 
+[2019-10-26 16:45:34] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 3 (3204) 
+[2019-10-26 16:45:34] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 4 (3393) 
+[2019-10-26 16:45:34] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 5 (3564) 
+[2019-10-26 16:45:34] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 6 (3742) 
+[2019-10-26 16:45:35] [9] INFO  ApplicationLogger [Button_Click(49)] - Hello 7 (3953) 
+[2019-10-26 16:45:59] [9] INFO  ApplicationLogger [OnExit(27)] - Application OnExit (28334) 
+[Footer]
+
