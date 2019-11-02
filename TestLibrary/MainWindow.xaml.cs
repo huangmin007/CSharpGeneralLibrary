@@ -23,10 +23,13 @@ namespace TestLibrary
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(MainWindow));
+
         public MainWindow()
         {
             InitializeComponent();
-            App.Log.InfoFormat("MainWindow.");
+            Log.InfoFormat("MainWindow.");
+
 
             TextBoxBaseAppender appender = new TextBoxBaseAppender(TextBox_Logs, 50);
         }
@@ -45,9 +48,14 @@ namespace TestLibrary
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //TextBox_Logs.AppendText("Hello");
-            App.Log.InfoFormat("Hello {0}", count);
+            //Log.InfoFormat("Hello {0}", count);
+            App.Log.InfoFormat("World {0}", count);
             //log4net.LogManager.GetLogger("ApplicationLogger").InfoFormat("Hello {0}", count);
             count++;
+
+            Log.ErrorFormat("Test Error Message: {0}", count);
+
+            Console.WriteLine("Hello World {0}", count);
         }
     }
 }

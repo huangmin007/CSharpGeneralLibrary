@@ -13,12 +13,20 @@ namespace TestLibrary
     /// </summary>
     public partial class App : Application
     {
-        public static log4net.ILog Log = log4net.LogManager.GetLogger("ApplicationLogger");
+        /// <summary>
+        /// 应用程序日志对象
+        /// </summary>
+        //public static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(App));
+        public static readonly log4net.ILog Log = log4net.LogManager.GetLogger("ApplicationLogger");
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            //log4net.Config.BasicConfigurator.Configure();
+            //Log4NetRemotingServices ser = new Log4NetRemotingServices();
+
             base.OnStartup(e);
             Log.InfoFormat("Application OnStartup");
+            SpaceCG.Log4Net.Log4NetUtils.ReserveFileCount(30, "Logs", "*.log");
         }
 
         protected override void OnExit(ExitEventArgs e)
