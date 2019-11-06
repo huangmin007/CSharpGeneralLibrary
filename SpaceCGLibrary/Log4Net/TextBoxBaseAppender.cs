@@ -4,6 +4,8 @@ using log4net.Layout;
 using log4net.Appender;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace SpaceCG.Log4Net
 {
@@ -12,13 +14,20 @@ namespace SpaceCG.Log4Net
     /// </summary>
     public class TextBoxBaseAppender : AppenderSkeleton
     {
+        protected static readonly SolidColorBrush InfoColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0xFF));
+        protected static readonly SolidColorBrush WarnColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0x00));
+        protected static readonly SolidColorBrush ErrorColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0x00, 0x00));
+        protected static readonly SolidColorBrush FatalColor = new SolidColorBrush(Color.FromArgb(0xBF, 0xFF, 0x00, 0x00));
+
         /// <summary>
         /// 获取或设置最大可见行数
         /// </summary>
-        private uint MaxLines = 512;
+        protected uint MaxLines = 512;
+        protected TextBoxBase TextBox;
+        protected Action<String, Level> AppendTextDelegate;
 
-        private TextBoxBase TextBox;
-        private Action<String> AppendTextDelegate;
+        private TextBox tb;
+        private RichTextBox rtb;
 
         /// <summary>
         /// Log4Net Appender for WPF TextBoxBase 
@@ -28,26 +37,26 @@ namespace SpaceCG.Log4Net
         {
             this.TextBox = textBox;
             this.AppendTextDelegate = TextBoxAppendText;
-            this.Layout = new PatternLayout("[%date{yyyy-MM-dd HH:mm:ss}] [%thread] %level %logger [%method(%line)] - %message (%r) %newline");
+            this.Layout = new PatternLayout("[%date{yyyy-MM-dd HH:mm:ss}] [%thread] [%level] [%method(%line)] %logger - %message (%r) %newline");
 
             //Set Controls Default Config
             if(this.TextBox is TextBox)
             {
-                TextBox tb = (TextBox)this.TextBox;
+                tb = (TextBox)this.TextBox;
                 tb.IsReadOnly = true;
                 tb.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Auto);
             }
             else if(this.TextBox is RichTextBox)
             {
-                RichTextBox rtb = (RichTextBox)this.TextBox;
+                rtb = (RichTextBox)this.TextBox;
                 rtb.IsReadOnly = true;
                 rtb.AcceptsReturn = true;
+                rtb.Document.LineHeight = 2;
                 rtb.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-                rtb.Document.LineHeight = 1;
             }
             else
             {
-                //...
+                //...                
             }
 
             log4net.Config.BasicConfigurator.Configure(this);
@@ -70,7 +79,6 @@ namespace SpaceCG.Log4Net
         protected override void Append(LoggingEvent loggingEvent)
         {
             if (this.TextBox == null) return;
-            if (!this.TextBox.IsInitialized) return;
             if (!this.TextBox.IsLoaded) return;
 
             String text = string.Empty;
@@ -86,38 +94,43 @@ namespace SpaceCG.Log4Net
             {
                 text = loggingEvent.LoggerName + "-" + loggingEvent.RenderedMessage + Environment.NewLine;
             }
-
-            this.TextBox.Dispatcher.BeginInvoke(this.AppendTextDelegate, text);
+            
+            this.TextBox.Dispatcher.BeginInvoke(this.AppendTextDelegate, text, loggingEvent.Level);
         }
 
         /// <summary>
         /// TextBox AppendText
         /// </summary>
         /// <param name="text"></param>
-        protected void TextBoxAppendText(String text)
+        /// <param name="level"></param>
+        protected void TextBoxAppendText(String text, Level level)
         {
-            this.TextBox.AppendText(text);
-            this.TextBox.ScrollToEnd();
-            
-            if (this.TextBox is TextBox)
+            if (tb != null)
             {
-                TextBox tb = (TextBox)this.TextBox;
+                tb.AppendText(text);
+                tb.ScrollToEnd();
+
                 if (tb.LineCount > MaxLines)
-                {
-                    int count = tb.GetCharacterIndexFromLineIndex(1);
-                    tb.Text = tb.Text.Remove(0, count);
-                }
-                //if (tb.LineCount > MaxLine) tb.Clear();
+                    tb.Text = tb.Text.Remove(0, tb.GetCharacterIndexFromLineIndex(1));
+
+                return;
             }
-            else if (this.TextBox is RichTextBox)
+
+            if (rtb != null)
             {
-                RichTextBox rtb = (RichTextBox)this.TextBox;
-                
+                Paragraph paragraph = new Paragraph(new Run(text.Trim()));
+                paragraph.Background = level == Level.Fatal ? FatalColor : level == Level.Error ? ErrorColor : level == Level.Warn ? WarnColor : InfoColor;
+
+                rtb.Document.Blocks.Add(paragraph);
+                rtb.ScrollToEnd();
+
                 if (rtb.Document.Blocks.Count > MaxLines)
                     rtb.Document.Blocks.Remove(rtb.Document.Blocks.FirstBlock);
 
-                //if (rtb.Document.Blocks.Count > MaxLines) rtb.Document.Blocks.Clear();
+                return;
             }
+
         }
+        
     }
 }

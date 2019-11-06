@@ -1,6 +1,4 @@
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\Log4Net.Config
-E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\hpsocket_en.txt
-E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\hpsocket_cn.txt
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\TestLibrary.exe.config
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\TestLibrary.exe
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\TestLibrary.pdb
@@ -19,3 +17,4 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.Pr
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.csproj.GenerateResource.Cache
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.exe
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\log4net.pdb

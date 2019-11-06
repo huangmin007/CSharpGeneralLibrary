@@ -29,12 +29,13 @@ namespace SpaceCG.Log4Net
 
             if (files.Length <= count) return;
 
+            //按文件的创建时间，升序排序(最新创建的排在最前面)
             Array.Sort(files, (f1, f2) =>
             {
                 return f2.CreationTime.CompareTo(f1.CreationTime);
             });
 
-            for (int i = 0; i < files.Length; i++)
+            for (int i = count; i < files.Length; i++)
             {
                 files[i].Delete();
                 Trace.TraceWarning("Delete File ... CreationTime:{0}\t Name:{1}", files[i].CreationTime, files[i].Name);

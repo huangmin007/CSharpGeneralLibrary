@@ -1,1 +1,0 @@
-E:\2020\001_Libraries\CSharp\GeneralLibrary\SpeechSynthesizer_Example\bin\Debug\SpeechSynthesizer_Example.exe.config
