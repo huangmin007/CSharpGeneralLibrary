@@ -1,0 +1,42 @@
+﻿[Header]
+[09:53:23] [8] INFO TestLibrary.App [OnStartup(27)] - Application OnStartup (1181) 
+[09:53:24] [8] INFO TestLibrary.MainWindow [.ctor(36)] - MainWindow. (1527) 
+[Header]
+[09:54:20] [8] INFO TestLibrary.App [OnStartup(27)] - Application OnStartup (260) 
+[09:54:20] [8] INFO TestLibrary.MainWindow [.ctor(36)] - MainWindow. (407) 
+[Header]
+[10:02:24] [9] INFO TestLibrary.App [OnStartup(27)] - Application OnStartup (324) 
+[10:02:24] [9] INFO TestLibrary.MainWindow [.ctor(36)] - MainWindow. (521) 
+[10:02:28] [9] INFO TestLibrary.App [OnExit(36)] - Application OnExit (4881) 
+[Footer]
+
+[Header]
+[10:05:26] [9] INFO TestLibrary.App [OnStartup(27)] - Application OnStartup (253) 
+[10:05:26] [9] INFO TestLibrary.MainWindow [.ctor(36)] - MainWindow. (467) 
+[10:05:41] [9] INFO TestLibrary.App [OnExit(36)] - Application OnExit (15227) 
+[Footer]
+
+[Header]
+[10:06:12] [9] INFO TestLibrary.App [OnStartup(27)] - Application OnStartup (271) 
+[10:06:13] [9] INFO TestLibrary.MainWindow [.ctor(36)] - MainWindow. (439) 
+[10:06:18] [9] INFO TestLibrary.App [OnExit(36)] - Application OnExit (5941) 
+[Footer]
+
+[Header]
+[10:06:45] [9] INFO TestLibrary.App [OnStartup(27)] - Application OnStartup (260) 
+[10:06:46] [9] INFO TestLibrary.MainWindow [.ctor(36)] - MainWindow. (423) 
+[10:06:50] [9] INFO TestLibrary.App [OnExit(36)] - Application OnExit (4935) 
+[Footer]
+
+[Header]
+[10:07:04] [10] INFO TestLibrary.App [OnStartup(27)] - Application OnStartup (241) 
+[10:07:04] [10] INFO TestLibrary.MainWindow [.ctor(36)] - MainWindow. (406) 
+[10:07:09] [10] INFO TestLibrary.App [OnExit(36)] - Application OnExit (5155) 
+[Footer]
+
+[Header]
+[10:16:14] [9] INFO TestLibrary.App [OnStartup(27)] - Application OnStartup (312) 
+[10:16:14] [9] INFO TestLibrary.MainWindow [.ctor(36)] - MainWindow. (506) 
+[10:16:18] [9] INFO TestLibrary.App [OnExit(36)] - Application OnExit (4797) 
+[Footer]
+

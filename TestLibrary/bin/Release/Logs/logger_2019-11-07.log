@@ -1,0 +1,12 @@
+﻿[Header]
+[14:47:13] [9] INFO TestLibrary.App [OnStartup(28)] - Application OnStartup (2469) 
+[14:47:13] [9] INFO TestLibrary.MainWindow [.ctor(37)] - MainWindow. (2625) 
+[Header]
+[14:48:46] [9] INFO TestLibrary.App [OnStartup(28)] - Application OnStartup (2623) 
+[14:48:46] [9] INFO TestLibrary.MainWindow [.ctor(37)] - MainWindow. (2769) 
+[Header]
+[14:49:12] [10] INFO TestLibrary.App [OnStartup(28)] - Application OnStartup (2466) 
+[14:49:12] [10] INFO TestLibrary.MainWindow [.ctor(37)] - MainWindow. (2627) 
+[14:49:14] [10] INFO TestLibrary.App [OnExit(37)] - Application OnExit (4674) 
+[Footer]
+

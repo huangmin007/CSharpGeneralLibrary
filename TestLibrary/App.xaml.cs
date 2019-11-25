@@ -26,6 +26,8 @@ namespace TestLibrary
             base.OnStartup(e);
             Log.InfoFormat("Application OnStartup");
             SpaceCG.Log4Net.Log4NetUtils.ReserveFileCount(5, "Logs", "*.log");
+
+            Console.WriteLine("IsDebugEnabled::{0}", Log.IsDebugEnabled);
         }
 
         protected override void OnExit(ExitEventArgs e)

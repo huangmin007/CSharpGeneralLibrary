@@ -18,3 +18,5 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.cs
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.exe
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\log4net.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\Window1.g.cs
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\Window1.baml
