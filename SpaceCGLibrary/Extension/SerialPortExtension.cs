@@ -118,6 +118,10 @@ namespace SpaceCG.Extension
             Log?.InfoFormat("Close And Dispose Serial Port.");
             if (serialPort == null) throw new InvalidOperationException("serialPort 对象未初使化，CloseAndDispose 失败");
 
+            SpaceCGUtils.RemoveAnonymousEvents(serialPort, "PinChanged");
+            SpaceCGUtils.RemoveAnonymousEvents(serialPort, "DataReceived");
+            SpaceCGUtils.RemoveAnonymousEvents(serialPort, "ErrorReceived");
+
             if (serialPort.IsOpen)
             {
                 serialPort.DiscardInBuffer();

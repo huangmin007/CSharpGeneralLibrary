@@ -6,3 +6,4 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\log4net.p
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\log4net.xml
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.dll
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.csprojResolveAssemblyReference.cache

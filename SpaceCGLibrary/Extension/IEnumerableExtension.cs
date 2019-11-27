@@ -11,22 +11,38 @@ namespace SpaceCG.Extension
     /// </summary>
     public static class IEnumerableExtension
     {
-
-        public static int IndexOfa<T>(this IEnumerable<T> source, T value)
+        /// <summary>
+        /// 获取指定对象在此集合中的位置索引
+        /// <para>注意：该函数是直接使用泛型类的 Equals 方法比较对象</para>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int IndexOf<T>(this IEnumerable<T> source, T value)
         {
             if (value == null) throw new ArgumentNullException("参数 value 不能为空");
 
-            //int index = -1;
+            //source.Contains(value);
+            
+            int index = -1;
             int count = source.Count();
+
             for (int i = 0; i < count; i++)
             {
-                //if(source.ElementAt(i) == value)
+                if(value.Equals(source.ElementAt(i)))
                 {
-
+                    index = i;
+                    return index;
                 }
              }
 
-            return 0;
+            int index2 = source
+                .Select((n, i) => new { Value = n, Index = i })
+                .Aggregate((v1, v2) => value.Equals(v1) ? v1 : v2)
+                .Index;
+
+            return index;
         }
 
         /// <summary>
@@ -76,7 +92,7 @@ namespace SpaceCG.Extension
             List<T> list = new List<T>();
 
             int i = 0;
-
+            /*
             foreach (var element in source)
             {
                 if (i % 2 == 0)
@@ -86,6 +102,7 @@ namespace SpaceCG.Extension
 
                 i++;
             }
+            */
 
             return list;
         }
