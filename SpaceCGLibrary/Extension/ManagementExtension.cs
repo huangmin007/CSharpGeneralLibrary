@@ -1,8 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Management;
-using System.Reflection;
 
 namespace SpaceCG.Extension
 {
