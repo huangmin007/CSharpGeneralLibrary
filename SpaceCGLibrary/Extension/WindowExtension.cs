@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SpaceCG.WindowsAPI.WinUser;
+using System;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace SpaceCG.Extension
 {
@@ -8,10 +10,9 @@ namespace SpaceCG.Extension
     /// </summary>
     public static class WindowExtension
     {
-
         /// <summary>
         /// 设置窗体显示状态，主要用于 <code>ConfigurationManager.AppSettings["WindowState"]</code> 配置使用；例 SettingWindowState("1,0,0,2");
-        /// <para>读取配置文件 key:WindowState，值是数值数组[Topmost,WindowStyle,ResizeMode,WindowState]，对应转换为枚举值和Boolean值</para>
+        /// <para>读取配置文件 key:WindowState，值是数值数组 [Topmost, WindowStyle, ResizeMode, WindowState]，对应转换为枚举值和Boolean值</para>
         /// <para>【Topmost】窗口是否显示在最顶层 z 顺序；  
         ///     0：窗口不置顶；
         ///     1：窗口置顶
@@ -34,6 +35,7 @@ namespace SpaceCG.Extension
         ///     2：窗口最大化
         /// </para>
         /// </summary>
+        /// <param name="window"></param>
         /// <param name="config">配置参数值</param>
         /// <exception cref="OverflowException"></exception>
         /// <exception cref="ArgumentException"></exception>
@@ -44,7 +46,7 @@ namespace SpaceCG.Extension
             if (string.IsNullOrWhiteSpace(config))
                 throw new ArgumentNullException("参数 config 不能为空值");
 
-            string[] cfg = config.Split(',');
+            string[] cfg = config.Replace(" ", "").Split(',');
             if (cfg.Length != 4)
                 throw new ArgumentOutOfRangeException($"参数 config=[{config}] 值与设计不符合");
             
@@ -52,6 +54,34 @@ namespace SpaceCG.Extension
             window.WindowStyle = (WindowStyle)Enum.Parse(typeof(WindowStyle), cfg[1]);
             window.ResizeMode = (ResizeMode)Enum.Parse(typeof(ResizeMode), cfg[2]);
             window.WindowState = (WindowState)Enum.Parse(typeof(WindowState), cfg[3]);
+        }
+
+        /// <summary>
+        /// 设置窗体的基本显示参数
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="topmost">窗口是否出现在 Z 顺序的最顶层 </param>
+        /// <param name="style">窗口的边框样式</param>
+        /// <param name="mode">窗口大小调整模式</param>
+        /// <param name="state">窗口是处于还原、最小化还是最大化状态</param>
+        public static void SettingWindowState(this Window window, bool topmost, WindowStyle style, ResizeMode mode, WindowState state)
+        {
+            window.Topmost = topmost;
+            window.WindowStyle = style;
+            window.ResizeMode = mode;
+            window.WindowState = state;
+        }
+
+        /// <summary>
+        /// 设置窗口在 Z 顺序中位于定位的窗口之前的窗口的值
+        /// <para>调用 <see cref="WinUser.SetWindowPos(IntPtr, SwpState, int, int, int, int, SwpFlag)"/></para>
+        /// <para>WPF Window Handle use <see cref="WindowInteropHelper"/> .Handle</para>
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="state"><see cref="SwpState"/></param>
+        public static void InsertAfter(this Window window, SwpState state)
+        {
+            WinUser.SetWindowPos(new WindowInteropHelper(window).Handle, state, 0, 0, 0, 0, SwpFlag.NOMOVE | SwpFlag.NOSIZE);
         }
 
     }

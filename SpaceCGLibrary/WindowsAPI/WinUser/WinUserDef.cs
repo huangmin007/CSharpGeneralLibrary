@@ -1,7 +1,9 @@
-﻿using System;
+﻿
+using System;
 using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
-namespace SpaceCG.WindowAPI.WinUser
+namespace SpaceCG.WindowsAPI.WinUser
 {
     #region Delegate
     /// <summary>
@@ -9,7 +11,9 @@ namespace SpaceCG.WindowAPI.WinUser
     /// <para>与 SetWindowsHookEx 函数一起使用的应用程序定义或库定义的回调函数。调用 SendMessage 函数后，系统将调用此函数。钩子程序可以检查消息；它不能修改它。</para>
     /// <para>所述 HOOKPROC 类型定义一个指向这个回调函数。CallWndRetProc 是应用程序定义或库定义的函数名称的占位符。</para>
     /// <para>应用程序通过在调用 SetWindowsHookEx 函数时指定 WH_CALLWNDPROCRET 挂钩类型和指向该挂钩过程的指针来安装该挂钩过程。</para>
+    /// <para>KeyboardProc 参考：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/keyboardproc </para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-hookproc </para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/hook-functions </para>
     /// </summary>
     /// <param name="nCode"></param>
     /// <param name="wParam">指定消息是否由当前进程发送。如果消息是由当前进程发送的，则该消息为非零；否则为0。否则为NULL。</param>
@@ -18,6 +22,200 @@ namespace SpaceCG.WindowAPI.WinUser
     /// <para>如果 nCode 大于或等于零，则强烈建议您调用 CallNextHookEx 并返回它返回的值。否则，其他安装了 WH_CALLWNDPROCRET 挂钩的应用程序将不会收到挂钩通知，因此可能会出现错误的行为。如果挂钩过程未调用 CallNextHookEx，则返回值应为零。</para>
     /// </returns>
     public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
+
+    /// <summary>
+    /// 应用程序定义的功能，用于处理发送到窗口的消息。所述 WNDPROC 类型定义一个指向这个回调函数。WindowProc 是应用程序定义的函数名称的占位符。
+    /// <para>参考 WPF <see cref="HwndSourceHook"/> </para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633573(v=vs.85) </para>
+    /// </summary>
+    /// <param name="hwnd">窗口的句柄。</param>
+    /// <param name="uMsg">有关系统提供的消息的列表，请参阅系统定义的消息。</param>
+    /// <param name="wParam">附加消息信息。此参数的内容取决于uMsg参数的值。</param>
+    /// <param name="lParam">附加消息信息。此参数的内容取决于uMsg参数的值。</param>
+    /// <returns>返回值是消息处理的结果，并取决于发送的消息。</returns>
+    public delegate IntPtr WindowProc(IntPtr hwnd, uint uMsg, IntPtr wParam, IntPtr lParam);
+
+    /// <summary>
+    /// 与 EnumWindows 或 EnumDesktopWindows 函数一起使用的应用程序定义的回调函数。它接收顶级窗口句柄。所述 WNDENUMPROC 类型定义一个指向这个回调函数。EnumWindowsProc 是应用程序定义的函数名称的占位符。
+    /// <para>WNDENUMPROC WNDENUMPROC </para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633498(v=vs.85) </para>
+    /// </summary>
+    /// <param name="hwnd">顶级窗口的句柄。</param>
+    /// <param name="lParam">在 EnumWindows 或 EnumDesktopWindows 中给出的应用程序定义的值。</param>
+    /// <returns>要继续枚举，回调函数必须返回 TRUE；要停止枚举，它必须返回 FALSE。</returns>
+    public delegate bool EnumWindowsProc(IntPtr hwnd, IntPtr lParam);
+
+    /// <summary>
+    /// 与 EnumChildWindows 函数一起使用的应用程序定义的回调函数。它接收子窗口句柄。所述WNDENUMPROC类型定义一个指向这个回调函数。EnumChildProc 是应用程序定义的函数名称的占位符。
+    /// <para>WNDENUMPROC</para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633493(v=vs.85) </para>
+    /// </summary>
+    /// <param name="hwnd">在 EnumChildWindows 中指定的父窗口的子窗口的句柄。</param>
+    /// <param name="lParam"> 在EnumChildWindows 中给定的应用程序定义的值。</param>
+    /// <returns>要继续枚举，回调函数必须返回 TRUE；要停止枚举，它必须返回 FALSE。</returns>
+    public delegate bool EnumChildProc(IntPtr hwnd, IntPtr lParam);
+
+    #endregion
+
+    #region Hook Struct&Enum
+    /// <summary>
+    /// 包含有关低级键盘输入事件的信息。
+    /// <para>HookType 类型为 WH_KEYBOARD_LL 的数据结构体，HookProc 代理函数参数 lParam 数据结构体</para>
+    /// <para>KBDLLHOOKSTRUCT, *LPKBDLLHOOKSTRUCT, *PKBDLLHOOKSTRUCT</para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/hook-structures </para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/hook-functions </para>
+    /// </summary>
+    public struct KeyboardLLHookStruct
+    {
+        /// <summary>
+        /// 表示一个在1到254间的虚似键盘码
+        /// </summary>
+        public VirtualKeyCode vkCode;
+        /// <summary>
+        /// key 表示硬件扫描码 
+        /// </summary>
+        public int scanCode;
+        /// <summary>
+        /// 扩展键标志，事件注入标志，上下文代码和过渡状态标志。该成员的指定如下。应用程序可以使用以下值来测试按键标志。测试LLKHF_INJECTED（位4）将告诉您是否已注入事件。如果是这样，那么测试LLKHF_LOWER_IL_INJECTED（位1）将告诉您是否从较低完整性级别运行的进程注入了事件。
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-kbdllhookstruct?redirectedfrom=MSDN </para>
+        /// </summary>
+        public int flags;
+        /// <summary>
+        /// 此消息的时间戳，等于此消息返回的 GetMessageTime。
+        /// </summary>
+        public int time;
+        /// <summary>
+        /// 与消息关联的其他信息。
+        /// </summary>
+        public IntPtr dwExtraInfo;
+        /// <summary>
+        /// @ToString()
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"vkCode:{vkCode}, scanCode:{scanCode}, flags:{flags}, time:{time}";
+        }
+    }
+
+    /// <summary>
+    /// 包含有关传递给 WH_MOUSE 挂钩过程 MouseProc 的鼠标事件的信息。
+    /// <para>MOUSEHOOKSTRUCT, * LPMOUSEHOOKSTRUCT, * PMOUSEHOOKSTRUCT</para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-mousehookstruct?redirectedfrom=MSDN </para>
+    /// </summary>
+    public struct MouseHookStruct
+    {
+        /// <summary>
+        /// 光标的x和y坐标，以屏幕坐标表示。
+        /// </summary>
+        public POINT pt;
+        /// <summary>
+        /// 窗口的句柄，它将接收与mouse事件相对应的鼠标消息。
+        /// </summary>
+        public IntPtr hwnd;
+        /// <summary>
+        /// 命中测试值。有关命中测试值的列表，请参见 WM_NCHITTEST 消息的描述。
+        /// </summary>
+        public uint wHitTestCode;
+        /// <summary>
+        /// 与消息关联的其他信息。
+        /// </summary>
+        public IntPtr dwExtraInfo;
+        /// <summary>
+        /// @ToString()
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"pt:{pt}, {hwnd}, {wHitTestCode}, {dwExtraInfo}";
+        }
+    }
+    /// <summary>
+    /// Structure used by WH_MOUSE_LL
+    /// <para>MSLLHOOKSTRUCT, FAR *LPMSLLHOOKSTRUCT, *PMSLLHOOKSTRUCT;</para>
+    /// </summary>
+    public struct MouseLLHookStruct
+    {
+        public POINT pt;
+        public int mouseData;
+        public int flags;
+        public int time;
+        public IntPtr dwExtraInfo;
+    }
+
+    /// <summary>
+    /// 挂钩过程的类型
+    /// <para> SetWindowsHookEx 函数数参考 idHook 的值之一 </para>
+    /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowshookexa </para>
+    /// <para>参考对应的结构数据：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/hook-structures </para>
+    /// </summary>
+    public enum HookType
+    {
+        /// <summary>
+        /// [线程或全局] 安装挂钩过程，以监视由于对话框，消息框，菜单或滚动条中的输入事件而生成的消息。有关更多信息，请参见 MessageProc 挂钩过程。
+        /// </summary>
+        WH_MSGFILTER = -1,
+        /// <summary>
+        /// [仅全局] 安装一个挂接过程，该过程记录发布到系统消息队列中的输入消息。该挂钩对于记录宏很有用。有关更多信息，请参见 JournalRecordProc 挂钩过程。
+        /// </summary>
+        WH_JOURNALRECORD = 0,
+        /// <summary>
+        /// [仅全局] 安装该消息发布之前由一个记录一个钩子程序WH_JOURNALRECORD钩子程序。欲了解更多信息，请参阅 JournalPlaybackProc 钩子程序。
+        /// </summary>
+        WH_JOURNALPLAYBACK = 1,
+        /// <summary>
+        /// [线程或全局] 安装挂钩过程，以监视击键消息。有关更多信息，请参见 KeyboardProc 挂接过程。
+        /// </summary>
+        WH_KEYBOARD = 2,
+        /// <summary>
+        /// [线程或全局] 安装挂钩过程，以监视发布到消息队列的消息。有关更多信息，请参见 GetMsgProc 挂钩过程。
+        /// </summary>
+        WH_GETMESSAGE = 3,
+        /// <summary>
+        /// [线程或全局] 安装挂钩程序，该程序在系统将消息发送到目标窗口过程之前监视消息。有关更多信息，请参见 CallWndProc 挂接过程。
+        /// </summary>
+        WH_CALLWNDPROC = 4,
+        /// <summary>
+        /// [线程或全局] 安装一个挂钩程序，该程序接收对 CBT 应用程序有用的通知。有关更多信息，请参见 CBTProc 挂钩过程。
+        /// </summary>
+        WH_CBT = 5,
+        /// <summary>
+        /// [仅全局] 安装挂钩过程，以监视由于对话框，消息框，菜单或滚动条中的输入事件而生成的消息。挂钩过程会在与调用线程相同的桌面中监视所有应用程序的这些消息。有关更多信息，请参见 SysMsgProc 挂接过程。
+        /// </summary>
+        WH_SYSMSGFILTER = 6,
+        /// <summary>
+        /// [线程或全局] 安装监视鼠标消息的挂钩过程。有关更多信息，请参见 MouseProc 挂钩过程。
+        /// </summary>
+        WH_MOUSE = 7,
+        /// <summary>
+        /// #if defined(_WIN32_WINDOWS) hardware
+        /// </summary>
+        WH_HARDWARE = 8,
+        /// <summary>
+        /// [线程或全局] 安装对调试其他挂钩过程有用的挂钩过程。有关更多信息，请参见 DebugProc 挂钩过程。
+        /// </summary>
+        WH_DEBUG = 9,
+        /// <summary>
+        /// [线程或全局] 安装一个挂钩程序，该程序接收对外壳程序有用的通知。有关更多信息，请参见 ShellProc 挂钩过程。
+        /// </summary>
+        WH_SHELL = 10,
+        /// <summary>
+        /// [线程或全局] 安装一个挂钩程序，当应用程序的前台线程即将变为空闲时将调用该挂钩程序。该挂钩对于在空闲时间执行低优先级任务很有用。有关更多信息，请参见 ForegroundIdleProc 挂钩过程。
+        /// </summary>
+        WH_FOREGROUNDIDLE = 11,
+        /// <summary>
+        /// [线程或全局] 安装挂钩过程，以监视目标窗口过程处理完的消息。有关更多信息，请参见 CallWndRetProc 挂接过程。
+        /// </summary>
+        WH_CALLWNDPROCRET = 12,
+        /// <summary>
+        /// [仅全局] 安装钩子程序，以监视低级键盘输入事件。有关更多信息，请参见 LowLevelKeyboardProc 挂钩过程。
+        /// </summary>
+        WH_KEYBOARD_LL = 13,        
+        /// <summary>
+        /// [仅全局] 安装钩子过程，以监视低级鼠标输入事件。有关更多信息，请参见 LowLevelMouseProc 挂钩过程。
+        /// </summary>
+        WH_MOUSE_LL = 14,
+    }
     #endregion
 
 
@@ -110,7 +308,6 @@ namespace SpaceCG.WindowAPI.WinUser
         /// 阻止窗口接收 WM_WINDOWPOSCHANGING 消息
         /// </summary>
         NOSENDCHANGING = 0x0400,
-
         /// <summary>
         /// 防止生成 WM_SYNCPAINT 消息
         /// </summary>
@@ -166,7 +363,7 @@ namespace SpaceCG.WindowAPI.WinUser
             dwFlags = FlashFlag.ALL;
             cbSize = (uint)Marshal.SizeOf(typeof(FLASHINFO));
         }
-        
+
         /// <summary>
         /// @ToString()
         /// </summary>
@@ -182,19 +379,23 @@ namespace SpaceCG.WindowAPI.WinUser
     /// </summary>
     [Flags]
     public enum FlashFlag
-    {
+    {        
         /// <summary>
-        /// 同时闪烁窗口标题和任务栏按钮。这等效于设置 FLASHW_CAPTION | FLASHW_TRAY 标志。
+        /// 停止闪烁。系统将窗口还原到其原始状态。
         /// </summary>
-        ALL = 0x00000003,
+        STOP = 0x00000000,
         /// <summary>
         /// 刷新窗口标题。
         /// </summary>
         CAPTION = 0x00000001,
         /// <summary>
-        /// 停止闪烁。系统将窗口还原到其原始状态。
+        /// 刷新任务栏按钮。
         /// </summary>
-        STOP = 0x00000000,
+        TRAY = 0x00000002,
+        /// <summary>
+        /// 同时闪烁窗口标题和任务栏按钮。这等效于设置 FLASHW_CAPTION | FLASHW_TRAY 标志。
+        /// </summary>
+        ALL = 0x00000003,
         /// <summary>
         /// 连续闪烁，直到设置了FLASHW_STOP标志。
         /// </summary>
@@ -202,13 +403,10 @@ namespace SpaceCG.WindowAPI.WinUser
         /// <summary>
         /// 持续闪烁直到窗口到达前台。
         /// </summary>
-        TIMERNOFG = 0x0000000C,
-        /// <summary>
-        /// 刷新任务栏按钮。
-        /// </summary>
-        TRAY = 0x00000002,
+        TIMERNOFG = 0x0000000C,        
     }
     #endregion
+
 
     /// <summary>
     /// 包含全局光标信息。注意 cbSize 大小需要设置
@@ -878,9 +1076,20 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         F24 = 0x87,
 
-        //
-        // 0x88 - 0x8F : Unassigned
-        //
+        /*
+         * 0x88 - 0x8F :  UI navigation
+         */
+        /// <summary>
+        /// navigation view
+        /// </summary>
+        NAVIGATION_VIEW = 0x88,
+        NAVIGATION_MENU,
+        NAVIGATION_UP,
+        NAVIGATION_DOWN,
+        NAVIGATION_LEFT,
+        NAVIGATION_RIGHT,
+        NAVIGATION_ACCEPT,
+        NAVIGATION_CANCEL = 0x8F,
 
         /// <summary>
         /// NUM LOCK key
@@ -1227,7 +1436,7 @@ namespace SpaceCG.WindowAPI.WinUser
         /// <returns></returns>
         public override string ToString()
         {
-            return $"vkc:{wVk}, wScan:{wScan}, flags:{dwFlags}";
+            return $"vkc:{wVk}, wScan:{wScan}, flags:{dwFlags}, time:{time}";
         }
     }
 
@@ -1251,7 +1460,7 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         public ushort wParamH;
     }
-    
+
     /// <summary>
     /// INPUT 结构体字段 type 的值之一
     /// </summary>
@@ -1306,10 +1515,9 @@ namespace SpaceCG.WindowAPI.WinUser
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("type:{0} input:{1}", type, type == InputType.MOUSE ? Mouse.ToString() : type == InputType.KEYBOARD ? Keyboard.ToString() : Hardware.ToString()) ;
+            return string.Format("type:{0} input:{1}", type, type == InputType.MOUSE ? Mouse.ToString() : type == InputType.KEYBOARD ? Keyboard.ToString() : Hardware.ToString());
         }
     }
-
     #endregion
 
 
@@ -1366,43 +1574,39 @@ namespace SpaceCG.WindowAPI.WinUser
     /// ShowWindow 函数参考 nCmdShow 的值之一
     /// </summary>
     public enum SwCmd
-    {
-        /// <summary>
-        /// 最小化一个窗口，即使拥有该窗口的线程没有响应。仅当最小化来自其他线程的窗口时，才应使用此标志。
-        /// </summary>
-        FORCEMINIMIZE = 11,
+    {        
         /// <summary>
         /// 隐藏该窗口并激活另一个窗口。
         /// </summary>
         HIDE = 0,
         /// <summary>
-        /// 最大化指定的窗口。
+        /// 激活并显示一个窗口。如果窗口最小化或最大化，则系统会将其还原到其原始大小和位置。首次显示窗口时，应用程序应指定此标志。
         /// </summary>
-        MAXIMIZE = 3,
+        SHOWNORMAL = 1,
         /// <summary>
-        /// 最小化指定的窗口并以Z顺序激活下一个顶级窗口。
+        /// 激活窗口并将其显示为最小化窗口。
         /// </summary>
-        MINIMIZE = 6,
-        /// <summary>
-        /// 激活并显示窗口。如果窗口最小化或最大化，则系统会将其还原到其原始大小和位置。恢复最小化窗口时，应用程序应指定此标志。
-        /// </summary>
-        RESTORE = 9,
-        /// <summary>
-        /// 激活窗口并以其当前大小和位置显示它。
-        /// </summary>
-        SHOW = 5,
-        /// <summary>
-        /// 根据启动应用程序的程序传递给CreateProcess函数的STARTUPINFO结构中指定的SW_值设置显示状态。
-        /// </summary>
-        SHOWDEFAULT = 10,
+        SHOWMINIMIZED = 2,        
         /// <summary>
         /// 激活窗口并将其显示为最大化窗口。
         /// </summary>
         SHOWMAXIMIZED = 3,
         /// <summary>
-        /// 激活窗口并将其显示为最小化窗口。
+        /// 最大化指定的窗口。
         /// </summary>
-        SHOWMINIMIZED = 2,
+        MAXIMIZE = 3,
+        /// <summary>
+        /// 以最新大小和位置显示窗口。该值类似于SW_SHOWNORMAL，除了未激活窗口。
+        /// </summary>
+        SHOWNOACTIVATE = 4,
+        /// <summary>
+        /// 激活窗口并以其当前大小和位置显示它。
+        /// </summary>
+        SHOW = 5,
+        /// <summary>
+        /// 最小化指定的窗口并以Z顺序激活下一个顶级窗口。
+        /// </summary>
+        MINIMIZE = 6,
         /// <summary>
         /// 将窗口显示为最小化窗口。该值类似于SW_SHOWMINIMIZED，除了未激活窗口。
         /// </summary>
@@ -1412,13 +1616,21 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         SHOWNA = 8,
         /// <summary>
-        /// 以最新大小和位置显示窗口。该值类似于SW_SHOWNORMAL，除了未激活窗口。
+        /// 激活并显示窗口。如果窗口最小化或最大化，则系统会将其还原到其原始大小和位置。恢复最小化窗口时，应用程序应指定此标志。
         /// </summary>
-        SHOWNOACTIVATE = 4,
+        RESTORE = 9,        
         /// <summary>
-        /// 激活并显示一个窗口。如果窗口最小化或最大化，则系统会将其还原到其原始大小和位置。首次显示窗口时，应用程序应指定此标志。
+        /// 根据启动应用程序的程序传递给CreateProcess函数的STARTUPINFO结构中指定的SW_值设置显示状态。
         /// </summary>
-        SHOWNORMAL = 1,
+        SHOWDEFAULT = 10,
+        /// <summary>
+        /// 最小化一个窗口，即使拥有该窗口的线程没有响应。仅当最小化来自其他线程的窗口时，才应使用此标志。
+        /// </summary>
+        FORCEMINIMIZE = 11,
+        /// <summary>
+        /// Max
+        /// </summary>
+        MAX = 11,
     }
 
     /// <summary>
@@ -1437,10 +1649,6 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         CONTROL = 0x0002,
         /// <summary>
-        /// 更改热键行为，以使键盘自动重复操作不会产生多个热键通知。Windows Vista：  不支持此标志。
-        /// </summary>
-        NOREPEAT = 0x4000,
-        /// <summary>
         /// 必须按住SHIFT键。
         /// </summary>
         SHIFT = 0x0004,
@@ -1448,6 +1656,10 @@ namespace SpaceCG.WindowAPI.WinUser
         /// 按住WINDOWS键。这些键带有Windows徽标。保留与WINDOWS键相关的键盘快捷键，供操作系统使用。
         /// </summary>
         WIN = 0x0008,
+        /// <summary>
+        /// 更改热键行为，以使键盘自动重复操作不会产生多个热键通知。Windows Vista：  不支持此标志。
+        /// </summary>
+        NOREPEAT = 0x4000,
     }
 
     /// <summary>
@@ -1458,13 +1670,21 @@ namespace SpaceCG.WindowAPI.WinUser
     public enum AwFlag
     {
         /// <summary>
-        /// 激活窗口。不要将此值与 AW_HIDE 一起使用。
+        /// 从左到右对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 AW_CENTER 或 AW_BLEND 一起使用时将被忽略。
         /// </summary>
-        ACTIVATE = 0x00020000,
+        HOR_POSITIVE = 0x00000001,
         /// <summary>
-        /// 使用淡入淡出效果。仅当 hwnd 是顶级窗口时，才可以使用此标志。
+        /// 从右到左对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与AW_CENTER或AW_BLEND一起使用时将被忽略。
         /// </summary>
-        BLEND = 0x00080000,
+        HOR_NEGATIVE = 0x00000002,
+        /// <summary>
+        /// 从上到下对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 AW_CENTER 或 AW_BLEND 一起使用时将被忽略。
+        /// </summary>
+        VER_POSITIVE = 0x00000004,
+        /// <summary>
+        /// 从底部到顶部对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 AW_CENTER 或 AW_BLEND 一起使用时将被忽略。
+        /// </summary>
+        VER_NEGATIVE = 0x00000008,
         /// <summary>
         /// 如果使用 AW_HIDE，则使窗口看起来向内折叠；如果不使用AW_HIDE，则使窗口向外折叠。各种方向标记无效。
         /// </summary>
@@ -1474,28 +1694,20 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         HIDE = 0x00010000,
         /// <summary>
-        /// 从左到右对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 AW_CENTER 或 AW_BLEND 一起使用时将被忽略。
+        /// 激活窗口。不要将此值与 AW_HIDE 一起使用。
         /// </summary>
-        HOR_POSITIVE = 0x00000001,
-        /// <summary>
-        /// 从右到左对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与AW_CENTER或AW_BLEND一起使用时将被忽略。
-        /// </summary>
-        HOR_NEGATIVE = 0x00000002,
+        ACTIVATE = 0x00020000,
         /// <summary>
         /// 使用幻灯片动画。默认情况下，使用滚动动画。与 AW_CENTER 一起使用时，将忽略此标志。
         /// </summary>
         SLIDE = 0x00040000,
         /// <summary>
-        /// 从上到下对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 AW_CENTER 或 AW_BLEND 一起使用时将被忽略。
+        /// 使用淡入淡出效果。仅当 hwnd 是顶级窗口时，才可以使用此标志。
         /// </summary>
-        VER_POSITIVE = 0x00000004,
-        /// <summary>
-        /// 从底部到顶部对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 AW_CENTER 或 AW_BLEND 一起使用时将被忽略。
-        /// </summary>
-        VER_NEGATIVE = 0x00000008,
+        BLEND = 0x00080000,
     }
 
-    
+
     /// <summary>
     /// PeekMessage 函数参数 wRemoveMsg 的值之一或值组合
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-peekmessagea </para>
@@ -1517,16 +1729,44 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         NOYIELD = 0x0002,
     }
+
+    /// <summary>
+    /// Key State Masks for Mouse Messages
+    /// </summary>
+    [Flags]
+    public enum KeyStateMasks
+    {
+        /// <summary>
+        /// </summary>
+        MK_LBUTTON = 0x0001,
+        /// <summary>
+        /// </summary>
+        MK_RBUTTON = 0x0002,
+        /// <summary>
+        /// </summary>
+        MK_SHIFT = 0x0004,
+        /// <summary>
+        /// </summary>
+        MK_CONTROL = 0x0008,
+        /// <summary>
+        /// </summary>
+        MK_MBUTTON = 0x0010,
+        /// <summary>
+        /// </summary>
+        MK_XBUTTON1 = 0x0020,
+        /// <summary>
+        /// </summary>
+        MK_XBUTTON2 = 0x0040,
+    }
     #endregion
 
 
     #region Pointer Touch Info
     /// <summary>
     /// Touch 反馈模式
-    /// <para>InitializeTouchInjection 函数参数 dwMode 的值之一或值组合</para>
+    /// <para> <see cref="WinUser.InitializeTouchInjection"/>  函数参数 dwMode 的值之一</para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/input_touchinjection/constants </para>
     /// </summary>
-    [Flags]
     public enum TouchFeedbackMode
     {
         /// <summary>
@@ -1534,7 +1774,7 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         DEFAULT = 0x1,
         /// <summary>
-        /// 指定间接触摸可视化。注入的触摸反馈将覆盖“ 笔和触摸”控制面板中的最终用户设置。
+        /// 指定间接触摸可视化。注入的触摸反馈将覆盖“笔和触摸”控制面板中的最终用户设置。
         /// </summary>
         INDIRECT = 0x2,
         /// <summary>
@@ -1545,7 +1785,7 @@ namespace SpaceCG.WindowAPI.WinUser
 
     /// <summary>
     /// 指针输入类型。
-    /// <para> POINTERINFO 结构体字段 pointerType 的值之一 </para>
+    /// <para> <see cref="POINTERINFO"/> 结构体字段 <see cref="POINTERINFO.pointerType"/> 的值之一 </para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ne-winuser-tagpointer_input_type </para>
     /// </summary>
     public enum PointerInputType
@@ -1553,27 +1793,27 @@ namespace SpaceCG.WindowAPI.WinUser
         /// <summary>
         /// 通用指针类型。此类型永远不会出现在指针消息或指针数据中。一些数据查询功能允许调用者将查询限制为特定的指针类型。所述 PT_POINTER 类型可以在这些功能被用来指定该查询是包括所有类型的指针
         /// </summary>
-        POINTER,
+        POINTER = 1,
         /// <summary>
         /// 触摸指针类型。
         /// </summary>
-        TOUCH,
+        TOUCH = 2,
         /// <summary>
         /// 笔指针类型。
         /// </summary>
-        PEN,
+        PEN = 3,
         /// <summary>
         /// 鼠标指针类型。
         /// </summary>
-        MOUSE,
+        MOUSE = 4,
         /// <summary>
         /// 触摸板指针类型（Windows 8.1和更高版本）。
         /// </summary>
-        TOUCHPAD
+        TOUCHPAD = 5
     };
 
     /// <summary>
-    /// POINTERINFO 结构体字段 pointerFlags 的值之一或值组合
+    /// <see cref="POINTERINFO"/> 结构体字段 <see cref="POINTERINFO.pointerFlags"/> 的值之一或值组合
     /// <para>XBUTTON1 和 XBUTTON2 是许多鼠标设备上使用的其他按钮。它们返回与标准鼠标按钮相同的数据。</para>
     /// <para>注入的输入将发送到运行注入过程的会话的桌面。有用于由以下组合所指示触摸输入注射（交互式和悬停）两个输入状态 pointerFlags ：</para>
     /// <para>INRANGE | UPDATE  Touch 触摸悬停开始或移动</para>
@@ -1673,7 +1913,7 @@ namespace SpaceCG.WindowAPI.WinUser
     }
 
     /// <summary>
-    /// POINTERINFO 结构体字段 ButtonChangeType 的值之一
+    /// <see cref="POINTERINFO"/> 结构体字段 <see cref="POINTERINFO.buttonChangeType"/> 的值之一
     /// <para>标识与指针关联的按钮状态的变化 <see cref="PointerFlag"/></para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ne-winuser-pointer_button_change_type </para>
     /// </summary>
@@ -1726,14 +1966,14 @@ namespace SpaceCG.WindowAPI.WinUser
     }
 
     /// <summary>
-    /// POINTERTOUCHINFO 结构体字段 pointerInfo 的值
+    /// <see cref="POINTERTOUCHINFO"/> 结构体字段 <see cref="POINTERTOUCHINFO.pointerInfo"/> 的值
     /// <para>包含所有指针类型共有的基本指针信息。应用程序可以使用 GetPointerInfo，GetPointerFrameInfo，GetPointerInfoHistory 和 GetPointerFrameInfoHistory 函数检索此信息。</para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-pointer_info </para>
     /// </summary>
     public struct POINTERINFO
     {
         /// <summary>
-        /// POINTER_INPUT_TYPE枚举中的一个值，它指定指针类型。
+        /// POINTER_INPUT_TYPE 枚举中的一个值，它指定指针类型。
         /// </summary>
         public PointerInputType pointerType;
         /// <summary>
@@ -1793,15 +2033,15 @@ namespace SpaceCG.WindowAPI.WinUser
         /// <summary>
         /// 收到指针消息时的高分辨率性能计数器的值（高精度，64位替代dwTime）。当触摸数字化仪硬件在其输入报告中支持扫描时间戳信息时，可以校准该值。
         /// </summary>
-        public long PerformanceCount;
+        public long performanceCount;
         /// <summary>
         /// POINTER_BUTTON_CHANGE_TYPE 枚举中的一个值，用于指定此输入与先前输入之间的按钮状态更改。
         /// </summary>
-        public PointerButtonChangeType ButtonChangeType;
+        public PointerButtonChangeType buttonChangeType;
     }
 
     /// <summary>
-    /// POINTERTOUCHINFO 结构体字段 touchFlags 的值之一
+    /// <see cref="POINTERTOUCHINFO"/> 结构体字段 <see cref="POINTERTOUCHINFO.touchFlags"/> 的值之一
     /// <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/inputmsg/touch-flags-constants </para>
     /// </summary>
     public enum TouchFlag
@@ -1813,7 +2053,7 @@ namespace SpaceCG.WindowAPI.WinUser
     }
 
     /// <summary>
-    /// POINTERTOUCHINFO 结构体字段 touchMask 的值之一或值组合
+    /// <see cref="POINTERTOUCHINFO"/> 结构体字段 <see cref="POINTERTOUCHINFO.touchMask"/> 的值之一或值组合
     /// <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/inputmsg/touch-mask-constants </para>
     /// </summary>
     [Flags]
@@ -1839,13 +2079,13 @@ namespace SpaceCG.WindowAPI.WinUser
 
     /// <summary>
     /// 指针类型共有的基本触摸信息。
-    /// <para>InjectTouchInput 函数参数 contacts 触摸数据集合</para>
+    /// <para><see cref="WinUser.InjectTouchInput"/> 函数参数 contacts 触摸数据集合</para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-pointer_touch_info </para>
     /// </summary>
     public struct POINTERTOUCHINFO
     {
         /// <summary>
-        /// 嵌入式 POINTERINFO 标头结构。
+        /// 嵌入式 <see cref="POINTERINFO"/> 标头结构。
         /// </summary>
         public POINTERINFO pointerInfo;
         /// <summary>
@@ -1853,7 +2093,7 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         public TouchFlag touchFlags;
         /// <summary>
-        /// 指示哪个可选字段包含有效值。该成员可以是零，也可以是“ 触摸蒙版”常量的值的任意组合。
+        /// 指示哪个可选字段包含有效值。该成员可以是零，也可以是“触摸蒙版”常量的值的任意组合。
         /// </summary>
         public TouchMask touchMask;
         /// <summary>
@@ -1893,15 +2133,15 @@ namespace SpaceCG.WindowAPI.WinUser
         /// <summary>
         /// 消息标识符。应用程序只能使用低位字；高位字由系统保留。
         /// </summary>
-        public MsgFlag message;
+        public MessageType message;
         /// <summary>
         /// [WPARAM] 有关消息的其他信息。确切含义取决于消息成员的值 。
         /// </summary>
-        public int wParam;
+        public IntPtr wParam;
         /// <summary>
         /// [LPARAM] 有关消息的其他信息。确切含义取决于消息成员的值 。
         /// </summary>
-        public int lParam;
+        public IntPtr lParam;
         /// <summary>
         /// 消息发布的时间。
         /// </summary>
@@ -1917,185 +2157,16 @@ namespace SpaceCG.WindowAPI.WinUser
     }
 
     /// <summary>
-    /// MSG 结构体字段 message 的值之一或值组合
+    /// Windows Message Type, <see cref="MSG"/> 结构体字段 <see cref="MSG.message"/> 的值之一或值组合
+    /// <para>Win 消息标志信息 </para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues?redirectedfrom=MSDN </para>
     /// </summary>
-    [Flags]
-    public enum MsgFlag
+    public enum MessageType
     {
         /// <summary>
-        ///WM_KEYDOWN 按下一个键
+        /// null
         /// </summary>
-        WM_KEYDOWN = 0x0100,
-        /// <summary>
-        ///释放一个键
-        /// </summary>
-        WM_KEYUP = 0x0101,
-        /// <summary>
-        ///按下某键，并已发出WM_KEYDOWN， WM_KEYUP消息
-        /// </summary>
-        WM_CHAR = 0x102,
-        /// <summary>
-        ///当用translatemessage函数翻译WM_KEYUP消息时发送此消息给拥有焦点的窗口
-        /// </summary>
-        WM_DEADCHAR = 0x103,
-        /// <summary>
-        ///当用户按住ALT键同时按下其它键时提交此消息给拥有焦点的窗口
-        /// </summary>
-        WM_SYSKEYDOWN = 0x104,
-        /// <summary>
-        ///当用户释放一个键同时ALT 键还按着时提交此消息给拥有焦点的窗口
-        /// </summary>
-        WM_SYSKEYUP = 0x105,
-        /// <summary>
-        ///当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后提交此消息给拥有焦点的窗口
-        /// </summary>
-        WM_SYSCHAR = 0x106,
-        /// <summary>
-        ///当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后发送此消息给拥有焦点的窗口
-        /// </summary>
-        WM_SYSDEADCHAR = 0x107,
-        /// <summary>
-        ///在一个对话框程序被显示前发送此消息给它，通常用此消息初始化控件和执行其它任务
-        /// </summary>
-        WM_INITDIALOG = 0x110,
-        /// <summary>
-        ///当用户选择一条菜单命令项或当某个控件发送一条消息给它的父窗口，一个快捷键被翻译
-        /// </summary>
-        WM_COMMAND = 0x111,
-        /// <summary>
-        ///当用户选择窗口菜单的一条命令或///当用户选择最大化或最小化时那个窗口会收到此消息
-        /// </summary>
-        WM_SYSCOMMAND = 0x112,
-        /// <summary>
-        ///发生了定时器事件
-        /// </summary>
-        WM_TIMER = 0x113,
-        /// <summary>
-        ///当一个窗口标准水平滚动条产生一个滚动事件时发送此消息给那个窗口，也发送给拥有它的控件
-        /// </summary>
-        WM_HSCROLL = 0x114,
-        /// <summary>
-        ///当一个窗口标准垂直滚动条产生一个滚动事件时发送此消息给那个窗口也，发送给拥有它的控件
-        /// </summary>
-        WM_VSCROLL = 0x115,
-        /// <summary>
-        ///当一个菜单将要被激活时发送此消息，它发生在用户菜单条中的某项或按下某个菜单键，它允许程序在显示前更改菜单
-        /// </summary>
-        WM_INITMENU = 0x116,
-        /// <summary>
-        ///当一个下拉菜单或子菜单将要被激活时发送此消息，它允许程序在它显示前更改菜单，而不要改变全部
-        /// </summary>
-        WM_INITMENUPOPUP = 0x117,
-        /// <summary>
-        ///当用户选择一条菜单项时发送此消息给菜单的所有者（一般是窗口）
-        /// </summary>
-        WM_MENUSELECT = 0x11F,
-        /// <summary>
-        ///当菜单已被激活用户按下了某个键（不同于加速键），发送此消息给菜单的所有者
-        /// </summary>
-        WM_MENUCHAR = 0x120,
-        /// <summary>
-        ///当一个模态对话框或菜单进入空载状态时发送此消息给它的所有者，一个模态对话框或菜单进入空载状态就是在处理完一条或几条先前的消息后没有消息它的列队中等待
-        /// </summary>
-        WM_ENTERIDLE = 0x121,
-        /// <summary>
-        ///在windows绘制消息框前发送此消息给消息框的所有者窗口，通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置消息框的文本和背景颜色
-        /// </summary>
-        WM_CTLCOLORMSGBOX = 0x132,
-        /// <summary>
-        ///当一个编辑型控件将要被绘制时发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置编辑框的文本和背景颜色
-        /// </summary>
-        WM_CTLCOLOREDIT = 0x133,
-        /// <summary>
-        ///当一个列表框控件将要被绘制前发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置列表框的文本和背景颜色
-        /// </summary>
-        WM_CTLCOLORLISTBOX = 0x134,
-        /// <summary>
-        ///当一个按钮控件将要被绘制时发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置按纽的文本和背景颜色
-        /// </summary>
-        WM_CTLCOLORBTN = 0x135,
-        /// <summary>
-        ///当一个对话框控件将要被绘制前发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置对话框的文本背景颜色
-        /// </summary>
-        WM_CTLCOLORDLG = 0x136,
-        /// <summary>
-        ///当一个滚动条控件将要被绘制时发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置滚动条的背景颜色
-        /// </summary>
-        WM_CTLCOLORSCROLLBAR = 0x137,
-        /// <summary>
-        ///当一个静态控件将要被绘制时发送此消息给它的父窗口通过响应这条消息，所有者窗口可以 通过使用给定的相关显示设备的句柄来设置静态控件的文本和背景颜色
-        /// </summary>
-        WM_CTLCOLORSTATIC = 0x138,
-        /// <summary>
-        ///当鼠标轮子转动时发送此消息个当前有焦点的控件
-        /// </summary>
-        WM_MOUSEWHEEL = 0x20A,
-        /// <summary>
-        ///双击鼠标中键
-        /// </summary>
-        WM_MBUTTONDBLCLK = 0x209,
-        /// <summary>
-        ///释放鼠标中键
-        /// </summary>
-        WM_MBUTTONUP = 0x208,
-        /// <summary>
-        ///移动鼠标时发生，同WM_MOUSEFIRST
-        /// </summary>
-        WM_MOUSEMOVE = 0x200,
-        /// <summary>
-        ///按下鼠标左键
-        /// </summary>
-        WM_LBUTTONDOWN = 0x201,
-        /// <summary>
-        ///释放鼠标左键
-        /// </summary>
-        WM_LBUTTONUP = 0x202,
-        /// <summary>
-        ///双击鼠标左键
-        /// </summary>
-        WM_LBUTTONDBLCLK = 0x203,
-        /// <summary>
-        ///按下鼠标右键
-        /// </summary>
-        WM_RBUTTONDOWN = 0x204,
-        /// <summary>
-        ///释放鼠标右键
-        /// </summary>
-        WM_RBUTTONUP = 0x205,
-        /// <summary>
-        ///双击鼠标右键
-        /// </summary>
-        WM_RBUTTONDBLCLK = 0x206,
-        /// <summary>
-        ///按下鼠标中键
-        /// </summary>
-        WM_MBUTTONDOWN = 0x207,
-
-        /// <summary>
-        ///
-        /// </summary>
-        WM_USER = 0x0400,
-        /// <summary>
-        /// </summary>
-        MK_LBUTTON = 0x0001,
-        /// <summary>
-        /// </summary>
-        MK_RBUTTON = 0x0002,
-        /// <summary>
-        /// </summary>
-        MK_SHIFT = 0x0004,
-        /// <summary>
-        /// </summary>
-        MK_CONTROL = 0x0008,
-        /// <summary>
-        /// </summary>
-        MK_MBUTTON = 0x0010,
-        /// <summary>
-        /// </summary>
-        MK_XBUTTON1 = 0x0020,
-        /// <summary>
-        /// </summary>
-        MK_XBUTTON2 = 0x0040,
+        WM_NULL = 0x00,
         /// <summary>
         ///创建一个窗口
         /// </summary>
@@ -2181,6 +2252,14 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         WM_SHOWWINDOW = 0x18,
         /// <summary>
+        /// win min change
+        /// </summary>
+        WM_WININICHANGE = 0x1A,
+        /// <summary>
+        /// dev mode change
+        /// </summary>
+        WM_DEVMODECHANGE = 0x1B,
+        /// <summary>
         ///发此消息给应用程序哪个窗口是激活的，哪个是非激活的
         /// </summary>
         WM_ACTIVATEAPP = 0x1C,
@@ -2241,6 +2320,10 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         WM_MEASUREITEM = 0x2C,
         /// <summary>
+        /// delete item
+        /// </summary>
+        WM_DELETEITEM = 0x2D,
+        /// <summary>
         ///此消息有一个LBS_WANTKEYBOARDINPUT风格的发出给它的所有者来响应WM_KEYDOWN消息
         /// </summary>
         WM_VKEYTOITEM = 0x2E,
@@ -2273,9 +2356,17 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         WM_COMPAREITEM = 0x39,
         /// <summary>
+        /// get object
+        /// </summary>
+        WM_GETOBJECT = 0x3D,
+        /// <summary>
         ///显示内存已经很少了
         /// </summary>
         WM_COMPACTING = 0x41,
+        /// <summary>
+        /// comm notify
+        /// </summary>
+        WM_COMMNOTIFY = 0x44,
         /// <summary>
         ///发送此消息给那个窗口的大小和位置将要被改变时，来调用setwindowpos函数或其它窗口管理函数
         /// </summary>
@@ -2295,7 +2386,7 @@ namespace SpaceCG.WindowAPI.WinUser
         /// <summary>
         ///当某个用户取消程序日志激活状态，提交此消息给程序
         /// </summary>
-        WM_CANCELJOURNA = 0x4B,
+        WM_CANCELJOURNAL = 0x4B,
         /// <summary>
         ///当某个控件的某个事件已经发生或这个控件需要得到一些信息时，发送此消息给它的父窗口
         /// </summary>
@@ -2324,12 +2415,10 @@ namespace SpaceCG.WindowAPI.WinUser
         /// 公用控件，自定义控件和他们的父窗口通过此消息来判断控件是使用ANSI还是UNICODE结构
         /// </summary>
         WM_NOTIFYFORMAT = 0x55,
-
-        // <summary>
-        //当用户某个窗口中点击了一下右键就发送此消息给这个窗口
-        // </summary>
-        //public static int WM_CONTEXTMENU = ??,
-
+        /// <summary>
+        /// 当用户某个窗口中点击了一下右键就发送此消息给这个窗口
+        /// </summary>
+        WM_CONTEXTMENU = 0x7B,
         /// <summary>
         ///当调用SETWINDOWLONG函数将要改变一个或多个 窗口的风格时发送此消息给那个窗口
         /// </summary>
@@ -2379,6 +2468,10 @@ namespace SpaceCG.WindowAPI.WinUser
         /// </summary>
         WM_GETDLGCODE = 0x87,
         /// <summary>
+        /// sys cpaint
+        /// </summary>
+        WM_SYNCPAINT = 0x88,
+        /// <summary>
         ///当光标在一个窗口的非客户区内移动时发送此消息给这个窗口 非客户区为：窗体的标题栏及窗 的边框体
         /// </summary>
         WM_NCMOUSEMOVE = 0xA0,
@@ -2418,12 +2511,317 @@ namespace SpaceCG.WindowAPI.WinUser
         ///当用户双击鼠标中键同时光标又在窗口的非客户区时发送此消息
         /// </summary>
         WM_NCMBUTTONDBLCLK = 0xA9,
+        WM_NCXBUTTONDOWN = 0xAB,
+        WM_NCXBUTTONUP = 0xAC,
+        WM_NCXBUTTONDBLCLK = 0xAD,
+        WM_INPUT_DEVICE_CHANGE = 0xFE,
+        WM_INPUT = 0xFF,
+        /// <summary>
+        ///WM_KEYDOWN 按下一个键
+        /// </summary>
+        WM_KEYDOWN = 0x0100,
+        /// <summary>
+        ///释放一个键
+        /// </summary>
+        WM_KEYUP = 0x0101,
+        /// <summary>
+        ///按下某键，并已发出WM_KEYDOWN， WM_KEYUP消息
+        /// </summary>
+        WM_CHAR = 0x102,
+        /// <summary>
+        ///当用translatemessage函数翻译WM_KEYUP消息时发送此消息给拥有焦点的窗口
+        /// </summary>
+        WM_DEADCHAR = 0x103,
+        /// <summary>
+        ///当用户按住ALT键同时按下其它键时提交此消息给拥有焦点的窗口
+        /// </summary>
+        WM_SYSKEYDOWN = 0x104,
+        /// <summary>
+        ///当用户释放一个键同时ALT 键还按着时提交此消息给拥有焦点的窗口
+        /// </summary>
+        WM_SYSKEYUP = 0x105,
+        /// <summary>
+        ///当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后提交此消息给拥有焦点的窗口
+        /// </summary>
+        WM_SYSCHAR = 0x106,
+        /// <summary>
+        ///当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后发送此消息给拥有焦点的窗口
+        /// </summary>
+        WM_SYSDEADCHAR = 0x107,
+        //WM_KEYLAST = 0x108,
+        //WM_UNICHAR      =                0x0109,
+        //WM_KEYLAST      =                0x0109,
+        //UNICODE_NOCHAR   =               0xFFFF,
+
+        /// <summary>
+        ///在一个对话框程序被显示前发送此消息给它，通常用此消息初始化控件和执行其它任务
+        /// </summary>
+        WM_INITDIALOG = 0x110,
+        /// <summary>
+        ///当用户选择一条菜单命令项或当某个控件发送一条消息给它的父窗口，一个快捷键被翻译
+        /// </summary>
+        WM_COMMAND = 0x111,
+        /// <summary>
+        ///当用户选择窗口菜单的一条命令或///当用户选择最大化或最小化时那个窗口会收到此消息
+        /// </summary>
+        WM_SYSCOMMAND = 0x112,
+        /// <summary>
+        ///发生了定时器事件
+        /// </summary>
+        WM_TIMER = 0x113,
+        /// <summary>
+        ///当一个窗口标准水平滚动条产生一个滚动事件时发送此消息给那个窗口，也发送给拥有它的控件
+        /// </summary>
+        WM_HSCROLL = 0x114,
+        /// <summary>
+        ///当一个窗口标准垂直滚动条产生一个滚动事件时发送此消息给那个窗口也，发送给拥有它的控件
+        /// </summary>
+        WM_VSCROLL = 0x115,
+        /// <summary>
+        ///当一个菜单将要被激活时发送此消息，它发生在用户菜单条中的某项或按下某个菜单键，它允许程序在显示前更改菜单
+        /// </summary>
+        WM_INITMENU = 0x116,
+        /// <summary>
+        ///当一个下拉菜单或子菜单将要被激活时发送此消息，它允许程序在它显示前更改菜单，而不要改变全部
+        /// </summary>
+        WM_INITMENUPOPUP = 0x117,
+        /// <summary>
+        ///当用户选择一条菜单项时发送此消息给菜单的所有者（一般是窗口）
+        /// </summary>
+        WM_MENUSELECT = 0x11F,
+        /// <summary>
+        ///当菜单已被激活用户按下了某个键（不同于加速键），发送此消息给菜单的所有者
+        /// </summary>
+        WM_MENUCHAR = 0x120,
+        /// <summary>
+        ///当一个模态对话框或菜单进入空载状态时发送此消息给它的所有者，一个模态对话框或菜单进入空载状态就是在处理完一条或几条先前的消息后没有消息它的列队中等待
+        /// </summary>
+        WM_ENTERIDLE = 0x121,
+
+        WM_MENURBUTTONUP = 0x0122,
+        WM_MENUDRAG = 0x0123,
+        WM_MENUGETOBJECT = 0x0124,
+        WM_UNINITMENUPOPUP = 0x0125,
+        WM_MENUCOMMAND = 0x0126,
+        WM_CHANGEUISTATE = 0x0127,
+        WM_UPDATEUISTATE = 0x0128,
+        WM_QUERYUISTATE = 0x0129,
+
+        /// <summary>=
+        ///在windows绘制消息框前发送此消息给消息框的所有者窗口，通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置消息框的文本和背景颜色
+        /// </summary>
+        WM_CTLCOLORMSGBOX = 0x132,
+        /// <summary>
+        ///当一个编辑型控件将要被绘制时发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置编辑框的文本和背景颜色
+        /// </summary>
+        WM_CTLCOLOREDIT = 0x133,
+        /// <summary>
+        ///当一个列表框控件将要被绘制前发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置列表框的文本和背景颜色
+        /// </summary>
+        WM_CTLCOLORLISTBOX = 0x134,
+        /// <summary>
+        ///当一个按钮控件将要被绘制时发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置按纽的文本和背景颜色
+        /// </summary>
+        WM_CTLCOLORBTN = 0x135,
+        /// <summary>
+        ///当一个对话框控件将要被绘制前发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置对话框的文本背景颜色
+        /// </summary>
+        WM_CTLCOLORDLG = 0x136,
+        /// <summary>
+        ///当一个滚动条控件将要被绘制时发送此消息给它的父窗口通过响应这条消息，所有者窗口可以通过使用给定的相关显示设备的句柄来设置滚动条的背景颜色
+        /// </summary>
+        WM_CTLCOLORSCROLLBAR = 0x137,
+        /// <summary>
+        ///当一个静态控件将要被绘制时发送此消息给它的父窗口通过响应这条消息，所有者窗口可以 通过使用给定的相关显示设备的句柄来设置静态控件的文本和背景颜色
+        /// </summary>
+        WM_CTLCOLORSTATIC = 0x138,
+        /// <summary>
+        /// get h menu
+        /// </summary>
+        MN_GETHMENU = 0x1E1,
+        /// <summary>
+        ///移动鼠标时发生，同WM_MOUSEFIRST
+        /// </summary>
+        WM_MOUSEMOVE = 0x200,
+        /// <summary>
+        ///按下鼠标左键
+        /// </summary>
+        WM_LBUTTONDOWN = 0x201,
+        /// <summary>
+        ///释放鼠标左键
+        /// </summary>
+        WM_LBUTTONUP = 0x202,
+        /// <summary>
+        ///双击鼠标左键
+        /// </summary>
+        WM_LBUTTONDBLCLK = 0x203,
+        /// <summary>
+        ///按下鼠标右键
+        /// </summary>
+        WM_RBUTTONDOWN = 0x204,
+        /// <summary>
+        ///释放鼠标右键
+        /// </summary>
+        WM_RBUTTONUP = 0x205,
+        /// <summary>
+        ///双击鼠标右键
+        /// </summary>
+        WM_RBUTTONDBLCLK = 0x206,
+        /// <summary>
+        ///按下鼠标中键
+        /// </summary>
+        WM_MBUTTONDOWN = 0x207,
+        /// <summary>
+        ///释放鼠标中键
+        /// </summary>
+        WM_MBUTTONUP = 0x208,
+        /// <summary>
+        ///双击鼠标中键
+        /// </summary>
+        WM_MBUTTONDBLCLK = 0x209,
+        /// <summary>
+        ///当鼠标轮子转动时发送此消息个当前有焦点的控件
+        /// </summary>
+        WM_MOUSEWHEEL = 0x20A,
+
+        WM_XBUTTONDOWN = 0x020B,
+        WM_XBUTTONUP = 0x020C,
+        WM_XBUTTONDBLCLK = 0x020D,
+        WM_MOUSEHWHEEL = 0x020E,
+
+        WM_PARENTNOTIFY = 0x0210,
+        WM_ENTERMENULOOP = 0x0211,
+        WM_EXITMENULOOP = 0x0212,
+        WM_NEXTMENU = 0x0213,
+        WM_SIZING = 0x0214,
+        WM_CAPTURECHANGED = 0x0215,
+        WM_MOVING = 0x0216,
+        WM_POWERBROADCAST = 0x0218,
+
+        /// <summary>
+        /// Device Change
+        /// </summary>
+        WM_DEVICECHANGE = 0x219,
+
+        WM_MDICREATE = 0x0220,
+        WM_MDIDESTROY = 0x0221,
+        WM_MDIACTIVATE = 0x0222,
+        WM_MDIRESTORE = 0x0223,
+        WM_MDINEXT = 0x0224,
+        WM_MDIMAXIMIZE = 0x0225,
+        WM_MDITILE = 0x0226,
+        WM_MDICASCADE = 0x0227,
+        WM_MDIICONARRANGE = 0x0228,
+        WM_MDIGETACTIVE = 0x0229,
+        WM_MDISETMENU = 0x0230,
+        WM_ENTERSIZEMOVE = 0x0231,
+        WM_EXITSIZEMOVE = 0x0232,
+        WM_DROPFILES = 0x0233,
+        WM_MDIREFRESHMENU = 0x0234,
+
+        WM_POINTERDEVICECHANGE = 0x238,
+        WM_POINTERDEVICEINRANGE = 0x239,
+        WM_POINTERDEVICEOUTOFRANGE = 0x23A,
+        WM_TOUCH = 0x0240,
+
+        WM_NCPOINTERUPDATE = 0x0241,
+        WM_NCPOINTERDOWN = 0x0242,
+        WM_NCPOINTERUP = 0x0243,
+        WM_POINTERUPDATE = 0x0245,
+        WM_POINTERDOWN = 0x0246,
+        WM_POINTERUP = 0x0247,
+        WM_POINTERENTER = 0x0249,
+        WM_POINTERLEAVE = 0x024A,
+        WM_POINTERACTIVATE = 0x024B,
+        WM_POINTERCAPTURECHANGED = 0x024C,
+        WM_TOUCHHITTESTING = 0x024D,
+        WM_POINTERWHEEL = 0x024E,
+        WM_POINTERHWHEEL = 0x024F,
+        DM_POINTERHITTEST = 0x0250,
+        WM_POINTERROUTEDTO = 0x0251,
+        WM_POINTERROUTEDAWAY = 0x0252,
+        WM_POINTERROUTEDRELEASED = 0x0253,
+
+        WM_IME_SETCONTEXT = 0x0281,
+        WM_IME_NOTIFY = 0x0282,
+        WM_IME_CONTROL = 0x0283,
+        WM_IME_COMPOSITIONFULL = 0x0284,
+        WM_IME_SELECT = 0x0285,
+        WM_IME_CHAR = 0x0286,
+        WM_IME_REQUEST = 0x0288,
+        WM_IME_KEYDOWN = 0x0290,
+        WM_IME_KEYUP = 0x0291,
+        WM_MOUSEHOVER = 0x02A1,
+        WM_MOUSELEAVE = 0x02A3,
+        WM_NCMOUSEHOVER = 0x02A0,
+        WM_NCMOUSELEAVE = 0x02A2,
+        WM_WTSSESSION_CHANGE = 0x02B1,
+
+        WM_TABLET_FIRST = 0x02c0,
+        WM_TABLET_LAST = 0x02df,
+        WM_DPICHANGED = 0x02E0,
+        WM_DPICHANGED_BEFOREPARENT = 0x02E2,
+        WM_DPICHANGED_AFTERPARENT = 0x02E3,
+        WM_GETDPISCALEDSIZE = 0x02E4,
+
+        WM_CUT = 0x0300,
+        WM_COPY = 0x0301,
+        WM_PASTE = 0x0302,
+        WM_CLEAR = 0x0303,
+        WM_UNDO = 0x0304,
+        WM_RENDERFORMAT = 0x0305,
+        WM_RENDERALLFORMATS = 0x0306,
+        WM_DESTROYCLIPBOARD = 0x0307,
+        WM_DRAWCLIPBOARD = 0x0308,
+        WM_PAINTCLIPBOARD = 0x0309,
+        WM_VSCROLLCLIPBOARD = 0x030A,
+        WM_SIZECLIPBOARD = 0x030B,
+        WM_ASKCBFORMATNAME = 0x030C,
+        WM_CHANGECBCHAIN = 0x030D,
+        WM_HSCROLLCLIPBOARD = 0x030E,
+        WM_QUERYNEWPALETTE = 0x030F,
+        WM_PALETTEISCHANGING = 0x0310,
+        WM_PALETTECHANGED = 0x0311,
+        /// <summary>
+        /// Hot Key
+        /// </summary>
+        WM_HOTKEY = 0x0312,
+
+        WM_PRINT = 0x0317,
+        WM_PRINTCLIENT = 0x0318,
+        WM_APPCOMMAND = 0x0319,
+        WM_THEMECHANGED = 0x031A,
+        WM_CLIPBOARDUPDATE = 0x031D,
+        WM_DWMCOMPOSITIONCHANGED = 0x031E,
+        WM_DWMNCRENDERINGCHANGED = 0x031F,
+        WM_DWMCOLORIZATIONCOLORCHANGED = 0x0320,
+        WM_DWMWINDOWMAXIMIZEDCHANGE = 0x0321,
+        WM_DWMSENDICONICTHUMBNAIL = 0x0323,
+        WM_DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326,
+        WM_GETTITLEBARINFOEX = 0x033F,
+        WM_HANDHELDFIRST = 0x0358,
+        WM_HANDHELDLAST = 0x035F,
+        WM_AFXFIRST = 0x0360,
+        WM_AFXLAST = 0x037F,
+        WM_PENWINFIRST = 0x0380,
+        WM_PENWINLAST = 0x038F,
+        
+
+        /// <summary>
+        /// user
+        /// </summary>
+        WM_USER = 0x0400,
+        /// <summary>
+        /// app
+        /// </summary>
+        WM_APP = 0x8000,
     }
     #endregion
 
+
     /// <summary>
     /// WinUser.h 常用/实用 函数
-    /// <para>Marshal.GetLastWin32Error()</para>
+    /// <para> <see cref="Marshal.GetLastWin32Error()"/> </para>
     /// <para>LPCTSTR，LPWSTR, PTSTR, LPTSTR，L表示long指针，P表示这是一个指针，T表示_T宏,这个宏用来表示你的字符是否使用UNICODE, 如果你的程序定义了UNICODE或者其他相关的宏，那么这个字符或者字符串将被作为UNICODE字符串，否则就是标准的ANSI字符串。C表示是一个常量,const。STR表示这个变量是一个字符串。</para>
     /// <para>参考： https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ </para>
     /// </summary>

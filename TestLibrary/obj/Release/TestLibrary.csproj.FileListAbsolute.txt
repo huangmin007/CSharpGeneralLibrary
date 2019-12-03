@@ -18,3 +18,6 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Release\TestLibrary.
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Release\TestLibrary.csproj.GenerateResource.Cache
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Release\TestLibrary.exe
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Release\TestLibrary.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Release\SpaceCGLibrary.xml
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Release\Window1.g.cs
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Release\Window1.baml

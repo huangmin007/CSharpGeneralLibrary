@@ -39,7 +39,7 @@ namespace SpaceCG.Extension
             if (String.IsNullOrWhiteSpace(config)) throw new ArgumentNullException("串口配置参数不能为空");
 
             SerialPort serialPort;
-            string[] cfg = config.Split(',');
+            string[] cfg = config.Replace(" ", "").Split(',');
 
             if (cfg.Length == 1)
                 serialPort = new SerialPort(cfg[0], 9600);

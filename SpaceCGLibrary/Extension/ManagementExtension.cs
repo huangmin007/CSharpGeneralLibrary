@@ -21,7 +21,7 @@ namespace SpaceCG.Extension
         static ManagementEventWatcher InstanceDeletionEvent;
 
         /// <summary>
-        /// 监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；有关事件请参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/determining-the-type-of-event-to-receive
+        /// 监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 RemoveInstanceChange 移除监听
         /// <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
         /// <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
         /// <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
@@ -31,7 +31,7 @@ namespace SpaceCG.Extension
         /// <param name="changedCallback"></param>
         /// <param name="Log"></param>
         /// <exception cref="InvalidOperationException"></exception>
-        public static void ListenInstanceChanged(String wql_condition, Action<ManagementBaseObject> changedCallback, log4net.ILog Log = null)
+        public static void ListenInstanceChange(String wql_condition, Action<ManagementBaseObject> changedCallback, log4net.ILog Log = null)
         {
             if (InstanceCreationEvent != null || InstanceDeletionEvent != null)
                 throw new InvalidOperationException("此函数只是单个监听示例，不可重复调用监听");
@@ -97,6 +97,7 @@ namespace SpaceCG.Extension
 
         /// <summary>
         /// 监听 "__InstanceModificationEvent"(继承 "__InstanceOperationEvent") 事件 （持续监听事件，按固定 1s 查询一次状态生成事件）；有关事件请参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/--instancemodificationevent 
+        /// <para>请使用 RemoveInstanceModification 移除监听 </para>
         /// <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
         /// <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
         /// </summary>
@@ -135,6 +136,7 @@ namespace SpaceCG.Extension
         }
         /// <summary>
         /// 监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
+        /// <para>请使用 RemoveInstanceModification 移除监听 </para>
         /// <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
         /// <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
         /// </summary>

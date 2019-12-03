@@ -7,3 +7,4 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibr
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\log4net.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\SpaceCGLibrary.XML
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.csprojResolveAssemblyReference.cache

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpaceCG.WindowAPI
+namespace SpaceCG.WindowsAPI
 {
     /// <summary>
     /// POINT 结构定义点的 x 和 y 坐标
@@ -113,6 +113,34 @@ namespace SpaceCG.WindowAPI
             this.top = top;
             this.right = right;
             this.buttom = buttom;
+        }
+        /// <summary>
+        /// 确定指定的矩形是否为空。空矩形是没有面积的矩形，也就是说右侧的坐标小于或等于左侧的坐标，或者底侧的坐标小于或等于顶侧的坐标。
+        /// </summary>
+        /// <returns></returns>
+        public bool IsEmpty()
+        {
+            return right <= left || buttom <= top;
+        }
+        /// <summary>
+        /// 函数确定两个指定的矩形坐标相等
+        /// </summary>
+        /// <param name="r1"></param>
+        /// <param name="r2"></param>
+        /// <returns></returns>
+        public static bool operator ==(RECT r1, RECT r2)
+        {
+            return r1.left == r2.left && r1.right == r2.right && r1.top == r2.top && r1.buttom == r2.buttom;
+        }
+        /// <summary>
+        /// 函数确定两个指定的矩形坐标不相等
+        /// </summary>
+        /// <param name="r1"></param>
+        /// <param name="r2"></param>
+        /// <returns></returns>
+        public static bool operator !=(RECT r1, RECT r2)
+        {
+            return r1.left != r2.left || r1.right != r2.right || r1.top != r2.top || r1.buttom != r2.buttom; ;
         }
         /// <summary>
         /// @ToString()

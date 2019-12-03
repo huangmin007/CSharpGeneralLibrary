@@ -1,0 +1,349 @@
+﻿[Header]
+[09:45:04] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (88) 
+[09:45:04] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(19)] - MainWindow. (539) 
+[Header]
+[09:54:21] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (189) 
+[09:54:21] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(20)] - MainWindow. (391) 
+[09:54:49] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (28965) 
+[Footer]
+
+[Header]
+[09:54:57] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (273) 
+[09:54:57] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(20)] - MainWindow. (481) 
+[Header]
+[09:58:56] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (195) 
+[09:58:56] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(21)] - MainWindow. (433) 
+[Header]
+[10:02:01] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (221) 
+[10:02:01] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(21)] - MainWindow. (385) 
+[Header]
+[10:02:29] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (223) 
+[10:02:29] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(21)] - MainWindow. (388) 
+[10:13:58] [10] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (689167) 
+[Footer]
+
+[Header]
+[10:14:06] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (179) 
+[10:14:06] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(21)] - MainWindow. (386) 
+[10:15:04] [10] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (57810) 
+[Footer]
+
+[Header]
+[10:17:38] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (211) 
+[10:17:38] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(21)] - MainWindow. (387) 
+[10:17:48] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (10506) 
+[Footer]
+
+[Header]
+[10:21:54] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (256) 
+[10:21:55] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (434) 
+[Header]
+[10:22:17] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (195) 
+[10:22:17] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (397) 
+[10:22:24] [10] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (7004) 
+[Footer]
+
+[Header]
+[10:25:35] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (188) 
+[10:25:35] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (346) 
+[Header]
+[10:27:04] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (225) 
+[10:27:04] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (417) 
+[10:27:10] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (6857) 
+[Footer]
+
+[Header]
+[10:27:19] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (246) 
+[10:27:19] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (403) 
+[10:27:26] [10] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (7780) 
+[Footer]
+
+[Header]
+[10:29:50] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (214) 
+[10:29:50] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (392) 
+[Header]
+[10:31:14] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (195) 
+[10:31:15] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (362) 
+[10:31:51] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (37191) 
+[Footer]
+
+[Header]
+[10:32:34] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (175) 
+[10:32:34] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (347) 
+[Header]
+[10:38:07] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (211) 
+[10:38:08] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (394) 
+[10:38:26] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (18771) 
+[Footer]
+
+[Header]
+[10:39:26] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (186) 
+[10:39:26] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (364) 
+[Header]
+[10:40:55] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (177) 
+[10:40:55] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (361) 
+[10:41:07] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (12524) 
+[Footer]
+
+[Header]
+[10:41:22] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (229) 
+[10:41:22] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (389) 
+[Header]
+[10:41:40] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (221) 
+[10:41:40] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (383) 
+[Header]
+[10:42:19] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (192) 
+[10:42:19] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (359) 
+[Header]
+[10:42:27] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (217) 
+[10:42:28] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (387) 
+[Header]
+[10:45:05] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (200) 
+[10:45:05] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (363) 
+[Header]
+[10:46:23] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (210) 
+[10:46:23] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (414) 
+[Header]
+[10:48:02] [ 6] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (72) 
+[10:48:03] [ 6] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (218) 
+[10:50:12] [ 6] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (129403) 
+[Footer]
+
+[Header]
+[10:53:27] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (265) 
+[10:53:27] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (448) 
+[Header]
+[10:54:26] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (190) 
+[10:54:27] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (356) 
+[10:54:33] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (7074) 
+[Footer]
+
+[Header]
+[11:00:13] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (187) 
+[11:00:13] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (343) 
+[Header]
+[11:00:42] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (218) 
+[11:00:42] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (384) 
+[Header]
+[11:01:09] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (192) 
+[11:01:09] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (363) 
+[11:01:13] [10] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (4167) 
+[Footer]
+
+[Header]
+[11:01:25] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (214) 
+[11:01:25] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (386) 
+[11:01:32] [10] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (8046) 
+[Footer]
+
+[Header]
+[11:02:51] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (165) 
+[11:02:51] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (329) 
+[Header]
+[11:04:21] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (191) 
+[11:04:21] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (374) 
+[Header]
+[11:04:57] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (240) 
+[11:04:57] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (401) 
+[Header]
+[11:11:30] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (237) 
+[11:11:30] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (403) 
+[Header]
+[11:17:40] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (235) 
+[11:17:40] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (446) 
+[Header]
+[11:21:35] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (246) 
+[11:21:35] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (422) 
+[Header]
+[11:23:40] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (210) 
+[11:23:40] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (358) 
+[Header]
+[11:24:41] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (205) 
+[11:24:41] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (382) 
+[Header]
+[11:27:22] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (201) 
+[11:27:22] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (410) 
+[Header]
+[11:28:07] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (246) 
+[11:28:07] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (410) 
+[Header]
+[11:29:03] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (177) 
+[11:29:04] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (355) 
+[Header]
+[11:32:39] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (108) 
+[11:32:39] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (277) 
+[Header]
+[11:37:17] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (197) 
+[11:37:18] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (351) 
+[Header]
+[11:38:56] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (184) 
+[11:38:56] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (388) 
+[Header]
+[11:39:50] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (206) 
+[11:39:50] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (368) 
+[Header]
+[11:40:23] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (165) 
+[11:40:23] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (331) 
+[Header]
+[12:08:10] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (200) 
+[12:08:11] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (366) 
+[Header]
+[12:12:22] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (227) 
+[12:12:22] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (462) 
+[Header]
+[12:15:41] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (225) 
+[12:15:41] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (404) 
+[Header]
+[12:23:21] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (205) 
+[12:23:21] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (384) 
+[Header]
+[12:25:04] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (178) 
+[12:25:04] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (344) 
+[Header]
+[12:38:27] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (214) 
+[12:38:27] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (382) 
+[Header]
+[12:41:10] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (160) 
+[12:41:10] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (326) 
+[Header]
+[12:42:10] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (234) 
+[12:42:10] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (387) 
+[Header]
+[12:43:47] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (170) 
+[12:43:47] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (329) 
+[Header]
+[12:45:26] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (169) 
+[12:45:26] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (343) 
+[Header]
+[12:47:38] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (220) 
+[12:47:38] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (378) 
+[Header]
+[12:48:45] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (234) 
+[12:48:45] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (396) 
+[Header]
+[12:50:21] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (253) 
+[12:50:21] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (410) 
+[Header]
+[12:52:33] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (199) 
+[12:52:33] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (383) 
+[Header]
+[12:53:33] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (168) 
+[12:53:33] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (350) 
+[Header]
+[12:54:35] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (215) 
+[12:54:35] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (397) 
+[Header]
+[12:55:08] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (308) 
+[12:55:08] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (472) 
+[Header]
+[12:56:01] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (201) 
+[12:56:01] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (365) 
+[Header]
+[14:01:06] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (187) 
+[14:01:06] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (447) 
+[Header]
+[14:01:43] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (509) 
+[14:01:44] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (657) 
+[14:01:54] [10] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (11608) 
+[Footer]
+
+[Header]
+[14:02:18] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (117) 
+[14:02:19] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (277) 
+[Header]
+[14:03:56] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (179) 
+[14:03:56] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (344) 
+[Header]
+[14:05:02] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (99) 
+[14:05:03] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (249) 
+[Header]
+[14:05:32] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (173) 
+[14:05:32] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (351) 
+[14:05:41] [10] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (9421) 
+[Footer]
+
+[Header]
+[14:06:17] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (172) 
+[14:06:17] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (326) 
+[Header]
+[14:07:59] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (210) 
+[14:07:59] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (388) 
+[14:08:16] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (17403) 
+[Footer]
+
+[Header]
+[14:08:55] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (224) 
+[14:08:56] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (373) 
+[14:09:18] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (22481) 
+[Footer]
+
+[Header]
+[14:17:19] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (219) 
+[14:17:20] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (379) 
+[Header]
+[14:33:24] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (197) 
+[14:33:24] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (348) 
+[14:47:01] [10] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (817541) 
+[Footer]
+
+[Header]
+[14:48:46] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (197) 
+[14:48:46] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (371) 
+[Header]
+[15:15:17] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (194) 
+[15:15:17] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (355) 
+[Header]
+[15:28:25] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (168) 
+[15:28:25] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (332) 
+[Header]
+[15:30:20] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (174) 
+[15:30:21] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (390) 
+[Header]
+[15:30:51] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (169) 
+[15:30:51] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (327) 
+[Header]
+[15:31:29] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (187) 
+[15:31:30] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (356) 
+[Header]
+[15:32:30] [ 8] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (209) 
+[15:32:30] [ 8] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (406) 
+[Header]
+[15:33:05] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (159) 
+[15:33:05] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (336) 
+[Header]
+[15:33:44] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (195) 
+[15:33:44] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (355) 
+[Header]
+[15:35:53] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (275) 
+[15:35:53] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (443) 
+[15:36:13] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (20041) 
+[Footer]
+
+[Header]
+[15:36:54] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (269) 
+[15:36:55] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (435) 
+[15:37:05] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (10533) 
+[Header]
+[15:37:45] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (244) 
+[15:37:45] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (412) 
+[15:38:04] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (19616) 
+[Footer]
+
+[Header]
+[15:39:00] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (72) 
+[15:39:00] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (238) 
+[Header]
+[15:43:04] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (218) 
+[15:43:04] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (408) 
+[Header]
+[15:52:41] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (259) 
+[15:52:41] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (439) 
+[Header]
+[15:53:30] [10] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (235) 
+[15:53:30] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (396) 
+[Header]
+[15:55:06] [ 9] [ INFO] [TestLibrary.App] [OnStartup(28)] - Application OnStartup (76) 
+[15:55:06] [ 9] [ INFO] [TestLibrary.MainWindow] [.ctor(22)] - MainWindow. (223) 
+[15:55:21] [ 9] [ INFO] [TestLibrary.App] [OnExit(37)] - Application OnExit (15120) 
+[Footer]
+

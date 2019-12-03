@@ -1,6 +1,4 @@
-﻿using SpaceCG.Template;
-using SpaceCG.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +23,6 @@ namespace TestLibrary
         {
             InitializeComponent();
 
-            this.SettingWindowState("1,0,0,2");
         }
     }
 }

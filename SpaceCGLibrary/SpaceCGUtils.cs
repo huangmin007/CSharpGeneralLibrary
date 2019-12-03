@@ -40,7 +40,42 @@ namespace SpaceCG
                 Console.WriteLine("Anonymous Events Remove Error:{0}", ex);
             }
         }
+/*
+        /// <summary>
+        /// 修改注册表，设置开机启动项目
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="isAutoRun"></param>
+        [STAThread]
+        public static void SetAutoRun(string fileName, bool isAutoRun)
+        {
+            RegistryKey reg = null;
+            try
+            {
+                if (!System.IO.File.Exists(fileName))
+                    throw new Exception("该文件不存在!");
 
+                String name = fileName.Substring(fileName.LastIndexOf(@"\") + 1);
+                reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
 
+                if (reg == null)
+                    reg = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+
+                if (isAutoRun)
+                    reg.SetValue(name, fileName);
+                else
+                    reg.SetValue(name, false);
+            }
+            catch
+            {
+                Console.WriteLine("写入注册表失败");
+            }
+            finally
+            {
+                if (reg != null)
+                    reg.Close();
+            }
+        }
+        */
     }
 }

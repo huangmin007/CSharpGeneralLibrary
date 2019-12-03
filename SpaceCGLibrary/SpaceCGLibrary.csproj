@@ -54,7 +54,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Examples\ApplicationRunOne.cs" />
+    <Compile Include="Examples\HwndSourceExample.cs" />
+    <Compile Include="Examples\KeyboardHook.cs" />
     <Compile Include="Examples\LINQExamples.cs" />
+    <Compile Include="Examples\MouseHook.cs" />
     <Compile Include="Extension\ManagementExtension.cs" />
     <Compile Include="Extension\SerialPortExtension.cs" />
     <Compile Include="Extension\IEnumerableExtension.cs" />
@@ -95,10 +99,11 @@
     <Compile Include="HPSocket\WebSocketServer.cs" />
     <Compile Include="Log4Net\Log4NetUtils.cs" />
     <Compile Include="Log4Net\TextBoxBaseAppender.cs" />
-    <Compile Include="WindowAPI\Kernel32\Kernel32.cs" />
-    <Compile Include="WindowAPI\WinUser\WinUserDef.cs" />
-    <Compile Include="WindowAPI\WinDef.cs" />
-    <Compile Include="WindowAPI\WinUser\WinUser.cs" />
+    <Compile Include="WindowsAPI\DBT\DBTDef.cs" />
+    <Compile Include="WindowsAPI\Kernel32\Kernel32.cs" />
+    <Compile Include="WindowsAPI\WinUser\WinUserDef.cs" />
+    <Compile Include="WindowsAPI\WinDef.cs" />
+    <Compile Include="WindowsAPI\WinUser\WinUser.cs" />
     <Compile Include="SpaceCGUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extension\WindowExtension.cs" />
@@ -114,6 +119,11 @@
     <Folder Include="General\" />
     <Folder Include="Template\" />
     <Folder Include="Utility\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WindowsAPI\DBT\Dbt.h" />
+    <Content Include="WindowsAPI\WinDef.h" />
+    <Content Include="WindowsAPI\WinUser\WinUser.h" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

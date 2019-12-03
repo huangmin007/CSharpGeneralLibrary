@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SpaceCG.WindowAPI.Kernel32
+namespace SpaceCG.WindowsAPI.Kernel32
 {
     /// <summary>
     /// Kernel32.h 常用/实用 函数
+    /// <para>Marshal.GetLastWin32Error(), new WindowInteropHelper(Window).Handle</para>
     /// </summary>
     public static partial class Kernel32
     {
@@ -29,7 +26,7 @@ namespace SpaceCG.WindowAPI.Kernel32
         ///     <para>如果字符串指定没有路径的模块名称，并且省略了文件扩展名，则该函数会将默认库扩展名.dll附加到模块名。为防止函数将.dll附加到模块名称，请在模块名称字符串中包含尾随字符（。）。</para>
         /// </param>
         /// <returns>如果函数成功，则返回值是模块的句柄。如果函数失败，则返回值为 NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
-        [DllImport(DLL_NAME, EntryPoint = "LoadLibraryA", SetLastError = true)]
+        [DllImport(DLL_NAME, EntryPoint = "LoadLibrary", SetLastError = true)]
         public static extern IntPtr LoadLibrary(string lpLibFileName);
 
         /// <summary>
@@ -52,7 +49,6 @@ namespace SpaceCG.WindowAPI.Kernel32
         [DllImport(DLL_NAME, SetLastError = true)]
         public static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
 
-
         /// <summary>
         /// 检索调用线程的线程标识符。
         /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadid </para>
@@ -60,5 +56,16 @@ namespace SpaceCG.WindowAPI.Kernel32
         /// <returns>返回值是调用线程的线程标识符。</returns>
         [DllImport(DLL_NAME)]
         public static extern int GetCurrentThreadId();
+
+        /// <summary>
+        /// 检索指定模块的模块句柄。该模块必须已由调用进程加载。
+        /// <para>返回的句柄不是全局的或可继承的。它不能被其他进程复制或使用。</para>
+        /// <para>如果 lpModuleName 不包含路径，并且有多个加载的模块具有相同的基本名称和扩展名，则您无法预测将返回哪个模块句柄。要变通解决此问题，您可以指定路径，使用并行程序集或使用 GetModuleHandleEx 来指定内存位置而不是 DLL 名称。</para>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlea </para>
+        /// </summary>
+        /// <param name="lpModuleName">[LPCSTR] 加载的模块的名称（.dll或.exe文件）。如果省略文件扩展名，则会附加默认库扩展名.dll。</param>
+        /// <returns>如果函数成功，则返回值是指定模块的句柄。如果函数失败，则返回值为NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
+        [DllImport(DLL_NAME, EntryPoint = "GetModuleHandle", SetLastError = true)]
+        public static extern IntPtr GetModuleHandle(string lpModuleName);
     }
 }
