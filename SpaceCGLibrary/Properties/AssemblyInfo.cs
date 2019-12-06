@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("SpaceCG.CN")]
 [assembly: AssemblyProduct("SpaceCGLibrary")]
 [assembly: AssemblyCopyright("Copyright ©  2019-2020")]
-[assembly: AssemblyTrademark("Space")]
+[assembly: AssemblyTrademark("SPACE")]
 [assembly: AssemblyCulture("")]
 
 //将 ComVisible 设置为 false 将使此程序集中的类型

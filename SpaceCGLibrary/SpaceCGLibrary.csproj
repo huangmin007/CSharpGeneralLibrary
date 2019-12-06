@@ -17,7 +17,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -60,6 +60,7 @@
     <Compile Include="Examples\LINQExamples.cs" />
     <Compile Include="Examples\MouseHook.cs" />
     <Compile Include="Extension\ManagementExtension.cs" />
+    <Compile Include="Extension\PerformanceExtension.cs" />
     <Compile Include="Extension\SerialPortExtension.cs" />
     <Compile Include="Extension\IEnumerableExtension.cs" />
     <Compile Include="HPSocket\Common.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Log4Net\TextBoxBaseAppender.cs" />
     <Compile Include="WindowsAPI\DBT\DBTDef.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32.cs" />
+    <Compile Include="WindowsAPI\Kernel32\Kernel32Def.cs" />
     <Compile Include="WindowsAPI\WinUser\WinUserDef.cs" />
     <Compile Include="WindowsAPI\WinDef.cs" />
     <Compile Include="WindowsAPI\WinUser\WinUser.cs" />
@@ -122,6 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="WindowsAPI\DBT\Dbt.h" />
+    <Content Include="WindowsAPI\Kernel32\fileapi.h" />
+    <Content Include="WindowsAPI\Kernel32\wingdi.h" />
+    <Content Include="WindowsAPI\Kernel32\winnt.h" />
     <Content Include="WindowsAPI\WinDef.h" />
     <Content Include="WindowsAPI\WinUser\WinUser.h" />
   </ItemGroup>

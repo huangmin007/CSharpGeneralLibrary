@@ -174,6 +174,7 @@ namespace SpaceCG.WindowsAPI.DBT
     /// <summary>
     /// 用作与通过 <see cref="MessageType.WM_DEVICECHANGE"/> 消息报告的设备事件相关的信息的标准标头 。
     /// <para>WM_DEVICECHANGE lParam Data, event-specific data</para>
+    /// <para>由于此结构包含可变长度字段，因此可以将其用作创建指向用户定义结构的指针的模板。请注意，该结构不得包含指针。示：<see cref="DEV_BROADCAST_USERDEFINED"/>, <see cref="DEV_BROADCAST_PORT"/>, <see cref="DEV_BROADCAST_VOLUME"/>, <see cref="DEV_BROADCAST_OEM"/> 等</para>
     /// <para> DEV_BROADCAST_HDR 结构的成员 包含在每个设备管理结构中。要确定您通过 WM_DEVICECHANGE 接收到的结构，请将其视为 DEV_BROADCAST_HDR 结构并检查其 dbch_devicetype 成员。</para>
     /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ns-dbt-dev_broadcast_hdr </para>
     /// </summary>
@@ -189,7 +190,7 @@ namespace SpaceCG.WindowsAPI.DBT
         /// </summary>
         public DeviceType dbch_devicetype;
         /// <summary>
-        /// 保留；不使用。
+        /// 保留，不使用。
         /// </summary>
         public int dbch_reserved;
         /// <summary>
@@ -198,9 +199,35 @@ namespace SpaceCG.WindowsAPI.DBT
         /// <returns></returns>
         public override string ToString()
         {
-            return $"size:{dbch_size}, type:{dbch_devicetype}";
+            return $"{{size:{dbch_size}, type:{dbch_devicetype}({(int)dbch_devicetype})}}";
         }
     }
+
+    /// <summary>
+    /// 包含用户定义的事件以及与 DBT_USERDEFINED 设备事件关联的可选数据 。
+    /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ns-dbt-_dev_broadcast_userdefined </para>
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    public struct DEV_BROADCAST_USERDEFINED
+    {
+        /// <summary>
+        /// 有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息 。因为 DEV_BROADCAST_USERDEFINED 是可变长度，则mdbch_sizem所述的构件mdbud_dbhm结构必须在整个结构的字节数，包括可变长度部分的大小。
+        /// </summary>
+        public DEV_BROADCAST_HDR dbud_dbh;
+        /// <summary>
+        /// 指向区分大小写，以空字符结尾的字符串的指针，该字符串命名消息。该字符串必须由供应商名称，反斜杠和后面的任意用户定义的以空字符结尾的文本组成。
+        /// </summary>
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+        public string dbud_szName;
+        /// <summary>
+        /// @ToString()
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"head:{dbud_dbh}, szName:{dbud_szName}";
+        }
+    };
 
 
     /// <summary>
@@ -209,22 +236,14 @@ namespace SpaceCG.WindowsAPI.DBT
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_port_a </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    public struct DEV_BROADCAST_PORT 
+    public struct DEV_BROADCAST_PORT
     {
         /// <summary>
-        /// 此结构的大小，以字节为单位。这是成员的大小加上dbcp_name字符串的实际长度 （空字符由dbcp_name声明 为一个字符数组来解释。）
+        /// 有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
         /// </summary>
-        public int dbch_size;
+        public DEV_BROADCAST_HDR dbcp_head;
         /// <summary>
-        /// 设备类型，确定跟随前三个成员的事件特定信息。
-        /// </summary>
-        public DeviceType dbch_devicetype;
-        /// <summary>
-        /// 保留；不使用。
-        /// </summary>
-        public int dbch_reserved;
-        /// <summary>
-        /// 以空值结尾的字符串，用于指定端口或连接到该端口的设备的友好名称。友好名称旨在帮助用户快速准确地识别设备-例如，“ COM1”和“ Standard 28800 bps Modem”被视为友好名称。
+        /// 以空值结尾的字符串，用于指定端口或连接到该端口的设备的友好名称。友好名称旨在帮助用户快速准确地识别设备-例如，"COM1" 和 "Standard 28800 bps Modem" 被视为友好名称。
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
         public string dbcp_name;        
@@ -234,7 +253,7 @@ namespace SpaceCG.WindowsAPI.DBT
         /// <returns></returns>
         public override string ToString()
         {
-            return $"size:{dbch_size}, type:{dbch_devicetype}, name:{dbcp_name}";
+            return $"head:{dbcp_head}, name:{dbcp_name}";
         }
     }
 
@@ -248,17 +267,9 @@ namespace SpaceCG.WindowsAPI.DBT
     public struct DEV_BROADCAST_VOLUME
     {
         /// <summary>
-        /// 此结构的大小，以字节为单位。
+        /// 有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
         /// </summary>
-        public int dbcv_size;
-        /// <summary>
-        /// 设置为DBT_DEVTYP_VOLUME
-        /// </summary>
-        public DeviceType dbcv_devicetype;
-        /// <summary>
-        /// 保留；不使用。
-        /// </summary>
-        public int dbcv_reserved;
+        public DEV_BROADCAST_HDR dbcv_head;
         /// <summary>
         /// 逻辑单元掩码标识一个或多个逻辑单元。掩码中的每一位对应一个逻辑驱动器。位0代表驱动器A，位1代表驱动器B，依此类推。
         /// </summary>
@@ -275,7 +286,7 @@ namespace SpaceCG.WindowsAPI.DBT
         /// <returns></returns>
         public override string ToString()
         {
-            return $"size:{dbcv_size}, type:{dbcv_devicetype}, mask:{dbcv_reserved}, flags:{dbcv_flags}";
+            return $"head:{dbcv_head}, mask:{dbcv_unitmask}, flags:{dbcv_flags}";
         }
     }
 
@@ -287,17 +298,9 @@ namespace SpaceCG.WindowsAPI.DBT
     public struct DEV_BROADCAST_OEM
     {
         /// <summary>
-        /// 此结构的大小，以字节为单位。
+        /// 有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
         /// </summary>
-        public int dbco_size;
-        /// <summary>
-        /// 设置为DBT_DEVTYP_OEM
-        /// </summary>
-        public DeviceType dbco_devicetype;
-        /// <summary>
-        /// 保留；不使用。
-        /// </summary>
-        public int dbco_reserved;
+        public DEV_BROADCAST_HDR dbco_head;
         /// <summary>
         /// 设备的OEM特定标识符。
         /// </summary>
@@ -312,7 +315,7 @@ namespace SpaceCG.WindowsAPI.DBT
         /// <returns></returns>
         public override string ToString()
         {
-            return $"size:{dbco_size}, type:{dbco_devicetype}, identifier:{dbco_identifier}, suppfunc:{dbco_suppfunc}";
+            return $"head:{dbco_head}, identifier:{dbco_identifier}, suppfunc:{dbco_suppfunc}";
         }
     }
 
@@ -326,17 +329,9 @@ namespace SpaceCG.WindowsAPI.DBT
     public struct DEV_BROADCAST_DEVICEINTERFACE
     {
         /// <summary>
-        /// 此结构的大小，以字节为单位。这是成员的大小加上dbcc_name字符串的实际长度 （空字符由 dbcc_name 声明 为一个字符数组来解释。）
+        /// 有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
         /// </summary>
-        public int dbcc_size;
-        /// <summary>
-        /// 设置为DBT_DEVTYP_DEVICEINTERFACE
-        /// </summary>
-        public DeviceType dbcc_devicetype;
-        /// <summary>
-        /// 保留；不使用。
-        /// </summary>
-        public int dbcc_reserved;
+        public DEV_BROADCAST_HDR dbcc_head;
         /// <summary>
         /// 接口设备类的GUID。
         /// </summary>
@@ -353,7 +348,7 @@ namespace SpaceCG.WindowsAPI.DBT
         /// <returns></returns>
         public override string ToString()
         {
-            return $"size:{dbcc_size}, type:{dbcc_devicetype}, guid:{dbcc_classguid}, name:{dbcc_name}";
+            return $"head:{dbcc_head}, guid:{dbcc_classguid}, name:{dbcc_name}";
         }
     }
 
@@ -366,17 +361,9 @@ namespace SpaceCG.WindowsAPI.DBT
     public struct DEV_BROADCAST_HANDLE
     {
         /// <summary>
-        /// 此结构的大小，以字节为单位。
+        /// 有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
         /// </summary>
-        public int dbch_size;
-        /// <summary>
-        /// 设置为DBT_DEVTYP_HANDLE
-        /// </summary>
-        public DeviceType dbch_devicetype;
-        /// <summary>
-        /// 保留；不使用。
-        /// </summary>
-        public int dbch_reserved;
+        public DEV_BROADCAST_HDR dbch_head;
         /// <summary>
         /// 要检查的设备的句柄。
         /// </summary>
@@ -403,13 +390,14 @@ namespace SpaceCG.WindowsAPI.DBT
         /// <returns></returns>
         public override string ToString()
         {
-            return $"size:{dbch_size}, type:{dbch_devicetype}, handle:{dbch_handle}, guid:{dbch_eventguid}";
+            return $"head:{dbch_head}, handle:{dbch_handle}, guid:{dbch_eventguid}";
         }
     }
 
 
     /// <summary>
     /// Device Broadcast Type Define, Dbt.h
+    /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ </para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/devio/device-management </para>
     /// </summary>
     public static class DBTDef

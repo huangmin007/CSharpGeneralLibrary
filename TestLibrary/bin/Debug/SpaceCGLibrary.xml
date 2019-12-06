@@ -9,7 +9,7 @@
             Application Run One Example
             </summary>
         </member>
-        <member name="M:SpaceCG.Examples.ApplicationRunOne.Main">
+        <member name="M:SpaceCG.Examples.ApplicationRunOne.Main_x">
             <summary>
             只运行一个实体对象
             <para>Main 函数</para>
@@ -50,9 +50,16 @@
         <member name="T:SpaceCG.Extension.ManagementExtension">
             <summary>
             System.Management 命名空间 扩展/实用/通用 函数
-            <para>有关 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-            <para>有关 WMI Events，请参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/determining-the-type-of-event-to-receive </para>
-            <para>有关 WQL 语法，请参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </para>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/cimwin32-wmi-providers </para>
+            <para>有关 WMI 类，参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            <para>有关 WMI Events，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/determining-the-type-of-event-to-receive </para>
+            <para>有关 WQL 语法，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.ManagementExtension.LocalPath">
+            <summary>
+            \\.\Root\CIMV2
+            <para>System.Management.ManagementScope 的服务器和命名空间。</para>
             </summary>
         </member>
         <member name="F:SpaceCG.Extension.ManagementExtension.InstanceCreationEvent">
@@ -60,6 +67,20 @@
         </member>
         <member name="F:SpaceCG.Extension.ManagementExtension.InstanceDeletionEvent">
             <summary> ManagementEventWatcher Object </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
+            <summary>
+            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 RemoveInstanceChange 移除监听
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
+            <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            </summary>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
+            <param name="changeCallback"></param>
+            <param name="Log"></param>
+            <exception cref="T:System.InvalidOperationException"></exception>
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
             <summary>
@@ -69,8 +90,8 @@
             <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
             <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
             </summary>
-            <param name="wql_condition">WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
-            <param name="changedCallback"></param>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="changeCallback"></param>
             <param name="Log"></param>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
@@ -82,18 +103,6 @@
         <member name="F:SpaceCG.Extension.ManagementExtension.InstanceModificationEvent">
             <summary> ManagementEventWatcher Object </summary>
         </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
-            <summary>
-            监听 "__InstanceModificationEvent"(继承 "__InstanceOperationEvent") 事件 （持续监听事件，按固定 1s 查询一次状态生成事件）；有关事件请参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/--instancemodificationevent 
-            <para>请使用 RemoveInstanceModification 移除监听 </para>
-            <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
-            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-            </summary>
-            <param name="wql_condition">WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
-            <param name="changedCallback"></param>
-            <param name="Log"></param>
-            <exception cref="T:System.InvalidOperationException"></exception>
-        </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
             <summary>
             监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
@@ -101,9 +110,21 @@
             <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
             <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
             </summary>
-            <param name="wql_condition">WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
-            <param name="interval">按指定的间隔时间查询</param>
-            <param name="changedCallback"></param>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
+            <param name="changeCallback"></param>
+            <param name="Log"></param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
+            <summary>
+            监听 "__InstanceModificationEvent"(继承 "__InstanceOperationEvent") 事件 （持续监听事件，按固定 1s 查询一次状态生成事件）；有关事件请参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/--instancemodificationevent 
+            <para>请使用 RemoveInstanceModification 移除监听 </para>
+            <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            </summary>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="changeCallback"></param>
             <param name="Log"></param>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
@@ -116,17 +137,46 @@
             <summary>
             
             </summary>
-            <param name="wmi_event"></param>
+            <param name="wmi_eventClassName"></param>
             <param name="wql_condition"></param>
-            <param name="changedCallback"></param>
+            <param name="changeCallback"></param>
             <param name="Log"></param>
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.GetPortNames">
             <summary>
-            这只是示例函数代码，用于查询 WMI 信息。更多 WMI 应用需自行思考。
-            <para>获取当前计算机的串行端口名的数组，请使用 SerialPort.GetPortNames(); </para>
+            获取当前计算机的 串行端口 完整名称 的数组
+            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM59)" </para>
+            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多 WMI 应用需自行参考。</para>
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:SpaceCG.Extension.PerformanceExtension">
+            <summary>
+            <see cref="T:System.Diagnostics.PerformanceCounter"/>, <see cref="T:System.Diagnostics.PerformanceCounterCategory"/>
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebugPCCs">
+            <summary>
+            检索输出本地计算机上注册的 性能计数器 类别的列表 PerformanceCounterCategory.GetCategories()。
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebug(System.Diagnostics.PerformanceCounter)">
+            <summary>
+            输出 性能计数器组件 信息
+            </summary>
+            <param name="pc"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebug(System.Diagnostics.PerformanceCounter[])">
+            <summary>
+            输出 性能计数器组件 信息
+            </summary>
+            <param name="pcs"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebug(System.Diagnostics.PerformanceCounterCategory)">
+            <summary>
+            输出 CategoryName(类别) 不能为空的 性能计数器组件 信息 
+            </summary>
+            <param name="pcc"></param>
         </member>
         <member name="T:SpaceCG.Extension.SerialPortExtension">
             <summary>
@@ -4733,7 +4783,7 @@
         <member name="T:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType">
             <summary>
             Device Broadcast Type
-            <para>WM_DEVICECHANGE wParam Data, device-change event</para>
+            <para><see cref="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_DEVICECHANGE"/> wParam Data, device-change event</para>
             <para>参考： Dbt.h </para>
             </summary>
         </member>
@@ -4860,13 +4910,13 @@
         </member>
         <member name="T:SpaceCG.WindowsAPI.DBT.DeviceType">
             <summary>
-            DEV_BROADCAST_HDR 结构体字段 dbch_devicetype 的值之一
+            <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR.dbch_devicetype"/> 的值之一
             <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ns-dbt-dev_broadcast_hdr </para>
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_OEM">
             <summary>
-            oem-defined device type, OEM 或 IHV 定义的设备类型。此结构是 DEV_BROADCAST_OEM 结构。
+            oem-defined device type, OEM 或 IHV 定义的设备类型。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM"/> 结构。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_DEVNODE">
@@ -4876,12 +4926,12 @@
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_VOLUME">
             <summary>
-            logical volume, 逻辑卷。此结构是 DEV_BROADCAST_VOLUME 结构。
+            logical volume, 逻辑卷。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME"/> 结构。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_PORT">
             <summary>
-            serial/parallel, 端口设备（串行或并行）。此结构是 DEV_BROADCAST_PORT 结构。
+            serial/parallel, 端口设备（串行或并行）。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT"/> 结构。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_NET">
@@ -4891,12 +4941,12 @@
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_DEVICEINTERFACE">
             <summary>
-            device interface class, 设备类别。此结构是 DEV_BROADCAST_DEVICEINTERFACE 结构。
+            device interface class, 设备类别。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE"/> 结构。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_HANDLE">
             <summary>
-            file system handle, 文件系统句柄。此结构是 DEV_BROADCAST_HANDLE 结构。
+            file system handle, 文件系统句柄。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE"/> 结构。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_DEVINST">
@@ -4906,8 +4956,9 @@
         </member>
         <member name="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR">
             <summary>
-            用作与通过 WM_DEVICECHANGE 消息报告的设备事件相关的信息的标准标头 。
+            用作与通过 <see cref="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_DEVICECHANGE"/> 消息报告的设备事件相关的信息的标准标头 。
             <para>WM_DEVICECHANGE lParam Data, event-specific data</para>
+            <para>由于此结构包含可变长度字段，因此可以将其用作创建指向用户定义结构的指针的模板。请注意，该结构不得包含指针。示：<see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED"/>, <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT"/>, <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME"/>, <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM"/> 等</para>
             <para> DEV_BROADCAST_HDR 结构的成员 包含在每个设备管理结构中。要确定您通过 WM_DEVICECHANGE 接收到的结构，请将其视为 DEV_BROADCAST_HDR 结构并检查其 dbch_devicetype 成员。</para>
             <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ns-dbt-dev_broadcast_hdr </para>
             </summary>
@@ -4925,10 +4976,32 @@
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR.dbch_reserved">
             <summary>
-            保留；不使用。
+            保留，不使用。
             </summary>
         </member>
         <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR.ToString">
+            <summary>
+            @ToString()
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED">
+            <summary>
+            包含用户定义的事件以及与 DBT_USERDEFINED 设备事件关联的可选数据 。
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ns-dbt-_dev_broadcast_userdefined </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED.dbud_dbh">
+            <summary>
+            有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息 。因为 DEV_BROADCAST_USERDEFINED 是可变长度，则mdbch_sizem所述的构件mdbud_dbhm结构必须在整个结构的字节数，包括可变长度部分的大小。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED.dbud_szName">
+            <summary>
+            指向区分大小写，以空字符结尾的字符串的指针，该字符串命名消息。该字符串必须由供应商名称，反斜杠和后面的任意用户定义的以空字符结尾的文本组成。
+            </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED.ToString">
             <summary>
             @ToString()
             </summary>
@@ -4941,24 +5014,14 @@
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_port_a </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT.dbch_size">
+        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT.dbcp_head">
             <summary>
-            此结构的大小，以字节为单位。这是成员的大小加上dbcp_name字符串的实际长度 （空字符由dbcp_name声明 为一个字符数组来解释。）
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT.dbch_devicetype">
-            <summary>
-            设备类型，确定跟随前三个成员的事件特定信息。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT.dbch_reserved">
-            <summary>
-            保留；不使用。
+            有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT.dbcp_name">
             <summary>
-            以空值结尾的字符串，用于指定端口或连接到该端口的设备的友好名称。友好名称旨在帮助用户快速准确地识别设备-例如，“ COM1”和“ Standard 28800 bps Modem”被视为友好名称。
+            以空值结尾的字符串，用于指定端口或连接到该端口的设备的友好名称。友好名称旨在帮助用户快速准确地识别设备-例如，"COM1" 和 "Standard 28800 bps Modem" 被视为友好名称。
             </summary>
         </member>
         <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT.ToString">
@@ -4975,19 +5038,9 @@
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_volume </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME.dbcv_size">
+        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME.dbcv_head">
             <summary>
-            此结构的大小，以字节为单位。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME.dbcv_devicetype">
-            <summary>
-            设置为DBT_DEVTYP_VOLUME
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME.dbcv_reserved">
-            <summary>
-            保留；不使用。
+            有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME.dbcv_unitmask">
@@ -5014,19 +5067,9 @@
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_oem </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM.dbco_size">
+        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM.dbco_head">
             <summary>
-            此结构的大小，以字节为单位。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM.dbco_devicetype">
-            <summary>
-            设置为DBT_DEVTYP_OEM
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM.dbco_reserved">
-            <summary>
-            保留；不使用。
+            有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM.dbco_identifier">
@@ -5052,19 +5095,9 @@
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_deviceinterface_a </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE.dbcc_size">
+        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE.dbcc_head">
             <summary>
-            此结构的大小，以字节为单位。这是成员的大小加上dbcc_name字符串的实际长度 （空字符由 dbcc_name 声明 为一个字符数组来解释。）
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE.dbcc_devicetype">
-            <summary>
-            设置为DBT_DEVTYP_DEVICEINTERFACE
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE.dbcc_reserved">
-            <summary>
-            保留；不使用。
+            有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE.dbcc_classguid">
@@ -5091,19 +5124,9 @@
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_handle </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_size">
+        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_head">
             <summary>
-            此结构的大小，以字节为单位。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_devicetype">
-            <summary>
-            设置为DBT_DEVTYP_HANDLE
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_reserved">
-            <summary>
-            保留；不使用。
+            有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_handle">
@@ -5140,6 +5163,7 @@
         <member name="T:SpaceCG.WindowsAPI.DBT.DBTDef">
             <summary>
             Device Broadcast Type Define, Dbt.h
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ </para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/devio/device-management </para>
             </summary>
         </member>
@@ -5149,10 +5173,21 @@
             <para>Marshal.GetLastWin32Error(), new WindowInteropHelper(Window).Handle</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.Kernel32.DLL_NAME">
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetSystemTime(SpaceCG.WindowsAPI.Kernel32.SystemTimeClass)">
             <summary>
-            dll name
+            获取系统时间
+            <para>这只是一个示例，传参类型为 Class 引用</para>
+            <para> SystemTimeClass 与 SystemTimeStruct 隐式转换 </para>
             </summary>
+            <param name="systemTime"></param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetSystemTime(SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct@)">
+            <summary>
+            获取系统时间
+            <para>这只是一个示例，传参类型为 Struct 按值传，引用传需加 ref </para>
+            <para> SystemTimeClass 与 SystemTimeStruct 隐式转换 </para>
+            </summary>
+            <param name="systemTime"></param>
         </member>
         <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.LoadLibrary(System.String)">
             <summary>
@@ -5201,6 +5236,266 @@
             </summary>
             <param name="lpModuleName">[LPCSTR] 加载的模块的名称（.dll或.exe文件）。如果省略文件扩展名，则会附加默认库扩展名.dll。</param>
             <returns>如果函数成功，则返回值是指定模块的句柄。如果函数失败，则返回值为NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.Kernel32.DLL_NAME">
+            <summary>
+            dll name
+            </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.SystemTimeClass.op_Implicit(System.UInt16)~SpaceCG.WindowsAPI.Kernel32.SystemTimeClass">
+            <summary>
+            隐式转换类型 publi static implicit operator Construct()
+            </summary>
+            <param name="year"></param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.SystemTimeClass.op_Implicit(SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct)~SpaceCG.WindowsAPI.Kernel32.SystemTimeClass">
+            <summary>
+            隐式转换类型
+            </summary>
+            <param name="st"></param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct.op_Implicit(SpaceCG.WindowsAPI.Kernel32.SystemTimeClass)~SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct">
+            <summary>
+            隐式转换类型
+            </summary>
+            <param name="st"></param>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES">
+            <summary>
+            SECURITY_ATTRIBUTES 结构包含安全描述符的对象，并指定通过指定该结构中检索所述手柄是否是继承。此结构为由各种功能（例如 CreateFile，CreatePipe，CreateProcess，RegCreateKeyEx 或 RegSaveKeyEx）创建的对象提供安全设置。
+            SECURITY_ATTRIBUTES, *PSECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
+            <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa379560(v=vs.85) </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.nLength">
+            <summary>
+            此结构的大小（以字节为单位）。将此值设置为 SECURITY_ATTRIBUTES 结构的大小。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.lpSecurityDescriptor">
+            <summary>
+            指向 SECURITY_DESCRIPTOR 结构的指针，该结构控制对对象的访问。如果此成员的值为 NULL，则为对象分配与调用过程的访问令牌关联的默认安全描述符。
+            <para>这与通过分配 NULL 自由访问控制列表（DACL）向所有人授予访问权限不同。默认情况下，进程的访问令牌中的默认 DACL 只允许访问该访问令牌所代表的用户。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.bInheritHandle">
+            <summary>
+            一个布尔值，它指定在创建新进程时是否继承返回的句柄。如果此成员为 TRUE，则新进程将继承该句柄。
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.AccessRights">
+            <summary>
+            访问权限，安全对象使用访问掩码格式，其中四个高位指定通用访问权限。每种可保护对象的类型都将这些位映射到一组其标准和特定于对象的访问权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_READ_DATA">
+            <summary>
+            [文件访问权限常量] 对于文件对象，有权读取相应的文件数据。对于目录对象，有权读取相应的目录数据。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_LIST_DIRECTORY">
+            <summary>
+            [文件访问权限常量] 对于目录，有权列出目录的内容。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_WRITE_DATA">
+            <summary>
+            [文件访问权限常量] 对于文件对象，具有将数据写入文件的权利。对于目录对象，有权在目录（FILE_ADD_FILE）中创建文件。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_ADD_FILE">
+            <summary>
+            [文件访问权限常量] 对于目录，有权在目录中创建文件。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_APPEND_DATA">
+            <summary>
+            [文件访问权限常量] 对于文件对象，有权将数据附加到文件。（对于本地文件，如果在没有FILE_WRITE_DATA的情况下指定了此标志，则写操作将不会覆盖现有数据。）对于目录对象，有权创建子目录（FILE_ADD_SUBDIRECTORY）。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_ADD_SUBDIRECTORY">
+            <summary>
+            [文件访问权限常量] 对于目录，有权创建子目录。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_CREATE_PIPE_INSTANCE">
+            <summary>
+            [文件访问权限常量] 对于命名管道，有权创建管道。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_READ_EA">
+            <summary>
+            [文件访问权限常量] 读取扩展文件属性的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_WRITE_EA">
+            <summary>
+            [文件访问权限常量] 写入扩展文件属性的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_EXECUTE">
+            <summary>
+            [文件访问权限常量] 对于本机代码文件，有权执行该文件。授予脚本的访问权限可能导致脚本可执行，具体取决于脚本解释器。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_TRAVERSE">
+            <summary>
+            [文件访问权限常量] 对于目录，具有遍历目录的权利。默认情况下，为用户分配BYPASS_TRAVERSE_CHECKING 特权，该特权将忽略FILE_TRAVERSE 访问权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_DELETE_CHILD">
+            <summary>
+            [文件访问权限常量] 对于目录，有权删除目录及其包含的所有文件，包括只读文件。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_READ_ATTRIBUTES">
+            <summary>
+            [文件访问权限常量] 读取文件属性的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_WRITE_ATTRIBUTES">
+            <summary>
+            [文件访问权限常量] 写入文件属性的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_ALL_ACCESS">
+            <summary>
+            [文件访问权限常量] 文件的所有可能的访问权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_GENERIC_READ">
+            <summary>
+            [一般访问权限] 
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_GENERIC_WRITE">
+            <summary>
+            [一般访问权限]
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_GENERIC_EXECUTE">
+            <summary>
+            [一般访问权限]
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.DELETE">
+            <summary>
+            [标准访问权限] 删除对象的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.READ_CONTROL">
+            <summary>
+            [标准访问权限] 有权读取对象的安全描述符中的信息，但不包括系统访问控制列表（SACL）中的信息。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.WRITE_DAC">
+            <summary>
+            [标准访问权限] 修改对象的安全描述符中的任意访问控制列表（DACL）的权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.WRITE_OWNER">
+            <summary>
+            [标准访问权限] 在对象的安全描述符中更改所有者的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.SYNCHRONIZE">
+            <summary>
+            [标准访问权限] 使用对象进行同步的权利。这使线程可以等待，直到对象处于信号状态。某些对象类型不支持此访问权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_REQUIRED">
+            <summary>
+            [标准访问权限] 合并 DELETE，READ_CONTROL，WRITE_DAC 和 WRITE_OWNER 访问。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_READ">
+            <summary>
+            [标准访问权限] 当前定义为等于 READ_CONTROL。它是读取文件或目录对象的安全描述符中的信息的权利。这不包括 SACL 中的信息。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_WRITE">
+            <summary>
+            [标准访问权限] 当前定义为等于 READ_CONTROL。与 STANDARD_RIGHTS_READ 相同。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_EXECUTE">
+            <summary>
+            [标准访问权限] 当前定义为等于 READ_CONTROL。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_ALL">
+            <summary>
+            [标准访问权限] 合并 DELETE，READ_CONTROL，WRITE_DAC，WRITE_OWNER 和 SYNCHRONIZE访问。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.SPECIFIC_RIGHTS_ALL">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.ACCESS_SYSTEM_SECURITY">
+            <summary>
+            AccessSystemAcl access type
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.MAXIMUM_ALLOWED">
+            <summary>
+            MaximumAllowed access type
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_ALL">
+            <summary>
+            [通用访问权限] 所有可能的访问权限
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_EXECUTE">
+            <summary>
+            [通用访问权限] 执行访问 
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_WRITE">
+            <summary>
+            [通用访问权限] 写访问
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_READ">
+            <summary>
+            [通用访问权限] 读取权限 
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.CreationDisposition">
+            <summary>
+            CreateFile 函数参数 dwCreationDisposition 的值之一
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.CREATE_NEW">
+            <summary>
+            仅在尚不存在时创建一个新文件。如果指定的文件存在，则函数失败，并且上一个错误代码设置为 ERROR_FILE_EXISTS（80）。
+            <para>如果指定的文件不存在，并且是可写位置的有效路径，则会创建一个新文件。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.CREATE_ALWAYS">
+            <summary>
+            始终创建一个新文件。如果指定的文件存在并且可写，则该函数将覆盖该文件，该函数将成功，并且上一个错误代码设置为 ERROR_ALREADY_EXISTS（183）。
+            <para>如果指定的文件不存在并且是有效路径，则创建一个新文件，该函数成功，并且最后一个错误代码设置为零。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.OPEN_EXISTING">
+            <summary>
+            仅打开文件或设备（如果存在）。如果指定的文件或设备不存在，该功能将失败，并且上一个错误代码将设置为 ERROR_FILE_NOT_FOUND（2）。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.OPEN_ALWAYS">
+            <summary>
+            始终打开文件。如果指定的文件存在，则函数成功，并且最后一个错误代码设置为 ERROR_ALREADY_EXISTS（183）。
+            <para>如果指定的文件不存在，并且是可写位置的有效路径，则该函数将创建一个文件，并且上一个错误代码将设置为零。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.TRUNCATE_EXISTING">
+            <summary>
+            打开文件并将其截断，以使其大小为零字节（仅存在时）。如果指定的文件不存在，该函数将失败，并且上一个错误代码将设置为 ERROR_FILE_NOT_FOUND（2）。
+            <para>调用进程必须使用 dwDesiredAccess 参数的一部分设置 GENERIC_WRITE 位来打开文件。</para>
+            </summary>
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.HookProc">
             <summary>
@@ -6935,6 +7230,7 @@
         <member name="T:SpaceCG.WindowsAPI.WinUser.RhkModifier">
             <summary>
             RegisterHotKey 函数参数 fsModifiers 的值之一或值组合
+            <para>OR <see cref="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_HOTKEY"/> lParam</para>
             <para>参考 https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerhotkey </para>
             </summary>
         </member>
@@ -6948,11 +7244,6 @@
             必须按住CTRL键。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.RhkModifier.NOREPEAT">
-            <summary>
-            更改热键行为，以使键盘自动重复操作不会产生多个热键通知。Windows Vista：  不支持此标志。
-            </summary>
-        </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.RhkModifier.SHIFT">
             <summary>
             必须按住SHIFT键。
@@ -6961,6 +7252,11 @@
         <member name="F:SpaceCG.WindowsAPI.WinUser.RhkModifier.WIN">
             <summary>
             按住WINDOWS键。这些键带有Windows徽标。保留与WINDOWS键相关的键盘快捷键，供操作系统使用。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.RhkModifier.NOREPEAT">
+            <summary>
+            更改热键行为，以使键盘自动重复操作不会产生多个热键通知。Windows Vista：  不支持此标志。
             </summary>
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.AwFlag">
@@ -7036,43 +7332,44 @@
             将此值与 PM_NOREMOVE 或 PM_REMOVE 结合使用。
             </summary>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.WinUser.KeyStateMasks">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.MouseKey">
             <summary>
-            Key State Masks for Mouse Messages
+            Key State Masks for Mouse Messages (wParam)
+            <para>MessageType WM_MouseXXX wParam value type</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.KeyStateMasks.MK_LBUTTON">
-            <summary>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.KeyStateMasks.MK_RBUTTON">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MouseKey.MK_LBUTTON">
             <summary>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.KeyStateMasks.MK_SHIFT">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MouseKey.MK_RBUTTON">
             <summary>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.KeyStateMasks.MK_CONTROL">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MouseKey.MK_SHIFT">
             <summary>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.KeyStateMasks.MK_MBUTTON">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MouseKey.MK_CONTROL">
             <summary>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.KeyStateMasks.MK_XBUTTON1">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MouseKey.MK_MBUTTON">
             <summary>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.KeyStateMasks.MK_XBUTTON2">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MouseKey.MK_XBUTTON1">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MouseKey.MK_XBUTTON2">
             <summary>
             </summary>
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.TouchFeedbackMode">
             <summary>
             Touch 反馈模式
-            <para>InitializeTouchInjection 函数参数 dwMode 的值之一或值组合</para>
+            <para> <see cref="M:SpaceCG.WindowsAPI.WinUser.WinUser.InitializeTouchInjection(System.UInt32,SpaceCG.WindowsAPI.WinUser.TouchFeedbackMode)"/>  函数参数 dwMode 的值之一</para>
             <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/input_touchinjection/constants </para>
             </summary>
         </member>
@@ -7083,7 +7380,7 @@
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.TouchFeedbackMode.INDIRECT">
             <summary>
-            指定间接触摸可视化。注入的触摸反馈将覆盖“ 笔和触摸”控制面板中的最终用户设置。
+            指定间接触摸可视化。注入的触摸反馈将覆盖“笔和触摸”控制面板中的最终用户设置。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.TouchFeedbackMode.NONE">
@@ -7094,7 +7391,7 @@
         <member name="T:SpaceCG.WindowsAPI.WinUser.PointerInputType">
             <summary>
             指针输入类型。
-            <para> POINTERINFO 结构体字段 pointerType 的值之一 </para>
+            <para> <see cref="T:SpaceCG.WindowsAPI.WinUser.POINTERINFO"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.WinUser.POINTERINFO.pointerType"/> 的值之一 </para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ne-winuser-tagpointer_input_type </para>
             </summary>
         </member>
@@ -7125,7 +7422,7 @@
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.PointerFlag">
             <summary>
-            POINTERINFO 结构体字段 pointerFlags 的值之一或值组合
+            <see cref="T:SpaceCG.WindowsAPI.WinUser.POINTERINFO"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.WinUser.POINTERINFO.pointerFlags"/> 的值之一或值组合
             <para>XBUTTON1 和 XBUTTON2 是许多鼠标设备上使用的其他按钮。它们返回与标准鼠标按钮相同的数据。</para>
             <para>注入的输入将发送到运行注入过程的会话的桌面。有用于由以下组合所指示触摸输入注射（交互式和悬停）两个输入状态 pointerFlags ：</para>
             <para>INRANGE | UPDATE  Touch 触摸悬停开始或移动</para>
@@ -7241,7 +7538,7 @@
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.PointerButtonChangeType">
             <summary>
-            POINTERINFO 结构体字段 ButtonChangeType 的值之一
+            <see cref="T:SpaceCG.WindowsAPI.WinUser.POINTERINFO"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.WinUser.POINTERINFO.buttonChangeType"/> 的值之一
             <para>标识与指针关联的按钮状态的变化 <see cref="T:SpaceCG.WindowsAPI.WinUser.PointerFlag"/></para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ne-winuser-pointer_button_change_type </para>
             </summary>
@@ -7303,14 +7600,14 @@
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.POINTERINFO">
             <summary>
-            POINTERTOUCHINFO 结构体字段 pointerInfo 的值
+            <see cref="T:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO.pointerInfo"/> 的值
             <para>包含所有指针类型共有的基本指针信息。应用程序可以使用 GetPointerInfo，GetPointerFrameInfo，GetPointerInfoHistory 和 GetPointerFrameInfoHistory 函数检索此信息。</para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-pointer_info </para>
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERINFO.pointerType">
             <summary>
-            POINTER_INPUT_TYPE枚举中的一个值，它指定指针类型。
+            POINTER_INPUT_TYPE 枚举中的一个值，它指定指针类型。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERINFO.pointerId">
@@ -7380,19 +7677,19 @@
             POINTER_MOD_CTRL –按下CTRL键。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERINFO.PerformanceCount">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERINFO.performanceCount">
             <summary>
             收到指针消息时的高分辨率性能计数器的值（高精度，64位替代dwTime）。当触摸数字化仪硬件在其输入报告中支持扫描时间戳信息时，可以校准该值。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERINFO.ButtonChangeType">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERINFO.buttonChangeType">
             <summary>
             POINTER_BUTTON_CHANGE_TYPE 枚举中的一个值，用于指定此输入与先前输入之间的按钮状态更改。
             </summary>
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.TouchFlag">
             <summary>
-            POINTERTOUCHINFO 结构体字段 touchFlags 的值之一
+            <see cref="T:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO.touchFlags"/> 的值之一
             <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/inputmsg/touch-flags-constants </para>
             </summary>
         </member>
@@ -7403,7 +7700,7 @@
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.TouchMask">
             <summary>
-            POINTERTOUCHINFO 结构体字段 touchMask 的值之一或值组合
+            <see cref="T:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO.touchMask"/> 的值之一或值组合
             <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/inputmsg/touch-mask-constants </para>
             </summary>
         </member>
@@ -7430,13 +7727,13 @@
         <member name="T:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO">
             <summary>
             指针类型共有的基本触摸信息。
-            <para>InjectTouchInput 函数参数 contacts 触摸数据集合</para>
+            <para><see cref="M:SpaceCG.WindowsAPI.WinUser.WinUser.InjectTouchInput(System.UInt32,SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO[])"/> 函数参数 contacts 触摸数据集合</para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-pointer_touch_info </para>
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO.pointerInfo">
             <summary>
-            嵌入式 POINTERINFO 标头结构。
+            嵌入式 <see cref="T:SpaceCG.WindowsAPI.WinUser.POINTERINFO"/> 标头结构。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO.touchFlags">
@@ -7446,7 +7743,7 @@
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO.touchMask">
             <summary>
-            指示哪个可选字段包含有效值。该成员可以是零，也可以是“ 触摸蒙版”常量的值的任意组合。
+            指示哪个可选字段包含有效值。该成员可以是零，也可以是“触摸蒙版”常量的值的任意组合。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.POINTERTOUCHINFO.rcContact">
@@ -7515,9 +7812,15 @@
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.MessageType">
             <summary>
-            Windows Message Type, MSG 结构体字段 message 的值之一或值组合
-            <para>Win 消息标志信息 </para>
+            Windows Message Type (Window消息类型)
+            <para><see cref="T:SpaceCG.WindowsAPI.WinUser.MSG"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.WinUser.MSG.message"/> 的值之一或值组合</para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues?redirectedfrom=MSDN </para>
+            <para>消息类型：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues?redirectedfrom=MSDN#message-types </para>
+            <para>窗口类消息：https://docs.microsoft.com/en-us/windows/win32/winmsg/window-notifications </para>
+            <para>原生类消息：https://docs.microsoft.com/en-us/windows/win32/inputdev/raw-input-notifications </para>
+            <para>键盘类消息：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+            <para>鼠标类消息：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            <para>钩子类消息：https://docs.microsoft.com/en-us/windows/win32/winmsg/hook-notifications </para>
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_NULL">
@@ -7526,19 +7829,20 @@
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_CREATE">
-             <summary>
+            <summary>
             创建一个窗口
-             </summary>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_DESTROY">
-             <summary>
+            <summary>
             当一个窗口被破坏时发送
-             </summary>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_MOVE">
-             <summary>
-            移动一个窗口
-             </summary>
+            <summary>
+            在移动窗口后发送。
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/winmsg/wm-move </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_SIZE">
              <summary>
@@ -7546,19 +7850,19 @@
              </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_ACTIVATE">
-             <summary>
+            <summary>
             一个窗口被激活或失去激活状态
-             </summary>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_SETFOCUS">
-             <summary>
+            <summary>
             一个窗口获得焦点
-             </summary>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_KILLFOCUS">
-             <summary>
+            <summary>
             一个窗口失去焦点
-             </summary>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_ENABLE">
              <summary>
@@ -7955,45 +8259,63 @@
             当用户双击鼠标中键同时光标又在窗口的非客户区时发送此消息
              </summary>
         </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_INPUT_DEVICE_CHANGE">
+            <summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/raw-input-notifications </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_INPUT">
+            <summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/raw-input-notifications </para>
+            </summary>
+        </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_KEYDOWN">
-             <summary>
+            <summary>
             WM_KEYDOWN 按下一个键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_KEYUP">
-             <summary>
+            <summary>
             释放一个键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_CHAR">
-             <summary>
+            <summary>
             按下某键，并已发出WM_KEYDOWN， WM_KEYUP消息
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_DEADCHAR">
-             <summary>
+            <summary>
             当用translatemessage函数翻译WM_KEYUP消息时发送此消息给拥有焦点的窗口
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_SYSKEYDOWN">
-             <summary>
+            <summary>
             当用户按住ALT键同时按下其它键时提交此消息给拥有焦点的窗口
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_SYSKEYUP">
-             <summary>
+            <summary>
             当用户释放一个键同时ALT 键还按着时提交此消息给拥有焦点的窗口
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_SYSCHAR">
-             <summary>
+            <summary>
             当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后提交此消息给拥有焦点的窗口
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_SYSDEADCHAR">
-             <summary>
+            <summary>
             当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后发送此消息给拥有焦点的窗口
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_INITDIALOG">
              <summary>
@@ -8091,68 +8413,109 @@
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_MOUSEMOVE">
-             <summary>
+            <summary>
             移动鼠标时发生，同WM_MOUSEFIRST
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_LBUTTONDOWN">
-             <summary>
+            <summary>
             按下鼠标左键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_LBUTTONUP">
-             <summary>
+            <summary>
             释放鼠标左键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_LBUTTONDBLCLK">
-             <summary>
+            <summary>
             双击鼠标左键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_RBUTTONDOWN">
-             <summary>
+            <summary>
             按下鼠标右键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_RBUTTONUP">
-             <summary>
+            <summary>
             释放鼠标右键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_RBUTTONDBLCLK">
-             <summary>
+            <summary>
             双击鼠标右键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_MBUTTONDOWN">
-             <summary>
+            <summary>
             按下鼠标中键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_MBUTTONUP">
-             <summary>
+            <summary>
             释放鼠标中键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_MBUTTONDBLCLK">
-             <summary>
+            <summary>
             双击鼠标中键
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_MOUSEWHEEL">
-             <summary>
+            <summary>
             当鼠标轮子转动时发送此消息个当前有焦点的控件
-             </summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_XBUTTONDOWN">
+            <summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_XBUTTONUP">
+            <summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_XBUTTONDBLCLK">
+            <summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_MOUSEHWHEEL">
+            <summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_CAPTURECHANGED">
+            <summary>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+            </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_DEVICECHANGE">
             <summary>
             Device Change
+            <para>wParam <see cref="T:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType"/></para>
+            <para>lParm <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR"/></para>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/devio/wm-devicechange </para>
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_HOTKEY">
             <summary>
-            Hot Key
+            Hot Key, WM_HOTKEY 与 WM_GETHOTKEY 和 WM_SETHOTKEY 热键无关。该 WM_HOTKEY 消息被用于通用的热键发送而 WM_SETHOTKEY 和 WM_GETHOTKEY 消息涉及窗口激活热键。
+            <para>lParam <see cref="T:SpaceCG.WindowsAPI.WinUser.RhkModifier"/></para>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_USER">
@@ -8168,18 +8531,19 @@
         <member name="T:SpaceCG.WindowsAPI.WinUser.WinUser">
             <summary>
             WinUser.h 常用/实用 函数
-            <para>Marshal.GetLastWin32Error()</para>
+            <para> <see cref="M:System.Runtime.InteropServices.Marshal.GetLastWin32Error"/> </para>
             <para>LPCTSTR，LPWSTR, PTSTR, LPTSTR，L表示long指针，P表示这是一个指针，T表示_T宏,这个宏用来表示你的字符是否使用UNICODE, 如果你的程序定义了UNICODE或者其他相关的宏，那么这个字符或者字符串将被作为UNICODE字符串，否则就是标准的ANSI字符串。C表示是一个常量,const。STR表示这个变量是一个字符串。</para>
             <para>参考： https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ </para>
             </summary>
             <summary>
             WinUser.h 常用/实用 函数
-            <para>Marshal.GetLastWin32Error(); new WindowInteropHelper(Window).Handle; KeyInterop.KeyFromVirtualKey((int)vkCode); </para>
+            <para>Marshal.GetLastWin32Error();  new WindowInteropHelper(Window).Handle; KeyInterop.KeyFromVirtualKey((int)vkCode); </para>
             <para>ComponentDispatcher (OR) HwndSource.FromHwnd(hwnd).AddHook(WindowProcHandler); (OR) HwndSource hwndSource = PresentationSource.FromVisual(this) as HwndSource;hwndSource.AddHook(new HwndSourceHook(WindowProcHandler));</para>
             <para>#ifdef UNICODE #define Function FunctionA #else #define Function FunctionW #endif</para>
             <para>如果窗口类是使用 ANSI 版本的 RegisterClass（RegisterClassA）注册的，则窗口的字符集是 ANSI。如果窗口类是使用 Unicode 版本的 RegisterClass（RegisterClassW）注册的，则窗口的字符集为 Unicode。</para>
             <para>LPCTSTR，LPWSTR, PTSTR, LPTSTR，L表示long指针，P表示这是一个指针，T表示 _T宏 这个宏用来表示你的字符是否使用 UNICODE, 如果你的程序定义了 UNICODE 或者其他相关的宏，那么这个字符或者字符串将被作为 UNICODE 字符串，否则就是标准的 ANSI 字符串。C表示是一个常量const。STR表示这个变量是一个字符串。</para>
             <para>参考： https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ </para>
+            <para>本机互操作性：https://docs.microsoft.com/zh-cn/dotnet/standard/native-interop/ </para>
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.WinUser.DLL_NAME">
@@ -8191,6 +8555,20 @@
             <summary>
             最大同时触摸常量数,Specifies the maximum number of simultaneous contacts.
             </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.LParamToPoint(System.Int32)">
+            <summary>
+            <see cref="T:SpaceCG.WindowsAPI.WinUser.WindowProc"/> Arguments lParam
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.LParamToPoint(System.IntPtr)">
+            <summary>
+            <see cref="T:SpaceCG.WindowsAPI.WinUser.WindowProc"/> Arguments lParam
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
         </member>
         <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.SetWindowPos(System.IntPtr,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.UInt32)">
             <summary>
@@ -8264,13 +8642,13 @@
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowrgn </para>
             </summary>
             <param name="hWnd">要设置其窗口区域的窗口的句柄。</param>
-            <param name="hRgn">[HRGN] 区域的句柄。该功能将窗口的窗口区域设置为此区域。如果 hRgn 为NULL，则该函数将窗口区域设置为NULL。</param>
+            <param name="hRgn">[HRGN] 区域的句柄。该功能将窗口的窗口区域设置为此区域。如果 hRgn 为 NULL，则该函数将窗口区域设置为 NULL。</param>
             <param name="bRedraw">指定在设置窗口区域后系统是否重画窗口。如果bRedraw为TRUE，则系统将这样做；否则，事实并非如此。通常，如果窗口可见，则将bRedraw设置为TRUE。</param>
             <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。</returns>
         </member>
         <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.GetWindowRgn(System.IntPtr,SpaceCG.WindowsAPI.RECT@)">
             <summary>
-            获得一个窗口的窗口区域的副本。通过调用SetWindowRgn函数来设置窗口的窗口区域。窗口区域确定系统允许绘图的窗口区域。系统不会显示位于窗口区域之外的窗口的任何部分。
+            获得一个窗口的窗口区域的副本。通过调用 SetWindowRgn 函数来设置窗口的窗口区域。窗口区域确定系统允许绘图的窗口区域。系统不会显示位于窗口区域之外的窗口的任何部分。
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowrgn </para>
             </summary>
             <param name="hWnd">要获取其窗口区域的窗口句柄</param>
@@ -8461,6 +8839,25 @@
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcapture </para>
             </summary>
             <returns>返回值是与当前线程关联的捕获窗口的句柄。如果线程中没有窗口捕获到鼠标，则返回值为 NULL。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.SetCapture(System.IntPtr)">
+            <summary>
+            将鼠标捕获设置为属于当前线程的指定窗口。当鼠标悬停在捕获窗口上方时，或者当鼠标悬停在捕获窗口上方且按钮仍处于按下状态时，按下鼠标按钮时，SetCapture 捕获鼠标输入。一次只能捕获一个窗口。
+            <para>如果鼠标光标位于另一个线程创建的窗口上，则仅当按下鼠标按钮时，系统才会将鼠标输入定向到指定的窗口。</para>
+            <para>只有前景窗口可以捕获鼠标。当后台窗口尝试这样做时，该窗口仅接收有关光标热点位于窗口可见部分之内时发生的鼠标事件的消息。同样，即使前景窗口捕获了鼠标，用户仍然可以单击另一个窗口，将其置于前景。</para>
+            <para>当窗口不再需要所有鼠标输入时，创建窗口的线程应调用 ReleaseCapture 函数来释放鼠标。此功能不能用于捕获用于其他进程的鼠标输入。捕获鼠标后，菜单热键和其他键盘加速器不起作用。</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcapture?redirectedfrom=MSDN </para>
+            </summary>
+            <param name="hWnd">当前线程中要捕获鼠标的窗口的句柄。</param>
+            <returns>返回值是先前捕获鼠标的窗口的句柄。如果没有这样的窗口，则返回值为NULL。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.ReleaseCapture">
+            <summary>
+            从当前线程的窗口中释放鼠标捕获，并恢复正常的鼠标输入处理。捕获光标的窗口将接收所有鼠标输入，而与光标的位置无关，除非在光标热点位于另一个线程的窗口中时单击鼠标按钮。
+            <para>应用程序在调用 SetCapture 函数之后调用此函数。</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasecapture?redirectedfrom=MSDN </para>
+            </summary>
+            <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用GetLastError。</returns>
         </member>
         <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.EnumWindows(SpaceCG.WindowsAPI.WinUser.EnumWindowsProc,System.IntPtr)">
             <summary>
@@ -8717,7 +9114,7 @@
             <param name="hInstance"></param>
             <param name="lpParam">[LPVOID]</param>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.CreateWindowEx(System.Int32,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.IntPtr,System.IntPtr,System.Object)">
+        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.CreateWindowEx(System.UInt32,System.String,System.String,System.UInt32,System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.IntPtr,System.IntPtr,System.Object)">
             <summary>
             创建具有扩展窗口样式的重叠窗口，弹出窗口或子窗口；否则，此函数与 CreateWindow 函数相同。
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindowexa </para>
@@ -8783,7 +9180,7 @@
             <param name="pfwi">[PFLASHWINFO] 指向 <see cref="T:SpaceCG.WindowsAPI.WinUser.FLASHINFO"/> 结构的指针</param>
             <returns>返回值指定在调用 FlashWindowEx 函数之前窗口的状态 。如果在调用之前将窗口标题绘制为活动窗口，则返回值为非零。否则，返回值为零。</returns>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.AnimateWindow(System.IntPtr,System.Int32,SpaceCG.WindowsAPI.WinUser.AwFlag)">
+        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.AnimateWindow(System.IntPtr,System.UInt32,SpaceCG.WindowsAPI.WinUser.AwFlag)">
             <summary>
             在显示或隐藏窗口时使您产生特殊效果。动画有四种类型：滚动，滑动，折叠或展开以及alpha混合淡入。
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-animatewindow </para>
@@ -9355,7 +9752,7 @@
         </member>
         <member name="M:SpaceCG.SpaceCGUtils.RemoveAnonymousEvents(System.Object,System.String)">
             <summary>
-            移除对象的匿名事件（Lambda 表达式 或 匿名方法来创建 的 匿名函数）
+            移除对象的匿名委托事件（Lambda 表达式 或 匿名方法来创建 的 匿名函数）
             </summary>
             <param name="instanceObj">对象实例</param>
             <param name="eventName">对象事件名称</param>

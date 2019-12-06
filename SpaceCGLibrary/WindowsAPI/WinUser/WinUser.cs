@@ -12,6 +12,7 @@ namespace SpaceCG.WindowsAPI.WinUser
     /// <para>如果窗口类是使用 ANSI 版本的 RegisterClass（RegisterClassA）注册的，则窗口的字符集是 ANSI。如果窗口类是使用 Unicode 版本的 RegisterClass（RegisterClassW）注册的，则窗口的字符集为 Unicode。</para>
     /// <para>LPCTSTR，LPWSTR, PTSTR, LPTSTR，L表示long指针，P表示这是一个指针，T表示 _T宏 这个宏用来表示你的字符是否使用 UNICODE, 如果你的程序定义了 UNICODE 或者其他相关的宏，那么这个字符或者字符串将被作为 UNICODE 字符串，否则就是标准的 ANSI 字符串。C表示是一个常量const。STR表示这个变量是一个字符串。</para>
     /// <para>参考： https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ </para>
+    /// <para>本机互操作性：https://docs.microsoft.com/zh-cn/dotnet/standard/native-interop/ </para>
     /// </summary>
     public static partial class WinUser
     {
@@ -301,6 +302,26 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <returns>返回值是与当前线程关联的捕获窗口的句柄。如果线程中没有窗口捕获到鼠标，则返回值为 NULL。</returns>
         [DllImport(DLL_NAME)]
         public static extern IntPtr GetCapture();
+        /// <summary>
+        /// 将鼠标捕获设置为属于当前线程的指定窗口。当鼠标悬停在捕获窗口上方时，或者当鼠标悬停在捕获窗口上方且按钮仍处于按下状态时，按下鼠标按钮时，SetCapture 捕获鼠标输入。一次只能捕获一个窗口。
+        /// <para>如果鼠标光标位于另一个线程创建的窗口上，则仅当按下鼠标按钮时，系统才会将鼠标输入定向到指定的窗口。</para>
+        /// <para>只有前景窗口可以捕获鼠标。当后台窗口尝试这样做时，该窗口仅接收有关光标热点位于窗口可见部分之内时发生的鼠标事件的消息。同样，即使前景窗口捕获了鼠标，用户仍然可以单击另一个窗口，将其置于前景。</para>
+        /// <para>当窗口不再需要所有鼠标输入时，创建窗口的线程应调用 ReleaseCapture 函数来释放鼠标。此功能不能用于捕获用于其他进程的鼠标输入。捕获鼠标后，菜单热键和其他键盘加速器不起作用。</para>
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcapture?redirectedfrom=MSDN </para>
+        /// </summary>
+        /// <param name="hWnd">当前线程中要捕获鼠标的窗口的句柄。</param>
+        /// <returns>返回值是先前捕获鼠标的窗口的句柄。如果没有这样的窗口，则返回值为NULL。</returns>
+        [DllImport(DLL_NAME)]
+        public static extern IntPtr SetCapture(IntPtr hWnd);
+        /// <summary>
+        /// 从当前线程的窗口中释放鼠标捕获，并恢复正常的鼠标输入处理。捕获光标的窗口将接收所有鼠标输入，而与光标的位置无关，除非在光标热点位于另一个线程的窗口中时单击鼠标按钮。
+        /// <para>应用程序在调用 SetCapture 函数之后调用此函数。</para>
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasecapture?redirectedfrom=MSDN </para>
+        /// </summary>
+        /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用GetLastError。</returns>
+        [DllImport(DLL_NAME, SetLastError = true)]
+        public static extern bool ReleaseCapture();
+
         #endregion
 
 
@@ -341,8 +362,8 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// </param>
         /// <param name="lpWindowName">[LPCSTR]窗口名称（窗口标题）。如果此参数为 NULL，则所有窗口名称均匹配。</param>
         /// <returns>如果函数成功，返回值为具有指定类名和窗口名的窗口句柄；如果函数失败，返回值为 NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
-        [DllImport(DLL_NAME, EntryPoint = "FindWindow", SetLastError = true)]
-        public extern static IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport(DLL_NAME, EntryPoint = "FindWindow", SetLastError = true, ExactSpelling = true)]
+        public extern static IntPtr FindWindow([MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName);
         /// <summary>
         /// [建议不使用该函数] 检索顶级窗口的句柄，该窗口的类名和窗口名与指定的字符串匹配。此功能不搜索子窗口。此功能不执行区分大小写的搜索。
         /// <para>要从指定的子窗口开始搜索子窗口，请使用 FindWindowEx 函数。</para>
@@ -588,7 +609,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <param name="lpParam"></param>
         /// <returns></returns>
         [DllImport(DLL_NAME, EntryPoint = "CreateWindowEx", SetLastError = true)]
-        public static extern IntPtr CreateWindowEx(int dwExStyle, string lpClassName, string lpWindowName, int dwStyle, int x, int y, int width, int height,
+        public static extern IntPtr CreateWindowEx(uint dwExStyle, string lpClassName, string lpWindowName, uint dwStyle, int x, int y, int width, int height,
                                               IntPtr hwndParent, IntPtr hMenu, IntPtr hInstance, [MarshalAs(UnmanagedType.AsAny)] object lpParam);
         /// <summary>
         /// 最小化（但不破坏）指定的窗口。
@@ -650,7 +671,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <param name="dwFlags">动画的类型 <see cref="AwFlag"/></param>
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。获取扩展的错误信息，请调用GetLastError函数。</returns>
         [DllImport(DLL_NAME, SetLastError = true)]
-        public static extern bool AnimateWindow(IntPtr hWnd, int dwTime, AwFlag dwFlags);
+        public static extern bool AnimateWindow(IntPtr hWnd, uint dwTime, AwFlag dwFlags);
         #endregion
 
         
@@ -696,7 +717,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// </summary>
         /// <returns>返回 DPI 值</returns>
         [DllImport(DLL_NAME)]
-        public static extern int GetDpiForSystem();
+        public static extern uint GetDpiForSystem();
         /// <summary>
         /// 返回关联窗口的每英寸点数（dpi）值。
         /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdpiforwindow </para>
@@ -704,7 +725,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <param name="hWnd"></param>
         /// <returns>窗口的DPI取决于窗口的 DPI_AWARENESS。有关更多信息，请参见备注。无效的hwnd值将导致返回值为0。</returns>
         [DllImport(DLL_NAME)]
-        public static extern int GetDpiForWindow(IntPtr hWnd);
+        public static extern uint GetDpiForWindow(IntPtr hWnd);
         #endregion
 
 

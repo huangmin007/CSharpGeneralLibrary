@@ -42,15 +42,15 @@ namespace SpaceCG.Extension
             string[] cfg = config.Replace(" ", "").Split(',');
 
             if (cfg.Length == 1)
-                serialPort = new SerialPort(cfg[0], 9600);
+                serialPort = new SerialPort(cfg[0].ToUpper(), 9600);
             else if (cfg.Length == 2)
-                serialPort = new SerialPort(cfg[0], int.Parse(cfg[1]));
+                serialPort = new SerialPort(cfg[0].ToUpper(), int.Parse(cfg[1]));
             else if (cfg.Length == 3)
-                serialPort = new SerialPort(cfg[0], int.Parse(cfg[1]), (Parity)Enum.Parse(typeof(Parity), cfg[2]));
+                serialPort = new SerialPort(cfg[0].ToUpper(), int.Parse(cfg[1]), (Parity)Enum.Parse(typeof(Parity), cfg[2]));
             else if (cfg.Length == 4)
-                serialPort = new SerialPort(cfg[0], int.Parse(cfg[1]), (Parity)Enum.Parse(typeof(Parity), cfg[2]), int.Parse(cfg[3]));
+                serialPort = new SerialPort(cfg[0].ToUpper(), int.Parse(cfg[1]), (Parity)Enum.Parse(typeof(Parity), cfg[2]), int.Parse(cfg[3]));
             else if (cfg.Length == 5)
-                serialPort = new SerialPort(cfg[0], int.Parse(cfg[1]), (Parity)Enum.Parse(typeof(Parity), cfg[2]), int.Parse(cfg[3]), (StopBits)Enum.Parse(typeof(StopBits), cfg[4]));
+                serialPort = new SerialPort(cfg[0].ToUpper(), int.Parse(cfg[1]), (Parity)Enum.Parse(typeof(Parity), cfg[2]), int.Parse(cfg[3]), (StopBits)Enum.Parse(typeof(StopBits), cfg[4]));
             else
                 throw new ArgumentException($"串口配置错误:[{config}]");
 

@@ -3,6 +3,7 @@ using SpaceCG.WindowsAPI.WinUser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,14 @@ namespace SpaceCG.Examples
     public class HwndSourceExample:IDisposable
     {
         HwndSource hwndSource;
+
+
+        public void Dispose()
+        {
+            if(hwndSource != null)
+                hwndSource.Dispose();
+        }
+
 
         public HwndSourceExample()
         {
@@ -28,11 +37,6 @@ namespace SpaceCG.Examples
             //HwndSource.FromHwnd(hwnd).AddHook(WindowProcHandler);
         }
 
-        public void Dispose()
-        {
-            hwndSource.Dispose();
-        }
-
         protected IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             MessageType msgType = (MessageType)msg;
@@ -46,18 +50,29 @@ namespace SpaceCG.Examples
                 switch (dbt)
                 {
                     case DeviceBroadcastType.DBT_DEVICEARRIVAL:
-                        Console.WriteLine("Device Arrival");
-                        break;
-
                     case DeviceBroadcastType.DBT_DEVICEREMOVECOMPLETE:
-                        Console.WriteLine("Device Move Complete");
+                        Console.WriteLine(dbt == DeviceBroadcastType.DBT_DEVICEARRIVAL ? "Device Arrival" : "Device Move Complete");
+
+                        DEV_BROADCAST_HDR hdr = Marshal.PtrToStructure<DEV_BROADCAST_HDR>(lParam);
+                        Console.WriteLine("{0}", hdr);
+
+                        if (hdr.dbch_devicetype == DeviceType.DBT_DEVTYP_PORT)
+                        {
+                            DEV_BROADCAST_PORT port = Marshal.PtrToStructure<DEV_BROADCAST_PORT>(lParam);
+                            Console.WriteLine(port);
+                        }
+                        if (hdr.dbch_devicetype == DeviceType.DBT_DEVTYP_VOLUME)
+                        {
+                            DEV_BROADCAST_VOLUME volume = Marshal.PtrToStructure<DEV_BROADCAST_VOLUME>(lParam);
+                            Console.WriteLine(volume);
+                        }
                         break;
 
                     default:
                         break;
                 }
-                handled = true; //这里有一个引用传递的参数handled ，处理消息后设置为true 告诉系统这个消息已经处理过了。
 
+                handled = true;
             }
 
             return IntPtr.Zero;

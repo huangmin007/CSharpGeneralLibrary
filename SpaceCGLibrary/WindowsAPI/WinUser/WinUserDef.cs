@@ -1,4 +1,5 @@
 ﻿
+using SpaceCG.WindowsAPI.DBT;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
@@ -1635,6 +1636,7 @@ namespace SpaceCG.WindowsAPI.WinUser
 
     /// <summary>
     /// RegisterHotKey 函数参数 fsModifiers 的值之一或值组合
+    /// <para>OR <see cref="MessageType.WM_HOTKEY"/> lParam</para>
     /// <para>参考 https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerhotkey </para>
     /// </summary>
     [Flags]
@@ -1731,10 +1733,11 @@ namespace SpaceCG.WindowsAPI.WinUser
     }
 
     /// <summary>
-    /// Key State Masks for Mouse Messages
+    /// Key State Masks for Mouse Messages (wParam)
+    /// <para>MessageType WM_MouseXXX wParam value type</para>
     /// </summary>
     [Flags]
-    public enum KeyStateMasks
+    public enum MouseKey
     {
         /// <summary>
         /// </summary>
@@ -1758,6 +1761,8 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// </summary>
         MK_XBUTTON2 = 0x0040,
     }
+
+
     #endregion
 
 
@@ -2157,9 +2162,15 @@ namespace SpaceCG.WindowsAPI.WinUser
     }
 
     /// <summary>
-    /// Windows Message Type, <see cref="MSG"/> 结构体字段 <see cref="MSG.message"/> 的值之一或值组合
-    /// <para>Win 消息标志信息 </para>
+    /// Windows Message Type (Window消息类型)
+    /// <para><see cref="MSG"/> 结构体字段 <see cref="MSG.message"/> 的值之一或值组合</para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues?redirectedfrom=MSDN </para>
+    /// <para>消息类型：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues?redirectedfrom=MSDN#message-types </para>
+    /// <para>窗口类消息：https://docs.microsoft.com/en-us/windows/win32/winmsg/window-notifications </para>
+    /// <para>原生类消息：https://docs.microsoft.com/en-us/windows/win32/inputdev/raw-input-notifications </para>
+    /// <para>键盘类消息：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
+    /// <para>鼠标类消息：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+    /// <para>钩子类消息：https://docs.microsoft.com/en-us/windows/win32/winmsg/hook-notifications </para>
     /// </summary>
     public enum MessageType
     {
@@ -2168,15 +2179,16 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// </summary>
         WM_NULL = 0x00,
         /// <summary>
-        ///创建一个窗口
+        /// 创建一个窗口
         /// </summary>
         WM_CREATE = 0x01,
         /// <summary>
-        ///当一个窗口被破坏时发送
+        /// 当一个窗口被破坏时发送
         /// </summary>
         WM_DESTROY = 0x02,
         /// <summary>
-        ///移动一个窗口
+        /// 在移动窗口后发送。
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/winmsg/wm-move </para>
         /// </summary>
         WM_MOVE = 0x03,
         /// <summary>
@@ -2184,15 +2196,15 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// </summary>
         WM_SIZE = 0x05,
         /// <summary>
-        ///一个窗口被激活或失去激活状态
+        /// 一个窗口被激活或失去激活状态
         /// </summary>
         WM_ACTIVATE = 0x06,
         /// <summary>
-        ///一个窗口获得焦点
+        /// 一个窗口获得焦点
         /// </summary>
         WM_SETFOCUS = 0x07,
         /// <summary>
-        ///一个窗口失去焦点
+        /// 一个窗口失去焦点
         /// </summary>
         WM_KILLFOCUS = 0x08,
         /// <summary>
@@ -2514,44 +2526,58 @@ namespace SpaceCG.WindowsAPI.WinUser
         WM_NCXBUTTONDOWN = 0xAB,
         WM_NCXBUTTONUP = 0xAC,
         WM_NCXBUTTONDBLCLK = 0xAD,
+
+        /// <summary>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/raw-input-notifications </para>
+        /// </summary>
         WM_INPUT_DEVICE_CHANGE = 0xFE,
+        /// <summary>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/raw-input-notifications </para>
+        /// </summary>
         WM_INPUT = 0xFF,
         /// <summary>
-        ///WM_KEYDOWN 按下一个键
+        /// WM_KEYDOWN 按下一个键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
         /// </summary>
         WM_KEYDOWN = 0x0100,
         /// <summary>
-        ///释放一个键
+        /// 释放一个键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
         /// </summary>
         WM_KEYUP = 0x0101,
         /// <summary>
-        ///按下某键，并已发出WM_KEYDOWN， WM_KEYUP消息
+        /// 按下某键，并已发出WM_KEYDOWN， WM_KEYUP消息
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
         /// </summary>
         WM_CHAR = 0x102,
         /// <summary>
-        ///当用translatemessage函数翻译WM_KEYUP消息时发送此消息给拥有焦点的窗口
+        /// 当用translatemessage函数翻译WM_KEYUP消息时发送此消息给拥有焦点的窗口
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
         /// </summary>
         WM_DEADCHAR = 0x103,
         /// <summary>
-        ///当用户按住ALT键同时按下其它键时提交此消息给拥有焦点的窗口
+        /// 当用户按住ALT键同时按下其它键时提交此消息给拥有焦点的窗口
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
         /// </summary>
         WM_SYSKEYDOWN = 0x104,
         /// <summary>
-        ///当用户释放一个键同时ALT 键还按着时提交此消息给拥有焦点的窗口
+        /// 当用户释放一个键同时ALT 键还按着时提交此消息给拥有焦点的窗口
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
         /// </summary>
         WM_SYSKEYUP = 0x105,
         /// <summary>
-        ///当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后提交此消息给拥有焦点的窗口
+        /// 当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后提交此消息给拥有焦点的窗口
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
         /// </summary>
         WM_SYSCHAR = 0x106,
         /// <summary>
-        ///当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后发送此消息给拥有焦点的窗口
+        /// 当WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函数翻译后发送此消息给拥有焦点的窗口
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
         /// </summary>
         WM_SYSDEADCHAR = 0x107,
         //WM_KEYLAST = 0x108,
         //WM_UNICHAR      =                0x0109,
         //WM_KEYLAST      =                0x0109,
-        //UNICODE_NOCHAR   =               0xFFFF,
 
         /// <summary>
         ///在一个对话框程序被显示前发送此消息给它，通常用此消息初始化控件和执行其它任务
@@ -2640,53 +2666,75 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// </summary>
         MN_GETHMENU = 0x1E1,
         /// <summary>
-        ///移动鼠标时发生，同WM_MOUSEFIRST
+        /// 移动鼠标时发生，同WM_MOUSEFIRST
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_MOUSEMOVE = 0x200,
         /// <summary>
-        ///按下鼠标左键
+        /// 按下鼠标左键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_LBUTTONDOWN = 0x201,
         /// <summary>
-        ///释放鼠标左键
+        /// 释放鼠标左键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_LBUTTONUP = 0x202,
         /// <summary>
-        ///双击鼠标左键
+        /// 双击鼠标左键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_LBUTTONDBLCLK = 0x203,
         /// <summary>
-        ///按下鼠标右键
+        /// 按下鼠标右键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_RBUTTONDOWN = 0x204,
         /// <summary>
-        ///释放鼠标右键
+        /// 释放鼠标右键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_RBUTTONUP = 0x205,
         /// <summary>
-        ///双击鼠标右键
+        /// 双击鼠标右键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_RBUTTONDBLCLK = 0x206,
         /// <summary>
-        ///按下鼠标中键
+        /// 按下鼠标中键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_MBUTTONDOWN = 0x207,
         /// <summary>
-        ///释放鼠标中键
+        /// 释放鼠标中键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_MBUTTONUP = 0x208,
         /// <summary>
-        ///双击鼠标中键
+        /// 双击鼠标中键
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_MBUTTONDBLCLK = 0x209,
         /// <summary>
-        ///当鼠标轮子转动时发送此消息个当前有焦点的控件
+        /// 当鼠标轮子转动时发送此消息个当前有焦点的控件
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
         /// </summary>
         WM_MOUSEWHEEL = 0x20A,
-
+        /// <summary>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+        /// </summary>
         WM_XBUTTONDOWN = 0x020B,
+        /// <summary>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+        /// </summary>
         WM_XBUTTONUP = 0x020C,
+        /// <summary>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+        /// </summary>
         WM_XBUTTONDBLCLK = 0x020D,
+        /// <summary>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+        /// </summary>
         WM_MOUSEHWHEEL = 0x020E,
 
         WM_PARENTNOTIFY = 0x0210,
@@ -2694,12 +2742,19 @@ namespace SpaceCG.WindowsAPI.WinUser
         WM_EXITMENULOOP = 0x0212,
         WM_NEXTMENU = 0x0213,
         WM_SIZING = 0x0214,
+
+        /// <summary>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/mouse-input-notifications </para>
+        /// </summary>
         WM_CAPTURECHANGED = 0x0215,
         WM_MOVING = 0x0216,
         WM_POWERBROADCAST = 0x0218,
 
         /// <summary>
         /// Device Change
+        /// <para>wParam <see cref="DeviceBroadcastType"/></para>
+        /// <para>lParm <see cref="DEV_BROADCAST_HDR"/></para>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/devio/wm-devicechange </para>
         /// </summary>
         WM_DEVICECHANGE = 0x219,
 
@@ -2783,7 +2838,9 @@ namespace SpaceCG.WindowsAPI.WinUser
         WM_PALETTEISCHANGING = 0x0310,
         WM_PALETTECHANGED = 0x0311,
         /// <summary>
-        /// Hot Key
+        /// Hot Key, WM_HOTKEY 与 WM_GETHOTKEY 和 WM_SETHOTKEY 热键无关。该 WM_HOTKEY 消息被用于通用的热键发送而 WM_SETHOTKEY 和 WM_GETHOTKEY 消息涉及窗口激活热键。
+        /// <para>lParam <see cref="RhkModifier"/></para>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/inputdev/keyboard-input-notifications </para>
         /// </summary>
         WM_HOTKEY = 0x0312,
 
@@ -2806,7 +2863,6 @@ namespace SpaceCG.WindowsAPI.WinUser
         WM_PENWINFIRST = 0x0380,
         WM_PENWINLAST = 0x038F,
         
-
         /// <summary>
         /// user
         /// </summary>
@@ -2836,6 +2892,25 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// 最大同时触摸常量数,Specifies the maximum number of simultaneous contacts.
         /// </summary>
         public const uint MAX_TOUCH_COUNT = 256;
+
+        /// <summary>
+        /// <see cref="WindowProc"/> Arguments lParam
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static POINT LParamToPoint(int value)
+        {
+            return new POINT(value & 0xFFFF, value >> 16);
+        }
+        /// <summary>
+        /// <see cref="WindowProc"/> Arguments lParam
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static POINT LParamToPoint(IntPtr value)
+        {
+            return LParamToPoint(value.ToInt32());
+        }
     }
 
 }

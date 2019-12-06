@@ -17,7 +17,7 @@ namespace SpaceCG.Examples
         /// 只运行一个实体对象
         /// <para>Main 函数</para>
         /// </summary>
-        public static void Main()
+        public static void Main_x()
         {
             bool createNew;
             System.Threading.Mutex run = new System.Threading.Mutex(true, "MutexNameOrAppNameOrOther", out createNew);
