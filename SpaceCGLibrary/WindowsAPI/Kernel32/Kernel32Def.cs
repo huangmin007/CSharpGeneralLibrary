@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace SpaceCG.WindowsAPI.Kernel32
 {
+    /// <summary>
+    /// 系统时间类
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public sealed class SystemTimeClass
     {
@@ -54,6 +57,9 @@ namespace SpaceCG.WindowsAPI.Kernel32
         }
     }
 
+    /// <summary>
+    /// 系统时间结构
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct SystemTimeStruct
     {
@@ -92,6 +98,51 @@ namespace SpaceCG.WindowsAPI.Kernel32
     }
 
     /// <summary>
+    /// <see cref="Kernel32.FormatMessage"/> 函数参数 dwFlags 一个或多个值。
+    /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-formatmessage </para>
+    /// </summary>
+    [Flags]
+    public enum FmFlag
+    {
+        /// <summary>
+        /// 没有输出线宽限制。该函数将消息定义文本中的换行符存储到输出缓冲区中。
+        /// </summary>
+        FORMAT_MESSAGE_NONE = 0x00000000,
+        /// <summary>
+        /// 该函数分配一个足以容纳格式化消息的缓冲区，并在 lpBuffer 指定的地址处放置一个指向已分配缓冲区的指针 的 lpBuffer 参数是一个指向 LPTSTR ; 您必须将指针强制转换为 LPTSTR。所述 n 大小 参数指定的最小数目 TCHARS 分配用于输出消息缓冲器。 
+        /// <para>当不再需要缓冲区时，调用者应使用 LocalFree 函数释放缓冲区。如果格式化消息的长度超过 128K 字节，则 FormatMessage 将失败，随后对 GetLastError 的调用 将返回 ERROR_MORE_DATA。</para>
+        /// </summary>
+        FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100,
+        /// <summary>
+        /// 消息定义中的插入序列将被忽略，并原样传递到输出缓冲区。该标志对于获取消息以供以后格式化很有用。如果设置了此标志，则 Arguments 参数将被忽略。
+        /// </summary>
+        FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200,
+        /// <summary>
+        /// 所述 lpSource 参数是一个指向包含一个消息定义一个空终止字符串。消息定义可以包含插入序列，就像消息表资源中的消息文本可能一样。该标志不能与 FORMAT_MESSAGE_FROM_HMODULE 或 FORMAT_MESSAGE_FROM_SYSTEM 一起使用 。
+        /// </summary>
+        FORMAT_MESSAGE_FROM_STRING = 0x00000400,
+        /// <summary>
+        /// 所述 lpSource 参数是包含该消息表资源（多个），以搜寻模块句柄。如果此 lpSource 句柄为 NULL，则将搜索当前进程的应用程序映像文件。该标志不能与 FORMAT_MESSAGE_FROM_STRING 一起使用 。
+        /// <para>如果模块没有消息表资源，则该函数将失败，并显示 ERROR_RESOURCE_TYPE_NOT_FOUND。</para>
+        /// </summary>
+        FORMAT_MESSAGE_FROM_HMODULE = 0x00000800,
+        /// <summary>
+        /// 该功能应在系统消息表资源中搜索所请求的消息。如果使用 FORMAT_MESSAGE_FROM_HMODULE 指定了此标志，则如果在 lpSource 指定的模块中找不到消息，该函数将搜索系统消息表。该标志不能与 FORMAT_MESSAGE_FROM_STRING 一起使用。
+        /// <para>如果指定了此标志，则应用程序可以传递 GetLastError 函数的结果 以检索系统定义的错误的消息文本。</para>
+        /// </summary>
+        FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000,
+        /// <summary>
+        /// 的参数参数不是 va_list 的 结构，但它是一个指针，它指向表示参数值的数组。
+        /// <para>该标志不能与 64 位整数值一起使用。如果使用的是64位整数，则必须使用 va_list 结构。</para>
+        /// </summary>
+        FORMAT_MESSAGE_ARGUMENT_ARRAY = 0x00002000,
+        /// <summary>
+        /// 该函数将忽略消息定义文本中的常规换行符。该函数将消息定义文本中的硬编码换行符存储到输出缓冲区中。该函数不会产生新的换行符。
+        /// </summary>
+        FORMAT_MESSAGE_MAX_WIDTH_MASK = 0x000000FF,
+    }
+
+    /// <summary>
     /// SECURITY_ATTRIBUTES 结构包含安全描述符的对象，并指定通过指定该结构中检索所述手柄是否是继承。此结构为由各种功能（例如 CreateFile，CreatePipe，CreateProcess，RegCreateKeyEx 或 RegSaveKeyEx）创建的对象提供安全设置。
     /// SECURITY_ATTRIBUTES, *PSECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
     /// <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa379560(v=vs.85) </para>
@@ -113,6 +164,23 @@ namespace SpaceCG.WindowsAPI.Kernel32
         /// 一个布尔值，它指定在创建新进程时是否继承返回的句柄。如果此成员为 TRUE，则新进程将继承该句柄。
         /// </summary>
         public bool bInheritHandle;
+        /// <summary>
+        /// Create new SECURITY_ATTRIBUTES
+        /// </summary>
+        /// <returns></returns>
+        public static SECURITY_ATTRIBUTES Create()
+        {
+            return new SECURITY_ATTRIBUTES() { nLength = Marshal.SizeOf<SECURITY_ATTRIBUTES>() };
+        }
+
+        /// <summary>
+        /// @ToString()
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"{nLength}, {lpSecurityDescriptor}, {bInheritHandle}";
+        }
     }
 
     /// <summary>

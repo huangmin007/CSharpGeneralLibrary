@@ -11,12 +11,12 @@ namespace SpaceCG.WindowsAPI.WinUser
     /// <para>#ifdef UNICODE #define Function FunctionA #else #define Function FunctionW #endif</para>
     /// <para>如果窗口类是使用 ANSI 版本的 RegisterClass（RegisterClassA）注册的，则窗口的字符集是 ANSI。如果窗口类是使用 Unicode 版本的 RegisterClass（RegisterClassW）注册的，则窗口的字符集为 Unicode。</para>
     /// <para>LPCTSTR，LPWSTR, PTSTR, LPTSTR，L表示long指针，P表示这是一个指针，T表示 _T宏 这个宏用来表示你的字符是否使用 UNICODE, 如果你的程序定义了 UNICODE 或者其他相关的宏，那么这个字符或者字符串将被作为 UNICODE 字符串，否则就是标准的 ANSI 字符串。C表示是一个常量const。STR表示这个变量是一个字符串。</para>
-    /// <para>参考： https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ </para>
+    /// <para>LPTSTR => ref string, </para>
+    /// <para>参考： https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/  头文件目录：C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um </para>
     /// <para>本机互操作性：https://docs.microsoft.com/zh-cn/dotnet/standard/native-interop/ </para>
     /// </summary>
     public static partial class WinUser
     {
-
         #region Set Window x,y,z,width,height
         /// <summary>
         /// [原子函数] 更改子窗口，弹出窗口或顶级窗口的大小，位置和Z顺序；这些窗口是根据其在屏幕上的外观排序的；最顶部的窗口获得最高排名，并且是Z顺序中的第一个窗口。
@@ -98,7 +98,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <param name="bRedraw">指定在设置窗口区域后系统是否重画窗口。如果bRedraw为TRUE，则系统将这样做；否则，事实并非如此。通常，如果窗口可见，则将bRedraw设置为TRUE。</param>
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。</returns>
         [DllImport(DLL_NAME)]
-        public static extern int SetWindowRgn(IntPtr hWnd, ref RECT hRgn, bool bRedraw);
+        public static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
         /// <summary>
         /// 获得一个窗口的窗口区域的副本。通过调用 SetWindowRgn 函数来设置窗口的窗口区域。窗口区域确定系统允许绘图的窗口区域。系统不会显示位于窗口区域之外的窗口的任何部分。
         /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowrgn </para>
@@ -107,7 +107,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <param name="hRgn">[HRGN] 处理将被修改为代表窗口区域的区域</param>
         /// <returns>返回 <see cref="GwrResult"/> 之一的结果。 </returns>
         [DllImport(DLL_NAME)]
-        public static extern int GetWindowRgn(IntPtr hWnd, out RECT hRgn);
+        public static extern int GetWindowRgn(IntPtr hWnd, IntPtr hRgn);
         /// <summary>
         /// 检索指定窗口的边界矩形的尺寸。尺寸以相对于屏幕左上角的屏幕坐标给出。
         /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowrect </para>
@@ -116,7 +116,16 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <param name="lpRect">指向一个 <see cref="RECT"/> 结构的指针，该结构接收窗口的左上角和右下角的屏幕坐标</param>
         /// <returns>如果函数成功，返回值为非零：如果函数失败，返回值为零</returns>
         [DllImport(DLL_NAME)]
-        public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+        public static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+        /// <summary>
+        /// 检索窗口的工作区的坐标。客户坐标指定客户区域的左上角和右下角。因为客户坐标是相对于窗口客户区的左上角的，所以左上角的坐标是（0,0）。
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclientrect?redirectedfrom=MSDN </para>
+        /// </summary>
+        /// <param name="hWnd">要获取其客户坐标的窗口的句柄。</param>
+        /// <param name="lpRect">指向接收客户坐标的 RECT 结构的指针。在左和顶级成员是零。的右和底部构件包含该窗口的宽度和高度。</param>
+        /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用GetLastError。</returns>
+        [DllImport(DLL_NAME, SetLastError = true)]
+        public static extern bool GetClientRect(IntPtr hWnd, ref RECT lpRect);
         #endregion
 
 
@@ -327,6 +336,31 @@ namespace SpaceCG.WindowsAPI.WinUser
 
         #region Window Find OR Enum
         /// <summary>
+        /// 检索与指定窗口具有指定关系（Z顺序或所有者）的窗口的句柄。
+        /// <para>#define GetNextWindow(hWnd, wCmd) GetWindow(hWnd, wCmd);//GW_HWNDNEXT,GW_HWNDPREV</para>
+        /// <para>与循环调用 GetWindow 相比，EnumChildWindows 函数更可靠。调用 GetWindow 来执行此任务的应用程序可能会陷入无限循环或引用已被破坏的窗口的句柄。</para>
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindow </para>
+        /// </summary>
+        /// <param name="hWnd">窗口的句柄。基于uCmd参数的值，检索到的窗口句柄是与此窗口相对的。</param>
+        /// <param name="uCmd">指定窗口和要获取其句柄的窗口之间的关系</param>
+        /// <returns>如果函数成功，则返回值为窗口句柄。如果不存在与指定窗口具有指定关系的窗口，则返回值为 NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
+        [DllImport(DLL_NAME, SetLastError = true)]
+        public static extern IntPtr GetWindow(IntPtr hWnd, GwCmd uCmd);
+
+        /// <summary>
+        /// 检索有关指定窗口的信息。
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowinfo?redirectedfrom=MSDN </para>
+        /// </summary>
+        /// <param name="hwnd">要获取其信息的窗口的句柄。</param>
+        /// <param name="pwi">指向 <see cref="WINDOWINFO"/> 结构的指针以接收信息。请注意，在调用此函数之前，必须将 cbSize 成员设置为 sizeof(WINDOWINFO)。</param>
+        /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。
+        ///     <para>要获取扩展的错误信息，请调用 GetLastError。</para>
+        /// </returns>
+        [DllImport(DLL_NAME, SetLastError = true)]
+        public static extern bool GetWindowInfo(IntPtr hwnd, ref WINDOWINFO pwi);
+
+
+        /// <summary>
         /// 通过将句柄传递给每个窗口，依次传递到应用程序定义的回调函数，可以枚举屏幕上所有的顶级窗口。EnumWindows 继续，直到枚举最后一个顶级窗口或回调函数返回 FALSE 为止。
         /// <para>该 EnumWindows 的功能不枚举子窗口，与由拥有该系统拥有一些顶层窗口除外 WS_CHILD 风格。</para>
         /// <para>该函数比循环调用 GetWindow 函数更可靠。调用 GetWindow 来执行此任务的应用程序可能会陷入无限循环或引用已被破坏的窗口的句柄。</para>
@@ -414,7 +448,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         #endregion
 
 
-        #region Window Name Or Class Name
+        #region Window Name Or Class Name        
         /// <summary>
         /// 检索指定窗口所属的类的名称。
         /// <para>GetClassNameA(LPSTR), GetClassNameW(LPWSTR)，只是参考 lpClassName 字符类型不同</para>

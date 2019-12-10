@@ -8,7 +8,7 @@ namespace SpaceCG.WindowsAPI.DBT
     /// <summary>
     /// Device Broadcast Type
     /// <para><see cref="MessageType.WM_DEVICECHANGE"/> wParam Data, device-change event</para>
-    /// <para>参考： Dbt.h </para>
+    /// <para>参考：C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um  Dbt.h </para>
     /// </summary>
     public enum DeviceBroadcastType
     {
@@ -53,21 +53,36 @@ namespace SpaceCG.WindowsAPI.DBT
         /// CONFIGMG ring 3 call. lParam  = 0
         /// </summary>
         DBT_VXDINITCOMPLETE = 0x0023,
-        /*
-        * Message = WM_DEVICECHANGE
-        * wParam  = DBT_VOLLOCK*
-        * lParam  = pointer to VolLockBroadcast structure described below
-        *
-        *      Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE.
-        *      All these messages pass a pointer to a struct which has no pointers.
-        */
+        /// <summary>
+        /// Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
+        /// <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
+        /// </summary>
         DBT_VOLLOCKQUERYLOCK = 0x8041,
+        /// <summary>
+        /// Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
+        /// <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
+        /// </summary>
         DBT_VOLLOCKLOCKTAKEN = 0x8042,
+        /// <summary>
+        /// Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
+        /// <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
+        /// </summary>
         DBT_VOLLOCKLOCKFAILED = 0x8043,
+        /// <summary>
+        /// Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
+        /// <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
+        /// </summary>
         DBT_VOLLOCKQUERYUNLOCK = 0x8044,
+        /// <summary>
+        /// Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
+        /// <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
+        /// </summary>
         DBT_VOLLOCKLOCKRELEASED = 0x8045,
+        /// <summary>
+        /// Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
+        /// <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
+        /// </summary>
         DBT_VOLLOCKUNLOCKFAILED = 0x8046,
-
         /// <summary>
         /// Message issued by IFS manager when it detects that a drive is run out of free space. lParam = drive number of drive that is out of disk space (1-based)
         /// </summary>
@@ -76,12 +91,10 @@ namespace SpaceCG.WindowsAPI.DBT
         /// lParam  = drive number of drive that is low on disk space (1-based)
         /// </summary>
         DBT_LOW_DISK_SPACE = 0x0048,
-
         /// <summary>
         /// configmg private
         /// </summary>
         DBT_CONFIGMGPRIVATE = 0x7FFF,
-
         /// <summary>
         /// system detected a new device
         /// </summary>
@@ -102,12 +115,10 @@ namespace SpaceCG.WindowsAPI.DBT
         /// type specific event
         /// </summary>
         DBT_DEVICETYPESPECIFIC = 0x8005,
-
         /// <summary>
         /// user-defined event
         /// </summary>
         DBT_CUSTOMEVENT = 0x8006,
-
         /// <summary>
         /// (WIN7) system detected a new device
         /// </summary>
@@ -134,7 +145,7 @@ namespace SpaceCG.WindowsAPI.DBT
     /// <see cref="DEV_BROADCAST_HDR"/> 结构体字段 <see cref="DEV_BROADCAST_HDR.dbch_devicetype"/> 的值之一
     /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ns-dbt-dev_broadcast_hdr </para>
     /// </summary>
-    public enum DeviceType:int
+    public enum DeviceType
     {
         /// <summary>
         /// oem-defined device type, OEM 或 IHV 定义的设备类型。此结构是 <see cref="DEV_BROADCAST_OEM"/> 结构。
@@ -213,7 +224,7 @@ namespace SpaceCG.WindowsAPI.DBT
         /// <summary>
         /// 有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息 。因为 DEV_BROADCAST_USERDEFINED 是可变长度，则mdbch_sizem所述的构件mdbud_dbhm结构必须在整个结构的字节数，包括可变长度部分的大小。
         /// </summary>
-        public DEV_BROADCAST_HDR dbud_dbh;
+        public DEV_BROADCAST_HDR dbud_head;
         /// <summary>
         /// 指向区分大小写，以空字符结尾的字符串的指针，该字符串命名消息。该字符串必须由供应商名称，反斜杠和后面的任意用户定义的以空字符结尾的文本组成。
         /// </summary>
@@ -225,7 +236,7 @@ namespace SpaceCG.WindowsAPI.DBT
         /// <returns></returns>
         public override string ToString()
         {
-            return $"head:{dbud_dbh}, szName:{dbud_szName}";
+            return $"head:{dbud_head}, szName:{dbud_szName}";
         }
     };
 

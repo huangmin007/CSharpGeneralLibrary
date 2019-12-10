@@ -109,7 +109,14 @@ namespace SpaceCG.Extension
             InstanceCreationEvent = null;
             InstanceDeletionEvent = null;
         }
-
+        /// <summary>
+        /// ListenInstanceChange 的异步方法
+        /// </summary>
+        /// <param name="wql_condition"></param>
+        /// <param name="withinInterval"></param>
+        /// <param name="changeCallback"></param>
+        /// <param name="Log"></param>
+        /// <returns></returns>
         public static async Task ListenInstanceChangeAsync(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
         {
             await Task.Run(() => ListenInstanceChange(wql_condition, withinInterval, changeCallback, Log));
@@ -176,6 +183,18 @@ namespace SpaceCG.Extension
         public static void ListenInstanceModification(String wql_condition, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
         {
             ListenInstanceModification(wql_condition, TimeSpan.FromSeconds(1), changeCallback, Log);
+        }
+        /// <summary>
+        /// ListenInstanceModification 的异步方法
+        /// </summary>
+        /// <param name="wql_condition"></param>
+        /// <param name="withinInterval"></param>
+        /// <param name="changeCallback"></param>
+        /// <param name="Log"></param>
+        /// <returns></returns>
+        public static async Task ListenInstanceModificationAsync(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
+        {
+            await Task.Run(() => ListenInstanceModification(wql_condition, withinInterval, changeCallback, Log));
         }
         /// <summary>
         /// 移除监听 "__InstanceModificationEvent" 事件
@@ -319,7 +338,7 @@ namespace SpaceCG.Extension
 
         /// <summary>
         /// 获取当前计算机的 串行端口 完整名称 的数组
-        /// <para>与 <see cref="System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM59)" </para>
+        /// <para>与 <see cref="System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
         /// <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多 WMI 应用需自行参考。</para>
         /// </summary>
         /// <returns></returns>
@@ -338,6 +357,10 @@ namespace SpaceCG.Extension
             }
         }
 
+        /// <summary>
+        /// 异步示例、测试。没啥用的。
+        /// </summary>
+        /// <returns></returns>
         public static async Task<string[]> GetPortNamesAsync()
         {
             return await Task.Run<string[]>(()=> GetPortNamesAsync());

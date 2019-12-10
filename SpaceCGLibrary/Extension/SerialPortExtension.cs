@@ -1,6 +1,11 @@
-﻿using System;
+﻿using SpaceCG.WindowsAPI.DBT;
+using SpaceCG.WindowsAPI.WinUser;
+using System;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Management;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace SpaceCG.Extension
 {
@@ -64,14 +69,17 @@ namespace SpaceCG.Extension
         }
 
         /// <summary>
-        /// 打开串口连接/数据接收。
+        /// 打开串口连接/数据接收，事件采用匿名函数。
+        /// <para>请使用 CloseAndDispose 移除匿名事件、关闭/销毁串口</para>
         /// </summary>
         /// <param name="serialPort"></param>
         /// <param name="receivedCallback"></param>
+        /// <param name="ignoreError">忽略 SerialPort.Open() 异常，为监听设备热插拔自动重新连接做准备 </param>
         /// <param name="Log"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public static void OpenAndListen(this SerialPort serialPort, Action<byte[]> receivedCallback, log4net.ILog Log = null)
+        /// <returns>SerialPort.Open() 成功，返回 true , 反之返回 false .</returns>
+        public static bool OpenAndListen(this SerialPort serialPort, Action<byte[]> receivedCallback, bool ignoreError = true, log4net.ILog Log = null)
         {
             Log?.InfoFormat("Open And Listen Serial Port.");
             if (serialPort == null) throw new ArgumentNullException("串口对象 serialPort 不能为空");
@@ -80,7 +88,7 @@ namespace SpaceCG.Extension
             serialPort.DataReceived += (s, e) =>
             {
                 if (Log != null && Log.IsDebugEnabled)
-                    Log.DebugFormat($"SerialPort_DataReceived  EventType:{e.EventType}  BytesToRead:{serialPort.BytesToRead}");
+                    Log.DebugFormat("SerialPort_DataReceived  EventType:{0}  BytesToRead:{1}", e.EventType, serialPort.BytesToRead);
 
                 int length = -1;
                 byte[] buffer = new byte[serialPort.BytesToRead];
@@ -95,7 +103,7 @@ namespace SpaceCG.Extension
                 }
 
                 if (buffer.Length != length)
-                    Log?.WarnFormat($"串口数据接收不完整，有丢失数据 {buffer.Length - length} byte");
+                    Log?.WarnFormat("串口数据接收不完整，有丢失数据 {0} byte", buffer.Length - length);
 
                 if (length > 0) receivedCallback?.Invoke(buffer);
             };
@@ -103,9 +111,107 @@ namespace SpaceCG.Extension
             {
                 Log?.ErrorFormat($"串口上发生错误：[{e.EventType}:{(int)e.EventType}], Description：{SerialErrorDescriptions[e.EventType]}");
             };
-            serialPort.PinChanged += (s, e) => Console.WriteLine("PinChanged::{0}", e.EventType);
-            serialPort.Open();
+            serialPort.PinChanged += (s, e) => Log?.InfoFormat("PinChanged::{0}", e.EventType);
+            try
+            {
+                serialPort.Open();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                if (!ignoreError) throw ex;
+                return false;
+            }
         }
+
+        /// <summary>
+        /// 设备热插拔自动重新连接
+        /// <para>使用 ManagementEventWatcher WQL 事件监听模式</para>
+        /// </summary>
+        /// <param name="serialPort"></param>
+        /// <param name="Log"></param>
+        public static void AutoReconnection(this SerialPort serialPort, log4net.ILog Log = null)
+        {
+            if (serialPort == null) throw new ArgumentException("参数不能为空");
+            Log?.InfoFormat("ManagementEventWatcher WQL Event Listen SerialPort Name:{0}", serialPort.PortName);
+
+            TimeSpan withinInterval = TimeSpan.FromSeconds(1);
+            string wql_condition = $"TargetInstance isa 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({serialPort.PortName.ToUpper()})'";
+
+            ManagementScope scope = new ManagementScope(@"\\.\Root\CIMV2")
+            {
+                Options = new ConnectionOptions() { EnablePrivileges = true },
+            };
+
+            ManagementEventWatcher CreationEvent = new ManagementEventWatcher(scope, new WqlEventQuery("__InstanceCreationEvent", withinInterval, wql_condition));
+            CreationEvent.EventArrived += (s, e) =>
+            {
+                if (!serialPort.IsOpen) serialPort.Open();
+                Log?.InfoFormat("Instance Creation Event SerialPort Name:{0}", serialPort.PortName);
+            };
+            ManagementEventWatcher DeletionEvent = new ManagementEventWatcher(scope, new WqlEventQuery("__InstanceDeletionEvent", withinInterval, wql_condition));
+            DeletionEvent.EventArrived += (s, e) =>
+            {
+                if (serialPort.IsOpen) serialPort.Close();
+                Log?.ErrorFormat("Instance Deletion Event SerialPort Name:{0}", serialPort.PortName);
+            };
+
+            CreationEvent.Start();
+            DeletionEvent.Start();
+        }
+
+        /// <summary>
+        /// 设备热插拔自动重新连接
+        /// <para>使用 HwndSource Hook Window Message #WM_DEVICECHANGE 事件监听模式</para>
+        /// </summary>
+        /// <param name="serialPort"></param>
+        /// <param name="window">IsLoaded 为 True 的窗口对象</param>
+        /// <param name="Log"></param>
+        public static void AutoReconnection(this SerialPort serialPort, System.Windows.Window window, log4net.ILog Log = null)
+        {
+            if (serialPort == null || window == null) throw new ArgumentException("参数不能为空");
+            if (!window.IsLoaded) throw new InvalidOperationException("Window 对象 IsLoaded 为 True 时才能获取窗口句柄");
+            Log?.InfoFormat("HwndSource Hook Window Message #WM_DEVICECHANGE Event Listen SerialPort Name:{0}", serialPort.PortName);
+
+            HwndSource hwndSource = HwndSource.FromVisual(window) as HwndSource;
+            if (hwndSource != null) hwndSource.AddHook((IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) =>
+            {
+                MessageType mt = (MessageType)msg;
+                if (mt != MessageType.WM_DEVICECHANGE) return IntPtr.Zero;
+
+                DeviceBroadcastType dbt = (DeviceBroadcastType)wParam.ToInt32();
+                if (dbt == DeviceBroadcastType.DBT_DEVICEARRIVAL || dbt == DeviceBroadcastType.DBT_DEVICEREMOVECOMPLETE)
+                {
+                    DEV_BROADCAST_HDR hdr = Marshal.PtrToStructure<DEV_BROADCAST_HDR>(lParam);
+                    if (hdr.dbch_devicetype != DeviceType.DBT_DEVTYP_PORT) return IntPtr.Zero;
+
+                    DEV_BROADCAST_PORT port = Marshal.PtrToStructure<DEV_BROADCAST_PORT>(lParam);
+                    if (port.dbcp_name.ToUpper() != serialPort.PortName.ToUpper()) return IntPtr.Zero;
+
+                    if (dbt == DeviceBroadcastType.DBT_DEVICEARRIVAL)
+                    {
+                        if (!serialPort.IsOpen) serialPort.Open();
+                        Log?.InfoFormat("Device Arrival SerialPort Name:{0}", serialPort.PortName);
+                    }
+                    if (dbt == DeviceBroadcastType.DBT_DEVICEREMOVECOMPLETE)
+                    {
+                        if (serialPort.IsOpen) serialPort.Close();
+                        Log?.ErrorFormat("Device Remove Complete SerialPort Name:{0}", serialPort.PortName);
+                    }
+
+                    handled = true;
+                }
+                
+                return IntPtr.Zero;
+            });
+
+            window.Closing += (s, e) =>
+            {
+                hwndSource?.Dispose();
+                hwndSource = null;
+            };
+        }
+
 
         /// <summary>
         /// 关闭清理串口

@@ -1572,7 +1572,7 @@ namespace SpaceCG.WindowsAPI.WinUser
     }
 
     /// <summary>
-    /// ShowWindow 函数参考 nCmdShow 的值之一
+    /// <see cref="WinUser.ShowWindow"/> 函数参考 nCmdShow 的值之一
     /// </summary>
     public enum SwCmd
     {        
@@ -1631,7 +1631,47 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <summary>
         /// Max
         /// </summary>
-        MAX = 11,
+        //MAX = 11,
+    }
+
+    /// <summary>
+    /// <see cref="WinUser.GetWindow"/> 函数参考 uCmd 的值之一
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindow </para>
+    /// </summary>
+    public enum GwCmd
+    {
+        /// <summary>
+        /// 检索到的句柄标识Z顺序中最高的同一类型的窗口。
+        /// <para>如果指定的窗口是最上面的窗口，则该句柄标识最上面的窗口。如果指定的窗口是顶级窗口，则该句柄标识顶级窗口。如果指定的窗口是子窗口，则该句柄标识同级窗口。</para>
+        /// </summary>
+        GW_HWNDFIRST = 0,
+        /// <summary>
+        /// 检索到的句柄标识Z顺序中最低的同一类型的窗口。
+        /// <para>如果指定的窗口是最上面的窗口，则该句柄标识最上面的窗口。如果指定的窗口是顶级窗口，则该句柄标识顶级窗口。如果指定的窗口是子窗口，则该句柄标识同级窗口。</para>
+        /// </summary>
+        GW_HWNDLAST = 1,
+        /// <summary>
+        /// 检索到的句柄以Z顺序标识指定窗口下方的窗口。
+        /// <para>如果指定的窗口是最上面的窗口，则该句柄标识最上面的窗口。如果指定的窗口是顶级窗口，则该句柄标识顶级窗口。如果指定的窗口是子窗口，则该句柄标识同级窗口。</para>
+        /// </summary>
+        GW_HWNDNEXT = 2,
+        /// <summary>
+        /// 检索到的句柄以Z顺序标识指定窗口上方的窗口。
+        /// <para>如果指定的窗口是最上面的窗口，则该句柄标识最上面的窗口。如果指定的窗口是顶级窗口，则该句柄标识顶级窗口。如果指定的窗口是子窗口，则该句柄标识同级窗口。</para>
+        /// </summary>
+        GW_HWNDPREV = 3,
+        /// <summary>
+        /// 检索到的句柄标识指定窗口的所有者窗口（如果有）。有关更多信息，请参见“ 拥有的Windows”。
+        /// </summary>
+        GW_OWNER = 4,
+        /// <summary>
+        /// 如果指定的窗口是父窗口，则检索到的句柄在Z顺序的顶部标识子窗口。否则，检索到的句柄为NULL。该功能仅检查指定窗口的子窗口。它不检查后代窗口。
+        /// </summary>
+        GW_CHILD = 5,
+        /// <summary>
+        /// 检索到的句柄标识指定窗口拥有的启用的弹出窗口（搜索使用通过GW_HWNDNEXT找到的第一个此类窗口）；否则，如果没有启用的弹出窗口，则检索到的句柄是指定窗口的句柄。
+        /// </summary>
+        GW_ENABLEDPOPUP = 6,
     }
 
     /// <summary>
@@ -1762,7 +1802,351 @@ namespace SpaceCG.WindowsAPI.WinUser
         MK_XBUTTON2 = 0x0040,
     }
 
+    /// <summary>
+    /// Syatem Window Style
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/window-styles </para>
+    /// </summary>
+    [Flags]
+    public enum WindowStyle : uint
+    {
+        /// <summary>
+        /// 该窗口是一个重叠的窗口。重叠的窗口具有标题栏和边框。与 WS_TILED 样式相同。
+        /// </summary>
+        WS_OVERLAPPED = 0x00000000,
+        /// <summary>
+        /// 窗口是一个弹出窗口。此样式不能与 WS_CHILD 样式一起使用。
+        /// </summary>
+        WS_POPUP = 0x80000000,
+        /// <summary>
+        /// 该窗口是子窗口。具有这种样式的窗口不能具有菜单栏。此样式不能与 WS_POPUP 样式一起使用。
+        /// </summary>
+        WS_CHILD = 0x40000000,
+        /// <summary>
+        /// 最初将窗口最小化。与 S_ICONIC 样式相同。
+        /// </summary>
+        WS_MINIMIZE = 0x20000000,
+        /// <summary>
+        /// 该窗口最初是可见的。可以使用 ShowWindow 或 SetWindowPos 函数打开和关闭此样式。
+        /// </summary>
+        WS_VISIBLE = 0x10000000,
+        /// <summary>
+        /// 该窗口最初被禁用。禁用的窗口无法接收来自用户的输入。要在创建窗口后更改此设置，请使用 EnableWindow 函数。
+        /// </summary>
+        WS_DISABLED = 0x08000000,
+        /// <summary>
+        /// 相对于彼此剪辑子窗口；也就是说当特定的子窗口接收到 WM_PAINT 消息时，WS_CLIPSIBLINGS 样式会将所有其他重叠的子窗口剪切到要更新的子窗口区域之外。如果未指定 WS_CLIPSIBLINGS 并且子窗口重叠，则在子窗口的客户区域内进行绘制时，可以在相邻子窗口的客户区域内进行绘制。
+        /// </summary>
+        WS_CLIPSIBLINGS = 0x04000000,
+        /// <summary>
+        /// 在父窗口内进行绘制时，不包括子窗口所占的区域。创建父窗口时使用此样式。
+        /// </summary>
+        WS_CLIPCHILDREN = 0x02000000,
+        /// <summary>
+        /// 该窗口最初被最大化。
+        /// </summary>
+        WS_MAXIMIZE = 0x01000000,
+        /// <summary>
+        /// 窗口具有标题栏（包括 WS_BORDER 样式）。WS_BORDER | WS_DLGFRAME  
+        /// </summary>
+        WS_CAPTION = 0x00C00000,
+        /// <summary>
+        /// 窗口具有细线边框。
+        /// </summary>
+        WS_BORDER = 0x00800000,
+        /// <summary>
+        /// 窗口具有通常用于对话框的样式的边框。具有这种样式的窗口不能具有标题栏。
+        /// </summary>
+        WS_DLGFRAME = 0x00400000,
+        /// <summary>
+        /// 该窗口具有垂直滚动条。
+        /// </summary>
+        WS_VSCROLL = 0x00200000,
+        /// <summary>
+        /// 该窗口具有水平滚动条。
+        /// </summary>
+        WS_HSCROLL = 0x00100000,
+        /// <summary>
+        /// 该窗口的标题栏上有一个窗口菜单。该 WS_CAPTION 风格也必须指定。
+        /// </summary>
+        WS_SYSMENU = 0x00080000,
+        /// <summary>
+        /// 窗口具有大小调整边框。与 WS_SIZEBOX 样式相同。
+        /// </summary>
+        WS_THICKFRAME = 0x00040000,
+        /// <summary>
+        /// 该窗口是一组控件中的第一个控件。该组由该第一个控件和在其后定义的所有控件组成，直到下一个具有 WS_GROUP 样式的下一个控件。每个组中的第一个控件通常具有 WS_TABSTOP 样式，以便用户可以在组之间移动。用户随后可以使用方向键将键盘焦点从组中的一个控件更改为组中的下一个控件。
+        /// <para>您可以打开和关闭此样式以更改对话框导航。若要在创建窗口后更改此样式，请使用 SetWindowLong 函数。</para>
+        /// </summary>
+        WS_GROUP = 0x00020000,
+        /// <summary>
+        /// 该窗口是一个控件，当用户按下 TAB 键时可以接收键盘焦点。按下 TAB 键可将键盘焦点更改为 WS_TABSTOP 样式的下一个控件。
+        /// <para>您可以打开和关闭此样式以更改对话框导航。若要在创建窗口后更改此样式，请使用 SetWindowLong 函数。为了使用户创建的窗口和无模式对话框可与制表符一起使用，请更改消息循环以调用 IsDialogMessage 函数。</para>
+        /// </summary>
+        WS_TABSTOP = 0x00010000,
+        /// <summary>
+        /// 该窗口有一个最小化按钮。不能与 WS_EX_CONTEXTHELP 样式结合使用。该 WS_SYSMENU 风格也必须指定。
+        /// </summary>
+        WS_MINIMIZEBOX = 0x00020000,
+        /// <summary>
+        /// 该窗口具有最大化按钮。不能与 WS_EX_CONTEXTHELP 样式结合使用。该 WS_SYSMENU 风格也必须指定。
+        /// </summary>
+        WS_MAXIMIZEBOX = 0x00010000,
+        /// <summary>
+        /// 该窗口是一个重叠的窗口。重叠的窗口具有标题栏和边框。与 WS_OVERLAPPED 样式相同。
+        /// </summary>
+        WS_TILED = WS_OVERLAPPED,
+        /// <summary>
+        /// 最初将窗口最小化。与 WS_MINIMIZE 样式相同。
+        /// </summary>
+        WS_ICONIC = WS_MINIMIZE,
+        /// <summary>
+        /// 窗口具有大小调整边框。与 WS_THICKFRAME 样式相同。
+        /// </summary>
+        WS_SIZEBOX = WS_THICKFRAME,
+        /// <summary>
+        /// 该窗口是一个重叠的窗口。与 WS_OVERLAPPEDWINDOW 样式相同。
+        /// </summary>
+        WS_TILEDWINDOW = WS_OVERLAPPEDWINDOW,
+        /// <summary>
+        /// 该窗口是一个重叠的窗口。与 WS_TILEDWINDOW 样式相同。
+        /// </summary>
+        WS_OVERLAPPEDWINDOW = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+        /// <summary>
+        /// 该窗口是一个弹出窗口。该 WS_CAPTION 和 WS_POPUPWINDOW 风格一定要结合使窗口菜单可见。
+        /// </summary>
+        WS_POPUPWINDOW = WS_POPUP | WS_BORDER | WS_SYSMENU,
+        /// <summary>
+        /// 与 WS_CHILD 样式相同。
+        /// </summary>
+        WS_CHILDWINDOW = WS_CHILD,
+    }
 
+    /// <summary>
+    /// Extended Window Styles
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/winmsg/extended-window-styles </para>
+    /// </summary>
+    [Flags]
+    public enum WindowSytleEx : uint
+    {
+        /// <summary>
+        /// 窗口有一个双边框。该窗口可以任选地用一个标题栏，通过指定所创建的 WS_CAPTION 在样式 dwStyle 参数。
+        /// </summary>
+        WS_EX_DLGMODALFRAME = 0x00000001,
+        /// <summary>
+        /// 使用此样式创建的子窗口在创建或销毁时不会将 WM_PARENTNOTIFY 消息发送到其父窗口。
+        /// </summary>
+        WS_EX_NOPARENTNOTIFY = 0x00000004,
+        /// <summary>
+        /// 该窗口应放置在所有非最上面的窗口上方，并且即使在停用该窗口的情况下也应保持在它们之上。若要添加或删除此样式，请使用 SetWindowPos 函数。
+        /// </summary>
+        WS_EX_TOPMOST = 0x00000008,
+        /// <summary>
+        /// 该窗口接受拖放文件。
+        /// </summary>
+        WS_EX_ACCEPTFILES = 0x00000010,
+        /// <summary>
+        /// 在绘制窗口下方的兄弟姐妹（由同一线程创建）之前，不应绘制窗口。该窗口显示为透明，因为基础同级窗口的位已被绘制。
+        /// <para>要获得透明性而没有这些限制，请使用 SetWindowRgn 函数。</para>
+        /// </summary>
+        WS_EX_TRANSPARENT = 0x00000020,
+        /// <summary>
+        /// 该窗口是MDI子窗口。
+        /// </summary>
+        WS_EX_MDICHILD = 0x00000040,
+        /// <summary>
+        /// 该窗口旨在用作浮动工具栏。工具窗口的标题栏比普通标题栏短，并且窗口标题使用较小的字体绘制。
+        /// <para>当用户按下 ALT + TAB 时，工具窗口不会出现在任务栏或对话框中。如果工具窗口具有系统菜单，则其图标不会显示在标题栏上。但是您可以通过右键单击或键入 ALT + SPACE 来显示系统菜单。</para>
+        /// </summary>
+        WS_EX_TOOLWINDOW = 0x00000080,
+        /// <summary>
+        /// 窗口的边框带有凸起的边缘。
+        /// </summary>
+        WS_EX_WINDOWEDGE = 0x00000100,
+        /// <summary>
+        /// 窗口的边框带有凹陷的边缘。
+        /// </summary>
+        WS_EX_CLIENTEDGE = 0x00000200,
+        /// <summary>
+        /// 窗口的标题栏包含一个问号。当用户单击问号时，光标将变为带有指针的问号。如果用户然后单击子窗口，则该子窗口会收到 WM_HELP 消息。
+        /// <para>子窗口应将消息传递给父窗口过程，该过程应使用HELP_WM_HELP命令调用 WinHelp 函数。帮助应用程序显示一个弹出窗口，通常包含子窗口的帮助。WS_EX_CONTEXTHELP 不能与 WS_MAXIMIZEBOX 或WS_MINIMIZEBOX 样式一起使用。</para>
+        /// </summary>
+        WS_EX_CONTEXTHELP = 0x00000400,
+        /// <summary>
+        /// 该窗口具有通用的“右对齐”属性。这取决于窗口类。仅当外壳语言是希伯来语，阿拉伯语或其他支持阅读顺序对齐的语言时，此样式才有效。否则，样式将被忽略。
+        /// <para>将 WS_EX_RIGHT 样式用于静态或编辑控件分别具有与使用 SS_RIGHT 或 ES_RIGHT 样式相同的效果。通过按钮控件使用此样式与使用 BS_RIGHT 和 BS_RIGHTBUTTON 样式具有相同的效果。</para>
+        /// </summary>
+        WS_EX_RIGHT = 0x00001000,
+        /// <summary>
+        /// 该窗口具有通用的左对齐属性。这是默认值。
+        /// </summary>
+        WS_EX_LEFT = 0x00000000,
+        /// <summary>
+        /// 如果外壳语言是希伯来语，阿拉伯语或其他支持阅读顺序对齐的语言，则使用从右到左的阅读顺序属性显示窗口文本。对于其他语言，样式将被忽略。
+        /// </summary>
+        WS_EX_RTLREADING = 0x00002000,
+        /// <summary>
+        /// 使用从左到右的阅读顺序属性显示窗口文本。这是默认值。
+        /// </summary>
+        WS_EX_LTRREADING = 0x00000000,
+        /// <summary>
+        /// 如果外壳语言是希伯来语，阿拉伯语或其他支持阅读顺序对齐的语言，则垂直滚动条（如果有）位于客户区域的左侧。对于其他语言，样式将被忽略。
+        /// </summary>
+        WS_EX_LEFTSCROLLBAR = 0x00004000,
+        /// <summary>
+        /// 垂直滚动条（如果有）在客户区的右侧。这是默认值。
+        /// </summary>
+        WS_EX_RIGHTSCROLLBAR = 0x00000000,
+        /// <summary>
+        /// 窗口本身包含子窗口，应参与对话框导航。如果指定了此样式，则对话框管理器在执行导航操作（例如处理 TAB 键，箭头键或键盘助记符）时会循环到此窗口的子级中。
+        /// </summary>
+        WS_EX_CONTROLPARENT = 0x00010000,
+        /// <summary>
+        /// 该窗口具有三维边框样式，旨在用于不接受用户输入的项目。
+        /// </summary>
+        WS_EX_STATICEDGE = 0x00020000,
+        /// <summary>
+        /// 可见时将顶级窗口强制到任务栏上。
+        /// </summary>
+        WS_EX_APPWINDOW = 0x00040000,
+        /// <summary>
+        /// 该窗口是一个重叠的窗口。
+        /// </summary>
+        WS_EX_OVERLAPPEDWINDOW = WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE,
+        /// <summary>
+        /// 该窗口是调色板窗口，这是一个无模式对话框，显示了一系列命令。
+        /// </summary>
+        WS_EX_PALETTEWINDOW = WS_EX_WINDOWEDGE | WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
+        /// <summary>
+        /// 窗户是一个分层的窗户。如果窗口中有一个不能用这种风格类样式之一 CS_OWNDC 或 CS_CLASSDC。
+        /// <para>Windows 8：该 WS_EX_LAYERED 样式支持顶级窗口和子窗口。以前的 Windows 版本仅对顶级窗口支持 WS_EX_LAYERED。</para>
+        /// </summary>
+        WS_EX_LAYERED = 0x00080000,
+        /// <summary>
+        /// 该窗口不会将其窗口布局传递给其子窗口。
+        /// </summary>
+        WS_EX_NOINHERITLAYOUT = 0x00100000,
+        /// <summary>
+        /// 窗口不渲染到重定向表面。这适用于不具有可见内容或使用除表面以外的机制来提供其视觉效果的窗口。
+        /// </summary>
+        WS_EX_NOREDIRECTIONBITMAP = 0x00200000,
+        /// <summary>
+        /// 如果外壳语言是希伯来语，阿拉伯语或其他支持阅读顺序对齐的语言，则窗口的水平原点在右边缘。水平值增加到左侧。
+        /// </summary>
+        WS_EX_LAYOUTRTL = 0x00400000,
+        /// <summary>
+        /// 使用双缓冲以从下到上的绘制顺序绘制窗口的所有后代。从下到上的绘画顺序允许后代窗口具有半透明（alpha）和透明（color-key）效果，但前提是后代窗口也设置了 WS_EX_TRANSPARENT 位。双缓冲允许绘制窗口及其后代，而不会闪烁。如果窗口有此不能使用类样式之一 CS_OWNDC 或 CS_CLASSDC。Windows 2000：不支持此样式。
+        /// </summary>
+        WS_EX_COMPOSITED = 0x02000000,
+        /// <summary>
+        /// 当用户单击它时，以这种样式创建的顶级窗口不会成为前台窗口。当用户最小化或关闭前景窗口时，系统不会将此窗口置于前景。不应通过程序访问或使用讲述人等可访问技术通过键盘导航来激活该窗口。
+        /// <para>要激活该窗口，请使用 SetActiveWindow 或 SetForegroundWindow 函数。默认情况下，该窗口不显示在任务栏上。要强制窗口显示在任务栏上，请使用 WS_EX_APPWINDOW 样式。</para>
+        /// </summary>
+        WS_EX_NOACTIVATE = 0x08000000,
+    }
+
+    /// <summary>
+    /// 包含窗口信息。
+    /// <para>WINDOWINFO, * PWINDOWINFO, * LPWINDOWINFO;</para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-windowinfo </para>
+    /// </summary>
+    public struct WINDOWINFO
+    {
+        /// <summary>
+        /// 结构的大小，以字节为单位。呼叫者必须将此成员设置为 sizeof(WINDOWINFO)。
+        /// </summary>
+        public uint cbSize;
+        /// <summary>
+        /// 窗口的坐标。
+        /// </summary>
+        public RECT rcWindow;
+        /// <summary>
+        /// 客户区域的坐标。
+        /// </summary>
+        public RECT rcClient;
+        /// <summary>
+        /// 窗口样式。有关窗口样式的表，请参见 <see cref="WindowStyle"/>。
+        /// </summary>
+        public WindowStyle dwStyle;
+        /// <summary>
+        /// 扩展的窗口样式。有关扩展窗口样式的表，请参见 。
+        /// </summary>
+        public WindowSytleEx dwExStyle;
+        /// <summary>
+        /// 窗口状态。如果此成员是 WS_ACTIVECAPTION（0x0001），则该窗口处于活动状态。否则，该成员为零。
+        /// </summary>
+        public uint dwWindowStatus;
+        /// <summary>
+        /// 窗口边框的宽度，以像素为单位。
+        /// </summary>
+        public uint cxWindowBorders;
+        /// <summary>
+        /// 窗口边框的高度，以像素为单位。
+        /// </summary>
+        public uint cyWindowBorders;
+        /// <summary>
+        /// 窗口类原子（请参见RegisterClass）。
+        /// </summary>
+        public ushort atomWindowType;
+        /// <summary>
+        /// 创建窗口的应用程序的 Windows 版本。
+        /// </summary>
+        public ushort wCreatorVersion;
+        /// <summary>
+        /// 创建一个已经设置 cbSize 大小的 WINDOWINFO 对象。
+        /// </summary>
+        /// <returns></returns>
+        public static WINDOWINFO Create()
+        {
+            return new WINDOWINFO() { cbSize = (uint)Marshal.SizeOf(typeof(WINDOWINFO)) };
+        }
+        /// <summary>
+        /// @ToString()
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"{rcWindow}, {rcClient}, {dwStyle}, {dwExStyle}, {dwWindowStatus}, {cxWindowBorders} {cyWindowBorders}, {atomWindowType}, {wCreatorVersion}";
+        }
+    }
+
+    /// <summary>
+    /// 包含有关窗口的大小和位置的信息。
+    /// <para>WINDOWPOS, * LPWINDOWPOS, * PWINDOWPOS;</para>
+    /// <para>BeginDeferWindowPos, DeferWindowPos, EndDeferWindowPos</para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-windowpos?redirectedfrom=MSDN </para>
+    /// </summary>
+    public struct WINDOWPOS
+    {
+        /// <summary>
+        /// 窗口在Z顺序中的位置（前后位置）。该成员可以是放置该窗口的窗口的句柄，也可以是 <see cref="WinUser.SetWindowPos"/> 函数列出的特殊值之一。
+        /// </summary>
+        public IntPtr hwndInsertAfter;
+        /// <summary>
+        /// 窗口的句柄。
+        /// </summary>
+        public IntPtr hwnd;
+        /// <summary>
+        /// 窗口左边缘的位置。
+        /// </summary>
+        public int x;
+        /// <summary>
+        /// 窗口顶部边缘的位置。
+        /// </summary>
+        public int y;
+        /// <summary>
+        /// 窗口宽度，以像素为单位。
+        /// </summary>
+        public int cx;
+        /// <summary>
+        /// 窗口高度，以像素为单位。
+        /// </summary>
+        public int cy;
+        /// <summary>
+        /// 窗口位置。该成员可以是 <see cref="SwpFlag"/> 一个或多个值。
+        /// </summary>
+        public SwpFlag flags;
+    }
+    
     #endregion
 
 
@@ -2911,6 +3295,6 @@ namespace SpaceCG.WindowsAPI.WinUser
         {
             return LParamToPoint(value.ToInt32());
         }
-    }
 
+    }
 }

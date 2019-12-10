@@ -1,7 +1,7 @@
-﻿using SpaceCG.WindowsAPI.WinUser;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Interop;
+using SpaceCG.WindowsAPI.WinUser;
 
 namespace SpaceCG.Extension
 {
@@ -51,7 +51,7 @@ namespace SpaceCG.Extension
                 throw new ArgumentOutOfRangeException($"参数 config=[{config}] 值与设计不符合");
             
             window.Topmost = cfg[0].ToLower() == "1";
-            window.WindowStyle = (WindowStyle)Enum.Parse(typeof(WindowStyle), cfg[1]);
+            window.WindowStyle = (System.Windows.WindowStyle)Enum.Parse(typeof(System.Windows.WindowStyle), cfg[1]);
             window.ResizeMode = (ResizeMode)Enum.Parse(typeof(ResizeMode), cfg[2]);
             window.WindowState = (WindowState)Enum.Parse(typeof(WindowState), cfg[3]);
         }
@@ -64,7 +64,7 @@ namespace SpaceCG.Extension
         /// <param name="style">窗口的边框样式</param>
         /// <param name="mode">窗口大小调整模式</param>
         /// <param name="state">窗口是处于还原、最小化还是最大化状态</param>
-        public static void SettingWindowState(this Window window, bool topmost, WindowStyle style, ResizeMode mode, WindowState state)
+        public static void SettingWindowState(this Window window, bool topmost, System.Windows.WindowStyle style, ResizeMode mode, WindowState state)
         {
             window.Topmost = topmost;
             window.WindowStyle = style;
@@ -83,6 +83,6 @@ namespace SpaceCG.Extension
         {
             WinUser.SetWindowPos(new WindowInteropHelper(window).Handle, state, 0, 0, 0, 0, SwpFlag.NOMOVE | SwpFlag.NOSIZE);
         }
-
+        
     }
 }

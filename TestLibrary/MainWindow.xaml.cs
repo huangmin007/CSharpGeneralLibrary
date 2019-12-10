@@ -20,6 +20,7 @@ using System.IO.Ports;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Generic;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.Config", Watch = true)]
 namespace TestLibrary
@@ -33,14 +34,30 @@ namespace TestLibrary
 
         protected IntPtr Handle;
 
+        private SerialPort serialPort;
+        private SpaceCG.HPSocket.TcpClient Client;
+
         public MainWindow()
         {
             InitializeComponent();
             Log.InfoFormat("MainWindow.");
             TextBoxBaseAppender appender = new TextBoxBaseAppender(TextBox_Logs);
 
+            Handle = new WindowInteropHelper(this).Handle;
+            Console.WriteLine("{0} {1} {2}", this.IsInitialized, this.IsLoaded, Handle);
+
+            Client = HPSocketExtension.CreateConnect("127.0.0.1", 9999, SocketReceivedHandler, true, App.Log);
+
+            FmFlag flags = (FmFlag)0x1300;
+            Console.WriteLine(flags);
         }
 
+        private void SocketReceivedHandler(byte[] data)
+        {
+            Console.WriteLine("Socket {0}", data.Length);
+        }
+
+        #region override
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
@@ -55,7 +72,10 @@ namespace TestLibrary
 
             bool result = WinUser.UnregisterHotKey(Handle, 0);
             Console.WriteLine("result:{0}", result);
+
+            if (Client != null) HPSocketExtension.DisposeConnect(ref Client);
         }
+        #endregion
 
         PerformanceCounter PC;
         PerformanceCounter[] PCs;
@@ -67,6 +87,10 @@ namespace TestLibrary
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            /*
+            IntPtr ptr = new WindowInteropHelper(this).Handle;
+            Console.WriteLine("{0} {1} {2} {3}", this.IsInitialized, this.IsLoaded, ptr, Handle);
+
             await Task.Run(() =>
              {
                  PC = new PerformanceCounter("Process", "Working Set", "WnCloud");
@@ -75,14 +99,9 @@ namespace TestLibrary
 
                  PCC = new PerformanceCounterCategory("Process");
                  PCs = PCC.GetCounters("TIM");
-                //PerformanceExtension.ToDebug(PCs);
-            });
-
-            GCHandle handle = GCHandle.Alloc(obj, GCHandleType.Pinned);
-            GCHandle.ToIntPtr(handle);
-            IntPtr ptr = handle.AddrOfPinnedObject();
-            handle.Free();
-
+                 //PerformanceExtension.ToDebug(PCs);
+             });
+             */
             //System.Timers.Timer timer = new System.Timers.Timer(1000);
             //timer.Elapsed += Timer_Elapsed;
             //timer.Start();
@@ -93,9 +112,17 @@ namespace TestLibrary
             StringBuilder clsName = new StringBuilder(256);
             WinUser.GetClassName(Handle, clsName, 256);
             Console.WriteLine(clsName);
-            
-            bool result = WinUser.RegisterHotKey(Handle, 0, RhkModifier.CONTROL, VirtualKeyCode.VK_A);
-            Console.WriteLine("result:{0}", result);
+
+            RECT rect = new RECT();
+            WinUser.GetWindowRect(Handle, ref rect);
+            Console.WriteLine(rect);
+            WinUser.GetClientRect(Handle, ref rect);
+            Console.WriteLine(rect);
+            //WinUser.GetWindowRgn(Handle, ref rect);
+            //Console.WriteLine(rect);
+
+            //bool result = WinUser.RegisterHotKey(Handle, 0, RhkModifier.CONTROL, VirtualKeyCode.VK_A);
+            //Console.WriteLine("result:{0}", result);
 
             //WinUser.SetWindowsHookEx(HookType.WH_KEYBOARD_LL, WindowProcHandler, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
 
@@ -128,6 +155,26 @@ namespace TestLibrary
 
             Console.WriteLine("complete....");
             */
+
+            /*
+            try
+            {
+                serialPort = SerialPortExtension.Create("COM59,115200", 88, App.Log);
+                serialPort.OpenAndListen(SerialPortReceivedHandler, true, App.Log);
+                serialPort.AutoReconnection(this, App.Log);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("EX:::{0}", ex);
+            }
+            */
+        }
+
+        private void SerialPortReceivedHandler(byte[] data) 
+        {
+            string str = Encoding.Default.GetString(data);
+            Console.WriteLine("{0}, {1}", data.Length, str);
+            //App.Log.InfoFormat("{0}  {1}", data.Length, str);
         }
 
         protected IntPtr WindowProcHandler(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -231,9 +278,12 @@ namespace TestLibrary
             length = WinUser.GetClassName(hWnd, lpString, 256);
             Console.WriteLine("Length:{0}  String:{1}", length, lpString);
 
+
+            if (Client != null) HPSocketExtension.DisposeConnect(ref Client, App.Log);
+
         }
 
-        
+
 
     }
 }

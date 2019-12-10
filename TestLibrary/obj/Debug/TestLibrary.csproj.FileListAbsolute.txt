@@ -21,3 +21,6 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\log4net.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\Window1.g.cs
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\Window1.baml
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\SpaceCGLibrary.xml
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\hpsocket_en.txt
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\hpsocket_cn.txt
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary_Content.g.cs

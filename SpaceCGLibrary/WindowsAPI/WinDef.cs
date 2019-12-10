@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceCG.WindowsAPI
 {
@@ -153,6 +149,31 @@ namespace SpaceCG.WindowsAPI
     }
 
     /// <summary>
+    /// File Time
+    /// <para>FILETIME, *PFILETIME, *LPFILETIME</para>
+    /// File System time stamps are represented with the following structure:
+    /// </summary>
+    public struct FILETIME
+    {
+        /// <summary>
+        /// low date time
+        /// </summary>
+        public uint dwLowDateTime;
+        /// <summary>
+        /// high date time
+        /// </summary>
+        public uint dwHighDateTime;
+        /// <summary>
+        /// @ToString()
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"{dwLowDateTime}, {dwHighDateTime}";
+        }
+    }
+
+    /// <summary>
     /// 标识线程，进程或窗口的每英寸点数（dpi）设置。
     /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/windef/ne-windef-dpi_awareness </para>
     /// </summary>
@@ -202,5 +223,9 @@ namespace SpaceCG.WindowsAPI
     /// </summary>
     public static partial class WinDef
     {
+        /// <summary>
+        /// path max chars
+        /// </summary>
+        public const int MAX_PATH = 260;
     }
 }

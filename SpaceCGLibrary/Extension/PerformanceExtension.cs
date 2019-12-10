@@ -13,7 +13,6 @@ namespace SpaceCG.Extension
     /// </summary>
     public partial class PerformanceExtension
     {
-
         /// <summary>
         /// 检索输出本地计算机上注册的 性能计数器 类别的列表 PerformanceCounterCategory.GetCategories()。
         /// </summary>
@@ -71,6 +70,7 @@ namespace SpaceCG.Extension
             
             foreach (PerformanceCounter pc in pcs) ToDebug(pc);
         }
+
         /// <summary>
         /// 输出 CategoryName(类别) 不能为空的 性能计数器组件 信息 
         /// </summary>

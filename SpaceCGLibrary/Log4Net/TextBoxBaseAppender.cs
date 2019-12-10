@@ -14,16 +14,22 @@ namespace SpaceCG.Log4Net
     /// </summary>
     public class TextBoxBaseAppender : AppenderSkeleton
     {
+        /// <summary> Info Color </summary>
         protected static readonly SolidColorBrush InfoColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0xFF));
+        /// <summary> Warn Color </summary>
         protected static readonly SolidColorBrush WarnColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0x00));
+        /// <summary> Error Color </summary>
         protected static readonly SolidColorBrush ErrorColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0x00, 0x00));
+        /// <summary> Fatal Color </summary>
         protected static readonly SolidColorBrush FatalColor = new SolidColorBrush(Color.FromArgb(0xBF, 0xFF, 0x00, 0x00));
 
         /// <summary>
         /// 获取或设置最大可见行数
         /// </summary>
         protected uint MaxLines = 512;
+        /// <summary> TextBoxBase </summary>
         protected TextBoxBase TextBox;
+        /// <summary> TextBox.AppendText Delegate Function </summary>
         protected Action<String, Level> AppendTextDelegate;
 
         private TextBox tb;
@@ -40,7 +46,7 @@ namespace SpaceCG.Log4Net
             this.Layout = new PatternLayout("[%date{yyyy-MM-dd HH:mm:ss}] [%thread] [%level] [%method(%line)] %logger - %message (%r) %newline");
 
             //Set Controls Default Config
-            if(this.TextBox is TextBox)
+            if (this.TextBox is TextBox)
             {
                 tb = (TextBox)this.TextBox;
                 tb.IsReadOnly = true;
@@ -79,7 +85,7 @@ namespace SpaceCG.Log4Net
         protected override void Append(LoggingEvent loggingEvent)
         {
             if (this.TextBox == null) return;
-            if (!this.TextBox.IsLoaded) return;
+            //if (!this.TextBox.IsLoaded) return; //在其它线程中会产生错误
 
             String text = string.Empty;
             PatternLayout patternLayout = this.Layout as PatternLayout;
@@ -94,7 +100,7 @@ namespace SpaceCG.Log4Net
             {
                 text = loggingEvent.LoggerName + "-" + loggingEvent.RenderedMessage + Environment.NewLine;
             }
-            
+
             this.TextBox.Dispatcher.BeginInvoke(this.AppendTextDelegate, text, loggingEvent.Level);
         }
 
@@ -105,7 +111,7 @@ namespace SpaceCG.Log4Net
         /// <param name="level"></param>
         protected void TextBoxAppendText(String text, Level level)
         {
-            if (tb != null)
+            if (tb != null && tb.IsLoaded)
             {
                 tb.AppendText(text);
                 tb.ScrollToEnd();
@@ -116,7 +122,7 @@ namespace SpaceCG.Log4Net
                 return;
             }
 
-            if (rtb != null)
+            if (rtb != null && rtb.IsLoaded)
             {
                 Paragraph paragraph = new Paragraph(new Run(text.Trim()));
                 paragraph.Background = level == Level.Fatal ? FatalColor : level == Level.Error ? ErrorColor : level == Level.Warn ? WarnColor : InfoColor;

@@ -38,9 +38,10 @@ namespace SpaceCG
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Anonymous Events Remove Error:{0}", ex);
+                Console.WriteLine("Remove Anonymous Events Error:{0}", ex);
             }
         }
+
 /*
         /// <summary>
         /// 修改注册表，设置开机启动项目
