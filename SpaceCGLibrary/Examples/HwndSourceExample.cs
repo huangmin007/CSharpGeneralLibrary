@@ -1,16 +1,12 @@
-﻿using SpaceCG.WindowsAPI.DBT;
-using SpaceCG.WindowsAPI.WinUser;
+﻿using SpaceCG.WindowsAPI.WinUser;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
 namespace SpaceCG.Examples
 {
+    [Example]
     public class HwndSourceExample:IDisposable
     {
         HwndSource hwndSource;
@@ -25,19 +21,19 @@ namespace SpaceCG.Examples
 
         public HwndSourceExample()
         {
-            //示例
+            //示例，假设已经存在一个窗口
             Window win = new Window();
 
             hwndSource = PresentationSource.FromVisual(win) as HwndSource;
             if (hwndSource != null)
-                hwndSource.AddHook(new HwndSourceHook(WindowProc));
+                hwndSource.AddHook(new HwndSourceHook(WindowProcHandler));
 
             //OR
-            //IntPtr hwnd = new WindowInteropHelper(win).Handle;
-            //HwndSource.FromHwnd(hwnd).AddHook(WindowProcHandler);
+            IntPtr hwnd = new WindowInteropHelper(win).Handle;
+            HwndSource.FromHwnd(hwnd).AddHook(WindowProcHandler);
         }
 
-        protected IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        protected IntPtr WindowProcHandler(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             MessageType msgType = (MessageType)msg;
             Console.WriteLine(msgType);

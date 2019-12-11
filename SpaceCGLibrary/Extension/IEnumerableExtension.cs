@@ -21,8 +21,6 @@ namespace SpaceCG.Extension
         {
             if (value == null) throw new ArgumentNullException("参数 value 不能为空");
 
-            //source.Contains(value);
-            
             int index = -1;
             int count = source.Count();
 
@@ -51,9 +49,7 @@ namespace SpaceCG.Extension
         public static double Median(this IEnumerable<double> source)
         {
             if (source.Count() == 0)
-            {
                 throw new InvalidOperationException("Cannot compute median for an empty set.");
-            }
 
             var sortedList = from number in source
                              orderby number
@@ -62,15 +58,9 @@ namespace SpaceCG.Extension
             int itemIndex = (int)sortedList.Count() / 2;
 
             if (sortedList.Count() % 2 == 0)
-            {
-                // Even number of items.
                 return (sortedList.ElementAt(itemIndex) + sortedList.ElementAt(itemIndex - 1)) / 2;
-            }
             else
-            {
-                // Odd number of items.
                 return sortedList.ElementAt(itemIndex);
-            }
         }
 
         public static double Median(this IEnumerable<int> source)
@@ -82,27 +72,6 @@ namespace SpaceCG.Extension
         {
             return (from num in numbers select selector(num)).Median();
         }
-
-        // Extension method for the IEnumerable<T> interface.
-        // The method returns every other element of a sequence.
-        public static IEnumerable<T> AlternateElements<T>(this IEnumerable<T> source)
-        {
-            List<T> list = new List<T>();
-
-            int i = 0;
-            /*
-            foreach (var element in source)
-            {
-                if (i % 2 == 0)
-                {
-                    list.Add(element);
-                }
-
-                i++;
-            }
-            */
-
-            return list;
-        }
+        
     }
 }

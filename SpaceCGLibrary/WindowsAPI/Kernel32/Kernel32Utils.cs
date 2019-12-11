@@ -19,12 +19,17 @@ namespace SpaceCG.WindowsAPI.Kernel32
         /// <returns></returns>
         public static string GetSysErrroMessage(uint errorCode)
         {
+#if Two
             string message = null;
+            FmFlag flags = FmFlag.FORMAT_MESSAGE_ALLOCATE_BUFFER | FmFlag.FORMAT_MESSAGE_IGNORE_INSERTS | FmFlag.FORMAT_MESSAGE_FROM_SYSTEM;
+            Kernel32.FormatMessage(flags, IntPtr.Zero, errorCode, 0, ref message, 255, IntPtr.Zero);
+#else
+            StringBuilder message = new StringBuilder(255);
+            FmFlag flags = FmFlag.FORMAT_MESSAGE_IGNORE_INSERTS | FmFlag.FORMAT_MESSAGE_FROM_SYSTEM;
+            Kernel32.FormatMessage(flags, IntPtr.Zero, errorCode, 0, message, 255, IntPtr.Zero);
+#endif
 
-            Kernel32.FormatMessage(FmFlag.FORMAT_MESSAGE_ALLOCATE_BUFFER | FmFlag.FORMAT_MESSAGE_IGNORE_INSERTS | FmFlag.FORMAT_MESSAGE_FROM_SYSTEM, 
-                IntPtr.Zero, errorCode, 0, ref message, 255, IntPtr.Zero);
-
-            return message.Trim();
+            return message.ToString().Trim();
         }
 
     }

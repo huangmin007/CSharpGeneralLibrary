@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Windows;
 using System;
-using System.Collections;
 using System.Timers;
 using System.Windows.Input;
 using SpaceCG.WindowsAPI.WinUser;
@@ -12,12 +11,10 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using SpaceCG.Examples;
 using System.Text;
-using SpaceCG.WindowsAPI.DBT;
 using SpaceCG.WindowsAPI;
 using System.Management;
 using SpaceCG.Extension;
 using System.IO.Ports;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
@@ -41,15 +38,20 @@ namespace TestLibrary
         {
             InitializeComponent();
             Log.InfoFormat("MainWindow.");
-            TextBoxBaseAppender appender = new TextBoxBaseAppender(TextBox_Logs);
 
             Handle = new WindowInteropHelper(this).Handle;
             Console.WriteLine("{0} {1} {2}", this.IsInitialized, this.IsLoaded, Handle);
 
-            Client = HPSocketExtension.CreateConnect("127.0.0.1", 9999, SocketReceivedHandler, true, App.Log);
+            Client = HPSocketExtension.CreateTcpClient("127.0.0.1", 9999, SocketReceivedHandler, true, App.Log);
+        }
+        
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            TextBoxBaseAppender appender = new TextBoxBaseAppender(TextBox_Logs);
+            ListBoxAppender appender2 = new ListBoxAppender(listBox, 20);
 
-            FmFlag flags = (FmFlag)0x1300;
-            Console.WriteLine(flags);
+            App.Log.InfoFormat("Initialize.");
         }
 
         private void SocketReceivedHandler(byte[] data)
@@ -73,7 +75,7 @@ namespace TestLibrary
             bool result = WinUser.UnregisterHotKey(Handle, 0);
             Console.WriteLine("result:{0}", result);
 
-            if (Client != null) HPSocketExtension.DisposeConnect(ref Client);
+            if (Client != null) HPSocketExtension.DisposeTcpClient(ref Client);
         }
         #endregion
 
@@ -87,6 +89,18 @@ namespace TestLibrary
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Log.InfoFormat("Window Loaded.");
+            Log.DebugFormat("Debug Foramt");
+            Log.WarnFormat("Warn Format");
+            Log.ErrorFormat("Error Format");
+            Log.FatalFormat("Fatal Format");
+            Log.InfoFormat("Window Loaded.");
+            Log.DebugFormat("Debug Foramt");
+            Log.WarnFormat("Warn Format");
+            Log.ErrorFormat("Error Format");
+            Log.FatalFormat("Fatal Format");
+
+
             /*
             IntPtr ptr = new WindowInteropHelper(this).Handle;
             Console.WriteLine("{0} {1} {2} {3}", this.IsInitialized, this.IsLoaded, ptr, Handle);
@@ -276,11 +290,17 @@ namespace TestLibrary
             Console.WriteLine("Length:{0}  String:{1}", length, lpString);
 
             length = WinUser.GetClassName(hWnd, lpString, 256);
-            Console.WriteLine("Length:{0}  String:{1}", length, lpString);
+            Log.InfoFormat("Length:{0}  String:{1}", length, lpString);
 
 
-            if (Client != null) HPSocketExtension.DisposeConnect(ref Client, App.Log);
+            if (Client != null)
+            {
+                Client.DisposeTcpClient(App.Log);
+                Client = null;
+            }
 
+
+            Log.Error("aaa", new Exception("Exception,Exception,Exception"));
         }
 
 

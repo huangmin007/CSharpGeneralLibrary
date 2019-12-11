@@ -1,5 +1,4 @@
-﻿using SpaceCG.WindowsAPI.DBT;
-using SpaceCG.WindowsAPI.WinUser;
+﻿using SpaceCG.WindowsAPI.WinUser;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -17,7 +16,7 @@ namespace SpaceCG.Extension
         /// <summary>
         /// 串口 Serial_ErrorReceived 事件的错误描述信息
         /// </summary>
-        public static readonly Dictionary<SerialError, string> SerialErrorDescriptions = new Dictionary<SerialError, string>()
+        public static readonly Dictionary<SerialError, string> SerialErrorDescriptions = new Dictionary<SerialError, string>(8)
         {
             { SerialError.RXOver,   "发生输入缓冲区溢出，输入缓冲区空间不足，或在文件尾 (EOF) 字符之后接收到字符"},
             { SerialError.Overrun,  "发生字符缓冲区溢出，下一个字符将丢失" },
@@ -26,26 +25,36 @@ namespace SpaceCG.Extension
             { SerialError.TXFull,   "应用程序尝试传输一个字符，但是输出缓冲区已满"},
         };
 
+
         /// <summary>
-        /// 创建串口对象(根据配置)
+        /// 根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。
+        /// <para>建议使用 <see cref="CloseAndDispose(ref SerialPort, log4net.ILog)"/> 清理该实例。</para>
         /// </summary>
-        /// <param name="config">串口配置；示例："COM3,9600", "COM3,9600,0," 参数顺序："portName, baudRate, Parity, dataBits, StopBits"</param>
-        /// <param name="receivedBytesThreshold">接收字节阀值，对象在收到这样长度的数据之后会触发事件处理函数
-        /// <para>获取或设置 System.IO.Ports.SerialPort.DataReceived 事件发生前内部输入缓冲区中的字节数。</para>
-        /// <para>System.IO.Ports.SerialPort.DataReceived 事件触发前内部输入缓冲区中的字节数，默认值为 1。</para>
+        /// <param name="config">串口构造函数参数，参见 <see cref="SerialPort"/> 构造函数。
+        ///     <para>参数顺序："portName, baudRate, Parity, dataBits, StopBits"，按顺序不得少于 1 个参数，如果只有一个参数时，第二个参数 baudRate 将默认为 9600。示例："COM3", "COM3,115200", "COM3,9600,0"</para>
+        ///     <para>注意：如果构造函数参数不正确，或不规范，将抛出 <see cref="ArgumentNullException"/> 或 <see cref="ArgumentException"/> 异常信息。</para>
         /// </param>
-        /// <param name="Log">日志记录对象</param>
+        /// <param name="dataReceivedCallback">数据接收回调，为 null 时，不监听 <see cref="SerialPort.DataReceived"/> 事件。</param>
+        /// <param name="receivedBytesThreshold">接收字节阀值，对象在收到这样长度的数据之后会触发事件 (<see cref="SerialPort.DataReceived"/>) 处理函数
+        ///     <para>获取或设置 <see cref="SerialPort.DataReceived"/> 事件发生前内部输入缓冲区中的字节数。</para>
+        ///     <para><see cref="SerialPort.DataReceived"/> 事件触发前内部输入缓冲区中的字节数；默认值为 1，可跟据数据设计大小定义。</para>
+        /// </param>
+        /// <param name="ignoreOpenError">是否忽略由 <see cref="SerialPort.Open()"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="AutoReconnection"/>。
+        ///     <para>如果为 true 则产生的异常信息由 Log(如果有) 记录，否则会抛出异常信息。</para>
+        /// </param>
+        /// <param name="Log">日志记录对象。如果不为 null ，则会监听记录 <see cref="SerialPort.ErrorReceived"/> 和 <see cref="SerialPort.PinChanged"/> 事件信息，和其它创建过程信息。</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        /// <returns> 返回一个根据配置设置好的串口对象 </returns>
-        public static SerialPort Create(string config, int receivedBytesThreshold = 1, log4net.ILog Log = null)
+        /// <returns> 返回串口对象 </returns>
+        public static SerialPort CreateInstance(string config, Action<byte[]> dataReceivedCallback, int receivedBytesThreshold = 1,  bool ignoreOpenError = true, log4net.ILog Log = null)
         {
-            Log?.InfoFormat("Create Serial Port : {0}", config);
-            if (String.IsNullOrWhiteSpace(config)) throw new ArgumentNullException("串口配置参数不能为空");
+            Log?.InfoFormat("Create SerialPort Instance : {0}", config);
+            if (String.IsNullOrWhiteSpace(config)) throw new ArgumentNullException("串口构造函数参数不能为空");
 
             SerialPort serialPort;
             string[] cfg = config.Replace(" ", "").Split(',');
 
+            //Create Instance
             if (cfg.Length == 1)
                 serialPort = new SerialPort(cfg[0].ToUpper(), 9600);
             else if (cfg.Length == 2)
@@ -57,75 +66,67 @@ namespace SpaceCG.Extension
             else if (cfg.Length == 5)
                 serialPort = new SerialPort(cfg[0].ToUpper(), int.Parse(cfg[1]), (Parity)Enum.Parse(typeof(Parity), cfg[2]), int.Parse(cfg[3]), (StopBits)Enum.Parse(typeof(StopBits), cfg[4]));
             else
-                throw new ArgumentException($"串口配置错误:[{config}]");
+                throw new ArgumentException($"串口参考配置错误:[{config}]");
 
-            //一般默认的配置参数
+            //默认配置参数
             serialPort.ReadTimeout = 500;
             serialPort.WriteTimeout = 500;
             serialPort.Handshake = Handshake.None;
             serialPort.ReceivedBytesThreshold = receivedBytesThreshold;
 
-            return serialPort;
-        }
-
-        /// <summary>
-        /// 打开串口连接/数据接收，事件采用匿名函数。
-        /// <para>请使用 CloseAndDispose 移除匿名事件、关闭/销毁串口</para>
-        /// </summary>
-        /// <param name="serialPort"></param>
-        /// <param name="receivedCallback"></param>
-        /// <param name="ignoreError">忽略 SerialPort.Open() 异常，为监听设备热插拔自动重新连接做准备 </param>
-        /// <param name="Log"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <returns>SerialPort.Open() 成功，返回 true , 反之返回 false .</returns>
-        public static bool OpenAndListen(this SerialPort serialPort, Action<byte[]> receivedCallback, bool ignoreError = true, log4net.ILog Log = null)
-        {
-            Log?.InfoFormat("Open And Listen Serial Port.");
-            if (serialPort == null) throw new ArgumentNullException("串口对象 serialPort 不能为空");
-            if (serialPort.IsOpen) throw new InvalidOperationException("串口对象 serialPort 已经打开，操作失败，数据接收回调设置失败");
-
-            serialPort.DataReceived += (s, e) =>
-            {
-                if (Log != null && Log.IsDebugEnabled)
-                    Log.DebugFormat("SerialPort_DataReceived  EventType:{0}  BytesToRead:{1}", e.EventType, serialPort.BytesToRead);
-
-                int length = -1;
-                byte[] buffer = new byte[serialPort.BytesToRead];
-
-                try
+            //事件监听处理
+            if (dataReceivedCallback != null)
+                serialPort.DataReceived += (s, e) =>
                 {
-                    length = serialPort.Read(buffer, 0, buffer.Length);
-                }
-                catch (Exception ex)
-                {
-                    Log?.Error("SerialPort_DataReceived", ex);
-                }
+                    if (Log != null && Log.IsDebugEnabled)
+                        Log.DebugFormat("SerialPort_DataReceived  EventType:{0}  BytesToRead:{1}", e.EventType, serialPort.BytesToRead);
 
-                if (buffer.Length != length)
-                    Log?.WarnFormat("串口数据接收不完整，有丢失数据 {0} byte", buffer.Length - length);
+                    int length = -1;
+                    byte[] buffer = new byte[serialPort.BytesToRead];
 
-                if (length > 0) receivedCallback?.Invoke(buffer);
-            };
-            serialPort.ErrorReceived += (s, e) =>
+                    try
+                    {
+                        length = serialPort.Read(buffer, 0, buffer.Length);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log?.Error("SerialPort_DataReceived", ex);
+                    }
+
+                    if (buffer.Length != length)
+                        Log?.WarnFormat("串口数据接收不完整，有丢失数据 {0} byte", buffer.Length - length);
+
+                    if (length > 0) dataReceivedCallback?.Invoke(buffer);
+                };
+            
+            if (Log != null)
             {
-                Log?.ErrorFormat($"串口上发生错误：[{e.EventType}:{(int)e.EventType}], Description：{SerialErrorDescriptions[e.EventType]}");
-            };
-            serialPort.PinChanged += (s, e) => Log?.InfoFormat("PinChanged::{0}", e.EventType);
+                serialPort.ErrorReceived += (s, e) =>
+                {
+                    Log.ErrorFormat($"串口上发生错误：[{e.EventType}:{(int)e.EventType}], Description：{SerialErrorDescriptions[e.EventType]}");
+                };
+                serialPort.PinChanged += (s, e) => Log.InfoFormat("PinChanged::{0}", e.EventType);
+            }
+
+            //SerialPort Open
             try
             {
                 serialPort.Open();
-                return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if (!ignoreError) throw ex;
-                return false;
+                if (ignoreOpenError)
+                    Log?.ErrorFormat("CreateInstance Error:{0}", ex);
+                else
+                    throw ex;
             }
+
+            return serialPort;
         }
+        
 
         /// <summary>
-        /// 设备热插拔自动重新连接
+        /// 串口设备热插拔自动重新连接
         /// <para>使用 ManagementEventWatcher WQL 事件监听模式</para>
         /// </summary>
         /// <param name="serialPort"></param>
@@ -161,7 +162,7 @@ namespace SpaceCG.Extension
         }
 
         /// <summary>
-        /// 设备热插拔自动重新连接
+        /// 串口设备热插拔自动重新连接
         /// <para>使用 HwndSource Hook Window Message #WM_DEVICECHANGE 事件监听模式</para>
         /// </summary>
         /// <param name="serialPort"></param>
@@ -214,31 +215,51 @@ namespace SpaceCG.Extension
 
 
         /// <summary>
-        /// 关闭清理串口
+        /// 关闭并清理 由 <see cref="CreateInstance"/> 创建的串口实例
+        /// <para>注意：静态函数，引用参数 serialPort, 该方法会将 实例变量 设为 null </para>
         /// </summary>
         /// <param name="serialPort"></param>
-        /// <param name="Log">日志记录对象</param>
-        /// <exception cref="InvalidOperationException"></exception>
-        public static void CloseAndDispose(this SerialPort serialPort, log4net.ILog Log = null)
+        /// <param name="Log"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void CloseAndDispose(ref SerialPort serialPort, log4net.ILog Log = null)
         {
             Log?.InfoFormat("Close And Dispose Serial Port.");
-            if (serialPort == null) throw new InvalidOperationException("serialPort 对象未初使化，CloseAndDispose 失败");
+            if (serialPort == null) throw new ArgumentNullException("参数不能为空");
 
             SpaceCGUtils.RemoveAnonymousEvents(serialPort, "PinChanged");
             SpaceCGUtils.RemoveAnonymousEvents(serialPort, "DataReceived");
             SpaceCGUtils.RemoveAnonymousEvents(serialPort, "ErrorReceived");
 
-            if (serialPort.IsOpen)
+            try
             {
-                serialPort.DiscardInBuffer();
-                serialPort.DiscardOutBuffer();
-
-                serialPort.Close();
-                serialPort.Dispose();
+                if (serialPort.IsOpen)
+                {
+                    serialPort.DiscardInBuffer();
+                    serialPort.DiscardOutBuffer();
+                    serialPort.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log?.ErrorFormat("关闭并清理串口时产生异常：{0}", ex);
             }
 
+            serialPort.Dispose();
             serialPort = null;
         }
+
+        /// <summary>
+        /// 关闭并清理 由 <see cref="CreateInstance"/> 创建的串口实例
+        /// <para>注意：扩展函数，需手动将实例变量设为 null</para>
+        /// </summary>
+        /// <param name="serialPort"></param>
+        /// <param name="Log">日志记录对象</param>
+        public static void CloseAndDispose(this SerialPort serialPort, log4net.ILog Log = null)
+        {
+            CloseAndDispose(ref serialPort, Log);
+        }
+
+        
 
     }
 }

@@ -11,6 +11,7 @@ namespace SpaceCG.Examples
     /// <summary>
     /// 
     /// </summary>
+    [Example]
     public class KeyboardHook:IDisposable
     {
         HookProc HookProc;
@@ -106,31 +107,23 @@ namespace SpaceCG.Examples
             return WinUser.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
         }
 
-        /*
+        
         /// <summary>
         /// 根据已经按下的控制键生成key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        protected Keys GetDownKeys(Keys key)
+        protected Key GetDownKeys()
         {
-            Keys rtnKey = Keys.None;
+            byte[] lpkeyState = new byte[256];
 
-            foreach (Keys i in preKeysList)
-            {
-                if (i == Keys.LControlKey || i == Keys.RControlKey)
-                    rtnKey = rtnKey | Keys.Control;
+            WinUser.GetKeyboardState(lpkeyState);
 
-                if (i == Keys.LMenu || i == Keys.RMenu)
-                    rtnKey = rtnKey | Keys.Alt;
+            // ba la ba la
 
-                if (i == Keys.LShiftKey || i == Keys.RShiftKey)
-                    rtnKey = rtnKey | Keys.Shift;
-            }
-
-            return rtnKey | key;
+            return Key.A;
         }
-        */
+        
 
         /// <summary>
         /// 是否按下Ctrl,Alt,Shift等功能键

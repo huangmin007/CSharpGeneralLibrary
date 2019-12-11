@@ -29,7 +29,7 @@ namespace SpaceCG.Extension
         static ManagementEventWatcher InstanceDeletionEvent;
 
         /// <summary>
-        /// 监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 RemoveInstanceChange 移除监听
+        /// 监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="RemoveInstanceChange"/> 移除监听
         /// <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
         /// <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
         /// <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
@@ -44,6 +44,7 @@ namespace SpaceCG.Extension
         {
             if (InstanceCreationEvent != null || InstanceDeletionEvent != null)
                 throw new InvalidOperationException("此函数只是单个监听示例，不可重复调用监听");
+
             if (string.IsNullOrWhiteSpace(wql_condition) || changeCallback == null) throw new ArgumentNullException("参数不能为空");
 
             ManagementScope scope = new ManagementScope(@"\\.\Root\CIMV2", new ConnectionOptions()
@@ -73,7 +74,7 @@ namespace SpaceCG.Extension
             InstanceDeletionEvent.Start();
         }
         /// <summary>
-        /// 监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 RemoveInstanceChange 移除监听
+        /// 监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="RemoveInstanceChange"/> 移除监听
         /// <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
         /// <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
         /// <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
@@ -88,7 +89,24 @@ namespace SpaceCG.Extension
             ListenInstanceChange(wql_condition, TimeSpan.FromSeconds(1), changeCallback, Log);
         }
         /// <summary>
-        /// 移除监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件
+        /// 监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="RemoveInstanceChange"/> 移除监听
+        /// <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
+        /// <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
+        /// <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
+        /// <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+        /// </summary>
+        /// <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+        /// <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
+        /// <param name="changeCallback"></param>
+        /// <param name="Log"></param>
+        /// <exception cref="InvalidOperationException"></exception>
+        public static async Task ListenInstanceChangeAsync(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
+        {
+            await Task.Run(() => ListenInstanceChange(wql_condition, withinInterval, changeCallback, Log));
+        }
+        /// <summary>
+        /// 移除并销毁 由 <see cref="ListenInstanceChange"/> 创建的监听。
+        /// <para>移除监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件</para>
         /// </summary>
         public static void RemoveInstanceChange()
         {
@@ -109,18 +127,7 @@ namespace SpaceCG.Extension
             InstanceCreationEvent = null;
             InstanceDeletionEvent = null;
         }
-        /// <summary>
-        /// ListenInstanceChange 的异步方法
-        /// </summary>
-        /// <param name="wql_condition"></param>
-        /// <param name="withinInterval"></param>
-        /// <param name="changeCallback"></param>
-        /// <param name="Log"></param>
-        /// <returns></returns>
-        public static async Task ListenInstanceChangeAsync(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
-        {
-            await Task.Run(() => ListenInstanceChange(wql_condition, withinInterval, changeCallback, Log));
-        }
+        
         #endregion
 
 
@@ -128,10 +135,10 @@ namespace SpaceCG.Extension
 
         /// <summary> ManagementEventWatcher Object </summary>
         static ManagementEventWatcher InstanceModificationEvent;
-        
+
         /// <summary>
         /// 监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
-        /// <para>请使用 RemoveInstanceModification 移除监听 </para>
+        /// <para>请使用 <see cref="RemoveInstanceModification"/> 移除监听 </para>
         /// <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
         /// <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
         /// </summary>
@@ -185,19 +192,23 @@ namespace SpaceCG.Extension
             ListenInstanceModification(wql_condition, TimeSpan.FromSeconds(1), changeCallback, Log);
         }
         /// <summary>
-        /// ListenInstanceModification 的异步方法
+        /// 监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
+        /// <para>请使用 <see cref="RemoveInstanceModification"/> 移除监听 </para>
+        /// <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
+        /// <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
         /// </summary>
-        /// <param name="wql_condition"></param>
-        /// <param name="withinInterval"></param>
+        /// <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+        /// <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
         /// <param name="changeCallback"></param>
         /// <param name="Log"></param>
-        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public static async Task ListenInstanceModificationAsync(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
         {
             await Task.Run(() => ListenInstanceModification(wql_condition, withinInterval, changeCallback, Log));
         }
         /// <summary>
-        /// 移除监听 "__InstanceModificationEvent" 事件
+        /// 移除并销毁 由 <see cref="ListenInstanceModification"/> 创建的监听。
+        /// <para>移除监听 "__InstanceModificationEvent" 事件</para>
         /// </summary>
         public static void RemoveInstanceModification()
         {
@@ -210,22 +221,7 @@ namespace SpaceCG.Extension
         }
         #endregion
 
-
-        #region Other WMI Events Listener
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="wmi_eventClassName"></param>
-        /// <param name="wql_condition"></param>
-        /// <param name="changeCallback"></param>
-        /// <param name="Log"></param>
-        public static void ListenWMIEvents(String wmi_eventClassName, String wql_condition, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
-        {
-
-        }
-        #endregion
-
-
+        
         #region ToDebug ToString
         public static void ToDebug(this PropertyData data)
         {
@@ -339,7 +335,7 @@ namespace SpaceCG.Extension
         /// <summary>
         /// 获取当前计算机的 串行端口 完整名称 的数组
         /// <para>与 <see cref="System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
-        /// <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多 WMI 应用需自行参考。</para>
+        /// <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
         /// </summary>
         /// <returns></returns>
         public static string[] GetPortNames()
@@ -358,7 +354,9 @@ namespace SpaceCG.Extension
         }
 
         /// <summary>
-        /// 异步示例、测试。没啥用的。
+        /// 获取当前计算机的 串行端口 完整名称 的数组
+        /// <para>与 <see cref="System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
+        /// <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
         /// </summary>
         /// <returns></returns>
         public static async Task<string[]> GetPortNamesAsync()

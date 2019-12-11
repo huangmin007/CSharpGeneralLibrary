@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace SpaceCG.Examples
 {
+    [Example]
     public class MouseHook:IDisposable
     {
         HookProc HookProc;

@@ -10,10 +10,15 @@ using System.Windows.Media;
 namespace SpaceCG.Log4Net
 {
     /// <summary>
-    /// Log4Net WPF TextBoxBase Appender
+    /// Log4Net WPF TextBoxBase/TextBox/RichTextBox Appender
     /// </summary>
     public class TextBoxBaseAppender : AppenderSkeleton
     {
+        /// <summary> Backgroud Color 1 </summary>
+        protected static readonly SolidColorBrush BgColor1 = new SolidColorBrush(Color.FromArgb(0x00, 0xC8, 0xC8, 0xC8));
+        /// <summary> Backgroud Color 2 </summary>
+        protected static readonly SolidColorBrush BgColor2 = new SolidColorBrush(Color.FromArgb(0x60, 0xC8, 0xC8, 0xC8));
+
         /// <summary> Info Color </summary>
         protected static readonly SolidColorBrush InfoColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0xFF));
         /// <summary> Warn Color </summary>
@@ -28,33 +33,47 @@ namespace SpaceCG.Log4Net
         /// </summary>
         protected uint MaxLines = 512;
         /// <summary> TextBoxBase </summary>
-        protected TextBoxBase TextBox;
+        protected TextBoxBase TextBoxBase;
         /// <summary> TextBox.AppendText Delegate Function </summary>
-        protected Action<String, Level> AppendTextDelegate;
+        protected Action<LoggingEvent> AppendLoggingEventDelegate;
 
         private TextBox tb;
         private RichTextBox rtb;
+        private bool changeBgColor = true;  //切换背景标志变量
+
 
         /// <summary>
-        /// Log4Net Appender for WPF TextBoxBase 
+        /// Log4Net Appender for WPF TextBoxBase(TextBox and RichTextBox)
         /// </summary>
         /// <param name="textBox"></param>
         public TextBoxBaseAppender(TextBoxBase textBox)
         {
-            this.TextBox = textBox;
-            this.AppendTextDelegate = TextBoxAppendText;
-            this.Layout = new PatternLayout("[%date{yyyy-MM-dd HH:mm:ss}] [%thread] [%level] [%method(%line)] %logger - %message (%r) %newline");
+            if (textBox == null) throw new ArgumentNullException("参数不能为空");
 
-            //Set Controls Default Config
-            if (this.TextBox is TextBox)
+            this.TextBoxBase = textBox;
+            this.AppendLoggingEventDelegate = AppendLoggingEvent;
+            this.Layout = new PatternLayout("[%date{HH:mm:ss}] [%thread] [%5level] [%method(%line)] %logger - %message (%r) %newline");
+
+            DefaultStyle(textBox);
+            log4net.Config.BasicConfigurator.Configure(this);
+        }
+
+        /// <summary>
+        /// 设置控件默认样式
+        /// </summary>
+        /// <param name="textBox"></param>
+        protected void DefaultStyle(TextBoxBase textBox)
+        {
+            // 属 TextBoxBase 子级，可以使用 is 运算符
+            if (textBox is TextBox)
             {
-                tb = (TextBox)this.TextBox;
+                tb = (TextBox)this.TextBoxBase;
                 tb.IsReadOnly = true;
                 tb.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Auto);
             }
-            else if(this.TextBox is RichTextBox)
+            else if (textBox is RichTextBox)
             {
-                rtb = (RichTextBox)this.TextBox;
+                rtb = (RichTextBox)this.TextBoxBase;
                 rtb.IsReadOnly = true;
                 rtb.AcceptsReturn = true;
                 rtb.Document.LineHeight = 2;
@@ -62,10 +81,8 @@ namespace SpaceCG.Log4Net
             }
             else
             {
-                //...                
+                // ...                
             }
-
-            log4net.Config.BasicConfigurator.Configure(this);
         }
 
         /// <summary>
@@ -84,12 +101,20 @@ namespace SpaceCG.Log4Net
         /// <param name="loggingEvent"></param>
         protected override void Append(LoggingEvent loggingEvent)
         {
-            if (this.TextBox == null) return;
-            //if (!this.TextBox.IsLoaded) return; //在其它线程中会产生错误
+            this.TextBoxBase?.Dispatcher.BeginInvoke(this.AppendLoggingEventDelegate, loggingEvent);
+        }
 
+        /// <summary>
+        /// TextBox Append LoggingEvent
+        /// </summary>
+        /// <param name="loggingEvent"></param>
+        protected void AppendLoggingEvent(LoggingEvent loggingEvent)
+        {
+            if (loggingEvent == null) return;
+            
+            //LoggingEvent
             String text = string.Empty;
             PatternLayout patternLayout = this.Layout as PatternLayout;
-
             if (patternLayout != null)
             {
                 text = patternLayout.Format(loggingEvent);
@@ -101,17 +126,8 @@ namespace SpaceCG.Log4Net
                 text = loggingEvent.LoggerName + "-" + loggingEvent.RenderedMessage + Environment.NewLine;
             }
 
-            this.TextBox.Dispatcher.BeginInvoke(this.AppendTextDelegate, text, loggingEvent.Level);
-        }
-
-        /// <summary>
-        /// TextBox AppendText
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="level"></param>
-        protected void TextBoxAppendText(String text, Level level)
-        {
-            if (tb != null && tb.IsLoaded)
+            //TextBox
+            if (tb != null)
             {
                 tb.AppendText(text);
                 tb.ScrollToEnd();
@@ -121,12 +137,12 @@ namespace SpaceCG.Log4Net
 
                 return;
             }
-
-            if (rtb != null && rtb.IsLoaded)
+            //RichTextBox
+            if (rtb != null)
             {
-                Paragraph paragraph = new Paragraph(new Run(text.Trim()));
-                paragraph.Background = level == Level.Fatal ? FatalColor : level == Level.Error ? ErrorColor : level == Level.Warn ? WarnColor : InfoColor;
-
+                Paragraph paragraph = new Paragraph(new Run(text.TrimEnd()));
+                paragraph.Background = GetColorBrush(loggingEvent.Level, changeBgColor = !changeBgColor);
+                
                 rtb.Document.Blocks.Add(paragraph);
                 rtb.ScrollToEnd();
 
@@ -135,8 +151,42 @@ namespace SpaceCG.Log4Net
 
                 return;
             }
-
         }
         
+        /// <summary>
+        /// 跟据 Level 获取颜色
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        public static SolidColorBrush GetColorBrush(Level level)
+        {
+            return level == Level.Fatal ? FatalColor : level == Level.Error ? ErrorColor : level == Level.Warn ? WarnColor : InfoColor;
+        }
+        /// <summary>
+        /// 跟据 Level and Line 获取颜色
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        public static SolidColorBrush GetColorBrush(Level level, int line)
+        {
+            if (level == Level.Fatal) return FatalColor;
+            else if (level == Level.Error) return ErrorColor;
+            else if (level == Level.Warn) return WarnColor;
+            else return line % 2 == 0 ? BgColor1 : BgColor2;
+        }
+        /// <summary>
+        /// 跟据 Level and Change 获取颜色
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="change"></param>
+        /// <returns></returns>
+        public static SolidColorBrush GetColorBrush(Level level, bool change)
+        {
+            if (level == Level.Fatal) return FatalColor;
+            else if (level == Level.Error) return ErrorColor;
+            else if (level == Level.Warn) return WarnColor;
+            else return change ? BgColor1 : BgColor2;
+        }
     }
 }

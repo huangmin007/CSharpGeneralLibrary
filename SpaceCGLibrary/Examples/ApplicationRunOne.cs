@@ -17,10 +17,11 @@ namespace SpaceCG.Examples
         /// 只运行一个实体对象
         /// <para>Main 函数</para>
         /// </summary>
-        public static void Main_x()
+        [Example]
+        public static void MainX()
         {
             bool createNew;
-            System.Threading.Mutex run = new System.Threading.Mutex(true, "MutexNameOrAppNameOrOther", out createNew);
+            System.Threading.Mutex run = new Mutex(true, "MutexNameOrAppNameOrOther", out createNew);
 
             if (createNew)
             {
@@ -35,12 +36,14 @@ namespace SpaceCG.Examples
                 //MessageBox.Show(null, "程序正在运行中......", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
             }
         }
-
+        
+        [Example]
         private static EventWaitHandle ProgramStarted { get; set; }
         /// <summary>
         /// WPF override OnStartup
         /// </summary>
         /// <param name="e"></param>
+        [Example]
         public static void OnStartup(StartupEventArgs e)
         {
             bool createNew;

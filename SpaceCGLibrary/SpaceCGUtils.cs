@@ -8,11 +8,13 @@ namespace SpaceCG
     /// </summary>
     public static class SpaceCGUtils
     {
+
         /// <summary>
         /// 移除对象的匿名委托事件（Lambda 表达式 或 匿名方法来创建 的 匿名函数）
         /// </summary>
         /// <param name="instanceObj">对象实例</param>
         /// <param name="eventName">对象事件名称</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void RemoveAnonymousEvents(Object instanceObj, String eventName)
         {
             if (instanceObj == null || string.IsNullOrWhiteSpace(eventName))

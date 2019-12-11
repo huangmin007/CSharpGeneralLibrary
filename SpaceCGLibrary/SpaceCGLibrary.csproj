@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\ApplicationRunOne.cs" />
+    <Compile Include="Examples\ExampleAttribute.cs" />
     <Compile Include="Examples\HwndSourceExample.cs" />
     <Compile Include="Examples\KeyboardHook.cs" />
     <Compile Include="Examples\LINQExamples.cs" />
@@ -99,9 +100,10 @@
     <Compile Include="HPSocket\TcpServer.cs" />
     <Compile Include="HPSocket\ThreadPoolSdk.cs" />
     <Compile Include="HPSocket\WebSocketServer.cs" />
+    <Compile Include="Log4Net\ListBoxAppender.cs" />
     <Compile Include="Log4Net\Log4NetUtils.cs" />
     <Compile Include="Log4Net\TextBoxBaseAppender.cs" />
-    <Compile Include="WindowsAPI\DBT\DBTDef.cs" />
+    <Compile Include="WindowsAPI\WinUser\DBTDef.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32Def.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32Utils.cs" />
@@ -126,13 +128,13 @@
     <Folder Include="Utility\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="WindowsAPI\DBT\Dbt.h" />
-    <Content Include="WindowsAPI\Kernel32\fileapi.h" />
-    <Content Include="WindowsAPI\Kernel32\WinBase.h" />
-    <Content Include="WindowsAPI\Kernel32\wingdi.h" />
-    <Content Include="WindowsAPI\Kernel32\winnt.h" />
-    <Content Include="WindowsAPI\WinDef.h" />
-    <Content Include="WindowsAPI\WinUser\WinUser.h" />
+    <Content Include="WindowsAPI\.hFiles\Dbt.h" />
+    <Content Include="WindowsAPI\.hFiles\fileapi.h" />
+    <Content Include="WindowsAPI\.hFiles\WinBase.h" />
+    <Content Include="WindowsAPI\.hFiles\wingdi.h" />
+    <Content Include="WindowsAPI\.hFiles\winnt.h" />
+    <Content Include="WindowsAPI\.hFiles\WinDef.h" />
+    <Content Include="WindowsAPI\.hFiles\WinUser.h" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

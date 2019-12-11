@@ -75,13 +75,18 @@ namespace SpaceCG.Extension
         /// <summary>
         /// 设置窗口在 Z 顺序中位于定位的窗口之前的窗口的值
         /// <para>调用 <see cref="WinUser.SetWindowPos(IntPtr, SwpState, int, int, int, int, SwpFlag)"/></para>
-        /// <para>WPF Window Handle use <see cref="WindowInteropHelper"/> .Handle</para>
+        /// <para>WPF Window Handle use <see cref="WindowInteropHelper"/>.Handle</para>
         /// </summary>
         /// <param name="window"></param>
         /// <param name="state"><see cref="SwpState"/></param>
+        /// <exception cref="ArgumentException"></exception>
         public static void InsertAfter(this Window window, SwpState state)
         {
-            WinUser.SetWindowPos(new WindowInteropHelper(window).Handle, state, 0, 0, 0, 0, SwpFlag.NOMOVE | SwpFlag.NOSIZE);
+            IntPtr hwnd = new WindowInteropHelper(window).Handle;
+            if(hwnd == IntPtr.Zero)
+                throw new ArgumentException("窗口实例化未完成/未呈现，无法获取窗口句柄。");
+
+            WinUser.SetWindowPos(hwnd, state, 0, 0, 0, 0, SwpFlag.NOMOVE | SwpFlag.NOSIZE);
         }
         
     }

@@ -2,7 +2,7 @@
 using SpaceCG.WindowsAPI.WinUser;
 using System.Runtime.InteropServices;
 
-namespace SpaceCG.WindowsAPI.DBT
+namespace SpaceCG.WindowsAPI.WinUser
 {
 
     /// <summary>

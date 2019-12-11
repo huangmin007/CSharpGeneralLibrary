@@ -276,3 +276,24 @@
 [18:31:39] [17] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(38)] - 客户端连接被断开(Connect)，描述：(10061) 由于目标计算机积极拒绝，无法连接。 (24217) 
 [18:31:39] [17] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(42)] - 客户端等待 3000ms 后重尝试重新连接 (24228) 
 [18:31:40] [10] [ INFO] [TestLibrary.App] [DisposeConnect(88)] - 客户端 c:0 主动断开并销毁释放 (25716) 
+[Header]
+[18:51:22] [10] [ INFO] [TestLibrary.App] [OnStartup(27)] - Application OnStartup (334) 
+[18:51:22] [10] [ INFO] [TestLibrary.MainWindow] [.ctor(43)] - MainWindow. (517) 
+[18:51:23] [15] [ INFO] [TestLibrary.App] [<CreateConnect>b__3(58)] - 客户端 127.0.0.1:42771 连接成功 (1057) 
+[18:51:24] [15] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(38)] - 客户端连接被断开(Close)，描述：(0) 操作成功完成。
+ (2578) 
+[18:51:24] [15] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(42)] - 客户端等待 3000ms 后重尝试重新连接 (2589) 
+[18:51:27] [16] [ INFO] [TestLibrary.App] [<CreateConnect>b__3(58)] - 客户端 127.0.0.1:42772 连接成功 (5607) 
+[18:51:29] [16] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(38)] - 客户端连接被断开(Close)，描述：(0) 操作成功完成。
+ (7172) 
+[18:51:29] [16] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(42)] - 客户端等待 3000ms 后重尝试重新连接 (7186) 
+[18:51:34] [17] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(38)] - 客户端连接被断开(Connect)，描述：(10061) 由于目标计算机积极拒绝，无法连接。
+ (12204) 
+[18:51:34] [17] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(42)] - 客户端等待 3000ms 后重尝试重新连接 (12213) 
+[18:51:39] [18] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(38)] - 客户端连接被断开(Connect)，描述：(10061) 由于目标计算机积极拒绝，无法连接。
+ (17226) 
+[18:51:39] [18] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(42)] - 客户端等待 3000ms 后重尝试重新连接 (17236) 
+[18:51:44] [17] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(38)] - 客户端连接被断开(Connect)，描述：(10061) 由于目标计算机积极拒绝，无法连接。
+ (22251) 
+[18:51:44] [17] [ INFO] [TestLibrary.App] [<CreateConnect>b__1(42)] - 客户端等待 3000ms 后重尝试重新连接 (22260) 
+[18:51:47] [16] [ INFO] [TestLibrary.App] [<CreateConnect>b__3(58)] - 客户端 127.0.0.1:42777 连接成功 (25272) 
