@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591,CS1572
+using System;
 
 namespace SpaceCG.Examples
 {

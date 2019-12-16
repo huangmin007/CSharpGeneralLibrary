@@ -9,7 +9,7 @@
             Application Run One Example
             </summary>
         </member>
-        <member name="M:SpaceCG.Examples.ApplicationRunOne.Main_x">
+        <member name="M:SpaceCG.Examples.ApplicationRunOne.MainX">
             <summary>
             只运行一个实体对象
             <para>Main 函数</para>
@@ -20,6 +20,11 @@
             WPF override OnStartup
             </summary>
             <param name="e"></param>
+        </member>
+        <member name="T:SpaceCG.Examples.ExampleAttribute">
+            <summary>
+            这是一个示例
+            </summary>
         </member>
         <member name="T:SpaceCG.Examples.KeyboardHook">
             <summary>
@@ -40,6 +45,13 @@
             <param name="lParam"></param>
             <returns></returns>
         </member>
+        <member name="M:SpaceCG.Examples.KeyboardHook.GetDownKeys">
+            <summary>
+            根据已经按下的控制键生成key
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.Examples.KeyboardHook.IsCtrlAltShiftKeys(SpaceCG.WindowsAPI.WinUser.VirtualKeyCode)">
             <summary>
             是否按下Ctrl,Alt,Shift等功能键
@@ -52,13 +64,35 @@
             HPSocket 扩展类
             </summary>
         </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateConnect(System.String,System.UInt16,System.Action{System.Byte[]},System.Boolean,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateTcpClient(System.String,System.UInt16,System.Action{System.Byte[]},System.Boolean,log4net.ILog)">
             <summary>
-            
+            创建 HPSocket.TcpClient 客户端连接对象，并监听事件。
+            <para>建议使用 <see cref="M:SpaceCG.Extension.HPSocketExtension.DisposeTcpClient(SpaceCG.HPSocket.TcpClient@,log4net.ILog)"/> 断开销毁客户端对象。 </para>
             </summary>
-            <param name="address"></param>
-            <param name="port"></param>
-            <returns></returns>
+            <param name="address">服务端地址</param>
+            <param name="port">服务端端口</param>
+            <param name="receivedCallback">数据接收回调</param>
+            <param name="autoConnect">断开后是否自动连接，等待 3000ms 后重新连接</param>
+            <param name="Log"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <returns>返回 TcpClient 对象</returns>
+        </member>
+        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeTcpClient(SpaceCG.HPSocket.TcpClient@,log4net.ILog)">
+            <summary>
+            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateTcpClient(System.String,System.UInt16,System.Action{System.Byte[]},System.Boolean,log4net.ILog)"/> 创建的客户端对象
+            <para>注意：静态函数，引用参数 client, 该方法会将 实例变量 设为 null </para>
+            </summary>
+            <param name="client"></param>
+            <param name="Log"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeTcpClient(SpaceCG.HPSocket.TcpClient,log4net.ILog)">
+            <summary>
+            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateTcpClient(System.String,System.UInt16,System.Action{System.Byte[]},System.Boolean,log4net.ILog)"/> 创建的客户端对象
+            <para>注意：扩展函数，需手动将实例变量设为 null</para>
+            </summary>
+            <param name="client"></param>
+            <param name="Log"></param>
         </member>
         <member name="T:SpaceCG.Extension.ManagementExtension">
             <summary>
@@ -83,7 +117,7 @@
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
             <summary>
-            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 RemoveInstanceChange 移除监听
+            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
             <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
             <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
             <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
@@ -97,7 +131,7 @@
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
             <summary>
-            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 RemoveInstanceChange 移除监听
+            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
             <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
             <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
             <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
@@ -108,20 +142,25 @@
             <param name="Log"></param>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange">
-            <summary>
-            移除监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件
-            </summary>
-        </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChangeAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
             <summary>
-            ListenInstanceChange 的异步方法
+            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
+            <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
             </summary>
-            <param name="wql_condition"></param>
-            <param name="withinInterval"></param>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
             <param name="changeCallback"></param>
             <param name="Log"></param>
-            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange">
+            <summary>
+            移除并销毁 由 <see cref="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)"/> 创建的监听。
+            <para>移除监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件</para>
+            </summary>
         </member>
         <member name="F:SpaceCG.Extension.ManagementExtension.InstanceModificationEvent">
             <summary> ManagementEventWatcher Object </summary>
@@ -129,7 +168,7 @@
         <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
             <summary>
             监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
-            <para>请使用 RemoveInstanceModification 移除监听 </para>
+            <para>请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification"/> 移除监听 </para>
             <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
             <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
             </summary>
@@ -153,39 +192,36 @@
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModificationAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
             <summary>
-            ListenInstanceModification 的异步方法
+            监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
+            <para>请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification"/> 移除监听 </para>
+            <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
             </summary>
-            <param name="wql_condition"></param>
-            <param name="withinInterval"></param>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
             <param name="changeCallback"></param>
             <param name="Log"></param>
-            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification">
             <summary>
-            移除监听 "__InstanceModificationEvent" 事件
+            移除并销毁 由 <see cref="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)"/> 创建的监听。
+            <para>移除监听 "__InstanceModificationEvent" 事件</para>
             </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenWMIEvents(System.String,System.String,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
-            <summary>
-            
-            </summary>
-            <param name="wmi_eventClassName"></param>
-            <param name="wql_condition"></param>
-            <param name="changeCallback"></param>
-            <param name="Log"></param>
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.GetPortNames">
             <summary>
             获取当前计算机的 串行端口 完整名称 的数组
             <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
-            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多 WMI 应用需自行参考。</para>
+            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
             </summary>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.GetPortNamesAsync">
             <summary>
-            异步示例、测试。没啥用的。
+            获取当前计算机的 串行端口 完整名称 的数组
+            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
+            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
             </summary>
             <returns></returns>
         </member>
@@ -227,36 +263,31 @@
             串口 Serial_ErrorReceived 事件的错误描述信息
             </summary>
         </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.Create(System.String,System.Int32,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.Byte[]},System.Int32,System.Boolean,log4net.ILog)">
             <summary>
-            创建串口对象(根据配置)
+            根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。
+            <para>建议使用 <see cref="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort@,log4net.ILog)"/> 清理该实例。</para>
             </summary>
-            <param name="config">串口配置；示例："COM3,9600", "COM3,9600,0," 参数顺序："portName, baudRate, Parity, dataBits, StopBits"</param>
-            <param name="receivedBytesThreshold">接收字节阀值，对象在收到这样长度的数据之后会触发事件处理函数
-            <para>获取或设置 System.IO.Ports.SerialPort.DataReceived 事件发生前内部输入缓冲区中的字节数。</para>
-            <para>System.IO.Ports.SerialPort.DataReceived 事件触发前内部输入缓冲区中的字节数，默认值为 1。</para>
+            <param name="config">串口构造函数参数，参见 <see cref="T:System.IO.Ports.SerialPort"/> 构造函数。
+                <para>参数顺序："portName, baudRate, Parity, dataBits, StopBits"，按顺序不得少于 1 个参数，如果只有一个参数时，第二个参数 baudRate 将默认为 9600。示例："COM3", "COM3,115200", "COM3,9600,0"</para>
+                <para>注意：如果构造函数参数不正确，或不规范，将抛出 <see cref="T:System.ArgumentNullException"/> 或 <see cref="T:System.ArgumentException"/> 异常信息。</para>
             </param>
-            <param name="Log">日志记录对象</param>
+            <param name="dataReceivedCallback">数据接收回调，为 null 时，不监听 <see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件。</param>
+            <param name="receivedBytesThreshold">接收字节阀值，对象在收到这样长度的数据之后会触发事件 (<see cref="E:System.IO.Ports.SerialPort.DataReceived"/>) 处理函数
+                <para>获取或设置 <see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件发生前内部输入缓冲区中的字节数。</para>
+                <para><see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件触发前内部输入缓冲区中的字节数；默认值为 1，可跟据数据设计大小定义。</para>
+            </param>
+            <param name="ignoreOpenError">是否忽略由 <see cref="M:System.IO.Ports.SerialPort.Open"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort,log4net.ILog)"/>。
+                <para>如果为 true 则产生的异常信息由 Log(如果有) 记录，否则会抛出异常信息。</para>
+            </param>
+            <param name="Log">日志记录对象。如果不为 null ，则会监听记录 <see cref="E:System.IO.Ports.SerialPort.ErrorReceived"/> 和 <see cref="E:System.IO.Ports.SerialPort.PinChanged"/> 事件信息，和其它创建过程信息。</param>
             <exception cref="T:System.ArgumentException"></exception>
             <exception cref="T:System.ArgumentNullException"></exception>
-            <returns> 返回一个根据配置设置好的串口对象 </returns>
-        </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.OpenAndListen(System.IO.Ports.SerialPort,System.Action{System.Byte[]},System.Boolean,log4net.ILog)">
-            <summary>
-            打开串口连接/数据接收，事件采用匿名函数。
-            <para>请使用 CloseAndDispose 移除匿名事件、关闭/销毁串口</para>
-            </summary>
-            <param name="serialPort"></param>
-            <param name="receivedCallback"></param>
-            <param name="ignoreError">忽略 SerialPort.Open() 异常，为监听设备热插拔自动重新连接做准备 </param>
-            <param name="Log"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-            <exception cref="T:System.InvalidOperationException"></exception>
-            <returns>SerialPort.Open() 成功，返回 true , 反之返回 false .</returns>
+            <returns> 返回串口对象 </returns>
         </member>
         <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort,log4net.ILog)">
             <summary>
-            设备热插拔自动重新连接
+            串口设备热插拔自动重新连接
             <para>使用 ManagementEventWatcher WQL 事件监听模式</para>
             </summary>
             <param name="serialPort"></param>
@@ -264,20 +295,29 @@
         </member>
         <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort,System.Windows.Window,log4net.ILog)">
             <summary>
-            设备热插拔自动重新连接
+            串口设备热插拔自动重新连接
             <para>使用 HwndSource Hook Window Message #WM_DEVICECHANGE 事件监听模式</para>
             </summary>
             <param name="serialPort"></param>
             <param name="window">IsLoaded 为 True 的窗口对象</param>
             <param name="Log"></param>
         </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort@,log4net.ILog)">
+            <summary>
+            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.Byte[]},System.Int32,System.Boolean,log4net.ILog)"/> 创建的串口实例
+            <para>注意：静态函数，引用参数 serialPort, 该方法会将 实例变量 设为 null </para>
+            </summary>
+            <param name="serialPort"></param>
+            <param name="Log"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort,log4net.ILog)">
             <summary>
-            关闭清理串口
+            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.Byte[]},System.Int32,System.Boolean,log4net.ILog)"/> 创建的串口实例
+            <para>注意：扩展函数，需手动将实例变量设为 null</para>
             </summary>
             <param name="serialPort"></param>
             <param name="Log">日志记录对象</param>
-            <exception cref="T:System.InvalidOperationException"></exception>
         </member>
         <member name="T:SpaceCG.Extension.IEnumerableExtension">
             <summary>
@@ -353,10 +393,11 @@
             <summary>
             设置窗口在 Z 顺序中位于定位的窗口之前的窗口的值
             <para>调用 <see cref="M:SpaceCG.WindowsAPI.WinUser.WinUser.SetWindowPos(System.IntPtr,SpaceCG.WindowsAPI.WinUser.SwpState,System.Int32,System.Int32,System.Int32,System.Int32,SpaceCG.WindowsAPI.WinUser.SwpFlag)"/></para>
-            <para>WPF Window Handle use <see cref="T:System.Windows.Interop.WindowInteropHelper"/> .Handle</para>
+            <para>WPF Window Handle use <see cref="T:System.Windows.Interop.WindowInteropHelper"/>.Handle</para>
             </summary>
             <param name="window"></param>
             <param name="state"><see cref="T:SpaceCG.WindowsAPI.WinUser.SwpState"/></param>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:SpaceCG.HPSocket.Common.PtrToAnsiString(System.IntPtr)">
             <summary>
@@ -417,7 +458,7 @@
             
             </summary>
             <param name="key"></param>
-            <param name="value"></param>
+            <param name="newValue"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.ConnectionExtra.RemoveExtra(System.IntPtr)">
@@ -613,7 +654,12 @@
             【必须】WebSocket数据头通知
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.HttpAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.HttpAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.HttpAgent.Destroy">
             <summary>
             终止服务并释放资源
@@ -628,6 +674,7 @@
             <param name="path">请求路径</param>
             <param name="headers">请求头</param>
             <param name="body">请求体</param>
+            <param name="bodyLength"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.HttpAgent.SendLocalFile(System.IntPtr,System.String,SpaceCG.HPSocket.HttpMethod,System.String,SpaceCG.HPSocket.THeader[])">
@@ -726,7 +773,7 @@
             <param name="iReserved"></param>
             <param name="iOperationCode"></param>
             <param name="lpszMask"></param>
-            <param name="Data"></param>
+            <param name="pData"></param>
             <param name="ullBodyLen"></param>
             <returns></returns>
         </member>
@@ -939,7 +986,12 @@
             【必须】WebSocket数据头通知
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.HttpClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.HttpClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.HttpClient.Destroy">
             <summary>
             终止服务并释放资源
@@ -954,6 +1006,7 @@
             <param name="path">请求路径</param>
             <param name="headers">请求头</param>
             <param name="body">请求体</param>
+            <param name="bodyLength"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.HttpClient.SendLocalFile(System.String,SpaceCG.HPSocket.HttpMethod,System.String,SpaceCG.HPSocket.THeader[])">
@@ -1043,7 +1096,7 @@
             <param name="iReserved"></param>
             <param name="iOperationCode"></param>
             <param name="lpszMask"></param>
-            <param name="Data"></param>
+            <param name="pData"></param>
             <param name="ullBodyLen"></param>
             <returns></returns>
         </member>
@@ -1417,6 +1470,7 @@
             <param name="lpszUrl">请求 URL</param>
             <param name="lpHeaders">请求头</param>
             <param name="iHeaderCount">请求头数量</param>
+            <param name="pData"></param>
             <param name="pBody">请求体</param>
             <param name="iLength">请求体长度</param>
             <param name="bForceReconnect">强制重新连接（默认：FALSE，当请求 URL 的主机和端口与现有连接一致时，重用现有连接）</param>
@@ -1443,7 +1497,7 @@
             设置请求超时（毫秒，0：无限等待，默认：10000）
             </summary>
             <param name="pClient"></param>
-            <param name="dwConnectTimeout"></param>
+            <param name="dwRequestTimeout"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.HttpSdk.HP_HttpSyncClient_GetConnectTimeout(System.IntPtr)">
@@ -1467,7 +1521,8 @@
             获取响应体
             </summary>
             <param name="pClient"></param>
-            <param name="dwConnectTimeout"></param>
+            <param name="lpszBody"></param>
+            <param name="iLength"></param>
             <returns></returns>
         </member>
         <member name="E:SpaceCG.HPSocket.HttpServer.OnMessageBegin">
@@ -1525,7 +1580,12 @@
             【必须】解析错误通知
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.HttpServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.HttpServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.HttpServer.Destroy">
             <summary>
             终止服务并释放资源
@@ -1541,6 +1601,7 @@
             <param name="desc">HTTP 状态描述</param>
             <param name="headers">回复请求头</param>
             <param name="body">回复请求体</param>
+            <param name="bodyLength"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.HttpServer.SendLocalFile(System.IntPtr,System.String,SpaceCG.HPSocket.HttpStatusCode,System.String,SpaceCG.HPSocket.THeader[])">
@@ -2344,6 +2405,7 @@
             <param name="pemKeyFile">私钥文件</param>
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
+            <param name="sniServerNameCallback"></param>
         </member>
         <member name="M:SpaceCG.HPSocket.SSLHttpServer.Initialize">
             <summary>
@@ -2381,7 +2443,12 @@
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPackAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPackAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPackAgent.Destroy">
             <summary>
             终止服务并释放资源
@@ -2409,7 +2476,12 @@
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPackClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPackClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPackClient.Destroy">
             <summary>
             终止服务并释放资源
@@ -2438,7 +2510,12 @@
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
             <param name="sniServerNameCallback">SNI 回调函数指针（可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPackServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPackServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPackServer.Destroy">
             <summary>
             终止服务并释放资源
@@ -2466,7 +2543,12 @@
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPullAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPullAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPullAgent.Fetch(System.IntPtr,System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -2519,7 +2601,12 @@
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPullClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPullClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPullClient.Fetch(System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -2566,7 +2653,12 @@
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
             <param name="sniServerNameCallback">SNI 回调函数指针（可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPullServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPullServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPullServer.Fetch(System.IntPtr,System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -3060,7 +3152,12 @@
             服务关闭事件
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpAgent.Destroy">
             <summary>
             终止服务并释放资源
@@ -3547,7 +3644,12 @@
             获取是否属于连接状态
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpClient.Destroy">
             <summary>
             终止服务并释放资源
@@ -3898,7 +4000,12 @@
             <param name="bytes"></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPackAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPackAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPackAgent.Destroy">
             <summary>
             终止服务并释放资源
@@ -3916,7 +4023,12 @@
             有效包头标识取值范围 0 ~ 8191/0x1FFF，当包头标识为 0 时不校验包头，默认：0
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPackClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPackClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPackClient.Destroy">
             <summary>
             终止服务并释放资源
@@ -3934,7 +4046,12 @@
             有效包头标识取值范围 0 ~ 8191/0x1FFF，当包头标识为 0 时不校验包头，默认：0
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPackServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPackServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPackServer.Destroy">
             <summary>
             终止服务并释放资源
@@ -3952,7 +4069,12 @@
             有效包头标识取值范围  0 ~ 1023/0x3FF，当包头标识为 0 时不校验包头，默认：0
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPullAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPullAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPullAgent.Fetch(System.IntPtr,System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -3995,7 +4117,12 @@
             数据到达事件
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPullClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPullClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPullClient.Fetch(System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -4031,7 +4158,12 @@
             数据到达事件
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPullServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPullServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPullServer.Fetch(System.IntPtr,System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -4112,7 +4244,12 @@
             tcpserver构造
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpServer.Destroy">
             <summary>
             终止服务并释放资源
@@ -4778,6 +4915,79 @@
             <param name="pThreadPool"></param>
             <returns></returns>
         </member>
+        <member name="T:SpaceCG.Log4Net.MultiStringConverter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SpaceCG.Log4Net.ListBoxAppender">
+            <summary>
+            Log4Net WPF ListBox/ListView Appender
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.ListBoxAppender.MaxLines">
+            <summary>
+            获取或设置最大可见行数
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.ListBoxAppender.ListBox">
+            <summary> ListBox </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.ListBoxAppender.ListView">
+            <summary> ListView </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.ListBoxAppender.AppendLoggingEventDelegate">
+            <summary> TextBox.AppendText Delegate Function </summary>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.#ctor(System.Windows.Controls.ListBox)">
+            <summary>
+            Log4Net Appender for WPF ListBox and ListView
+            </summary>
+            <param name="listBox"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.DefaultStyle(System.Windows.Controls.ListBox)">
+            <summary>
+            设置控件默认样式
+            </summary>
+            <param name="listBox"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.#ctor(System.Windows.Controls.ListBox,System.UInt32)">
+            <summary>
+            Log4Net Appender for WPF ListBox and ListView
+            </summary>
+            <param name="listBox"></param>
+            <param name="maxLines">最大行数为 1024 行，默认为 512 行</param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.Append(log4net.Core.LoggingEvent)">
+            <summary>
+            @override
+            </summary>
+            <param name="loggingEvent"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.AppendLoggingEvent(log4net.Core.LoggingEvent)">
+            <summary>
+            Addend Logging Event
+            </summary>
+            <param name="loggingEvent"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.CreateColumn(System.String,System.String,System.Int32)">
+            <summary>
+            创建简单的 GridViewColumn 对象
+            </summary>
+            <param name="header"></param>
+            <param name="path"></param>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.CreateColumn(System.String,System.String[],System.String)">
+            <summary>
+            创建简单的 GridViewColumn 对象
+            </summary>
+            <param name="header"></param>
+            <param name="paths"></param>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
         <member name="T:SpaceCG.Log4Net.Log4NetUtils">
             <summary>
             Log4Net 实用/通用 函数
@@ -4803,347 +5013,381 @@
             <param name="path">文件夹目录</param>
             <param name="searchPattern">文件匹配类型</param>
         </member>
-        <member name="T:SpaceCG.Log4Net.TextBoxBaseAppender">
+        <member name="T:SpaceCG.Log4Net.TextBoxAppender">
             <summary>
-            Log4Net WPF TextBoxBase Appender
+            Log4Net WPF TextBoxBase/TextBox/RichTextBox Appender
             </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.InfoColor">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.BgColor1">
+            <summary> Backgroud Color 1 </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.BgColor2">
+            <summary> Backgroud Color 2 </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.InfoColor">
             <summary> Info Color </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.WarnColor">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.WarnColor">
             <summary> Warn Color </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.ErrorColor">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.ErrorColor">
             <summary> Error Color </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.FatalColor">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.FatalColor">
             <summary> Fatal Color </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.MaxLines">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.MaxLines">
             <summary>
             获取或设置最大可见行数
             </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.TextBox">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.TextBoxBase">
             <summary> TextBoxBase </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.AppendTextDelegate">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.AppendLoggingEventDelegate">
             <summary> TextBox.AppendText Delegate Function </summary>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase)">
             <summary>
-            Log4Net Appender for WPF TextBoxBase 
+            Log4Net Appender for WPF TextBoxBase(TextBox and RichTextBox)
             </summary>
             <param name="textBox"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase,System.UInt32)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.DefaultStyle(System.Windows.Controls.Primitives.TextBoxBase)">
+            <summary>
+            设置控件默认样式
+            </summary>
+            <param name="textBox"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase,System.UInt32)">
             <summary>
             Log4Net Appender for WPF TextBoxBase 
             </summary>
             <param name="textBox"></param>
             <param name="maxLines">最大行数为 1024 行，默认为 512 行</param>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.Append(log4net.Core.LoggingEvent)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.Append(log4net.Core.LoggingEvent)">
             <summary>
             @override
             </summary>
             <param name="loggingEvent"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.TextBoxAppendText(System.String,log4net.Core.Level)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.AppendLoggingEvent(log4net.Core.LoggingEvent)">
             <summary>
-            TextBox AppendText
+            TextBox Append LoggingEvent
             </summary>
-            <param name="text"></param>
-            <param name="level"></param>
+            <param name="loggingEvent"></param>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetColorBrush(log4net.Core.Level)">
+            <summary>
+            跟据 Level 获取颜色
+            </summary>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetColorBrush(log4net.Core.Level,System.Int32)">
+            <summary>
+            跟据 Level and Line 获取颜色
+            </summary>
+            <param name="level"></param>
+            <param name="line"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetColorBrush(log4net.Core.Level,System.Boolean)">
+            <summary>
+            跟据 Level and Change 获取颜色
+            </summary>
+            <param name="level"></param>
+            <param name="change"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType">
             <summary>
             Device Broadcast Type
             <para><see cref="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_DEVICECHANGE"/> wParam Data, device-change event</para>
             <para>参考：C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um  Dbt.h </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_APPYBEGIN">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_APPYBEGIN">
             <summary>
             appy begin. lParam  = (not used)
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_APPYEND">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_APPYEND">
             <summary>
             appy end. lParam  = (not used)
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVNODES_CHANGED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVNODES_CHANGED">
             <summary>
             当 configmg 完成进程树批处理时发送. lParam  = 0
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_QUERYCHANGECONFIG">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_QUERYCHANGECONFIG">
             <summary>
             sent to ask if a config change is allowed. lParam  = 0
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_CONFIGCHANGED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_CONFIGCHANGED">
             <summary>
             sent when a config has changed, lParam  = 0
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_CONFIGCHANGECANCELED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_CONFIGCHANGECANCELED">
             <summary>
             someone cancelled the config change, lParam  = 0
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_MONITORCHANGE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_MONITORCHANGE">
             <summary>
             this message is sent when the display monitor has changed and the system should change the display mode to match it.
             <para>lParam  = new resolution to use (LOWORD=x, HIWORD=y) if 0, use the default res for current config</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_SHELLLOGGEDON">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_SHELLLOGGEDON">
             <summary>
             The shell has finished login on: VxD can now do Shell_EXEC.  lParam  = 0
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_CONFIGMGAPI32">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_CONFIGMGAPI32">
             <summary>
             lParam  = CONFIGMG API Packet, CONFIGMG ring 3 call.
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_VXDINITCOMPLETE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_VXDINITCOMPLETE">
             <summary>
             CONFIGMG ring 3 call. lParam  = 0
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_VOLLOCKQUERYLOCK">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_VOLLOCKQUERYLOCK">
             <summary>
             Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
             <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_VOLLOCKLOCKTAKEN">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_VOLLOCKLOCKTAKEN">
             <summary>
             Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
             <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_VOLLOCKLOCKFAILED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_VOLLOCKLOCKFAILED">
             <summary>
             Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
             <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_VOLLOCKQUERYUNLOCK">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_VOLLOCKQUERYUNLOCK">
             <summary>
             Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
             <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_VOLLOCKLOCKRELEASED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_VOLLOCKLOCKRELEASED">
             <summary>
             Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
             <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_VOLLOCKUNLOCKFAILED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_VOLLOCKUNLOCKFAILED">
             <summary>
             Message = WM_DEVICECHANGE, wParam  = DBT_VOLLOCK*, lParam  = pointer to VolLockBroadcast structure described below.
             <para>Messages issued by IFSMGR for volume locking purposes on WM_DEVICECHANGE. All these messages pass a pointer to a struct which has no pointers.</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_NO_DISK_SPACE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_NO_DISK_SPACE">
             <summary>
             Message issued by IFS manager when it detects that a drive is run out of free space. lParam = drive number of drive that is out of disk space (1-based)
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_LOW_DISK_SPACE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_LOW_DISK_SPACE">
             <summary>
             lParam  = drive number of drive that is low on disk space (1-based)
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_CONFIGMGPRIVATE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_CONFIGMGPRIVATE">
             <summary>
             configmg private
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVICEARRIVAL">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVICEARRIVAL">
             <summary>
             system detected a new device
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVICEQUERYREMOVE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVICEQUERYREMOVE">
             <summary>
             wants to remove, may fail
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVICEQUERYREMOVEFAILED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVICEQUERYREMOVEFAILED">
             <summary>
             removal aborted
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVICEREMOVECOMPLETE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVICEREMOVECOMPLETE">
             <summary>
             Device Move Complete
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVICETYPESPECIFIC">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVICETYPESPECIFIC">
             <summary>
             type specific event
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_CUSTOMEVENT">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_CUSTOMEVENT">
             <summary>
             user-defined event
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVINSTENUMERATED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVINSTENUMERATED">
             <summary>
             (WIN7) system detected a new device
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVINSTSTARTED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVINSTSTARTED">
             <summary>
             (WIN7) device installed and started
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVINSTREMOVED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVINSTREMOVED">
             <summary>
             (WIN7) device removed from system
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_DEVINSTPROPERTYCHANGED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_DEVINSTPROPERTYCHANGED">
             <summary>
             (WIN7) a property on the device changed
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType.DBT_USERDEFINED">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType.DBT_USERDEFINED">
             <summary>
             User defined
             </summary>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DeviceType">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DeviceType">
             <summary>
-            <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR.dbch_devicetype"/> 的值之一
+            <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HDR"/> 结构体字段 <see cref="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HDR.dbch_devicetype"/> 的值之一
             <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ns-dbt-dev_broadcast_hdr </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_OEM">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceType.DBT_DEVTYP_OEM">
             <summary>
-            oem-defined device type, OEM 或 IHV 定义的设备类型。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM"/> 结构。
+            oem-defined device type, OEM 或 IHV 定义的设备类型。此结构是 <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_OEM"/> 结构。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_DEVNODE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceType.DBT_DEVTYP_DEVNODE">
             <summary>
             devnode number
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_VOLUME">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceType.DBT_DEVTYP_VOLUME">
             <summary>
-            logical volume, 逻辑卷。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME"/> 结构。
+            logical volume, 逻辑卷。此结构是 <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_VOLUME"/> 结构。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_PORT">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceType.DBT_DEVTYP_PORT">
             <summary>
-            serial/parallel, 端口设备（串行或并行）。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT"/> 结构。
+            serial/parallel, 端口设备（串行或并行）。此结构是 <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_PORT"/> 结构。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_NET">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceType.DBT_DEVTYP_NET">
             <summary>
             network resource
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_DEVICEINTERFACE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceType.DBT_DEVTYP_DEVICEINTERFACE">
             <summary>
-            device interface class, 设备类别。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE"/> 结构。
+            device interface class, 设备类别。此结构是 <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_DEVICEINTERFACE"/> 结构。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_HANDLE">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceType.DBT_DEVTYP_HANDLE">
             <summary>
-            file system handle, 文件系统句柄。此结构是 <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE"/> 结构。
+            file system handle, 文件系统句柄。此结构是 <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HANDLE"/> 结构。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DeviceType.DBT_DEVTYP_DEVINST">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DeviceType.DBT_DEVTYP_DEVINST">
             <summary>
             device instance
             </summary>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HDR">
             <summary>
             用作与通过 <see cref="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_DEVICECHANGE"/> 消息报告的设备事件相关的信息的标准标头 。
             <para>WM_DEVICECHANGE lParam Data, event-specific data</para>
-            <para>由于此结构包含可变长度字段，因此可以将其用作创建指向用户定义结构的指针的模板。请注意，该结构不得包含指针。示：<see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED"/>, <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT"/>, <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME"/>, <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM"/> 等</para>
+            <para>由于此结构包含可变长度字段，因此可以将其用作创建指向用户定义结构的指针的模板。请注意，该结构不得包含指针。示：<see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_USERDEFINED"/>, <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_PORT"/>, <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_VOLUME"/>, <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_OEM"/> 等</para>
             <para> DEV_BROADCAST_HDR 结构的成员 包含在每个设备管理结构中。要确定您通过 WM_DEVICECHANGE 接收到的结构，请将其视为 DEV_BROADCAST_HDR 结构并检查其 dbch_devicetype 成员。</para>
             <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ns-dbt-dev_broadcast_hdr </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR.dbch_size">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HDR.dbch_size">
             <summary>
             此结构的大小，以字节为单位。
             <para>如果这是用户定义的事件，则此成员必须是此标头的大小，加上 _DEV_BROADCAST_USERDEFINED 结构中的可变长度数据的 大小。</para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR.dbch_devicetype">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HDR.dbch_devicetype">
             <summary>
             设备类型，确定跟随前三个成员的事件特定信息。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR.dbch_reserved">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HDR.dbch_reserved">
             <summary>
             保留，不使用。
             </summary>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR.ToString">
+        <member name="M:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HDR.ToString">
             <summary>
             @ToString()
             </summary>
             <returns></returns>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_USERDEFINED">
             <summary>
             包含用户定义的事件以及与 DBT_USERDEFINED 设备事件关联的可选数据 。
             <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ns-dbt-_dev_broadcast_userdefined </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED.dbud_head">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_USERDEFINED.dbud_head">
             <summary>
             有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息 。因为 DEV_BROADCAST_USERDEFINED 是可变长度，则mdbch_sizem所述的构件mdbud_dbhm结构必须在整个结构的字节数，包括可变长度部分的大小。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED.dbud_szName">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_USERDEFINED.dbud_szName">
             <summary>
             指向区分大小写，以空字符结尾的字符串的指针，该字符串命名消息。该字符串必须由供应商名称，反斜杠和后面的任意用户定义的以空字符结尾的文本组成。
             </summary>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_USERDEFINED.ToString">
+        <member name="M:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_USERDEFINED.ToString">
             <summary>
             @ToString()
             </summary>
             <returns></returns>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_PORT">
             <summary>
             包含有关调制解调器，串行或并行端口的信息。
             <para>DEV_BROADCAST_PORT_A, * PDEV_BROADCAST_PORT_A;</para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_port_a </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT.dbcp_head">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_PORT.dbcp_head">
             <summary>
             有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT.dbcp_name">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_PORT.dbcp_name">
             <summary>
             以空值结尾的字符串，用于指定端口或连接到该端口的设备的友好名称。友好名称旨在帮助用户快速准确地识别设备-例如，"COM1" 和 "Standard 28800 bps Modem" 被视为友好名称。
             </summary>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_PORT.ToString">
+        <member name="M:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_PORT.ToString">
             <summary>
             @ToString()
             </summary>
             <returns></returns>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_VOLUME">
             <summary>
             包含有关逻辑卷的信息。
             <para>尽管dbcv_unitmask成员可以在任何消息中指定多个卷，但这不能保证为指定事件仅生成一个消息。多个系统功能部件可以同时独立地为逻辑卷生成消息。</para>
@@ -5151,507 +5395,133 @@
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_volume </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME.dbcv_head">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_VOLUME.dbcv_head">
             <summary>
             有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME.dbcv_unitmask">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_VOLUME.dbcv_unitmask">
             <summary>
             逻辑单元掩码标识一个或多个逻辑单元。掩码中的每一位对应一个逻辑驱动器。位0代表驱动器A，位1代表驱动器B，依此类推。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME.dbcv_flags">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_VOLUME.dbcv_flags">
             <summary>
             此参数可以是下列值之一。
             <para>DBTF_MEDIA  0x0001 更改会影响驱动器中的介质。如果未设置，则更改会影响物理设备或驱动器。</para>
             <para>DBTF_NET    0x0002  指示的逻辑卷是网络卷。</para>
             </summary>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_VOLUME.ToString">
+        <member name="M:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_VOLUME.ToString">
             <summary>
             @ToString()
             </summary>
             <returns></returns>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_OEM">
             <summary>
             包含有关OEM定义的设备类型的信息。
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_oem </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM.dbco_head">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_OEM.dbco_head">
             <summary>
             有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM.dbco_identifier">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_OEM.dbco_identifier">
             <summary>
             设备的OEM特定标识符。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM.dbco_suppfunc">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_OEM.dbco_suppfunc">
             <summary>
             OEM特定的功能值。可能的值取决于设备。
             </summary>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_OEM.ToString">
+        <member name="M:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_OEM.ToString">
             <summary>
             @ToString()
             </summary>
             <returns></returns>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_DEVICEINTERFACE">
             <summary>
             包含有关一类设备的信息。
             <para>DEV_BROADCAST_DEVICEINTERFACE_A, * PDEV_BROADCAST_DEVICEINTERFACE_A;</para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_deviceinterface_a </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE.dbcc_head">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_DEVICEINTERFACE.dbcc_head">
             <summary>
             有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE.dbcc_classguid">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_DEVICEINTERFACE.dbcc_classguid">
             <summary>
             接口设备类的GUID。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE.dbcc_name">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_DEVICEINTERFACE.dbcc_name">
             <summary>
             以空值结尾的字符串，用于指定设备的名称。
             <para>通过 WM_DEVICECHANGE 消息将此结构返回到窗口时，dbcc_name 字符串将适当地转换为 ANSI。服务始终会收到 Unicode 字符串，无论它们调用 RegisterDeviceNotificationW 还是 RegisterDeviceNotificationA。</para>
             </summary>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_DEVICEINTERFACE.ToString">
+        <member name="M:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_DEVICEINTERFACE.ToString">
             <summary>
             @ToString()
             </summary>
             <returns></returns>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HANDLE">
             <summary>
             包含有关文件系统句柄的信息。
             <para>DEV_BROADCAST_HANDLE, * PDEV_BROADCAST_HANDLE;</para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/dbt/ns-dbt-dev_broadcast_handle </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_head">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HANDLE.dbch_head">
             <summary>
             有关受 DEV_BROADCAST_HDR 结构指定的 WM_DEVICECHANGE 消息影响的设备的信息。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_handle">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HANDLE.dbch_handle">
             <summary>
             要检查的设备的句柄。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_hdevnotify">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HANDLE.dbch_hdevnotify">
             <summary>
             设备通知的句柄。该句柄由 RegisterDeviceNotification 返回 。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_eventguid">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HANDLE.dbch_eventguid">
             <summary>
             自定义事件的GUID。有关更多信息，请参见 设备事件。仅对 DBT_CUSTOMEVENT 有效。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_nameoffset">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HANDLE.dbch_nameoffset">
             <summary>
             可选字符串缓冲区的偏移量。仅对 DBT_CUSTOMEVENT 有效。
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.dbch_data">
+        <member name="F:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HANDLE.dbch_data">
             <summary>
             可选的二进制数据。该成员仅对 DBT_CUSTOMEVENT 有效。
             </summary>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HANDLE.ToString">
+        <member name="M:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HANDLE.ToString">
             <summary>
             @ToString()
             </summary>
             <returns></returns>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.DBT.DBTDef">
+        <member name="T:SpaceCG.WindowsAPI.WinUser.DBTDef">
             <summary>
             Device Broadcast Type Define, Dbt.h
             <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/dbt/ </para>
             <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/devio/device-management </para>
-            </summary>
-        </member>
-        <member name="T:SpaceCG.WindowsAPI.Kernel32.Kernel32">
-            <summary>
-            Kernel32.h 常用/实用 函数
-            <para>Marshal.GetLastWin32Error(), new WindowInteropHelper(Window).Handle</para>
-            <para>参考：C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um </para>
-            </summary>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetSystemTime(SpaceCG.WindowsAPI.Kernel32.SystemTimeClass)">
-            <summary>
-            获取系统时间
-            <para>这只是一个示例，传参类型为 Class 引用</para>
-            <para> SystemTimeClass 与 SystemTimeStruct 隐式转换 </para>
-            </summary>
-            <param name="systemTime"></param>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetSystemTime(SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct@)">
-            <summary>
-            获取系统时间
-            <para>这只是一个示例，传参类型为 Struct 按值传，引用传需加 ref </para>
-            <para> SystemTimeClass 与 SystemTimeStruct 隐式转换 </para>
-            </summary>
-            <param name="systemTime"></param>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.LoadLibrary(System.String)">
-            <summary>
-            将指定的模块加载到调用进程的地址空间中。指定的模块可能会导致其他模块被加载。
-            <para>有关其他加载选项，请使用 LoadLibraryEx 函数。</para>
-            <para>若要启用或禁用 DLL 加载期间加载程序显示的错误消息，请使用 SetErrorMode 函数。</para>
-            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya </para>
-            </summary>
-            <param name="lpLibFileName">[LPCSTR] 模块的名称。这可以是库模块（.dll文件）或可执行模块（.exe文件）。指定的名称是模块的文件名，并且与模块模块定义（.def）文件中的 LIBRARY 关键字指定的库模块本身中存储的名称无关。
-                <para>如果字符串指定完整路径，则该函数仅在该路径中搜索模块。如果字符串指定相对路径或不带路径的模块名称，则该函数使用标准搜索策略查找模块；有关更多信息，请参见备注。</para>
-                <para>如果该功能找不到模块，则该功能将失败。指定路径时，请确保使用反斜杠（\），而不使用正斜杠（/）。有关路径的更多信息，请参见 命名文件或目录。</para>
-                <para>如果字符串指定没有路径的模块名称，并且省略了文件扩展名，则该函数会将默认库扩展名.dll附加到模块名。为防止函数将.dll附加到模块名称，请在模块名称字符串中包含尾随字符（。）。</para>
-            </param>
-            <returns>如果函数成功，则返回值是模块的句柄。如果函数失败，则返回值为 NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.FreeLibrary(System.IntPtr)">
-            <summary>
-            释放已加载的动态链接库（DLL）模块，并在必要时减少其引用计数。当引用计数达到零时，将从调用进程的地址空间中卸载模块，并且该句柄不再有效。
-            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-freelibrary </para>
-            </summary>
-            <param name="hLibModule">加载的库模块的句柄。在 调用 LoadLibrary，LoadLibraryEx，GetModuleHandle 或 GetModuleHandleEx 函数返回该句柄。</param>
-            <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。若要获取扩展的错误信息，请调用 GetLastError 函数。</returns>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetProcAddress(System.IntPtr,System.String)">
-            <summary>
-            从指定的动态链接库（DLL）检索导出的函数或变量的地址。
-            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress </para>
-            </summary>
-            <param name="hModule">包含函数或变量的 DLL 模块的句柄。在调用LoadLibrary，LoadLibraryEx，LoadPackagedLibrary，或 GetModuleHandle 函数返回该句柄。</param>
-            <param name="lpProcName">[LPCSTR] 函数或变量名称，或函数的序数值。如果此参数是序数值，则必须使用低位字；高阶字必须为零。</param>
-            <returns>如果函数成功，则返回值是导出的函数或变量的地址。如果函数失败，则返回值为NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetCurrentThreadId">
-            <summary>
-            检索调用线程的线程标识符。
-            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadid </para>
-            </summary>
-            <returns>返回值是调用线程的线程标识符。</returns>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetModuleHandle(System.String)">
-            <summary>
-            检索指定模块的模块句柄。该模块必须已由调用进程加载。
-            <para>返回的句柄不是全局的或可继承的。它不能被其他进程复制或使用。</para>
-            <para>如果 lpModuleName 不包含路径，并且有多个加载的模块具有相同的基本名称和扩展名，则您无法预测将返回哪个模块句柄。要变通解决此问题，您可以指定路径，使用并行程序集或使用 GetModuleHandleEx 来指定内存位置而不是 DLL 名称。</para>
-            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlea </para>
-            </summary>
-            <param name="lpModuleName">[LPCSTR] 加载的模块的名称（.dll或.exe文件）。如果省略文件扩展名，则会附加默认库扩展名.dll。</param>
-            <returns>如果函数成功，则返回值是指定模块的句柄。如果函数失败，则返回值为NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.CreateFile(System.String,System.UInt32,System.UInt32,SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES,System.UInt32,System.UInt32,System.IntPtr)">
-            <summary>
-            创建或打开文件或 I/O 设备。最常用的 I/O 设备如下：文件，文件流，目录，物理磁盘，卷，控制台缓冲区，磁带机，通信资源，邮筒和管道。该函数返回一个句柄，根据文件或设备以及指定的标志和属性，该句柄可用于访问各种类型的 I/O 的文件或设备。
-            <para>要将此操作作为事务处理操作执行，从而产生可用于事务处理 I/O 的句柄，请使用 CreateFileTransacted 函数。</para>
-            <para>CreateFile 最初是专门为文件交互而开发的，但此后已进行了扩展和增强，以包括 Windows 开发人员可用的大多数其他类型的 I/O 设备和机制。</para>
-            <para>使用 CreateFile 返回的对象句柄完成应用程序后 ，请使用 CloseHandle 函数关闭该句柄。这不仅释放了系统资源，而且还对共享文件或设备以及将数据提交到磁盘等事物产生更大的影响。</para>
-            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfilea </para>
-            </summary>
-            <param name="lpFileName">[LPCSTR] 要创建或打开的文件或设备的名称。您可以在此名称中使用正斜杠（/）或反斜杠（）。</param>
-            <param name="dwDesiredAccess">所请求的对文件或设备的访问，可以概括为读，写，两者均为零或都不为零
-                <para>如果此参数为零，即使将拒绝GENERIC_READ访问，应用程序也可以查询某些元数据，例如文件，目录或设备属性，而无需访问该文件或设备。</para>
-            </param>
-            <param name="dwShareMode">文件或设备的请求共享模式，可以读取，写入，两者，删除，全部或全部不共享。对属性或扩展属性的访问请求不受此标志的影响。
-                <para>如果此参数为零，并且 CreateFile 成功，则在关闭文件或设备的句柄之前，无法共享文件或设备，也无法再次打开该文件或设备。</para>
-            </param>
-            <param name="lpSecurityAttributes">指向SECURITY_ATTRIBUTES 结构的指针，该结构包含两个单独但相关的数据成员：一个可选的安全描述符，以及一个布尔值，该值确定子进程是否可以继承返回的句柄。此参数可以为NULL。
-                <para>如果此参数为 NULL，则 CreateFile 返回的句柄 不能被应用程序可能创建的任何子进程继承，并且与返回的句柄关联的文件或设备将获得默认的安全描述符。</para>
-            </param>
-            <param name="dwCreationDisposition">对存在或不存在的文件或设备执行的操作。对于文件以外的设备，此参数通常设置为OPEN_EXISTING。</param>
-            <param name="dwFlagsAndAttributes">文件或设备属性和标志，FILE_ATTRIBUTE_NORMAL是文件的最常见默认值。此参数可以包括可用文件属性（FILE_ATTRIBUTE_*）的任意组合。所有其他文件属性将覆盖 FILE_ATTRIBUTE_NORMAL。
-                <para>此参数还可以包含标志的组合（FILE_FLAG_），用于控制文件或设备的缓存行为，访问模式和其他特殊用途的标志。这些与任何 FILE_ATTRIBUTE_值组合。</para>
-                <para>通过指定SECURITY_SQOS_PRESENT标志，此参数还可以包含安全服务质量（SQOS）信息 。在属性和标志表之后的表中提供了其他与SQOS相关的标志信息。</para>
-            </param>
-            <param name="hTemplateFile">具有 GENERIC_READ 访问权限的模板文件的有效句柄。模板文件为正在创建的文件提供文件属性和扩展属性。
-                <para>此参数可以为 NULL。打开现有文件时，CreateFile 会忽略此参数。当打开一个新的加密文件时，该文件会从其父目录继承任意访问控制列表。</para>
-            </param>
-            <returns>如果函数成功，则返回值是指定文件，设备，命名管道或邮件插槽的打开句柄。
-                <para>如果函数失败，则返回值为 INVALID_HANDLE_VALUE。要获取扩展的错误信息，请调用 GetLastError。</para>
-            </returns>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.CreateFile(System.String,System.UInt32,System.UInt32,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)">
-            <summary>
-            
-            </summary>
-            <param name="lpFileName"></param>
-            <param name="dwDesiredAccess"></param>
-            <param name="dwShareMode"></param>
-            <param name="lpSecurityAttributes"></param>
-            <param name="dwCreationDisposition"></param>
-            <param name="dwFlagsAndAttributes"></param>
-            <param name="hTemplateFile"></param>
-            <returns></returns>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.Kernel32.DLL_NAME">
-            <summary>
-            dll name
-            </summary>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.SystemTimeClass.op_Implicit(System.UInt16)~SpaceCG.WindowsAPI.Kernel32.SystemTimeClass">
-            <summary>
-            隐式转换类型 publi static implicit operator Construct()
-            </summary>
-            <param name="year"></param>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.SystemTimeClass.op_Implicit(SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct)~SpaceCG.WindowsAPI.Kernel32.SystemTimeClass">
-            <summary>
-            隐式转换类型
-            </summary>
-            <param name="st"></param>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct.op_Implicit(SpaceCG.WindowsAPI.Kernel32.SystemTimeClass)~SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct">
-            <summary>
-            隐式转换类型
-            </summary>
-            <param name="st"></param>
-        </member>
-        <member name="T:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES">
-            <summary>
-            SECURITY_ATTRIBUTES 结构包含安全描述符的对象，并指定通过指定该结构中检索所述手柄是否是继承。此结构为由各种功能（例如 CreateFile，CreatePipe，CreateProcess，RegCreateKeyEx 或 RegSaveKeyEx）创建的对象提供安全设置。
-            SECURITY_ATTRIBUTES, *PSECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
-            <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa379560(v=vs.85) </para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.nLength">
-            <summary>
-            此结构的大小（以字节为单位）。将此值设置为 SECURITY_ATTRIBUTES 结构的大小。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.lpSecurityDescriptor">
-            <summary>
-            指向 SECURITY_DESCRIPTOR 结构的指针，该结构控制对对象的访问。如果此成员的值为 NULL，则为对象分配与调用过程的访问令牌关联的默认安全描述符。
-            <para>这与通过分配 NULL 自由访问控制列表（DACL）向所有人授予访问权限不同。默认情况下，进程的访问令牌中的默认 DACL 只允许访问该访问令牌所代表的用户。</para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.bInheritHandle">
-            <summary>
-            一个布尔值，它指定在创建新进程时是否继承返回的句柄。如果此成员为 TRUE，则新进程将继承该句柄。
-            </summary>
-        </member>
-        <member name="T:SpaceCG.WindowsAPI.Kernel32.AccessRights">
-            <summary>
-            访问权限，安全对象使用访问掩码格式，其中四个高位指定通用访问权限。每种可保护对象的类型都将这些位映射到一组其标准和特定于对象的访问权限。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_READ_DATA">
-            <summary>
-            [文件访问权限常量] 对于文件对象，有权读取相应的文件数据。对于目录对象，有权读取相应的目录数据。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_LIST_DIRECTORY">
-            <summary>
-            [文件访问权限常量] 对于目录，有权列出目录的内容。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_WRITE_DATA">
-            <summary>
-            [文件访问权限常量] 对于文件对象，具有将数据写入文件的权利。对于目录对象，有权在目录（FILE_ADD_FILE）中创建文件。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_ADD_FILE">
-            <summary>
-            [文件访问权限常量] 对于目录，有权在目录中创建文件。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_APPEND_DATA">
-            <summary>
-            [文件访问权限常量] 对于文件对象，有权将数据附加到文件。（对于本地文件，如果在没有FILE_WRITE_DATA的情况下指定了此标志，则写操作将不会覆盖现有数据。）对于目录对象，有权创建子目录（FILE_ADD_SUBDIRECTORY）。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_ADD_SUBDIRECTORY">
-            <summary>
-            [文件访问权限常量] 对于目录，有权创建子目录。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_CREATE_PIPE_INSTANCE">
-            <summary>
-            [文件访问权限常量] 对于命名管道，有权创建管道。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_READ_EA">
-            <summary>
-            [文件访问权限常量] 读取扩展文件属性的权利。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_WRITE_EA">
-            <summary>
-            [文件访问权限常量] 写入扩展文件属性的权利。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_EXECUTE">
-            <summary>
-            [文件访问权限常量] 对于本机代码文件，有权执行该文件。授予脚本的访问权限可能导致脚本可执行，具体取决于脚本解释器。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_TRAVERSE">
-            <summary>
-            [文件访问权限常量] 对于目录，具有遍历目录的权利。默认情况下，为用户分配BYPASS_TRAVERSE_CHECKING 特权，该特权将忽略FILE_TRAVERSE 访问权限。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_DELETE_CHILD">
-            <summary>
-            [文件访问权限常量] 对于目录，有权删除目录及其包含的所有文件，包括只读文件。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_READ_ATTRIBUTES">
-            <summary>
-            [文件访问权限常量] 读取文件属性的权利。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_WRITE_ATTRIBUTES">
-            <summary>
-            [文件访问权限常量] 写入文件属性的权利。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_ALL_ACCESS">
-            <summary>
-            [文件访问权限常量] 文件的所有可能的访问权限。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_GENERIC_READ">
-            <summary>
-            [一般访问权限] 
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_GENERIC_WRITE">
-            <summary>
-            [一般访问权限]
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_GENERIC_EXECUTE">
-            <summary>
-            [一般访问权限]
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.DELETE">
-            <summary>
-            [标准访问权限] 删除对象的权利。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.READ_CONTROL">
-            <summary>
-            [标准访问权限] 有权读取对象的安全描述符中的信息，但不包括系统访问控制列表（SACL）中的信息。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.WRITE_DAC">
-            <summary>
-            [标准访问权限] 修改对象的安全描述符中的任意访问控制列表（DACL）的权限。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.WRITE_OWNER">
-            <summary>
-            [标准访问权限] 在对象的安全描述符中更改所有者的权利。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.SYNCHRONIZE">
-            <summary>
-            [标准访问权限] 使用对象进行同步的权利。这使线程可以等待，直到对象处于信号状态。某些对象类型不支持此访问权限。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_REQUIRED">
-            <summary>
-            [标准访问权限] 合并 DELETE，READ_CONTROL，WRITE_DAC 和 WRITE_OWNER 访问。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_READ">
-            <summary>
-            [标准访问权限] 当前定义为等于 READ_CONTROL。它是读取文件或目录对象的安全描述符中的信息的权利。这不包括 SACL 中的信息。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_WRITE">
-            <summary>
-            [标准访问权限] 当前定义为等于 READ_CONTROL。与 STANDARD_RIGHTS_READ 相同。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_EXECUTE">
-            <summary>
-            [标准访问权限] 当前定义为等于 READ_CONTROL。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_ALL">
-            <summary>
-            [标准访问权限] 合并 DELETE，READ_CONTROL，WRITE_DAC，WRITE_OWNER 和 SYNCHRONIZE访问。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.SPECIFIC_RIGHTS_ALL">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.ACCESS_SYSTEM_SECURITY">
-            <summary>
-            AccessSystemAcl access type
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.MAXIMUM_ALLOWED">
-            <summary>
-            MaximumAllowed access type
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_ALL">
-            <summary>
-            [通用访问权限] 所有可能的访问权限
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_EXECUTE">
-            <summary>
-            [通用访问权限] 执行访问 
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_WRITE">
-            <summary>
-            [通用访问权限] 写访问
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_READ">
-            <summary>
-            [通用访问权限] 读取权限 
-            </summary>
-        </member>
-        <member name="T:SpaceCG.WindowsAPI.Kernel32.CreationDisposition">
-            <summary>
-            CreateFile 函数参数 dwCreationDisposition 的值之一
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.CREATE_NEW">
-            <summary>
-            仅在尚不存在时创建一个新文件。如果指定的文件存在，则函数失败，并且上一个错误代码设置为 ERROR_FILE_EXISTS（80）。
-            <para>如果指定的文件不存在，并且是可写位置的有效路径，则会创建一个新文件。</para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.CREATE_ALWAYS">
-            <summary>
-            始终创建一个新文件。如果指定的文件存在并且可写，则该函数将覆盖该文件，该函数将成功，并且上一个错误代码设置为 ERROR_ALREADY_EXISTS（183）。
-            <para>如果指定的文件不存在并且是有效路径，则创建一个新文件，该函数成功，并且最后一个错误代码设置为零。</para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.OPEN_EXISTING">
-            <summary>
-            仅打开文件或设备（如果存在）。如果指定的文件或设备不存在，该功能将失败，并且上一个错误代码将设置为 ERROR_FILE_NOT_FOUND（2）。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.OPEN_ALWAYS">
-            <summary>
-            始终打开文件。如果指定的文件存在，则函数成功，并且最后一个错误代码设置为 ERROR_ALREADY_EXISTS（183）。
-            <para>如果指定的文件不存在，并且是可写位置的有效路径，则该函数将创建一个文件，并且上一个错误代码将设置为零。</para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.TRUNCATE_EXISTING">
-            <summary>
-            打开文件并将其截断，以使其大小为零字节（仅存在时）。如果指定的文件不存在，该函数将失败，并且上一个错误代码将设置为 ERROR_FILE_NOT_FOUND（2）。
-            <para>调用进程必须使用 dwDesiredAccess 参数的一部分设置 GENERIC_WRITE 位来打开文件。</para>
             </summary>
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.HookProc">
@@ -7932,7 +7802,7 @@
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.WINDOWPOS.hwndInsertAfter">
             <summary>
-            窗口在Z顺序中的位置（前后位置）。该成员可以是放置该窗口的窗口的句柄，也可以是 <see cref="M:SpaceCG.WindowsAPI.WinUser.WinUser.SetWindowPos(System.IntPtr,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.UInt32)"/> 函数列出的特殊值之一。
+            窗口在Z顺序中的位置（前后位置）。该成员可以是放置该窗口的窗口的句柄，也可以是 <see cref="M:SpaceCG.WindowsAPI.WinUser.WinUser.SetWindowPos(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,SpaceCG.WindowsAPI.WinUser.SwpFlag)"/> 函数列出的特殊值之一。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.WINDOWPOS.hwnd">
@@ -9105,8 +8975,8 @@
         <member name="F:SpaceCG.WindowsAPI.WinUser.MessageType.WM_DEVICECHANGE">
             <summary>
             Device Change
-            <para>wParam <see cref="T:SpaceCG.WindowsAPI.DBT.DeviceBroadcastType"/></para>
-            <para>lParm <see cref="T:SpaceCG.WindowsAPI.DBT.DEV_BROADCAST_HDR"/></para>
+            <para>wParam <see cref="T:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType"/></para>
+            <para>lParm <see cref="T:SpaceCG.WindowsAPI.WinUser.DEV_BROADCAST_HDR"/></para>
             <para>参考：https://docs.microsoft.com/en-us/windows/win32/devio/wm-devicechange </para>
             </summary>
         </member>
@@ -9141,7 +9011,8 @@
             <para>#ifdef UNICODE #define Function FunctionA #else #define Function FunctionW #endif</para>
             <para>如果窗口类是使用 ANSI 版本的 RegisterClass（RegisterClassA）注册的，则窗口的字符集是 ANSI。如果窗口类是使用 Unicode 版本的 RegisterClass（RegisterClassW）注册的，则窗口的字符集为 Unicode。</para>
             <para>LPCTSTR，LPWSTR, PTSTR, LPTSTR，L表示long指针，P表示这是一个指针，T表示 _T宏 这个宏用来表示你的字符是否使用 UNICODE, 如果你的程序定义了 UNICODE 或者其他相关的宏，那么这个字符或者字符串将被作为 UNICODE 字符串，否则就是标准的 ANSI 字符串。C表示是一个常量const。STR表示这个变量是一个字符串。</para>
-            <para>参考： https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/  C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um </para>
+            <para>LPTSTR => ref string, </para>
+            <para>参考： https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/  头文件目录：C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um </para>
             <para>本机互操作性：https://docs.microsoft.com/zh-cn/dotnet/standard/native-interop/ </para>
             </summary>
         </member>
@@ -10240,6 +10111,558 @@
             <param name="className"></param>
             <returns>返回窗口句柄及对应的类名</returns>
         </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.Kernel32">
+            <summary>
+            Kernel32.h 常用/实用 函数
+            <para>Marshal.GetLastWin32Error(), new WindowInteropHelper(Window).Handle</para>
+            <para>参考：C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um </para>
+            </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetSystemTime(SpaceCG.WindowsAPI.Kernel32.SystemTimeClass)">
+            <summary>
+            获取系统时间
+            <para>这只是一个示例，传参类型为 Class 引用</para>
+            <para> SystemTimeClass 与 SystemTimeStruct 隐式转换 </para>
+            </summary>
+            <param name="systemTime"></param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetSystemTime(SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct@)">
+            <summary>
+            获取系统时间
+            <para>这只是一个示例，传参类型为 Struct 按值传，引用传需加 ref </para>
+            <para> SystemTimeClass 与 SystemTimeStruct 隐式转换 </para>
+            </summary>
+            <param name="systemTime"></param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.LoadLibrary(System.String)">
+            <summary>
+            将指定的模块加载到调用进程的地址空间中。指定的模块可能会导致其他模块被加载。
+            <para>有关其他加载选项，请使用 LoadLibraryEx 函数。</para>
+            <para>若要启用或禁用 DLL 加载期间加载程序显示的错误消息，请使用 SetErrorMode 函数。</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya </para>
+            </summary>
+            <param name="lpLibFileName">[LPCSTR] 模块的名称。这可以是库模块（.dll文件）或可执行模块（.exe文件）。指定的名称是模块的文件名，并且与模块模块定义（.def）文件中的 LIBRARY 关键字指定的库模块本身中存储的名称无关。
+                <para>如果字符串指定完整路径，则该函数仅在该路径中搜索模块。如果字符串指定相对路径或不带路径的模块名称，则该函数使用标准搜索策略查找模块；有关更多信息，请参见备注。</para>
+                <para>如果该功能找不到模块，则该功能将失败。指定路径时，请确保使用反斜杠（\），而不使用正斜杠（/）。有关路径的更多信息，请参见 命名文件或目录。</para>
+                <para>如果字符串指定没有路径的模块名称，并且省略了文件扩展名，则该函数会将默认库扩展名.dll附加到模块名。为防止函数将.dll附加到模块名称，请在模块名称字符串中包含尾随字符（。）。</para>
+            </param>
+            <returns>如果函数成功，则返回值是模块的句柄。如果函数失败，则返回值为 NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.FreeLibrary(System.IntPtr)">
+            <summary>
+            释放已加载的动态链接库（DLL）模块，并在必要时减少其引用计数。当引用计数达到零时，将从调用进程的地址空间中卸载模块，并且该句柄不再有效。
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-freelibrary </para>
+            </summary>
+            <param name="hLibModule">加载的库模块的句柄。在 调用 LoadLibrary，LoadLibraryEx，GetModuleHandle 或 GetModuleHandleEx 函数返回该句柄。</param>
+            <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。若要获取扩展的错误信息，请调用 GetLastError 函数。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetProcAddress(System.IntPtr,System.String)">
+            <summary>
+            从指定的动态链接库（DLL）检索导出的函数或变量的地址。
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress </para>
+            </summary>
+            <param name="hModule">包含函数或变量的 DLL 模块的句柄。在调用LoadLibrary，LoadLibraryEx，LoadPackagedLibrary，或 GetModuleHandle 函数返回该句柄。</param>
+            <param name="lpProcName">[LPCSTR] 函数或变量名称，或函数的序数值。如果此参数是序数值，则必须使用低位字；高阶字必须为零。</param>
+            <returns>如果函数成功，则返回值是导出的函数或变量的地址。如果函数失败，则返回值为NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetCurrentThreadId">
+            <summary>
+            检索调用线程的线程标识符。
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadid </para>
+            </summary>
+            <returns>返回值是调用线程的线程标识符。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.GetModuleHandle(System.String)">
+            <summary>
+            检索指定模块的模块句柄。该模块必须已由调用进程加载。
+            <para>返回的句柄不是全局的或可继承的。它不能被其他进程复制或使用。</para>
+            <para>如果 lpModuleName 不包含路径，并且有多个加载的模块具有相同的基本名称和扩展名，则您无法预测将返回哪个模块句柄。要变通解决此问题，您可以指定路径，使用并行程序集或使用 GetModuleHandleEx 来指定内存位置而不是 DLL 名称。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlea </para>
+            </summary>
+            <param name="lpModuleName">[LPCSTR] 加载的模块的名称（.dll或.exe文件）。如果省略文件扩展名，则会附加默认库扩展名.dll。</param>
+            <returns>如果函数成功，则返回值是指定模块的句柄。如果函数失败，则返回值为NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.FormatMessage(SpaceCG.WindowsAPI.Kernel32.FmFlag,System.IntPtr,System.UInt32,System.UInt32,System.String@,System.UInt32,System.IntPtr)">
+            <summary>
+            格式化消息字符串。该功能需要消息定义作为输入。消息定义可以来自传递给函数的缓冲区。它可以来自已加载模块中的消息表资源。或者调用者可以要求函数在系统的消息表资源中搜索消息定义。
+            <para>该函数根据消息标识符和语言标识符在消息表资源中找到消息定义。该函数将格式化的消息文本复制到输出缓冲区，如果需要，则处理所有嵌入的插入序列。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-formatmessage </para>
+            </summary>
+            <param name="dwFlags">格式设置选项以及如何解释lpSource参数。dwFlags的低位字节指定函数如何处理输出缓冲区中的换行符。低位字节还可以指定格式化输出行的最大宽度。
+                <para>如果低位字节是 FORMAT_MESSAGE_MAX_WIDTH_MASK 以外的非零值 ，则它指定输出行中的最大字符数。该函数将忽略消息定义文本中的常规换行符。该函数从不在换行符之间分割由空格分隔的字符串。该函数将消息定义文本中的硬编码换行符存储到输出缓冲区中。硬编码的换行符使用 ％n 转义序列编码。</para>
+            </param>
+            <param name="lpSource">消息定义的位置。此参数的类型取决于 dwFlags 参数中的设置。如果在 dwFlags 中均未设置以下这些标志，则将忽略 lpSource
+                <para>FORMAT_MESSAGE_FROM_HMODULE  0x00000800  包含要搜索的消息表的模块的句柄。</para>
+                <para>FORMAT_MESSAGE_FROM_STRING  0x00000400  指向由无格式消息文本组成的字符串的指针。将对其进行扫描以查找插入内容并进行相应的格式化。</para>
+            </param>
+            <param name="dwMessageId">所请求消息的消息标识符。如果 dwFlags 包含 FORMAT_MESSAGE_FROM_STRING，则忽略此参数 。</param>
+            <param name="dwLanguageId">请求的消息的语言标识符。如果 dwFlags 包含 FORMAT_MESSAGE_FROM_STRING，则忽略此参数。(0 表示自动选择)</param>
+            <param name="lpBuffer">[LPTSTR] 指向缓冲区的指针，该缓冲区接收以空终止的字符串，该字符串指定格式化的消息。该缓冲区不能大于 64K 字节。
+                <para></para>如果 dwFlags 包含 FORMAT_MESSAGE_ALLOCATE_BUFFER，则该函数使用 LocalAlloc 函数分配缓冲区，并将指向缓冲区的指针放在 lpBuffer 中指定的地址处。(否则自已分配空间。)</param>
+            <param name="nSize">如果未设置 FORMAT_MESSAGE_ALLOCATE_BUFFER 标志，则此参数以 TCHARs 指定输出缓冲区的大小。如果 设置了 FORMAT_MESSAGE_ALLOCATE_BUFFER，则此参数指定分配给输出缓冲区的最小 TCHAR 数 。
+                <para>输出缓冲区不能大于64K字节。</para>
+            </param>
+            <param name="Arguments">值数组，用作格式化消息中的插入值。格式字符串中的 %1 表示 Arguments数组中的第一个值；%2表示第二个参数；等等。
+                <para>每个值的解释取决于与消息定义中的插入关联的格式信息。默认值是将每个值都视为指向以空字符结尾的字符串的指针。</para>
+                <para>默认情况下，Arguments 参数的类型为 va_list*，这是一种语言和实现特定的数据类型，用于描述可变数量的参数。从函数返回时，va_list 参数的状态未定义。要再次使用 va_list，请使用 va_end 销毁变量参数列表指针，然后使用 va_start 对其进行初始化 。</para>
+                <para>如果您没有类型为 va_list* 的指针 ，则指定 FORMAT_MESSAGE_ARGUMENT_ARRAY 标志并将指针传递给 DWORD_PTR 值数组；这些值被输入到格式化为插入值的消息中。每个插入在数组中必须有一个对应的元素。</para>
+            </param>
+            <returns>如果函数成功，则返回值是存储在输出缓冲区中的TCHAR数量，不包括终止的空字符。
+                <para>如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 GetLastError。</para>
+            </returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.FormatMessage(SpaceCG.WindowsAPI.Kernel32.FmFlag,System.IntPtr,System.UInt32,System.UInt32,System.Text.StringBuilder,System.UInt32,System.IntPtr)">
+            <summary>
+            格式化消息字符串。该功能需要消息定义作为输入。消息定义可以来自传递给函数的缓冲区。它可以来自已加载模块中的消息表资源。或者调用者可以要求函数在系统的消息表资源中搜索消息定义。
+            <para>该函数根据消息标识符和语言标识符在消息表资源中找到消息定义。该函数将格式化的消息文本复制到输出缓冲区，如果需要，则处理所有嵌入的插入序列。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-formatmessage </para>
+            </summary>
+            <param name="dwFlags">格式设置选项以及如何解释lpSource参数。dwFlags的低位字节指定函数如何处理输出缓冲区中的换行符。低位字节还可以指定格式化输出行的最大宽度。
+                <para>如果低位字节是 FORMAT_MESSAGE_MAX_WIDTH_MASK 以外的非零值 ，则它指定输出行中的最大字符数。该函数将忽略消息定义文本中的常规换行符。该函数从不在换行符之间分割由空格分隔的字符串。该函数将消息定义文本中的硬编码换行符存储到输出缓冲区中。硬编码的换行符使用 ％n 转义序列编码。</para>
+            </param>
+            <param name="lpSource">消息定义的位置。此参数的类型取决于 dwFlags 参数中的设置。如果在 dwFlags 中均未设置以下这些标志，则将忽略 lpSource
+                <para>FORMAT_MESSAGE_FROM_HMODULE  0x00000800  包含要搜索的消息表的模块的句柄。</para>
+                <para>FORMAT_MESSAGE_FROM_STRING  0x00000400  指向由无格式消息文本组成的字符串的指针。将对其进行扫描以查找插入内容并进行相应的格式化。</para>
+            </param>
+            <param name="dwMessageId">所请求消息的消息标识符。如果 dwFlags 包含 FORMAT_MESSAGE_FROM_STRING，则忽略此参数 。</param>
+            <param name="dwLanguageId">请求的消息的语言标识符。如果 dwFlags 包含 FORMAT_MESSAGE_FROM_STRING，则忽略此参数。(0 表示自动选择)</param>
+            <param name="lpBuffer">[LPTSTR] 指向缓冲区的指针，该缓冲区接收以空终止的字符串，该字符串指定格式化的消息。该缓冲区不能大于 64K 字节。
+                <para></para>如果 dwFlags 包含 FORMAT_MESSAGE_ALLOCATE_BUFFER，则该函数使用 LocalAlloc 函数分配缓冲区，并将指向缓冲区的指针放在 lpBuffer 中指定的地址处。(否则自已分配空间。)</param>
+            <param name="nSize">如果未设置 FORMAT_MESSAGE_ALLOCATE_BUFFER 标志，则此参数以 TCHARs 指定输出缓冲区的大小。如果 设置了 FORMAT_MESSAGE_ALLOCATE_BUFFER，则此参数指定分配给输出缓冲区的最小 TCHAR 数 。
+                <para>输出缓冲区不能大于64K字节。</para>
+            </param>
+            <param name="Arguments">值数组，用作格式化消息中的插入值。格式字符串中的 %1 表示 Arguments数组中的第一个值；%2表示第二个参数；等等。
+                <para>每个值的解释取决于与消息定义中的插入关联的格式信息。默认值是将每个值都视为指向以空字符结尾的字符串的指针。</para>
+                <para>默认情况下，Arguments 参数的类型为 va_list*，这是一种语言和实现特定的数据类型，用于描述可变数量的参数。从函数返回时，va_list 参数的状态未定义。要再次使用 va_list，请使用 va_end 销毁变量参数列表指针，然后使用 va_start 对其进行初始化 。</para>
+                <para>如果您没有类型为 va_list* 的指针 ，则指定 FORMAT_MESSAGE_ARGUMENT_ARRAY 标志并将指针传递给 DWORD_PTR 值数组；这些值被输入到格式化为插入值的消息中。每个插入在数组中必须有一个对应的元素。</para>
+            </param>
+            <returns>如果函数成功，则返回值是存储在输出缓冲区中的TCHAR数量，不包括终止的空字符。
+                <para>如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 GetLastError。</para>
+            </returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.CreateFile(System.String,System.UInt32,System.UInt32,SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES,System.UInt32,System.UInt32,System.IntPtr)">
+            <summary>
+            创建或打开文件或 I/O 设备。最常用的 I/O 设备如下：文件，文件流，目录，物理磁盘，卷，控制台缓冲区，磁带机，通信资源，邮筒和管道。该函数返回一个句柄，根据文件或设备以及指定的标志和属性，该句柄可用于访问各种类型的 I/O 的文件或设备。
+            <para>要将此操作作为事务处理操作执行，从而产生可用于事务处理 I/O 的句柄，请使用 CreateFileTransacted 函数。</para>
+            <para>CreateFile 最初是专门为文件交互而开发的，但此后已进行了扩展和增强，以包括 Windows 开发人员可用的大多数其他类型的 I/O 设备和机制。</para>
+            <para>使用 CreateFile 返回的对象句柄完成应用程序后 ，请使用 CloseHandle 函数关闭该句柄。这不仅释放了系统资源，而且还对共享文件或设备以及将数据提交到磁盘等事物产生更大的影响。</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfilea </para>
+            </summary>
+            <param name="lpFileName">[LPCSTR] 要创建或打开的文件或设备的名称。您可以在此名称中使用正斜杠（/）或反斜杠（）。</param>
+            <param name="dwDesiredAccess">所请求的对文件或设备的访问，可以概括为读，写，两者均为零或都不为零
+                <para>如果此参数为零，即使将拒绝GENERIC_READ访问，应用程序也可以查询某些元数据，例如文件，目录或设备属性，而无需访问该文件或设备。</para>
+            </param>
+            <param name="dwShareMode">文件或设备的请求共享模式，可以读取，写入，两者，删除，全部或全部不共享。对属性或扩展属性的访问请求不受此标志的影响。
+                <para>如果此参数为零，并且 CreateFile 成功，则在关闭文件或设备的句柄之前，无法共享文件或设备，也无法再次打开该文件或设备。</para>
+            </param>
+            <param name="lpSecurityAttributes">指向SECURITY_ATTRIBUTES 结构的指针，该结构包含两个单独但相关的数据成员：一个可选的安全描述符，以及一个布尔值，该值确定子进程是否可以继承返回的句柄。此参数可以为NULL。
+                <para>如果此参数为 NULL，则 CreateFile 返回的句柄 不能被应用程序可能创建的任何子进程继承，并且与返回的句柄关联的文件或设备将获得默认的安全描述符。</para>
+            </param>
+            <param name="dwCreationDisposition">对存在或不存在的文件或设备执行的操作。对于文件以外的设备，此参数通常设置为OPEN_EXISTING。</param>
+            <param name="dwFlagsAndAttributes">文件或设备属性和标志，FILE_ATTRIBUTE_NORMAL是文件的最常见默认值。此参数可以包括可用文件属性（FILE_ATTRIBUTE_*）的任意组合。所有其他文件属性将覆盖 FILE_ATTRIBUTE_NORMAL。
+                <para>此参数还可以包含标志的组合（FILE_FLAG_），用于控制文件或设备的缓存行为，访问模式和其他特殊用途的标志。这些与任何 FILE_ATTRIBUTE_值组合。</para>
+                <para>通过指定SECURITY_SQOS_PRESENT标志，此参数还可以包含安全服务质量（SQOS）信息 。在属性和标志表之后的表中提供了其他与SQOS相关的标志信息。</para>
+            </param>
+            <param name="hTemplateFile">具有 GENERIC_READ 访问权限的模板文件的有效句柄。模板文件为正在创建的文件提供文件属性和扩展属性。
+                <para>此参数可以为 NULL。打开现有文件时，CreateFile 会忽略此参数。当打开一个新的加密文件时，该文件会从其父目录继承任意访问控制列表。</para>
+            </param>
+            <returns>如果函数成功，则返回值是指定文件，设备，命名管道或邮件插槽的打开句柄。
+                <para>如果函数失败，则返回值为 INVALID_HANDLE_VALUE。要获取扩展的错误信息，请调用 GetLastError。</para>
+            </returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.CreateFile(System.String,System.UInt32,System.UInt32,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)">
+            <summary>
+            创建或打开文件或 I/O 设备。最常用的 I/O 设备如下：文件，文件流，目录，物理磁盘，卷，控制台缓冲区，磁带机，通信资源，邮筒和管道。该函数返回一个句柄，根据文件或设备以及指定的标志和属性，该句柄可用于访问各种类型的 I/O 的文件或设备。
+            <para>要将此操作作为事务处理操作执行，从而产生可用于事务处理 I/O 的句柄，请使用 CreateFileTransacted 函数。</para>
+            <para>CreateFile 最初是专门为文件交互而开发的，但此后已进行了扩展和增强，以包括 Windows 开发人员可用的大多数其他类型的 I/O 设备和机制。</para>
+            <para>使用 CreateFile 返回的对象句柄完成应用程序后 ，请使用 CloseHandle 函数关闭该句柄。这不仅释放了系统资源，而且还对共享文件或设备以及将数据提交到磁盘等事物产生更大的影响。</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfilea </para>
+            </summary>
+            <param name="lpFileName">[LPCSTR] 要创建或打开的文件或设备的名称。您可以在此名称中使用正斜杠（/）或反斜杠（）。</param>
+            <param name="dwDesiredAccess">所请求的对文件或设备的访问，可以概括为读，写，两者均为零或都不为零
+                <para>如果此参数为零，即使将拒绝GENERIC_READ访问，应用程序也可以查询某些元数据，例如文件，目录或设备属性，而无需访问该文件或设备。</para>
+            </param>
+            <param name="dwShareMode">文件或设备的请求共享模式，可以读取，写入，两者，删除，全部或全部不共享。对属性或扩展属性的访问请求不受此标志的影响。
+                <para>如果此参数为零，并且 CreateFile 成功，则在关闭文件或设备的句柄之前，无法共享文件或设备，也无法再次打开该文件或设备。</para>
+            </param>
+            <param name="lpSecurityAttributes">指向SECURITY_ATTRIBUTES 结构的指针，该结构包含两个单独但相关的数据成员：一个可选的安全描述符，以及一个布尔值，该值确定子进程是否可以继承返回的句柄。此参数可以为NULL。
+                <para>如果此参数为 NULL，则 CreateFile 返回的句柄 不能被应用程序可能创建的任何子进程继承，并且与返回的句柄关联的文件或设备将获得默认的安全描述符。</para>
+            </param>
+            <param name="dwCreationDisposition">对存在或不存在的文件或设备执行的操作。对于文件以外的设备，此参数通常设置为OPEN_EXISTING。</param>
+            <param name="dwFlagsAndAttributes">文件或设备属性和标志，FILE_ATTRIBUTE_NORMAL是文件的最常见默认值。此参数可以包括可用文件属性（FILE_ATTRIBUTE_*）的任意组合。所有其他文件属性将覆盖 FILE_ATTRIBUTE_NORMAL。
+                <para>此参数还可以包含标志的组合（FILE_FLAG_），用于控制文件或设备的缓存行为，访问模式和其他特殊用途的标志。这些与任何 FILE_ATTRIBUTE_值组合。</para>
+                <para>通过指定SECURITY_SQOS_PRESENT标志，此参数还可以包含安全服务质量（SQOS）信息 。在属性和标志表之后的表中提供了其他与SQOS相关的标志信息。</para>
+            </param>
+            <param name="hTemplateFile">具有 GENERIC_READ 访问权限的模板文件的有效句柄。模板文件为正在创建的文件提供文件属性和扩展属性。
+                <para>此参数可以为 NULL。打开现有文件时，CreateFile 会忽略此参数。当打开一个新的加密文件时，该文件会从其父目录继承任意访问控制列表。</para>
+            </param>
+            <returns>如果函数成功，则返回值是指定文件，设备，命名管道或邮件插槽的打开句柄。
+                <para>如果函数失败，则返回值为 INVALID_HANDLE_VALUE。要获取扩展的错误信息，请调用 GetLastError。</para>
+            </returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.CloseHandle(System.IntPtr)">
+            <summary>
+            关闭打开的对象句柄。
+            <para>如果应用程序在调试器下运行，则该函数将收到无效的句柄值或伪句柄值，否则将引发异常。如果您两次关闭一个句柄，或者在 FindFirstFile 函数返回的句柄上 调用 CloseHandle 而不是调用 FindClose 函数，则会发生这种情况。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle </para>
+            </summary>
+            <param name="hObject">打开对象的有效句柄。</param>
+            <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 GetLastError。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.DeleteFile(System.String)">
+            <summary>
+            删除现有文件。
+            <para>若要将此操作作为事务处理操作执行，请使用 DeleteFileTransacted 函数。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-deletefile </para>
+            </summary>
+            <param name="lpFileName">要删除的文件名。在此函数的 ANSI 版本中，名称限制为 MAX_PATH 个字符。若要将此限制扩展为 32,767 个宽字符，请调用该函数的 Unicode 版本并在名称前加上 "\?" 到路径。</param>
+            <returns></returns>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.Kernel32.DLL_NAME">
+            <summary>
+            dll name
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.SystemTimeClass">
+            <summary>
+            系统时间类
+            </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.SystemTimeClass.op_Implicit(System.UInt16)~SpaceCG.WindowsAPI.Kernel32.SystemTimeClass">
+            <summary>
+            隐式转换类型 publi static implicit operator Construct()
+            </summary>
+            <param name="year"></param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.SystemTimeClass.op_Implicit(SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct)~SpaceCG.WindowsAPI.Kernel32.SystemTimeClass">
+            <summary>
+            隐式转换类型
+            </summary>
+            <param name="st"></param>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct">
+            <summary>
+            系统时间结构
+            </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct.op_Implicit(SpaceCG.WindowsAPI.Kernel32.SystemTimeClass)~SpaceCG.WindowsAPI.Kernel32.SystemTimeStruct">
+            <summary>
+            隐式转换类型
+            </summary>
+            <param name="st"></param>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.FmFlag">
+            <summary>
+            <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.FormatMessage(SpaceCG.WindowsAPI.Kernel32.FmFlag,System.IntPtr,System.UInt32,System.UInt32,System.String@,System.UInt32,System.IntPtr)"/> 函数参数 dwFlags 一个或多个值。
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-formatmessage </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.FmFlag.FORMAT_MESSAGE_NONE">
+            <summary>
+            没有输出线宽限制。该函数将消息定义文本中的换行符存储到输出缓冲区中。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.FmFlag.FORMAT_MESSAGE_ALLOCATE_BUFFER">
+            <summary>
+            该函数分配一个足以容纳格式化消息的缓冲区，并在 lpBuffer 指定的地址处放置一个指向已分配缓冲区的指针 的 lpBuffer 参数是一个指向 LPTSTR ; 您必须将指针强制转换为 LPTSTR。所述 n 大小 参数指定的最小数目 TCHARS 分配用于输出消息缓冲器。 
+            <para>当不再需要缓冲区时，调用者应使用 LocalFree 函数释放缓冲区。如果格式化消息的长度超过 128K 字节，则 FormatMessage 将失败，随后对 GetLastError 的调用 将返回 ERROR_MORE_DATA。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.FmFlag.FORMAT_MESSAGE_IGNORE_INSERTS">
+            <summary>
+            消息定义中的插入序列将被忽略，并原样传递到输出缓冲区。该标志对于获取消息以供以后格式化很有用。如果设置了此标志，则 Arguments 参数将被忽略。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.FmFlag.FORMAT_MESSAGE_FROM_STRING">
+            <summary>
+            所述 lpSource 参数是一个指向包含一个消息定义一个空终止字符串。消息定义可以包含插入序列，就像消息表资源中的消息文本可能一样。该标志不能与 FORMAT_MESSAGE_FROM_HMODULE 或 FORMAT_MESSAGE_FROM_SYSTEM 一起使用 。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.FmFlag.FORMAT_MESSAGE_FROM_HMODULE">
+            <summary>
+            所述 lpSource 参数是包含该消息表资源（多个），以搜寻模块句柄。如果此 lpSource 句柄为 NULL，则将搜索当前进程的应用程序映像文件。该标志不能与 FORMAT_MESSAGE_FROM_STRING 一起使用 。
+            <para>如果模块没有消息表资源，则该函数将失败，并显示 ERROR_RESOURCE_TYPE_NOT_FOUND。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.FmFlag.FORMAT_MESSAGE_FROM_SYSTEM">
+            <summary>
+            该功能应在系统消息表资源中搜索所请求的消息。如果使用 FORMAT_MESSAGE_FROM_HMODULE 指定了此标志，则如果在 lpSource 指定的模块中找不到消息，该函数将搜索系统消息表。该标志不能与 FORMAT_MESSAGE_FROM_STRING 一起使用。
+            <para>如果指定了此标志，则应用程序可以传递 GetLastError 函数的结果 以检索系统定义的错误的消息文本。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.FmFlag.FORMAT_MESSAGE_ARGUMENT_ARRAY">
+            <summary>
+            的参数参数不是 va_list 的 结构，但它是一个指针，它指向表示参数值的数组。
+            <para>该标志不能与 64 位整数值一起使用。如果使用的是64位整数，则必须使用 va_list 结构。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.FmFlag.FORMAT_MESSAGE_MAX_WIDTH_MASK">
+            <summary>
+            该函数将忽略消息定义文本中的常规换行符。该函数将消息定义文本中的硬编码换行符存储到输出缓冲区中。该函数不会产生新的换行符。
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES">
+            <summary>
+            SECURITY_ATTRIBUTES 结构包含安全描述符的对象，并指定通过指定该结构中检索所述手柄是否是继承。此结构为由各种功能（例如 CreateFile，CreatePipe，CreateProcess，RegCreateKeyEx 或 RegSaveKeyEx）创建的对象提供安全设置。
+            SECURITY_ATTRIBUTES, *PSECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
+            <para>参考：https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa379560(v=vs.85) </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.nLength">
+            <summary>
+            此结构的大小（以字节为单位）。将此值设置为 SECURITY_ATTRIBUTES 结构的大小。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.lpSecurityDescriptor">
+            <summary>
+            指向 SECURITY_DESCRIPTOR 结构的指针，该结构控制对对象的访问。如果此成员的值为 NULL，则为对象分配与调用过程的访问令牌关联的默认安全描述符。
+            <para>这与通过分配 NULL 自由访问控制列表（DACL）向所有人授予访问权限不同。默认情况下，进程的访问令牌中的默认 DACL 只允许访问该访问令牌所代表的用户。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.bInheritHandle">
+            <summary>
+            一个布尔值，它指定在创建新进程时是否继承返回的句柄。如果此成员为 TRUE，则新进程将继承该句柄。
+            </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.Create">
+            <summary>
+            Create new SECURITY_ATTRIBUTES
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.SECURITY_ATTRIBUTES.ToString">
+            <summary>
+            @ToString()
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.AccessRights">
+            <summary>
+            访问权限，安全对象使用访问掩码格式，其中四个高位指定通用访问权限。每种可保护对象的类型都将这些位映射到一组其标准和特定于对象的访问权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_READ_DATA">
+            <summary>
+            [文件访问权限常量] 对于文件对象，有权读取相应的文件数据。对于目录对象，有权读取相应的目录数据。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_LIST_DIRECTORY">
+            <summary>
+            [文件访问权限常量] 对于目录，有权列出目录的内容。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_WRITE_DATA">
+            <summary>
+            [文件访问权限常量] 对于文件对象，具有将数据写入文件的权利。对于目录对象，有权在目录（FILE_ADD_FILE）中创建文件。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_ADD_FILE">
+            <summary>
+            [文件访问权限常量] 对于目录，有权在目录中创建文件。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_APPEND_DATA">
+            <summary>
+            [文件访问权限常量] 对于文件对象，有权将数据附加到文件。（对于本地文件，如果在没有FILE_WRITE_DATA的情况下指定了此标志，则写操作将不会覆盖现有数据。）对于目录对象，有权创建子目录（FILE_ADD_SUBDIRECTORY）。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_ADD_SUBDIRECTORY">
+            <summary>
+            [文件访问权限常量] 对于目录，有权创建子目录。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_CREATE_PIPE_INSTANCE">
+            <summary>
+            [文件访问权限常量] 对于命名管道，有权创建管道。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_READ_EA">
+            <summary>
+            [文件访问权限常量] 读取扩展文件属性的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_WRITE_EA">
+            <summary>
+            [文件访问权限常量] 写入扩展文件属性的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_EXECUTE">
+            <summary>
+            [文件访问权限常量] 对于本机代码文件，有权执行该文件。授予脚本的访问权限可能导致脚本可执行，具体取决于脚本解释器。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_TRAVERSE">
+            <summary>
+            [文件访问权限常量] 对于目录，具有遍历目录的权利。默认情况下，为用户分配BYPASS_TRAVERSE_CHECKING 特权，该特权将忽略FILE_TRAVERSE 访问权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_DELETE_CHILD">
+            <summary>
+            [文件访问权限常量] 对于目录，有权删除目录及其包含的所有文件，包括只读文件。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_READ_ATTRIBUTES">
+            <summary>
+            [文件访问权限常量] 读取文件属性的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_WRITE_ATTRIBUTES">
+            <summary>
+            [文件访问权限常量] 写入文件属性的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_ALL_ACCESS">
+            <summary>
+            [文件访问权限常量] 文件的所有可能的访问权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_GENERIC_READ">
+            <summary>
+            [一般访问权限] 
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_GENERIC_WRITE">
+            <summary>
+            [一般访问权限]
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.FILE_GENERIC_EXECUTE">
+            <summary>
+            [一般访问权限]
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.DELETE">
+            <summary>
+            [标准访问权限] 删除对象的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.READ_CONTROL">
+            <summary>
+            [标准访问权限] 有权读取对象的安全描述符中的信息，但不包括系统访问控制列表（SACL）中的信息。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.WRITE_DAC">
+            <summary>
+            [标准访问权限] 修改对象的安全描述符中的任意访问控制列表（DACL）的权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.WRITE_OWNER">
+            <summary>
+            [标准访问权限] 在对象的安全描述符中更改所有者的权利。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.SYNCHRONIZE">
+            <summary>
+            [标准访问权限] 使用对象进行同步的权利。这使线程可以等待，直到对象处于信号状态。某些对象类型不支持此访问权限。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_REQUIRED">
+            <summary>
+            [标准访问权限] 合并 DELETE，READ_CONTROL，WRITE_DAC 和 WRITE_OWNER 访问。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_READ">
+            <summary>
+            [标准访问权限] 当前定义为等于 READ_CONTROL。它是读取文件或目录对象的安全描述符中的信息的权利。这不包括 SACL 中的信息。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_WRITE">
+            <summary>
+            [标准访问权限] 当前定义为等于 READ_CONTROL。与 STANDARD_RIGHTS_READ 相同。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_EXECUTE">
+            <summary>
+            [标准访问权限] 当前定义为等于 READ_CONTROL。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.STANDARD_RIGHTS_ALL">
+            <summary>
+            [标准访问权限] 合并 DELETE，READ_CONTROL，WRITE_DAC，WRITE_OWNER 和 SYNCHRONIZE访问。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.SPECIFIC_RIGHTS_ALL">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.ACCESS_SYSTEM_SECURITY">
+            <summary>
+            AccessSystemAcl access type
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.MAXIMUM_ALLOWED">
+            <summary>
+            MaximumAllowed access type
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_ALL">
+            <summary>
+            [通用访问权限] 所有可能的访问权限
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_EXECUTE">
+            <summary>
+            [通用访问权限] 执行访问 
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_WRITE">
+            <summary>
+            [通用访问权限] 写访问
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.AccessRights.GENERIC_READ">
+            <summary>
+            [通用访问权限] 读取权限 
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.CreationDisposition">
+            <summary>
+            CreateFile 函数参数 dwCreationDisposition 的值之一
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.CREATE_NEW">
+            <summary>
+            仅在尚不存在时创建一个新文件。如果指定的文件存在，则函数失败，并且上一个错误代码设置为 ERROR_FILE_EXISTS（80）。
+            <para>如果指定的文件不存在，并且是可写位置的有效路径，则会创建一个新文件。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.CREATE_ALWAYS">
+            <summary>
+            始终创建一个新文件。如果指定的文件存在并且可写，则该函数将覆盖该文件，该函数将成功，并且上一个错误代码设置为 ERROR_ALREADY_EXISTS（183）。
+            <para>如果指定的文件不存在并且是有效路径，则创建一个新文件，该函数成功，并且最后一个错误代码设置为零。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.OPEN_EXISTING">
+            <summary>
+            仅打开文件或设备（如果存在）。如果指定的文件或设备不存在，该功能将失败，并且上一个错误代码将设置为 ERROR_FILE_NOT_FOUND（2）。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.OPEN_ALWAYS">
+            <summary>
+            始终打开文件。如果指定的文件存在，则函数成功，并且最后一个错误代码设置为 ERROR_ALREADY_EXISTS（183）。
+            <para>如果指定的文件不存在，并且是可写位置的有效路径，则该函数将创建一个文件，并且上一个错误代码将设置为零。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.Kernel32.CreationDisposition.TRUNCATE_EXISTING">
+            <summary>
+            打开文件并将其截断，以使其大小为零字节（仅存在时）。如果指定的文件不存在，该函数将失败，并且上一个错误代码将设置为 ERROR_FILE_NOT_FOUND（2）。
+            <para>调用进程必须使用 dwDesiredAccess 参数的一部分设置 GENERIC_WRITE 位来打开文件。</para>
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.Kernel32.Kernel32Utils">
+            <summary>
+            Kernel32 通用/实用 函数集
+            </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32Utils.GetSysErrroMessage(System.UInt32)">
+            <summary>
+            获取系统错误信息的描述
+            <para>封装 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.FormatMessage(SpaceCG.WindowsAPI.Kernel32.FmFlag,System.IntPtr,System.UInt32,System.UInt32,System.String@,System.UInt32,System.IntPtr)"/></para>
+            </summary>
+            <param name="errorCode"></param>
+            <returns></returns>
+        </member>
         <member name="T:SpaceCG.WindowsAPI.POINT">
             <summary>
             POINT 结构定义点的 x 和 y 坐标
@@ -10457,6 +10880,7 @@
             </summary>
             <param name="instanceObj">对象实例</param>
             <param name="eventName">对象事件名称</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="T:Sdk">
             <summary>
@@ -12152,7 +12576,7 @@
             <summary>
             设置是否标记静默时间（设置为 TRUE 时 DisconnectSilenceConnections() 和 GetSilencePeriod() 才有效，默认：FALSE）
             </summary>
-            <param name="pServer"></param>
+            <param name="pAgent"></param>
             <param name="bMarkSilence"></param>
         </member>
         <member name="M:Sdk.HP_Agent_GetFreeSocketObjLockTime(System.IntPtr)">

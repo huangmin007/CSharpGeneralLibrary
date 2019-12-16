@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591,CS1572
+using System;
 using System.Linq;
 using System.Management;
 using System.Threading.Tasks;
@@ -105,7 +106,7 @@ namespace SpaceCG.Extension
             await Task.Run(() => ListenInstanceChange(wql_condition, withinInterval, changeCallback, Log));
         }
         /// <summary>
-        /// 移除并销毁 由 <see cref="ListenInstanceChange"/> 创建的监听。
+        /// 移除并销毁 由 <see cref="ListenInstanceChange(string, TimeSpan, Action{ManagementBaseObject}, log4net.ILog)"/> 创建的监听。
         /// <para>移除监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件</para>
         /// </summary>
         public static void RemoveInstanceChange()
@@ -207,7 +208,7 @@ namespace SpaceCG.Extension
             await Task.Run(() => ListenInstanceModification(wql_condition, withinInterval, changeCallback, Log));
         }
         /// <summary>
-        /// 移除并销毁 由 <see cref="ListenInstanceModification"/> 创建的监听。
+        /// 移除并销毁 由 <see cref="ListenInstanceChange(string, TimeSpan, Action{ManagementBaseObject}, log4net.ILog)"/> 创建的监听。
         /// <para>移除监听 "__InstanceModificationEvent" 事件</para>
         /// </summary>
         public static void RemoveInstanceModification()

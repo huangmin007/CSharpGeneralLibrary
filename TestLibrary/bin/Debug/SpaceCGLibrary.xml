@@ -205,7 +205,7 @@
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification">
             <summary>
-            移除并销毁 由 <see cref="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)"/> 创建的监听。
+            移除并销毁 由 <see cref="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)"/> 创建的监听。
             <para>移除监听 "__InstanceModificationEvent" 事件</para>
             </summary>
         </member>
@@ -458,7 +458,7 @@
             
             </summary>
             <param name="key"></param>
-            <param name="value"></param>
+            <param name="newValue"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.ConnectionExtra.RemoveExtra(System.IntPtr)">
@@ -654,7 +654,12 @@
             【必须】WebSocket数据头通知
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.HttpAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.HttpAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.HttpAgent.Destroy">
             <summary>
             终止服务并释放资源
@@ -669,6 +674,7 @@
             <param name="path">请求路径</param>
             <param name="headers">请求头</param>
             <param name="body">请求体</param>
+            <param name="bodyLength"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.HttpAgent.SendLocalFile(System.IntPtr,System.String,SpaceCG.HPSocket.HttpMethod,System.String,SpaceCG.HPSocket.THeader[])">
@@ -767,7 +773,7 @@
             <param name="iReserved"></param>
             <param name="iOperationCode"></param>
             <param name="lpszMask"></param>
-            <param name="Data"></param>
+            <param name="pData"></param>
             <param name="ullBodyLen"></param>
             <returns></returns>
         </member>
@@ -980,7 +986,12 @@
             【必须】WebSocket数据头通知
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.HttpClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.HttpClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.HttpClient.Destroy">
             <summary>
             终止服务并释放资源
@@ -995,6 +1006,7 @@
             <param name="path">请求路径</param>
             <param name="headers">请求头</param>
             <param name="body">请求体</param>
+            <param name="bodyLength"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.HttpClient.SendLocalFile(System.String,SpaceCG.HPSocket.HttpMethod,System.String,SpaceCG.HPSocket.THeader[])">
@@ -1084,7 +1096,7 @@
             <param name="iReserved"></param>
             <param name="iOperationCode"></param>
             <param name="lpszMask"></param>
-            <param name="Data"></param>
+            <param name="pData"></param>
             <param name="ullBodyLen"></param>
             <returns></returns>
         </member>
@@ -1458,6 +1470,7 @@
             <param name="lpszUrl">请求 URL</param>
             <param name="lpHeaders">请求头</param>
             <param name="iHeaderCount">请求头数量</param>
+            <param name="pData"></param>
             <param name="pBody">请求体</param>
             <param name="iLength">请求体长度</param>
             <param name="bForceReconnect">强制重新连接（默认：FALSE，当请求 URL 的主机和端口与现有连接一致时，重用现有连接）</param>
@@ -1484,7 +1497,7 @@
             设置请求超时（毫秒，0：无限等待，默认：10000）
             </summary>
             <param name="pClient"></param>
-            <param name="dwConnectTimeout"></param>
+            <param name="dwRequestTimeout"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.HttpSdk.HP_HttpSyncClient_GetConnectTimeout(System.IntPtr)">
@@ -1508,7 +1521,8 @@
             获取响应体
             </summary>
             <param name="pClient"></param>
-            <param name="dwConnectTimeout"></param>
+            <param name="lpszBody"></param>
+            <param name="iLength"></param>
             <returns></returns>
         </member>
         <member name="E:SpaceCG.HPSocket.HttpServer.OnMessageBegin">
@@ -1566,7 +1580,12 @@
             【必须】解析错误通知
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.HttpServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.HttpServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.HttpServer.Destroy">
             <summary>
             终止服务并释放资源
@@ -1582,6 +1601,7 @@
             <param name="desc">HTTP 状态描述</param>
             <param name="headers">回复请求头</param>
             <param name="body">回复请求体</param>
+            <param name="bodyLength"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.HPSocket.HttpServer.SendLocalFile(System.IntPtr,System.String,SpaceCG.HPSocket.HttpStatusCode,System.String,SpaceCG.HPSocket.THeader[])">
@@ -2385,6 +2405,7 @@
             <param name="pemKeyFile">私钥文件</param>
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
+            <param name="sniServerNameCallback"></param>
         </member>
         <member name="M:SpaceCG.HPSocket.SSLHttpServer.Initialize">
             <summary>
@@ -2422,7 +2443,12 @@
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPackAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPackAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPackAgent.Destroy">
             <summary>
             终止服务并释放资源
@@ -2450,7 +2476,12 @@
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPackClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPackClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPackClient.Destroy">
             <summary>
             终止服务并释放资源
@@ -2479,7 +2510,12 @@
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
             <param name="sniServerNameCallback">SNI 回调函数指针（可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPackServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPackServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPackServer.Destroy">
             <summary>
             终止服务并释放资源
@@ -2507,7 +2543,12 @@
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPullAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPullAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPullAgent.Fetch(System.IntPtr,System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -2560,7 +2601,12 @@
             <param name="keyPasswod">私钥密码（没有密码则为空）</param>
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPullClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPullClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPullClient.Fetch(System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -2607,7 +2653,12 @@
             <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
             <param name="sniServerNameCallback">SNI 回调函数指针（可选）</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.SSLPullServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.SSLPullServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.SSLPullServer.Fetch(System.IntPtr,System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -3101,7 +3152,12 @@
             服务关闭事件
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpAgent.Destroy">
             <summary>
             终止服务并释放资源
@@ -3588,7 +3644,12 @@
             获取是否属于连接状态
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpClient.Destroy">
             <summary>
             终止服务并释放资源
@@ -3939,7 +4000,12 @@
             <param name="bytes"></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPackAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPackAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPackAgent.Destroy">
             <summary>
             终止服务并释放资源
@@ -3957,7 +4023,12 @@
             有效包头标识取值范围 0 ~ 8191/0x1FFF，当包头标识为 0 时不校验包头，默认：0
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPackClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPackClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPackClient.Destroy">
             <summary>
             终止服务并释放资源
@@ -3975,7 +4046,12 @@
             有效包头标识取值范围 0 ~ 8191/0x1FFF，当包头标识为 0 时不校验包头，默认：0
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPackServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPackServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPackServer.Destroy">
             <summary>
             终止服务并释放资源
@@ -3993,7 +4069,12 @@
             有效包头标识取值范围  0 ~ 1023/0x3FF，当包头标识为 0 时不校验包头，默认：0
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPullAgent.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPullAgent.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPullAgent.Fetch(System.IntPtr,System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -4036,7 +4117,12 @@
             数据到达事件
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPullClient.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPullClient.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPullClient.Fetch(System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -4072,7 +4158,12 @@
             数据到达事件
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpPullServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpPullServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpPullServer.Fetch(System.IntPtr,System.IntPtr,System.Int32)">
             <summary>
             抓取数据
@@ -4153,7 +4244,12 @@
             tcpserver构造
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SpaceCG.HPSocket.TcpServer.CreateListener" -->
+        <member name="M:SpaceCG.HPSocket.TcpServer.CreateListener">
+            <summary>
+            创建socket监听 and 服务组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.HPSocket.TcpServer.Destroy">
             <summary>
             终止服务并释放资源
@@ -4876,7 +4972,7 @@
         </member>
         <member name="M:SpaceCG.Log4Net.ListBoxAppender.CreateColumn(System.String,System.String,System.Int32)">
             <summary>
-            创建 GridViewColumn
+            创建简单的 GridViewColumn 对象
             </summary>
             <param name="header"></param>
             <param name="path"></param>
@@ -4885,7 +4981,7 @@
         </member>
         <member name="M:SpaceCG.Log4Net.ListBoxAppender.CreateColumn(System.String,System.String[],System.String)">
             <summary>
-            创建 GridViewColumn
+            创建简单的 GridViewColumn 对象
             </summary>
             <param name="header"></param>
             <param name="paths"></param>
@@ -4917,79 +5013,79 @@
             <param name="path">文件夹目录</param>
             <param name="searchPattern">文件匹配类型</param>
         </member>
-        <member name="T:SpaceCG.Log4Net.TextBoxBaseAppender">
+        <member name="T:SpaceCG.Log4Net.TextBoxAppender">
             <summary>
             Log4Net WPF TextBoxBase/TextBox/RichTextBox Appender
             </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.BgColor1">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.BgColor1">
             <summary> Backgroud Color 1 </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.BgColor2">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.BgColor2">
             <summary> Backgroud Color 2 </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.InfoColor">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.InfoColor">
             <summary> Info Color </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.WarnColor">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.WarnColor">
             <summary> Warn Color </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.ErrorColor">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.ErrorColor">
             <summary> Error Color </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.FatalColor">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.FatalColor">
             <summary> Fatal Color </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.MaxLines">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.MaxLines">
             <summary>
             获取或设置最大可见行数
             </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.TextBoxBase">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.TextBoxBase">
             <summary> TextBoxBase </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxBaseAppender.AppendLoggingEventDelegate">
+        <member name="F:SpaceCG.Log4Net.TextBoxAppender.AppendLoggingEventDelegate">
             <summary> TextBox.AppendText Delegate Function </summary>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase)">
             <summary>
             Log4Net Appender for WPF TextBoxBase(TextBox and RichTextBox)
             </summary>
             <param name="textBox"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.DefaultStyle(System.Windows.Controls.Primitives.TextBoxBase)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.DefaultStyle(System.Windows.Controls.Primitives.TextBoxBase)">
             <summary>
             设置控件默认样式
             </summary>
             <param name="textBox"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase,System.UInt32)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase,System.UInt32)">
             <summary>
             Log4Net Appender for WPF TextBoxBase 
             </summary>
             <param name="textBox"></param>
             <param name="maxLines">最大行数为 1024 行，默认为 512 行</param>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.Append(log4net.Core.LoggingEvent)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.Append(log4net.Core.LoggingEvent)">
             <summary>
             @override
             </summary>
             <param name="loggingEvent"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.AppendLoggingEvent(log4net.Core.LoggingEvent)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.AppendLoggingEvent(log4net.Core.LoggingEvent)">
             <summary>
             TextBox Append LoggingEvent
             </summary>
             <param name="loggingEvent"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.GetColorBrush(log4net.Core.Level)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetColorBrush(log4net.Core.Level)">
             <summary>
             跟据 Level 获取颜色
             </summary>
             <param name="level"></param>
             <returns></returns>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.GetColorBrush(log4net.Core.Level,System.Int32)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetColorBrush(log4net.Core.Level,System.Int32)">
             <summary>
             跟据 Level and Line 获取颜色
             </summary>
@@ -4997,7 +5093,7 @@
             <param name="line"></param>
             <returns></returns>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxBaseAppender.GetColorBrush(log4net.Core.Level,System.Boolean)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetColorBrush(log4net.Core.Level,System.Boolean)">
             <summary>
             跟据 Level and Change 获取颜色
             </summary>
@@ -7706,7 +7802,7 @@
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.WINDOWPOS.hwndInsertAfter">
             <summary>
-            窗口在Z顺序中的位置（前后位置）。该成员可以是放置该窗口的窗口的句柄，也可以是 <see cref="M:SpaceCG.WindowsAPI.WinUser.WinUser.SetWindowPos(System.IntPtr,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.UInt32)"/> 函数列出的特殊值之一。
+            窗口在Z顺序中的位置（前后位置）。该成员可以是放置该窗口的窗口的句柄，也可以是 <see cref="M:SpaceCG.WindowsAPI.WinUser.WinUser.SetWindowPos(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,SpaceCG.WindowsAPI.WinUser.SwpFlag)"/> 函数列出的特殊值之一。
             </summary>
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinUser.WINDOWPOS.hwnd">
@@ -12480,7 +12576,7 @@
             <summary>
             设置是否标记静默时间（设置为 TRUE 时 DisconnectSilenceConnections() 和 GetSilencePeriod() 才有效，默认：FALSE）
             </summary>
-            <param name="pServer"></param>
+            <param name="pAgent"></param>
             <param name="bMarkSilence"></param>
         </member>
         <member name="M:Sdk.HP_Agent_GetFreeSocketObjLockTime(System.IntPtr)">

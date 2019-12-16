@@ -1,4 +1,5 @@
-﻿using SpaceCG.Log4Net;
+﻿//#pragma warning disable CS0649
+using SpaceCG.Log4Net;
 using System.Diagnostics;
 using System.Windows;
 using System;
@@ -18,8 +19,9 @@ using System.IO.Ports;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
+using System.Windows.Media;
 
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.Config", Watch = true)]
+//[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.Config", Watch = true)]
 namespace TestLibrary
 {
     /// <summary>
@@ -43,13 +45,26 @@ namespace TestLibrary
             Console.WriteLine("{0} {1} {2}", this.IsInitialized, this.IsLoaded, Handle);
 
             Client = HPSocketExtension.CreateTcpClient("127.0.0.1", 9999, SocketReceivedHandler, true, App.Log);
+
+#if NET46
+            Console.WriteLine("win32");
+#else
+            Console.WriteLine("any cpu");
+#endif
+            int[] arr = new int[] { 1, 2, 3, 4, 5, 150 };
+            int index = 1;
+            //Console.WriteLine(arr[^0]);
+            //uint a = 0b_0000_1111_0000_1111_0000_1111_0000_1100;
+            //Console.WriteLine(a);
+            Console.WriteLine(Convert.ToString(arr[5], 2));
+
         }
         
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            TextBoxBaseAppender appender = new TextBoxBaseAppender(TextBox_Logs);
-            ListBoxAppender appender2 = new ListBoxAppender(listBox, 20);
+            TextBoxAppender appender = new TextBoxAppender(TextBox_Logs);
+            ListBoxAppender appender2 = new ListBoxAppender(listBox, 50);
 
             App.Log.InfoFormat("Initialize.");
         }
@@ -59,7 +74,7 @@ namespace TestLibrary
             Console.WriteLine("Socket {0}", data.Length);
         }
 
-        #region override
+#region override
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
@@ -77,7 +92,7 @@ namespace TestLibrary
 
             if (Client != null) HPSocketExtension.DisposeTcpClient(ref Client);
         }
-        #endregion
+#endregion
 
         PerformanceCounter PC;
         PerformanceCounter[] PCs;
@@ -85,7 +100,6 @@ namespace TestLibrary
 
         MouseHook mouseHook;
         KeyboardHook keyboardHook;
-
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {

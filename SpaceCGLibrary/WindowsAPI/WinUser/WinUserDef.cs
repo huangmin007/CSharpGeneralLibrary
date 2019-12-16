@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable CS1591,CS1572
+
+using System;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
@@ -1626,9 +1628,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// 最小化一个窗口，即使拥有该窗口的线程没有响应。仅当最小化来自其他线程的窗口时，才应使用此标志。
         /// </summary>
         FORCEMINIMIZE = 11,
-        /// <summary>
-        /// Max
-        /// </summary>
+        
         //MAX = 11,
     }
 
@@ -2116,7 +2116,7 @@ namespace SpaceCG.WindowsAPI.WinUser
     public struct WINDOWPOS
     {
         /// <summary>
-        /// 窗口在Z顺序中的位置（前后位置）。该成员可以是放置该窗口的窗口的句柄，也可以是 <see cref="WinUser.SetWindowPos"/> 函数列出的特殊值之一。
+        /// 窗口在Z顺序中的位置（前后位置）。该成员可以是放置该窗口的窗口的句柄，也可以是 <see cref="WinUser.SetWindowPos(IntPtr, int, int, int, int, int, SwpFlag)"/> 函数列出的特殊值之一。
         /// </summary>
         public IntPtr hwndInsertAfter;
         /// <summary>

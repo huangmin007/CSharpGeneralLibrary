@@ -1,12 +1,13 @@
-﻿using log4net.Appender;
+﻿#pragma warning disable CS1591
+using log4net.Appender;
 using System;
 using log4net.Core;
 using System.Windows.Controls;
 using log4net.Layout;
 using System.Windows;
-using System.Data;
 using System.Windows.Data;
 using System.Globalization;
+using System.Windows.Media;
 
 namespace SpaceCG.Log4Net
 {
@@ -104,7 +105,6 @@ namespace SpaceCG.Log4Net
                         ConverterParameter = "{0}({1})",
                     }
                 };
-
                 GridView view = new GridView();
                 //view.Columns.Add(ID);
                 view.Columns.Add(Time);
@@ -116,11 +116,21 @@ namespace SpaceCG.Log4Net
                 view.Columns.Add(CreateColumn("Logger", "LoggerName", 120));
                 view.Columns.Add(CreateColumn("Message", "RenderedMessage", 240));
                 view.Columns.Add(CreateColumn("Exception", "ExceptionObject", 240));
-
                 ListView.View = view;
+                
+                //设置 ColumnHeaderContainer 样式
+                view.ColumnHeaderContainerStyle = new Style();
+                view.ColumnHeaderContainerStyle.Setters.Add(new Setter(Control.ForegroundProperty, Brushes.Black));
+                view.ColumnHeaderContainerStyle.Setters.Add(new Setter(Control.FontWeightProperty, FontWeights.Bold));
+                view.ColumnHeaderContainerStyle.Setters.Add(new Setter(Control.HorizontalContentAlignmentProperty, HorizontalAlignment.Left));
 
-                //Setter set = new Setter(Control.FontWeightProperty, FontWeights.Bold);
-                //column.HeaderContainerStyle.Setters.Add(set);
+                //设置 ItemContainer 样式
+                //使用 Foreground 属性设置前景色，与使用 Style 样式不一样
+                //使用 Foreground 属性设置，XAML 样式可覆盖 Foreground 属性
+                //使用 Style Codes 设置，XAML 样式不可覆盖 Style Codes 设置的值                
+                ListView.ItemContainerStyle = new Style();
+                ListView.ItemContainerStyle.Setters.Add(new Setter(Control.ForegroundProperty, Brushes.Black));
+                //ListView.Foreground = Brushes.Red; //无效
             }
             else
             {
@@ -133,7 +143,7 @@ namespace SpaceCG.Log4Net
         /// </summary>
         /// <param name="listBox"></param>
         /// <param name="maxLines">最大行数为 1024 行，默认为 512 行</param>
-        public ListBoxAppender(ListBox listBox, uint maxLines):this(listBox)
+        public ListBoxAppender(ListBox listBox, uint maxLines) : this(listBox)
         {
             this.MaxLines = maxLines > 1024 ? 1024 : maxLines;
         }
@@ -171,35 +181,35 @@ namespace SpaceCG.Log4Net
             }
 
             //ListBox
-            if(this.ListBox != null)
+            if (this.ListBox != null)
             {
                 ListBoxItem item = new ListBoxItem();
                 item.Height = 24;
                 item.Content = text.TrimEnd();
                 item.ToolTip = item.Content;
-                item.Background = TextBoxBaseAppender.GetColorBrush(loggingEvent.Level, changeBgColor = !changeBgColor);
+                item.Background = TextBoxAppender.GetColorBrush(loggingEvent.Level, changeBgColor = !changeBgColor);
 
-                this.ListBox.Items.Add(item);                
+                this.ListBox.Items.Add(item);
                 this.ListBox.ScrollIntoView(item);
-                if (ListBox.Items.Count > MaxLines)   this.ListBox.Items.RemoveAt(0);
+                if (ListBox.Items.Count > MaxLines) this.ListBox.Items.RemoveAt(0);
             }
             //ListView
-            if(this.ListView != null)
+            if (this.ListView != null)
             {
                 ListViewItem item = new ListViewItem();
                 item.Height = 24;
                 item.Content = loggingEvent;
                 item.ToolTip = text.TrimEnd();
-                item.Background = TextBoxBaseAppender.GetColorBrush(loggingEvent.Level, changeBgColor = !changeBgColor);
+                item.Background = TextBoxAppender.GetColorBrush(loggingEvent.Level, changeBgColor = !changeBgColor);
 
-                this.ListView.Items.Add(item);                
+                this.ListView.Items.Add(item);
                 this.ListView.ScrollIntoView(item);
                 if (this.ListView.Items.Count > MaxLines) this.ListView.Items.RemoveAt(0);
             }
         }
 
         /// <summary>
-        /// 创建 GridViewColumn
+        /// 创建简单的 GridViewColumn 对象
         /// </summary>
         /// <param name="header"></param>
         /// <param name="path"></param>
@@ -217,7 +227,7 @@ namespace SpaceCG.Log4Net
             return column;
         }
         /// <summary>
-        /// 创建 GridViewColumn
+        /// 创建简单的 GridViewColumn 对象
         /// </summary>
         /// <param name="header"></param>
         /// <param name="paths"></param>
@@ -241,5 +251,4 @@ namespace SpaceCG.Log4Net
         }
     }
 }
-
 

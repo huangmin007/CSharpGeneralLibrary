@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591,CS1572
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,6 +67,7 @@ namespace SpaceCG.HPSocket
         /// <param name="pemKeyFile">私钥文件</param>
         /// <param name="keyPasswod">私钥密码（没有密码则为空）</param>
         /// <param name="caPemCertFileOrPath">CA 证书文件或目录（单向验证或客户端可选）</param>
+        /// <param name="sniServerNameCallback"></param>
         public SSLHttpServer(SSLVerifyMode verifyModel, string pemCertFile, string pemKeyFile, string keyPasswod, string caPemCertFileOrPath, SSLSdk.SNIServerNameCallback sniServerNameCallback)
         {
             this.VerifyMode = verifyModel;

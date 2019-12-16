@@ -89,6 +89,10 @@
         </Style>
     -->
 
+        <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -100,7 +104,7 @@
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
-        <RichTextBox Name="TextBox_Logs" FontWeight="Bold" Grid.Column="0" Grid.Row="0">
+        <RichTextBox Name="TextBox_Logs"  Grid.Column="0" Grid.Row="0">
         </RichTextBox>
 
         <TextBlock Name="TextBlock_Logs" Grid.Column="0" Grid.Row="1">

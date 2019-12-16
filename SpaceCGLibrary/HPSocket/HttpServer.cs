@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591,CS1572
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -55,7 +56,7 @@ namespace SpaceCG.HPSocket
 
 
         /// <summary>
-        /// 创建socket监听&服务组件
+        /// 创建socket监听 and 服务组件
         /// </summary>
         /// <returns></returns>
         protected override bool CreateListener()
@@ -269,6 +270,7 @@ namespace SpaceCG.HPSocket
         /// <param name="desc">HTTP 状态描述</param>
         /// <param name="headers">回复请求头</param>
         /// <param name="body">回复请求体</param>
+        /// <param name="bodyLength"></param>
         /// <returns></returns>
         public bool SendResponse(IntPtr connId, HttpStatusCode httpStatusCode, string desc, THeader[] headers, byte[] body, int bodyLength)
         {

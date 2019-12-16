@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable CS1591,CS1572,CS1573
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -112,7 +114,7 @@ namespace SpaceCG.HPSocket
         }
 
         /// <summary>
-        /// 创建socket监听&服务组件
+        /// 创建socket监听 and 服务组件
         /// </summary>
         /// <returns></returns>
         protected virtual bool CreateListener()

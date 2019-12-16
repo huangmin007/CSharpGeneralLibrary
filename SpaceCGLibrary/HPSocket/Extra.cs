@@ -1,4 +1,5 @@
-﻿﻿using System;
+﻿#pragma warning disable CS1591,CS1572,CS1753
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -107,7 +108,7 @@ namespace SpaceCG.HPSocket
         /// 
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <param name="newValue"></param>
         /// <returns></returns>
         public bool SetExtra(IntPtr key, object newValue)
         {

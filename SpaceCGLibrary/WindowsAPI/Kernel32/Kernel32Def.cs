@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591,CS1572
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -98,7 +99,7 @@ namespace SpaceCG.WindowsAPI.Kernel32
     }
 
     /// <summary>
-    /// <see cref="Kernel32.FormatMessage"/> 函数参数 dwFlags 一个或多个值。
+    /// <see cref="Kernel32.FormatMessage(FmFlag, IntPtr, uint, uint, ref string, uint, IntPtr)"/> 函数参数 dwFlags 一个或多个值。
     /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-formatmessage </para>
     /// </summary>
     [Flags]

@@ -12,21 +12,21 @@ namespace SpaceCG.Log4Net
     /// <summary>
     /// Log4Net WPF TextBoxBase/TextBox/RichTextBox Appender
     /// </summary>
-    public class TextBoxBaseAppender : AppenderSkeleton
+    public class TextBoxAppender : AppenderSkeleton
     {
         /// <summary> Backgroud Color 1 </summary>
-        protected static readonly SolidColorBrush BgColor1 = new SolidColorBrush(Color.FromArgb(0x00, 0xC8, 0xC8, 0xC8));
+        public static readonly SolidColorBrush BgColor1 = new SolidColorBrush(Color.FromArgb(0x00, 0xC8, 0xC8, 0xC8));
         /// <summary> Backgroud Color 2 </summary>
-        protected static readonly SolidColorBrush BgColor2 = new SolidColorBrush(Color.FromArgb(0x60, 0xC8, 0xC8, 0xC8));
+        public static readonly SolidColorBrush BgColor2 = new SolidColorBrush(Color.FromArgb(0x60, 0xC8, 0xC8, 0xC8));
 
         /// <summary> Info Color </summary>
-        protected static readonly SolidColorBrush InfoColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0xFF));
+        public static readonly SolidColorBrush InfoColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0xFF));
         /// <summary> Warn Color </summary>
-        protected static readonly SolidColorBrush WarnColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0x00));
+        public static readonly SolidColorBrush WarnColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0x00));
         /// <summary> Error Color </summary>
-        protected static readonly SolidColorBrush ErrorColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0x00, 0x00));
+        public static readonly SolidColorBrush ErrorColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0x00, 0x00));
         /// <summary> Fatal Color </summary>
-        protected static readonly SolidColorBrush FatalColor = new SolidColorBrush(Color.FromArgb(0xBF, 0xFF, 0x00, 0x00));
+        public static readonly SolidColorBrush FatalColor = new SolidColorBrush(Color.FromArgb(0xBF, 0xFF, 0x00, 0x00));
 
         /// <summary>
         /// 获取或设置最大可见行数
@@ -46,7 +46,7 @@ namespace SpaceCG.Log4Net
         /// Log4Net Appender for WPF TextBoxBase(TextBox and RichTextBox)
         /// </summary>
         /// <param name="textBox"></param>
-        public TextBoxBaseAppender(TextBoxBase textBox)
+        public TextBoxAppender(TextBoxBase textBox)
         {
             if (textBox == null) throw new ArgumentNullException("参数不能为空");
 
@@ -69,6 +69,7 @@ namespace SpaceCG.Log4Net
             {
                 tb = (TextBox)this.TextBoxBase;
                 tb.IsReadOnly = true;
+                tb.Foreground = Brushes.Black;
                 tb.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Auto);
             }
             else if (textBox is RichTextBox)
@@ -77,6 +78,7 @@ namespace SpaceCG.Log4Net
                 rtb.IsReadOnly = true;
                 rtb.AcceptsReturn = true;
                 rtb.Document.LineHeight = 2;
+                rtb.Foreground = Brushes.Black;
                 rtb.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             }
             else
@@ -90,7 +92,7 @@ namespace SpaceCG.Log4Net
         /// </summary>
         /// <param name="textBox"></param>
         /// <param name="maxLines">最大行数为 1024 行，默认为 512 行</param>
-        public TextBoxBaseAppender(TextBoxBase textBox, uint maxLines):this(textBox)
+        public TextBoxAppender(TextBoxBase textBox, uint maxLines):this(textBox)
         {
             this.MaxLines = maxLines > 1024 ? 1024 : maxLines;
         }

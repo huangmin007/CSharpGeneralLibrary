@@ -3274,3 +3274,5 @@ System.Exception: Exception,Exception,Exception
 [20:11:17] [10] [ INFO] [TestLibrary.App] [OnExit(36)] - Application OnExit (1792) 
 [Footer]
 
+[Header]
+[20:13:55] [ 9] [ INFO] [TestLibrary.App] [OnStartup(27)] - Application OnStartup (313) 

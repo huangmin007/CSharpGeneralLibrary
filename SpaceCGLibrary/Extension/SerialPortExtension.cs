@@ -39,7 +39,7 @@ namespace SpaceCG.Extension
         ///     <para>获取或设置 <see cref="SerialPort.DataReceived"/> 事件发生前内部输入缓冲区中的字节数。</para>
         ///     <para><see cref="SerialPort.DataReceived"/> 事件触发前内部输入缓冲区中的字节数；默认值为 1，可跟据数据设计大小定义。</para>
         /// </param>
-        /// <param name="ignoreOpenError">是否忽略由 <see cref="SerialPort.Open()"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="AutoReconnection"/>。
+        /// <param name="ignoreOpenError">是否忽略由 <see cref="SerialPort.Open()"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="AutoReconnection(SerialPort, log4net.ILog)"/>。
         ///     <para>如果为 true 则产生的异常信息由 Log(如果有) 记录，否则会抛出异常信息。</para>
         /// </param>
         /// <param name="Log">日志记录对象。如果不为 null ，则会监听记录 <see cref="SerialPort.ErrorReceived"/> 和 <see cref="SerialPort.PinChanged"/> 事件信息，和其它创建过程信息。</param>

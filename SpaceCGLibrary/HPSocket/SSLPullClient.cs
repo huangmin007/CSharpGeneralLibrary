@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591,CS1572
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,7 +44,7 @@ namespace SpaceCG.HPSocket
         }
 
         /// <summary>
-        /// 创建socket监听&服务组件
+        /// 创建socket监听 and 服务组件
         /// </summary>
         /// <returns></returns>
         protected override bool CreateListener()

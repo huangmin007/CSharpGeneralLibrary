@@ -1,4 +1,7 @@
-﻿using System;
+﻿#pragma warning disable CS1591, CS1572
+#pragma warning disable CS1572
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -1081,6 +1084,7 @@ namespace SpaceCG.HPSocket
         /// <param name="lpszUrl">请求 URL</param>
         /// <param name="lpHeaders">请求头</param>
         /// <param name="iHeaderCount">请求头数量</param>
+        /// <param name="pData"></param>
         /// <param name="pBody">请求体</param>
         /// <param name="iLength">请求体长度</param>
         /// <param name="bForceReconnect">强制重新连接（默认：FALSE，当请求 URL 的主机和端口与现有连接一致时，重用现有连接）</param>
@@ -1112,7 +1116,7 @@ namespace SpaceCG.HPSocket
         /// 设置请求超时（毫秒，0：无限等待，默认：10000）
         /// </summary>
         /// <param name="pClient"></param>
-        /// <param name="dwConnectTimeout"></param>
+        /// <param name="dwRequestTimeout"></param>
         /// <returns></returns>
         [DllImport(HPSOCKET_HTTP_DLL_PATH, SetLastError = true)]
         public static extern void HP_HttpSyncClient_SetRequestTimeout(IntPtr pClient, uint dwRequestTimeout);
@@ -1137,7 +1141,8 @@ namespace SpaceCG.HPSocket
         /// 获取响应体
         /// </summary>
         /// <param name="pClient"></param>
-        /// <param name="dwConnectTimeout"></param>
+        /// <param name="lpszBody"></param>
+        /// <param name="iLength"></param>
         /// <returns></returns>
         [DllImport(HPSOCKET_HTTP_DLL_PATH, SetLastError = true)]
         public static extern uint HP_HttpSyncClient_GetResponseBody(IntPtr pClient, ref IntPtr lpszBody, ref int iLength);

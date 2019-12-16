@@ -1,4 +1,5 @@
-﻿﻿using System;
+﻿#pragma warning disable CS1591,CS1572﻿,CS1573
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -2451,7 +2452,7 @@ public class Sdk
     /// <summary>
     /// 设置是否标记静默时间（设置为 TRUE 时 DisconnectSilenceConnections() 和 GetSilencePeriod() 才有效，默认：FALSE）
     /// </summary>
-    /// <param name="pServer"></param>
+    /// <param name="pAgent"></param>
     /// <param name="bMarkSilence"></param>
     [DllImport(HPSOCKET_DLL_PATH, CharSet = CharSet.Ansi, SetLastError = true)]
     public static extern void HP_Agent_SetMarkSilence(IntPtr pAgent, bool bMarkSilence);

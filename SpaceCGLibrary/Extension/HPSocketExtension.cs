@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using SpaceCG.HPSocket;
 using SpaceCG.WindowsAPI.Kernel32;
+using System.Net.NetworkInformation;
+using System.Net;
 
 namespace SpaceCG.Extension
 {
@@ -33,8 +35,22 @@ namespace SpaceCG.Extension
             client.SocketBufferSize = 1024 * 4;     //默认：4096
             client.FreeBufferPoolSize = 64;         //默认：60
             client.FreeBufferPoolHold = 64 * 3;     //默认：60
+            
+            int Timeout = 1000;         // 等待重新连接挂起的毫秒数
+            bool IsAvailable = true;    // 网络是否可用            
+            bool IsLocalAddress = address == "0.0.0.0" || address == "127.0.0.1";   // 是否连接的为本地地址
 
             //监听事件
+            client.OnConnect += (IClient sender) =>
+            {
+                Timeout = 1000;
+                ushort localPort = 0;
+                string localAddr = null;                
+                client.GetListenAddress(ref localAddr, ref localPort);
+                Log?.InfoFormat("客户端 {0}:{1} 连接成功", localAddr, localPort);
+
+                return HandleResult.Ok;
+            };
             client.OnReceive += (IClient sender, byte[] bytes) =>
             {
                 receivedCallback?.Invoke(bytes);
@@ -45,43 +61,47 @@ namespace SpaceCG.Extension
                 string message = Kernel32Utils.GetSysErrroMessage((uint)errorCode);
                 Log?.InfoFormat("客户端连接被断开({0})，描述：({1}) {2}", enOperation, errorCode, message);
 
-                if (autoConnect)
+                if (IsAvailable && autoConnect)
                 {
-                    Log?.InfoFormat("客户端等待 3000ms 后重尝试重新连接");
+                    Log?.InfoFormat("客户端等待 {0}ms 后重尝试重新连接", Timeout);
 
                     Task.Run(() =>
                     {
-                        Thread.Sleep(3000);
-                        bool result = client.Connect(address, port, true);
+                        Thread.Sleep(Timeout);
+                        client.Connect(address, port, true);
+                        Timeout += 1000;
                     });
                 }
 
                 return HandleResult.Ignore;
             };
-            client.OnConnect += (IClient sender) =>
-            {
-                ushort localPort = 0;
-                string localAddr = null;                
-                client.GetListenAddress(ref localAddr, ref localPort);
-                Log?.InfoFormat("客户端 {0}:{1} 连接成功", localAddr, localPort);
-
-                return HandleResult.Ok;
-            };
 
             //连接服务
-            client.Connect(address, port, true);
+            bool result = client.Connect(address, port, true);
 
-            if (Log != null)
+            //非本机地址，网络的可用性监听
+            IPHostEntry entry = Dns.GetHostEntry(Dns.GetHostName());
+            foreach(IPAddress ip in entry.AddressList)  IsLocalAddress = IsLocalAddress || address == ip.ToString();
+            if (!IsLocalAddress)
             {
-                ushort localPort = 0;
-                string localAddr = "0.0.0.0";
-                client.GetListenAddress(ref localAddr, ref localPort);
-                Log?.InfoFormat("Create TcpClient {0}:{1}", localAddr, localPort);
+                NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) =>
+                {
+                    Log?.InfoFormat("网络的可用性发生变化，Network Change, IsAvailable : {0}", e.IsAvailable);
+
+                    Timeout = 1000;
+                    IsAvailable = e.IsAvailable;
+
+                    if (!e.IsAvailable && client.IsConnected) client.Stop();
+                    if (e.IsAvailable && !client.IsConnected) client.Connect(address, port, true);
+                };
+            }
+            else
+            {
+                Log?.InfoFormat("客户端连接的为本地网络服务地址：{0} ，未监听网络的可用性变化。", address);
             }
 
             return client;
         }
-
 
         /// <summary>
         /// 销毁由 <see cref="CreateTcpClient"/> 创建的客户端对象

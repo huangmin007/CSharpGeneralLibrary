@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591,1572
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -71,7 +72,7 @@ namespace SpaceCG.HPSocket
         public event WebSocketEvent.OnWSMessageHeaderEventHandler OnWSMessageHeader;
 
         /// <summary>
-        /// 创建socket监听&服务组件
+        /// 创建socket监听 and 服务组件
         /// </summary>
         /// <returns></returns>
         protected override bool CreateListener()
@@ -337,6 +338,7 @@ namespace SpaceCG.HPSocket
         /// <param name="path">请求路径</param>
         /// <param name="headers">请求头</param>
         /// <param name="body">请求体</param>
+        /// <param name="bodyLength"></param>
         /// <returns></returns>
         public bool SendRequest(HttpMethod method, string path, THeader[] headers, byte[] body, int bodyLength)
         {
@@ -464,7 +466,7 @@ namespace SpaceCG.HPSocket
         /// <param name="iReserved"></param>
         /// <param name="iOperationCode"></param>
         /// <param name="lpszMask"></param>
-        /// <param name="Data"></param>
+        /// <param name="pData"></param>
         /// <param name="ullBodyLen"></param>
         /// <returns></returns>
         public bool SendWSMessage( bool bFinal, byte iReserved, byte iOperationCode, byte[] lpszMask, byte[] pData, ulong ullBodyLen)

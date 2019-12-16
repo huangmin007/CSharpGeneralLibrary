@@ -1,4 +1,5 @@
-﻿using SpaceCG.WindowsAPI.Kernel32;
+﻿#pragma warning disable CS1591,CS1572
+using SpaceCG.WindowsAPI.Kernel32;
 using SpaceCG.WindowsAPI.WinUser;
 using System;
 using System.Diagnostics;

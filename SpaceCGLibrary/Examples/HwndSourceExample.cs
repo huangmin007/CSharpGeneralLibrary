@@ -1,4 +1,6 @@
-﻿using SpaceCG.WindowsAPI.WinUser;
+﻿
+#pragma warning disable CS1591,CS1572
+using SpaceCG.WindowsAPI.WinUser;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;

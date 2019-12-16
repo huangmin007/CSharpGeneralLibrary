@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\SpaceCGLibrary.XML</DocumentationFile>
+    <NoWarn>CS1591,CS1572,CS1573</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -102,7 +103,7 @@
     <Compile Include="HPSocket\WebSocketServer.cs" />
     <Compile Include="Log4Net\ListBoxAppender.cs" />
     <Compile Include="Log4Net\Log4NetUtils.cs" />
-    <Compile Include="Log4Net\TextBoxBaseAppender.cs" />
+    <Compile Include="Log4Net\TextBoxAppender.cs" />
     <Compile Include="WindowsAPI\WinUser\DBTDef.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32Def.cs" />
@@ -124,6 +125,7 @@
   <ItemGroup>
     <Folder Include="Framework\" />
     <Folder Include="General\" />
+    <Folder Include="Interface\" />
     <Folder Include="Template\" />
     <Folder Include="Utility\" />
   </ItemGroup>

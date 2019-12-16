@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591,CS1572,CS0660,CS0661
+using System;
 
 namespace SpaceCG.WindowsAPI
 {

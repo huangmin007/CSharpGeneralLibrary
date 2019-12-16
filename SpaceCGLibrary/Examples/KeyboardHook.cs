@@ -1,4 +1,5 @@
-﻿using SpaceCG.WindowsAPI.Kernel32;
+﻿#pragma warning disable CS1591,CS1572
+using SpaceCG.WindowsAPI.Kernel32;
 using SpaceCG.WindowsAPI.WinUser;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace SpaceCG.Examples
             ProcessModule processModule = process.MainModule;
             //IntPtr hInstance = Kernel32.GetModuleHandle(processModule.ModuleName);
 
+            KeysList = new List<KeyboardLLHookStruct>();
             HookIntPtr = WinUser.SetWindowsHookEx(HookType.WH_KEYBOARD_LL, HookProc, processModule.BaseAddress, 0);
         }
 
