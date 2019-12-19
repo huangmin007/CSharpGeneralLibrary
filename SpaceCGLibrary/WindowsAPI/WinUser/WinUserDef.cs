@@ -2144,9 +2144,119 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// </summary>
         public SwpFlag flags;
     }
-    
+
     #endregion
 
+    #region Touch Info
+    /// <summary>
+    /// 封装用于触摸输入的数据。
+    /// <para>TOUCHINPUT, * PTOUCHINPUT</para>
+    /// <para>typedef TOUCHINPUT const * PCTOUCHINPUT;</para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-touchinput </para>
+    /// </summary>
+    public struct TOUCHINPUT
+    {
+        /// <summary>
+        /// 触摸输入的x坐标（水平点）。该成员以物理屏幕坐标的百分之一像素表示。
+        /// </summary>
+        public int x;
+        /// <summary>
+        /// 触摸输入的y坐标（垂直点）。该成员以物理屏幕坐标的百分之一像素表示。
+        /// </summary>
+        public int y;
+        /// <summary>
+        /// 源输入设备的设备句柄。触摸输入提供程序会在运行时为每个设备提供唯一的提供程序。
+        /// </summary>
+        public IntPtr hSource;
+        /// <summary>
+        /// 区分特定触摸输入的触摸点标识符。从接触点下降到恢复接触点，此值在触摸接触序列中保持一致。以后可以将 ID 重新用于后续联系人。
+        /// </summary>
+        public uint dwID;
+        /// <summary>
+        /// 一组位标志，用于指定触摸点按下，释放和运动的各个方面。
+        /// </summary>
+        public TouchEventFlag dwFlags;
+        /// <summary>
+        /// 一组位标志，用于指定结构中的哪些可选字段包含有效值。可选字段中有效信息的可用性是特定于设备的。仅当在 dwMask 中设置了相应的位时，应用程序才应使用可选的字段值。
+        /// </summary>
+        public TouchMaskFlag dwMask;
+        /// <summary>
+        /// 事件的时间戳，以毫秒为单位。消费应用程序应注意，系统不对此字段执行任何验证；当未设置 TOUCHINPUTMASKF_TIMEFROMSYSTEM 标志时，此字段中值的准确性和顺序完全取决于触摸输入提供程序。
+        /// </summary>
+        public uint dwTime;
+        /// <summary>
+        /// 与触摸事件关联的附加值。
+        /// </summary>
+        public IntPtr dwExtraInfo;
+        /// <summary>
+        /// 在物理屏幕坐标中，触摸接触区域的宽度以百分之一像素为单位。仅当 dwMask 成员设置了 TOUCHEVENTFMASK_CONTACTAREA 标志时，此值才有效。
+        /// </summary>
+        public uint cxContact;
+        /// <summary>
+        /// 在物理屏幕坐标中，触摸接触区域的高度以百分之一像素为单位。仅当 dwMask 成员设置了 TOUCHEVENTFMASK_CONTACTAREA 标志时，此值才有效。
+        /// </summary>
+        public uint cyContact;
+    }
+
+    /// <summary>
+    /// 结构体 TOUCHINPUT 属性 dwFlags 的值之一或值组合
+    /// <para> 如果计算机上的目标硬件不支持悬停，则当设置 TOUCHEVENTF_UP 标志时，将清除 TOUCHEVENTF_INRANGE 标志。如果计算机上的目标硬件支持悬停，则将分别设置 TOUCHEVENTF_UP 和 TOUCHEVENTF_INRANGE 标志</para>
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-touchinput </para>
+    /// </summary>
+    [Flags]
+    public enum TouchEventFlag
+    {
+        /// <summary>
+        /// 发生了移动。不能与 TOUCHEVENTF_DOWN 结合使用。
+        /// </summary>
+        TOUCHEVENTF_MOVE = 0x0001,
+        /// <summary>
+        /// 通过新的联系人建立了相应的接触点。不能与 TOUCHEVENTF_MOVE 或 TOUCHEVENTF_UP 结合使用。
+        /// </summary>
+        TOUCHEVENTF_DOWN = 0x0002,
+        /// <summary>
+        /// 触摸点已删除。
+        /// </summary>
+        TOUCHEVENTF_UP = 0x0004,
+        /// <summary>
+        /// 接触点在范围内。此标志用于在兼容硬件上启用触摸悬浮支持。不需要支持悬停的应用程序可以忽略此标志。
+        /// </summary>
+        TOUCHEVENTF_INRANGE = 0x0008,
+        /// <summary>
+        /// 指示此 TOUCHINPUT 结构对应于主要接触点。有关主要接触点的更多信息，请参见以下文本。
+        /// </summary>
+        TOUCHEVENTF_PRIMARY = 0x0010,
+        /// <summary>
+        /// 使用GetTouchInputInfo接收时，此输入未合并。
+        /// </summary>
+        TOUCHEVENTF_NOCOALESCE = 0x0020,
+        /// <summary>
+        /// 触摸事件来自用户的手掌。
+        /// </summary>
+        TOUCHEVENTF_PALM = 0x0080,
+    }
+    /// <summary>
+    /// 结构体 TOUCHINPUT 属性 dwMask 的值之一或值组合
+    /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-touchinput </para>
+    /// </summary>
+    [Flags]
+    public enum TouchMaskFlag
+    {
+        /// <summary>
+        /// cxContact 和 cyContact 有效。有关主要接触点的更多信息，请参见以下文本。
+        /// </summary>
+        TOUCHINPUTMASKF_CONTACTAREA = 0x0004,
+        /// <summary>
+        /// dwExtraInfo 有效。
+        /// </summary>
+        TOUCHINPUTMASKF_EXTRAINFO = 0x0002,
+        /// <summary>
+        /// 系统时间在 TOUCHINPUT 结构中设置。
+        /// </summary>
+        TOUCHINPUTMASKF_TIMEFROMSYSTEM = 0x0001,
+    }
+
+    #endregion
 
     #region Pointer Touch Info
     /// <summary>

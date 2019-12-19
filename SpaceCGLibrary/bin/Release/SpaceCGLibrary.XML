@@ -4951,6 +4951,13 @@
             </summary>
             <param name="listBox"></param>
         </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.ListBox_MouseDoubleClick(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Mouse Double Cliek Copy to Clipboard
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
         <member name="M:SpaceCG.Log4Net.ListBoxAppender.#ctor(System.Windows.Controls.ListBox,System.UInt32)">
             <summary>
             Log4Net Appender for WPF ListBox and ListView

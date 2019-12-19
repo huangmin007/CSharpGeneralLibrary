@@ -103,7 +103,9 @@
     <Compile Include="HPSocket\WebSocketServer.cs" />
     <Compile Include="Log4Net\ListBoxAppender.cs" />
     <Compile Include="Log4Net\Log4NetUtils.cs" />
+    <Compile Include="Log4Net\LoggerWindow.cs" />
     <Compile Include="Log4Net\TextBoxAppender.cs" />
+    <Compile Include="Template\AppTemplate.cs" />
     <Compile Include="WindowsAPI\WinUser\DBTDef.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32Def.cs" />
@@ -126,7 +128,6 @@
     <Folder Include="Framework\" />
     <Folder Include="General\" />
     <Folder Include="Interface\" />
-    <Folder Include="Template\" />
     <Folder Include="Utility\" />
   </ItemGroup>
   <ItemGroup>

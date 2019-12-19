@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
 using System.Windows.Media;
+using SpaceCG.Template;
 
 //[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.Config", Watch = true)]
 namespace TestLibrary
@@ -51,20 +52,14 @@ namespace TestLibrary
 #else
             Console.WriteLine("any cpu");
 #endif
-            int[] arr = new int[] { 1, 2, 3, 4, 5, 150 };
-            int index = 1;
-            //Console.WriteLine(arr[^0]);
-            //uint a = 0b_0000_1111_0000_1111_0000_1111_0000_1100;
-            //Console.WriteLine(a);
-            Console.WriteLine(Convert.ToString(arr[5], 2));
-
+            LoggerWindow LoggerWindow = new LoggerWindow();
+            LoggerWindow.Show();
         }
         
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
             TextBoxAppender appender = new TextBoxAppender(TextBox_Logs);
-            ListBoxAppender appender2 = new ListBoxAppender(listBox, 50);
 
             App.Log.InfoFormat("Initialize.");
         }
@@ -78,7 +73,7 @@ namespace TestLibrary
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            Console.WriteLine(e.Key);
+            //Console.WriteLine(e.Key);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -103,6 +98,10 @@ namespace TestLibrary
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ListBoxAppender appender2 = new ListBoxAppender(listBox, 10);
+
+            int tier = RenderCapability.Tier >> 16;
+
             Log.InfoFormat("Window Loaded.");
             Log.DebugFormat("Debug Foramt");
             Log.WarnFormat("Warn Format");

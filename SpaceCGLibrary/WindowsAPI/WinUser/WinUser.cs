@@ -1130,6 +1130,30 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用GetLastError。</returns>
         [DllImport(DLL_NAME, SetLastError = true)]
         public static extern bool InjectTouchInput(uint count, POINTERTOUCHINFO[] contacts);
+
+        /// <summary>
+        /// 检索有关与特定触摸输入句柄关联的触摸输入的详细信息。
+        /// <para>调用 CloseTouchInputHandle 不会空闲内存在一个调用中检索值相关联 GetTouchInputInfo。传递到 GetTouchInputInfo 的结构中的值 将一直有效，直到您删除它们为止。</para>
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-gettouchinputinfo </para>
+        /// </summary>
+        /// <param name="hTouchInput">在触摸消息的 lParam 中接收到的触摸输入手柄。如果此句柄无效，则函数失败，并显示 ERROR_INVALID_HANDLE。请注意，在成功调用 CloseTouchInputHandle 或将其传递给 DefWindowProc，PostMessage，SendMessage 或其变体之一之后，该句柄无效。</param>
+        /// <param name="cInputs">pInputs 数组中的结构数。理想地，这应该至少等于与消息 wParam 中指示的消息关联的接触点的数量。如果 cInputs 小于接触点的数量，则该函数仍将成功执行，并使用有关 cInputs 接触点的信息填充 pInputs 缓冲区。</param>
+        /// <param name="pInputs">指向 TOUCHINPUT 结构数组的指针，以接收有关与指定触摸输入手柄关联的触摸点的信息。</param>
+        /// <param name="cbSize">单个 TOUCHINPUT 结构的大小（以字节为单位, sizeof(TOUCHINPUT)）。如果 cbSize 不是单个 TOUCHINPUT 结构的大小，则该函数失败，并显示 ERROR_INVALID_PARAMETER。</param>
+        /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。若要获取扩展的错误信息，请使用 GetLastError 函数。</returns>
+        [DllImport(DLL_NAME, SetLastError = true)]
+        public static extern bool GetTouchInputInfo(IntPtr hTouchInput, uint cInputs, TOUCHINPUT[] pInputs, int cbSize);
+        /// <summary>
+        /// 关闭触摸输入句柄，释放与其关联的过程内存，并使该句柄无效。
+        /// <para>调用 CloseTouchInputHandle 不会空闲内存在一个调用中检索值相关联 GetTouchInputInfo。传递到 GetTouchInputInf 的结构中的值 将一直有效，直到您删除它们为止。</para>
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closetouchinputhandle </para>
+        /// </summary>
+        /// <param name="hTouchInput">在触摸消息的 lParam 中接收到的触摸输入手柄。如果此句柄无效，则函数失败，并显示 ERROR_INVALID_HANDLE。请注意，在成功调用 CloseTouchInputHandle 或将其传递给 DefWindowProc，PostMessage，SendMessage 或其变体之一之后，该句柄无效。</param>
+        /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。若要获取扩展的错误信息，请使用 GetLastError 函数。</returns>
+        [DllImport(DLL_NAME, SetLastError = true)]
+        public static extern bool CloseTouchInputHandle(IntPtr hTouchInput);
         #endregion
+
+
     }
 }

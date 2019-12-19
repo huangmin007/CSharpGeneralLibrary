@@ -18,6 +18,8 @@ namespace SpaceCG.Log4Net
         public static readonly SolidColorBrush BgColor1 = new SolidColorBrush(Color.FromArgb(0x00, 0xC8, 0xC8, 0xC8));
         /// <summary> Backgroud Color 2 </summary>
         public static readonly SolidColorBrush BgColor2 = new SolidColorBrush(Color.FromArgb(0x60, 0xC8, 0xC8, 0xC8));
+        /// <summary> Default Text Color 3 </summary>
+        //public static readonly SolidColorBrush TextColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
 
         /// <summary> Info Color </summary>
         public static readonly SolidColorBrush InfoColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0xFF));
@@ -51,6 +53,7 @@ namespace SpaceCG.Log4Net
             if (textBox == null) throw new ArgumentNullException("参数不能为空");
 
             this.TextBoxBase = textBox;
+            this.TextBoxBase.IsReadOnly = true;
             this.AppendLoggingEventDelegate = AppendLoggingEvent;
             this.Layout = new PatternLayout("[%date{HH:mm:ss}] [%thread] [%5level] [%method(%line)] %logger - %message (%r) %newline");
 
@@ -143,7 +146,7 @@ namespace SpaceCG.Log4Net
             if (rtb != null)
             {
                 Paragraph paragraph = new Paragraph(new Run(text.TrimEnd()));
-                paragraph.Background = GetColorBrush(loggingEvent.Level, changeBgColor = !changeBgColor);
+                paragraph.Background = GetBgColorBrush(loggingEvent.Level, changeBgColor = !changeBgColor);
                 
                 rtb.Document.Blocks.Add(paragraph);
                 rtb.ScrollToEnd();
@@ -165,12 +168,12 @@ namespace SpaceCG.Log4Net
             return level == Level.Fatal ? FatalColor : level == Level.Error ? ErrorColor : level == Level.Warn ? WarnColor : InfoColor;
         }
         /// <summary>
-        /// 跟据 Level and Line 获取颜色
+        /// 跟据 Level and Line 获取背景颜色
         /// </summary>
         /// <param name="level"></param>
         /// <param name="line"></param>
         /// <returns></returns>
-        public static SolidColorBrush GetColorBrush(Level level, int line)
+        public static SolidColorBrush GetBgColorBrush(Level level, int line)
         {
             if (level == Level.Fatal) return FatalColor;
             else if (level == Level.Error) return ErrorColor;
@@ -178,17 +181,18 @@ namespace SpaceCG.Log4Net
             else return line % 2 == 0 ? BgColor1 : BgColor2;
         }
         /// <summary>
-        /// 跟据 Level and Change 获取颜色
+        /// 跟据 Level and Change 获取背景颜色
         /// </summary>
         /// <param name="level"></param>
         /// <param name="change"></param>
         /// <returns></returns>
-        public static SolidColorBrush GetColorBrush(Level level, bool change)
+        public static SolidColorBrush GetBgColorBrush(Level level, bool change)
         {
             if (level == Level.Fatal) return FatalColor;
             else if (level == Level.Error) return ErrorColor;
             else if (level == Level.Warn) return WarnColor;
             else return change ? BgColor1 : BgColor2;
         }
+        
     }
 }

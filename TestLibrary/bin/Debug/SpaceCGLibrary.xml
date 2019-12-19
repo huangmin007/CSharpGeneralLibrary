@@ -4,6 +4,11 @@
         <name>SpaceCGLibrary</name>
     </assembly>
     <members>
+        <member name="T:SpaceCG.Examples.MyApp">
+            <summary>
+            跨应用程序会话保留和还原应用程序范围属性 示例
+            </summary>
+        </member>
         <member name="T:SpaceCG.Examples.ApplicationRunOne">
             <summary>
             Application Run One Example
@@ -4917,7 +4922,12 @@
         </member>
         <member name="T:SpaceCG.Log4Net.MultiStringConverter">
             <summary>
-            
+            多字符值转换
+            </summary>
+        </member>
+        <member name="T:SpaceCG.Log4Net.WidthConverter">
+            <summary>
+            ba la ba la
             </summary>
         </member>
         <member name="T:SpaceCG.Log4Net.ListBoxAppender">
@@ -4951,7 +4961,14 @@
             </summary>
             <param name="listBox"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.#ctor(System.Windows.Controls.ListBox,System.UInt32)">
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.ListBox_MouseDoubleClick(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Mouse Double Cliek Copy to Clipboard
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.#ctor(System.Windows.Controls.ListBox,System.Int32)">
             <summary>
             Log4Net Appender for WPF ListBox and ListView
             </summary>
@@ -4969,6 +4986,19 @@
             Addend Logging Event
             </summary>
             <param name="loggingEvent"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.MenuItem_ClickHandler(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            MenuItem Click Handler
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.ListBoxAppender.CreateListViewContextMenu">
+            <summary>
+            Create ListView ContextMenu
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:SpaceCG.Log4Net.ListBoxAppender.CreateColumn(System.String,System.String,System.Int32)">
             <summary>
@@ -5012,6 +5042,52 @@
             <param name="days">保留天数</param>
             <param name="path">文件夹目录</param>
             <param name="searchPattern">文件匹配类型</param>
+        </member>
+        <member name="T:SpaceCG.Log4Net.LoggerWindow">
+            <summary>
+            独立的日志窗体对象
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Log4Net.LoggerWindow.#ctor">
+            <summary>
+            Logger Window
+            </summary>
+            <param name="log"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.LoggerWindow.OnInitializeControls">
+            <summary>
+            初使化 UI 控件
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Log4Net.LoggerWindow.ClearTextBox">
+            <summary>
+            清除 TextBox 内容
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Log4Net.LoggerWindow.ListView_SelectionChanged(System.Object,System.Windows.Controls.SelectionChangedEventArgs)">
+            <summary>
+            ListView Select Changed Handler
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.LoggerWindow.LoggerWindow_Loaded(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Window Loaded Event Handler
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.LoggerWindow.WindowProcHandler(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <summary>
+            Window Process Handler
+            </summary>
+            <param name="hwnd"></param>
+            <param name="msg"></param>
+            <param name="wParam"></param>
+            <param name="lParam"></param>
+            <param name="handled"></param>
+            <returns></returns>
         </member>
         <member name="T:SpaceCG.Log4Net.TextBoxAppender">
             <summary>
@@ -5085,21 +5161,31 @@
             <param name="level"></param>
             <returns></returns>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetColorBrush(log4net.Core.Level,System.Int32)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetBgColorBrush(log4net.Core.Level,System.Int32)">
             <summary>
-            跟据 Level and Line 获取颜色
+            跟据 Level and Line 获取背景颜色
             </summary>
             <param name="level"></param>
             <param name="line"></param>
             <returns></returns>
         </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetColorBrush(log4net.Core.Level,System.Boolean)">
+        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetBgColorBrush(log4net.Core.Level,System.Boolean)">
             <summary>
-            跟据 Level and Change 获取颜色
+            跟据 Level and Change 获取背景颜色
             </summary>
             <param name="level"></param>
             <param name="change"></param>
             <returns></returns>
+        </member>
+        <member name="T:SpaceCG.Template.AppTemplate">
+            <summary>
+            Application Template
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Template.AppTemplate.Log">
+            <summary>
+            应用程序日志对象
+            </summary>
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType">
             <summary>
@@ -7835,6 +7921,127 @@
             窗口位置。该成员可以是 <see cref="T:SpaceCG.WindowsAPI.WinUser.SwpFlag"/> 一个或多个值。
             </summary>
         </member>
+        <member name="T:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT">
+            <summary>
+            封装用于触摸输入的数据。
+            <para>TOUCHINPUT, * PTOUCHINPUT</para>
+            <para>typedef TOUCHINPUT const * PCTOUCHINPUT;</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-touchinput </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.x">
+            <summary>
+            触摸输入的x坐标（水平点）。该成员以物理屏幕坐标的百分之一像素表示。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.y">
+            <summary>
+            触摸输入的y坐标（垂直点）。该成员以物理屏幕坐标的百分之一像素表示。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.hSource">
+            <summary>
+            源输入设备的设备句柄。触摸输入提供程序会在运行时为每个设备提供唯一的提供程序。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.dwID">
+            <summary>
+            区分特定触摸输入的触摸点标识符。从接触点下降到恢复接触点，此值在触摸接触序列中保持一致。以后可以将 ID 重新用于后续联系人。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.dwFlags">
+            <summary>
+            一组位标志，用于指定触摸点按下，释放和运动的各个方面。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.dwMask">
+            <summary>
+            一组位标志，用于指定结构中的哪些可选字段包含有效值。可选字段中有效信息的可用性是特定于设备的。仅当在 dwMask 中设置了相应的位时，应用程序才应使用可选的字段值。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.dwTime">
+            <summary>
+            事件的时间戳，以毫秒为单位。消费应用程序应注意，系统不对此字段执行任何验证；当未设置 TOUCHINPUTMASKF_TIMEFROMSYSTEM 标志时，此字段中值的准确性和顺序完全取决于触摸输入提供程序。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.dwExtraInfo">
+            <summary>
+            与触摸事件关联的附加值。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.cxContact">
+            <summary>
+            在物理屏幕坐标中，触摸接触区域的宽度以百分之一像素为单位。仅当 dwMask 成员设置了 TOUCHEVENTFMASK_CONTACTAREA 标志时，此值才有效。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TOUCHINPUT.cyContact">
+            <summary>
+            在物理屏幕坐标中，触摸接触区域的高度以百分之一像素为单位。仅当 dwMask 成员设置了 TOUCHEVENTFMASK_CONTACTAREA 标志时，此值才有效。
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.WinUser.TouchEventFlag">
+            <summary>
+            结构体 TOUCHINPUT 属性 dwFlags 的值之一或值组合
+            <para> 如果计算机上的目标硬件不支持悬停，则当设置 TOUCHEVENTF_UP 标志时，将清除 TOUCHEVENTF_INRANGE 标志。如果计算机上的目标硬件支持悬停，则将分别设置 TOUCHEVENTF_UP 和 TOUCHEVENTF_INRANGE 标志</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-touchinput </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchEventFlag.TOUCHEVENTF_MOVE">
+            <summary>
+            发生了移动。不能与 TOUCHEVENTF_DOWN 结合使用。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchEventFlag.TOUCHEVENTF_DOWN">
+            <summary>
+            通过新的联系人建立了相应的接触点。不能与 TOUCHEVENTF_MOVE 或 TOUCHEVENTF_UP 结合使用。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchEventFlag.TOUCHEVENTF_UP">
+            <summary>
+            触摸点已删除。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchEventFlag.TOUCHEVENTF_INRANGE">
+            <summary>
+            接触点在范围内。此标志用于在兼容硬件上启用触摸悬浮支持。不需要支持悬停的应用程序可以忽略此标志。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchEventFlag.TOUCHEVENTF_PRIMARY">
+            <summary>
+            指示此 TOUCHINPUT 结构对应于主要接触点。有关主要接触点的更多信息，请参见以下文本。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchEventFlag.TOUCHEVENTF_NOCOALESCE">
+            <summary>
+            使用GetTouchInputInfo接收时，此输入未合并。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchEventFlag.TOUCHEVENTF_PALM">
+            <summary>
+            触摸事件来自用户的手掌。
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.WinUser.TouchMaskFlag">
+            <summary>
+            结构体 TOUCHINPUT 属性 dwMask 的值之一或值组合
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-touchinput </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchMaskFlag.TOUCHINPUTMASKF_CONTACTAREA">
+            <summary>
+            cxContact 和 cyContact 有效。有关主要接触点的更多信息，请参见以下文本。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchMaskFlag.TOUCHINPUTMASKF_EXTRAINFO">
+            <summary>
+            dwExtraInfo 有效。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.WinUser.TouchMaskFlag.TOUCHINPUTMASKF_TIMEFROMSYSTEM">
+            <summary>
+            系统时间在 TOUCHINPUT 结构中设置。
+            </summary>
+        </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.TouchFeedbackMode">
             <summary>
             Touch 反馈模式
@@ -10067,6 +10274,27 @@
             <param name="count">contacts 中数组的大小；计数的最大值由 InitializeTouchInjection 函数的 maxCount 参数指定。</param>
             <param name="contacts">代表桌面上所有 contacts 的 POINTER_TOUCH_INFO 结构的数组。每个 contact 的屏幕坐标必须在桌面范围内。</param>
             <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用GetLastError。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.GetTouchInputInfo(System.IntPtr,System.UInt32,SpaceCG.WindowsAPI.WinUser.TOUCHINPUT[],System.Int32)">
+            <summary>
+            检索有关与特定触摸输入句柄关联的触摸输入的详细信息。
+            <para>调用 CloseTouchInputHandle 不会空闲内存在一个调用中检索值相关联 GetTouchInputInfo。传递到 GetTouchInputInfo 的结构中的值 将一直有效，直到您删除它们为止。</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-gettouchinputinfo </para>
+            </summary>
+            <param name="hTouchInput">在触摸消息的 lParam 中接收到的触摸输入手柄。如果此句柄无效，则函数失败，并显示 ERROR_INVALID_HANDLE。请注意，在成功调用 CloseTouchInputHandle 或将其传递给 DefWindowProc，PostMessage，SendMessage 或其变体之一之后，该句柄无效。</param>
+            <param name="cInputs">pInputs 数组中的结构数。理想地，这应该至少等于与消息 wParam 中指示的消息关联的接触点的数量。如果 cInputs 小于接触点的数量，则该函数仍将成功执行，并使用有关 cInputs 接触点的信息填充 pInputs 缓冲区。</param>
+            <param name="pInputs">指向 TOUCHINPUT 结构数组的指针，以接收有关与指定触摸输入手柄关联的触摸点的信息。</param>
+            <param name="cbSize">单个 TOUCHINPUT 结构的大小（以字节为单位, sizeof(TOUCHINPUT)）。如果 cbSize 不是单个 TOUCHINPUT 结构的大小，则该函数失败，并显示 ERROR_INVALID_PARAMETER。</param>
+            <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。若要获取扩展的错误信息，请使用 GetLastError 函数。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.WinUser.WinUser.CloseTouchInputHandle(System.IntPtr)">
+            <summary>
+            关闭触摸输入句柄，释放与其关联的过程内存，并使该句柄无效。
+            <para>调用 CloseTouchInputHandle 不会空闲内存在一个调用中检索值相关联 GetTouchInputInfo。传递到 GetTouchInputInf 的结构中的值 将一直有效，直到您删除它们为止。</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closetouchinputhandle </para>
+            </summary>
+            <param name="hTouchInput">在触摸消息的 lParam 中接收到的触摸输入手柄。如果此句柄无效，则函数失败，并显示 ERROR_INVALID_HANDLE。请注意，在成功调用 CloseTouchInputHandle 或将其传递给 DefWindowProc，PostMessage，SendMessage 或其变体之一之后，该句柄无效。</param>
+            <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。若要获取扩展的错误信息，请使用 GetLastError 函数。</returns>
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.WinUserUtils">
             <summary>

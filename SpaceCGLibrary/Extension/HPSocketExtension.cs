@@ -69,7 +69,7 @@ namespace SpaceCG.Extension
                     {
                         Thread.Sleep(Timeout);
                         client.Connect(address, port, true);
-                        Timeout += 1000;
+                        Timeout = Timeout >= 10000 ? Timeout : Timeout + 1000;
                     });
                 }
 
