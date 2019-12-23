@@ -8251,6 +8251,11 @@
             </para>
             </remarks>
         </member>
+        <member name="P:log4net.Appender.UdpAppender.Serialization">
+            <summary>
+            发送格式是否是序列化
+            </summary>
+        </member>
         <member name="P:log4net.Appender.UdpAppender.RemotePort">
             <summary>
             Gets or sets the TCP port number of the remote host or multicast group to which 

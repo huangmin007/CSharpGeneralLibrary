@@ -19,7 +19,7 @@ namespace SpaceCG.Log4Net
         /// <summary> Backgroud Color 2 </summary>
         public static readonly SolidColorBrush BgColor2 = new SolidColorBrush(Color.FromArgb(0x60, 0xC8, 0xC8, 0xC8));
         /// <summary> Default Text Color 3 </summary>
-        //public static readonly SolidColorBrush TextColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+        public static readonly SolidColorBrush TextColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
 
         /// <summary> Info Color </summary>
         public static readonly SolidColorBrush InfoColor = new SolidColorBrush(Color.FromArgb(0x7F, 0xFF, 0xFF, 0xFF));

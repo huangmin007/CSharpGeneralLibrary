@@ -36,10 +36,15 @@
     <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HPSocket.Net, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HPSocket.Net\src\HPSocket.Net\bin\Release\netstandard2.0\HPSocket.Net.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\log4net-2.0.8\build\bin\net\4.5\debug\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -66,41 +71,6 @@
     <Compile Include="Extension\PerformanceExtension.cs" />
     <Compile Include="Extension\SerialPortExtension.cs" />
     <Compile Include="Extension\IEnumerableExtension.cs" />
-    <Compile Include="HPSocket\Common.cs" />
-    <Compile Include="HPSocket\ErrorResult.cs" />
-    <Compile Include="HPSocket\Extra.cs" />
-    <Compile Include="HPSocket\HPThreadPool.cs" />
-    <Compile Include="HPSocket\HttpAgent.cs" />
-    <Compile Include="HPSocket\HttpClient.cs" />
-    <Compile Include="HPSocket\HttpSdk.cs" />
-    <Compile Include="HPSocket\HttpServer.cs" />
-    <Compile Include="HPSocket\IpAddress.cs" />
-    <Compile Include="HPSocket\Sdk.cs" />
-    <Compile Include="HPSocket\SSLAgent.cs" />
-    <Compile Include="HPSocket\SSLClient.cs" />
-    <Compile Include="HPSocket\SSLHttpAgent.cs" />
-    <Compile Include="HPSocket\SSLHttpClient.cs" />
-    <Compile Include="HPSocket\SSLHttpSdk.cs" />
-    <Compile Include="HPSocket\SSLHttpServer.cs" />
-    <Compile Include="HPSocket\SSLPackAgent.CS" />
-    <Compile Include="HPSocket\SSLPackClient.cs" />
-    <Compile Include="HPSocket\SSLPackServer.cs" />
-    <Compile Include="HPSocket\SSLPullAgent.cs" />
-    <Compile Include="HPSocket\SSLPullClient.cs" />
-    <Compile Include="HPSocket\SSLPullServer.cs" />
-    <Compile Include="HPSocket\SSLSdk.cs" />
-    <Compile Include="HPSocket\SSLServer.cs" />
-    <Compile Include="HPSocket\TcpAgent.cs" />
-    <Compile Include="HPSocket\TcpClient.cs" />
-    <Compile Include="HPSocket\TcpPackAgent.cs" />
-    <Compile Include="HPSocket\TcpPackClient.cs" />
-    <Compile Include="HPSocket\TcpPackServer.cs" />
-    <Compile Include="HPSocket\TcpPullAgent.cs" />
-    <Compile Include="HPSocket\TcpPullClient.cs" />
-    <Compile Include="HPSocket\TcpPullServer.cs" />
-    <Compile Include="HPSocket\TcpServer.cs" />
-    <Compile Include="HPSocket\ThreadPoolSdk.cs" />
-    <Compile Include="HPSocket\WebSocketServer.cs" />
     <Compile Include="Log4Net\ListBoxAppender.cs" />
     <Compile Include="Log4Net\Log4NetUtils.cs" />
     <Compile Include="Log4Net\LoggerWindow.cs" />

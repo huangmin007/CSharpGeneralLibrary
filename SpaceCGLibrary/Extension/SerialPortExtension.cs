@@ -27,7 +27,7 @@ namespace SpaceCG.Extension
 
 
         /// <summary>
-        /// 根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。
+        /// 根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。。如果只关心数据的接收/处理，适用此方法。
         /// <para>建议使用 <see cref="CloseAndDispose(ref SerialPort, log4net.ILog)"/> 清理该实例。</para>
         /// </summary>
         /// <param name="config">串口构造函数参数，参见 <see cref="SerialPort"/> 构造函数。

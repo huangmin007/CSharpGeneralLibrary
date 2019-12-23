@@ -21,12 +21,15 @@ namespace SpaceCG.Log4Net
         protected ListView ListView;
         protected ListBoxAppender ListBoxAppender;
 
+        protected int MaxLines = 512;
+
         /// <summary>
         /// Logger Window
         /// </summary>
         /// <param name="log"></param>
-        public LoggerWindow()
+        public LoggerWindow(int maxLines = 512)
         {
+            this.MaxLines = maxLines;
             OnInitializeControls();
         }
 
@@ -37,13 +40,21 @@ namespace SpaceCG.Log4Net
         }
         protected override void OnClosed(EventArgs e)
         {
+            if (HwndSource != null)
+            {
+                HwndSource.Dispose();
+                HwndSource = null;
+            }
+
             if (Handle != null)
             {
                 bool result = WinUser.UnregisterHotKey(Handle, 0);
+                result = result || WinUser.UnregisterHotKey(Handle, 1);
                 Console.WriteLine("Logger Window UnregisterHotKey State:{0}", result);
+
+                Handle = IntPtr.Zero;
             }
 
-            if(HwndSource != null)  HwndSource.Dispose();
             ListView.SelectionChanged -= ListView_SelectionChanged;
         }
 
@@ -62,7 +73,7 @@ namespace SpaceCG.Log4Net
             //ListView
             this.ListView = new ListView();
             this.ListView.SelectionChanged += ListView_SelectionChanged;
-            this.ListBoxAppender = new ListBoxAppender(ListView, 1024);
+            this.ListBoxAppender = new ListBoxAppender(ListView, MaxLines);
 
             //GridSplitter
             GridSplitter splitter = new GridSplitter()
@@ -88,18 +99,33 @@ namespace SpaceCG.Log4Net
             Grid.SetRow(splitter, 1);
             Grid.SetRow(TextBox, 2);
 
-            this.Title = "Logger Window";
+            this.Title = "Local Logger Window (Ctrl+L 隐藏/唤起)";
             this.Width = 960;
             this.Height = 600;
             this.Content = grid;
             this.Loaded += LoggerWindow_Loaded;
         }
-        
+
+        /// <summary>
+        /// 添加日志事件对象
+        /// </summary>
+        /// <param name="loggingEvent"></param>
+        public void AppendLoggingEvent(LoggingEvent loggingEvent)
+        {
+            this.ListBoxAppender.AppendLoggingEvent(loggingEvent);
+        }
+        /// <summary>
+        /// 清除日志列表内容
+        /// </summary>
+        public void ClearLogger()
+        {
+            this.ListView.Items.Clear();
+        }
 
         /// <summary>
         /// 清除 TextBox 内容
         /// </summary>
-        protected void ClearTextBox()
+        public void ClearTextBox()
         {
             this.TextBox.Text = "";
             this.TextBox.Foreground = Brushes.Black;
@@ -137,11 +163,16 @@ namespace SpaceCG.Log4Net
         private void LoggerWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Handle = new WindowInteropHelper(this).Handle;
-            HwndSource = HwndSource.FromHwnd(Handle);
-            HwndSource.AddHook(WindowProcHandler);
 
             bool result = WinUser.RegisterHotKey(Handle, 0, RhkModifier.CONTROL, VirtualKeyCode.VK_L);
+            result = result || WinUser.RegisterHotKey(Handle, 1, RhkModifier.CONTROL, VirtualKeyCode.VK_M);
             Console.WriteLine("Logger Window RegisterHotKey State:{0}", result);
+
+            if (result)
+            {
+                HwndSource = HwndSource.FromHwnd(Handle);
+                HwndSource.AddHook(WindowProcHandler);
+            }
         }
         /// <summary>
         /// Window Process Handler
@@ -160,13 +191,27 @@ namespace SpaceCG.Log4Net
                 RhkModifier rhk = (RhkModifier)(lParam.ToInt32() & 0xFFFF);     //低双字节
                 VirtualKeyCode key = (VirtualKeyCode)(lParam.ToInt32() >> 16);  //高双字节 key
 
-                if(rhk == RhkModifier.CONTROL && key == VirtualKeyCode.VK_L)
+                if(rhk == RhkModifier.CONTROL)
                 {
-                    if (this.WindowState == WindowState.Minimized)
-                        this.WindowState = WindowState.Normal;
+                    if (key == VirtualKeyCode.VK_L)
+                    {
+                        if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
+                        {
+                            this.WindowState = WindowState.Normal;
 
-                    this.Show();
-                    this.Activate();
+                            this.Show();
+                            this.Activate();
+                        }
+                        else
+                        {
+                            this.WindowState = WindowState.Minimized;
+                        }
+                    }
+                    if(key == VirtualKeyCode.VK_M)
+                    {
+                        // ...
+                    }
+
                     handled = true;
                 }
             }

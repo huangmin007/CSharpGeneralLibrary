@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using log4net.Core;
 
 namespace SpaceCG.Log4Net
 {
@@ -77,6 +78,57 @@ namespace SpaceCG.Log4Net
                 file.Delete();
                 Trace.TraceWarning("Delete File ... LastWriteTime:{0}\t Name:{1}", file.LastWriteTime, file.Name);
             }
+        }
+
+        /// <summary>
+        /// 序列化 <see cref="log4net.Core.LoggingEvent"/> 对象
+        /// </summary>
+        /// <param name="logger">需要序列化的 <see cref="log4net.Core.LoggingEvent"/> 对象</param>
+        /// <returns> 返回序列化后的字节数据 </returns>
+        public static byte[] SerializeLoggingEvent(LoggingEvent logger)
+        {
+            byte[] buffer = null;
+            try
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    IFormatter formatter = new BinaryFormatter();
+                    formatter.Serialize(stream, logger);
+                    buffer = stream.GetBuffer();
+                    stream.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            return buffer;
+        }
+
+        /// <summary>
+        /// 反序列化 <see cref="log4net.Core.LoggingEvent"/> 对象
+        /// </summary>
+        /// <param name="buffer">要反序列化的数据的流</param>
+        /// <returns>返回 <see cref="log4net.Core.LoggingEvent"/> 对象</returns>
+        public static LoggingEvent DeserializeLoggingEvent(byte[] buffer)
+        {
+            LoggingEvent logger = null;
+            try
+            {
+                using (MemoryStream stream = new MemoryStream(buffer))
+                {
+                    IFormatter formatter = new BinaryFormatter();
+                    logger = (LoggingEvent)formatter.Deserialize(stream);
+                    stream.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            return logger;
         }
     }
 }

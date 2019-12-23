@@ -57,6 +57,10 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HPSocket.Net, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HPSocket.Net\src\HPSocket.Net\bin\Release\net40\HPSocket.Net.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\log4net-2.0.8\build\bin\net\4.5\debug\log4net.dll</HintPath>
@@ -139,10 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="InitScreen.png" />
-    <Resource Include="HPSocket\hpsocket_cn.txt" />
-    <Resource Include="HPSocket\hpsocket_en.txt" />
-    <Content Include="HPSocket\x64\HPSocket4C.dll" />
-    <Content Include="HPSocket\x86\HPSocket4C.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -156,12 +156,16 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="HPSocket\hpsocket_cn.txt" />
+    <Resource Include="HPSocket\hpsocket_en.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\HP-Socket.win.5.6.4\build\HP-Socket.win.targets" Condition="Exists('..\packages\HP-Socket.win.5.6.4\build\HP-Socket.win.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\HP-Socket.win.5.6.4\build\HP-Socket.win.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HP-Socket.win.5.6.4\build\HP-Socket.win.targets'))" />
+    <Error Condition="!Exists('..\packages\HP-Socket.net.5.6.4\build\HP-Socket.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HP-Socket.net.5.6.4\build\HP-Socket.net.targets'))" />
   </Target>
+  <Import Project="..\packages\HP-Socket.net.5.6.4\build\HP-Socket.net.targets" Condition="Exists('..\packages\HP-Socket.net.5.6.4\build\HP-Socket.net.targets')" />
 </Project>

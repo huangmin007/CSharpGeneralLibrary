@@ -55,11 +55,13 @@ namespace SpaceCG.Log4Net
         public object Convert(object value, Type TargetType, object parameter, CultureInfo culture)
         {
             //ListViewItem item = (ListViewItem)value;
+            //return item.Name.Replace("ID_", "");
+            
             //ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView;
             //int index = listView.ItemContainerGenerator.IndexFromContainer(item) + 1;
             //int index = listView.Items.IndexOf(item);
             //return index;
-            //return item.Name.Replace("ID_", "");
+            
             return value.ToString().Replace("ID_", "");
         }
 
@@ -83,7 +85,7 @@ namespace SpaceCG.Log4Net
         /// <summary> ListView </summary>
         protected ListView ListView = null;
         /// <summary> TextBox.AppendText Delegate Function </summary>
-        protected Action<LoggingEvent> AppendLoggingEventDelegate;
+        protected Action<LoggingEvent> AppendHandlerDelegate;
 
         private int ID = 0;     //Logger ID
         private bool changeBgColor = true;  //切换背景标志变量
@@ -97,7 +99,7 @@ namespace SpaceCG.Log4Net
         {
             if (listBox == null) throw new ArgumentNullException("参数不能为空");
 
-            this.AppendLoggingEventDelegate = AppendLoggingEvent;
+            this.AppendHandlerDelegate = AppendHandler;
             this.Layout = new PatternLayout("[%date{HH:mm:ss.fff}] [%thread] [%5level] [%method(%line)] %logger - %message (%r) %newline");
 
             DefaultStyle(listBox);
@@ -225,6 +227,7 @@ namespace SpaceCG.Log4Net
                 //ListView.Foreground = Brushes.Red; //无效
 
                 this.ListView.View = view;
+                //view.ColumnHeaderContextMenu = CreateListViewContextMenu();
                 this.ListView.ContextMenu = CreateListViewContextMenu();
             }
             else
@@ -257,20 +260,29 @@ namespace SpaceCG.Log4Net
         }
 
         /// <summary>
+        /// 添加日志事件对象
+        /// </summary>
+        /// <param name="loggingEvent"></param>
+        public void AppendLoggingEvent(LoggingEvent loggingEvent)
+        {
+            this.Append(loggingEvent);
+        }
+
+        /// <summary>
         /// @override
         /// </summary>
         /// <param name="loggingEvent"></param>
         protected override void Append(LoggingEvent loggingEvent)
         {
-            this.ListBox?.Dispatcher.BeginInvoke(AppendLoggingEventDelegate, loggingEvent);
-            this.ListView?.Dispatcher.BeginInvoke(AppendLoggingEventDelegate, loggingEvent);
+            this.ListBox?.Dispatcher.BeginInvoke(AppendHandlerDelegate, loggingEvent);
+            this.ListView?.Dispatcher.BeginInvoke(AppendHandlerDelegate, loggingEvent);
         }
 
         /// <summary>
         /// Addend Logging Event
         /// </summary>
         /// <param name="loggingEvent"></param>
-        protected void AppendLoggingEvent(LoggingEvent loggingEvent)
+        protected void AppendHandler(LoggingEvent loggingEvent)
         {
             if (loggingEvent == null) return;
 
@@ -364,62 +376,32 @@ namespace SpaceCG.Log4Net
             {
                 if (mItem.IsChecked)
                 {
-                    /*
-                    int itemIndex = -1;
-                    for (int i = 0; i < ViewColumns.Count; i++)
-                    {
-                        if (ViewColumns[i].Header.ToString() == mItem.Name)
-                        {
-                            itemIndex = i;
-                            break;
-                        }
-                    }
-                    */
+                    //查找数据在 ViewColumns 集合的索引位置
                     int itemIndex = ViewColumns
                         .Select((item, index) => new { Header = item.Header.ToString(), Index = index })
                         .Where((o) => o.Header == mItem.Name)
-                        .First()
-                        .Index;
+                        .First().Index;
                     if (itemIndex == -1) return;
-
-                    /*
-                    int insertIndex = -1;
-                    for(int i = 0; i < pItem.Items.Count; i ++)
-                    {
-                        MenuItem item = (MenuItem)pItem.Items[i];
-                        insertIndex = item.IsChecked ? insertIndex + 1 : insertIndex;
-                        if (item.Name == mItem.Name) break;
-                    }
-                    */
+                    
+                    //查找合适(IsChecked)的插入的索引位置，以防乱序，后在添加在列的最后面
                     var itemGroup = from Control item in pItem.Items where item is MenuItem && ((MenuItem)item).IsChecked select item;
                     int insertIndex = itemGroup
                         .Select((item, index) => new { Name = item.Name.ToString(), Index = index })
                         .Where(o => o.Name == mItem.Name)
-                        .First()
-                        .Index;
+                        .First().Index;
 
+                    //插入列
                     if (insertIndex != -1) ((GridView)ListView.View).Columns.Insert(insertIndex, ViewColumns[itemIndex]);
                 }
                 else
                 {
-                    /*
-                    int removeIndex = -1;
-                    for (int i = 0; i < ((GridView)ListView.View).Columns.Count; i++)
-                    {
-                        GridViewColumn column = ((GridView)ListView.View).Columns[i];
-                        if (column.Header.ToString() == mItem.Name)
-                        {
-                            removeIndex = i;
-                            break;
-                        }
-                    }
-                    */
+                    //查找数据在 ListView.View 集合的索引位置
                     int removeIndex = ((GridView)ListView.View).Columns
                         .Select((item, index) => new { Header = item.Header.ToString(), Index = index })
                         .Where(o => o.Header == mItem.Name)
-                        .First()
-                        .Index;
+                        .First().Index;
 
+                    //移除列
                     if (removeIndex != -1) ((GridView)ListView.View).Columns.RemoveAt(removeIndex);
                 }
 
@@ -459,7 +441,7 @@ namespace SpaceCG.Log4Net
             Levels.Items.Add(CreateCheckBoxMenuItem("Error", true));
             Levels.Items.Add(CreateCheckBoxMenuItem("Fatal", true));
 
-            //Columns
+            //Columns (两数据集合的交集，就是中否选中)
             MenuItem Columns = new MenuItem() { Header = "Columns" , Name = "Columns" };
             var itemCollection = from item in ViewColumns
                                  let boo = ((GridView)ListView.View).Columns.IndexOf(item) != -1

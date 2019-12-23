@@ -21,6 +21,14 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Windows.Media;
 using SpaceCG.Template;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+using log4net.Core;
+using System.IO;
+using HPSocket.Tcp;
+using HPSocket;
+using HPSocket.Udp;
+using System.Reflection;
 
 //[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.Config", Watch = true)]
 namespace TestLibrary
@@ -35,7 +43,8 @@ namespace TestLibrary
         protected IntPtr Handle;
 
         private SerialPort serialPort;
-        private SpaceCG.HPSocket.TcpClient Client;
+        private IClient client;
+        private IServer server;
 
         public MainWindow()
         {
@@ -45,8 +54,20 @@ namespace TestLibrary
             Handle = new WindowInteropHelper(this).Handle;
             Console.WriteLine("{0} {1} {2}", this.IsInitialized, this.IsLoaded, Handle);
 
-            Client = HPSocketExtension.CreateTcpClient("127.0.0.1", 9999, SocketReceivedHandler, true, App.Log);
-
+            //Client = HPSocketExtension.CreateClient<HPSocket.Tcp.TcpClient>("127.0.0.1", 9999, SocketReceivedHandler, true, App.Log);
+            client = HPSocketExtension.CreateClient<TcpClient>("127.0.0.1", 9999, SocketReceivedHandler, true, App.Log);
+            //HPSocketExtension.CreateServer<TcpServer<Byte>>(444, (aa, f) => {    });
+            server = HPSocketExtension.CreateServer<UdpServer>(4444, (connid, bytes) =>
+            {
+                Console.WriteLine("dataa......");
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    IFormatter format = new BinaryFormatter();
+                    LoggingEvent ev = (LoggingEvent)format.Deserialize(ms);
+                    Console.WriteLine(ev);
+                    Console.WriteLine("{0}, {1}", ev.LoggerName, ev.RenderedMessage);
+                }
+            }, App.Log);
 #if NET46
             Console.WriteLine("win32");
 #else
@@ -54,8 +75,58 @@ namespace TestLibrary
 #endif
             LoggerWindow LoggerWindow = new LoggerWindow();
             LoggerWindow.Show();
+
+
+
+
+            DeserializeLoggingEvent();
         }
-        
+
+
+        public void DeserializeLoggingEvent()
+        {
+            
+            LoggingEventData data = new LoggingEventData()
+            {
+                Domain = "domain",
+                ExceptionString = "exception string",
+                Level = Level.Info,
+                LoggerName = "test",
+                Message = "Hello world",
+            };
+            LoggingEvent le = new LoggingEvent(data);
+            
+
+            //string le = @"[2019-12-20 10:14:34] [Huangmin] [ 9] [ INFO] [TestLibrary.App] [CreateTcpClient(103)] - 客户端连接的为本地网络服务地址：127.0.0.1 ，未监听网络的可用性变化。";
+
+            IFormatter formatter = new BinaryFormatter();
+            MemoryStream stream = new MemoryStream();
+            formatter.Serialize(stream, le);
+            stream.Position = 0;
+            for(int i = 0; i < stream.Length; i ++)
+                Console.Write("{0} ", stream.ReadByte());
+            Console.WriteLine(stream.Length);
+            stream.Position = 0;
+            
+            //byte[] buffer = new byte[stream.Length];
+            byte[] buffer = stream.GetBuffer();
+            //int length = stream.Read(buffer, 0, buffer.Length);
+            //Console.WriteLine("r len:{0}", length);
+            //stream.Write(buffer, 0, buffer.Length);
+            //for (int i = 0; i < buffer.Length; i++)
+            //    buffer[i] = (byte)stream.ReadByte();
+            
+            stream.Close();
+            stream.Dispose();
+
+            client.Send(buffer, buffer.Length);
+
+            //MemoryStream ms = new MemoryStream(buffer);
+            //IFormatter format = new BinaryFormatter();
+            //LoggingEvent ev = (LoggingEvent)format.Deserialize(ms);
+            //Console.WriteLine(ev);
+        }
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -85,7 +156,16 @@ namespace TestLibrary
             bool result = WinUser.UnregisterHotKey(Handle, 0);
             Console.WriteLine("result:{0}", result);
 
-            if (Client != null) HPSocketExtension.DisposeTcpClient(ref Client);
+            if (server != null)
+            {
+                HPSocketExtension.DisposeServer(server, App.Log);
+                server = null;
+            }
+            if (client != null)
+            {
+                HPSocketExtension.DisposeClient(client, App.Log);
+                client = null;
+            }
         }
 #endregion
 
@@ -158,12 +238,12 @@ namespace TestLibrary
             HwndSource.FromHwnd(hwnd).AddHook(WindowProcHandler);
             //Marshal.GetLastWin32Error();
 
-            /*
+            
             string wql = $"TargetInstance isa 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%COM_%'";
-            //ManagementExtension.ListenInstanceChange(wql, InstanceChangedHandler, App.Log);
+            ManagementExtension.ListenInstanceChange(wql, InstanceChangedHandler, App.Log);
             //await Task.Run(() => ManagementExtension.ListenInstanceChange(wql, InstanceChangedHandler, App.Log));
-            await ManagementExtension.ListenInstanceChangeAsync(wql, TimeSpan.FromSeconds(1), InstanceChangedHandler, App.Log);
-
+            //await ManagementExtension.ListenInstanceChangeAsync(wql, TimeSpan.FromSeconds(1), InstanceChangedHandler, App.Log);
+            /*
             //string wql2 = $"TargetInstance ISA 'Win32_Battery'";
             //ManagementExtension.ListenInstanceModification(wql2, TimeSpan.FromSeconds(10), InstanceModification, App.Log);
             Console.WriteLine("hello.");
@@ -304,14 +384,14 @@ namespace TestLibrary
 
             length = WinUser.GetClassName(hWnd, lpString, 256);
             Log.InfoFormat("Length:{0}  String:{1}", length, lpString);
+           
+            ManagementExtension.RemoveInstanceChange();
 
-
-            if (Client != null)
+            if (client != null)
             {
-                Client.DisposeTcpClient(App.Log);
-                Client = null;
+                HPSocketExtension.DisposeClient(client, App.Log);
+                //client = null;
             }
-
 
             Log.Error("aaa", new Exception("Exception,Exception,Exception"));
         }

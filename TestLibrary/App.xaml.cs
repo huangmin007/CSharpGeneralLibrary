@@ -30,8 +30,8 @@ namespace TestLibrary
         {
             //log4net.Config.BasicConfigurator.Configure();
 
-            SplashScreen splashScreen = new SplashScreen("InitScreen.png");
-            splashScreen.Show(true, true);
+            //SplashScreen splashScreen = new SplashScreen("InitScreen.png");
+            //splashScreen.Show(true, true);
 
             base.OnStartup(e);            
             Log.InfoFormat("Application OnStartup");

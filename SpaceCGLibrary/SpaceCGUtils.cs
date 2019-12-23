@@ -21,10 +21,16 @@ namespace SpaceCG
             if (instanceObj == null || string.IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException("参数不能为空");
 
+            BindingFlags bindingAttr = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static;
+
             try
             {
-                FieldInfo fields = instanceObj.GetType().GetField(eventName, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
-                if (fields == null) return;
+                FieldInfo fields = instanceObj.GetType().GetField(eventName, bindingAttr);      //当前类类型中查找
+                if (fields == null)
+                {
+                    fields = instanceObj.GetType().BaseType.GetField(eventName, bindingAttr);   //基类类型中查找
+                    if (fields == null)  return;
+                }
 
                 object values = fields.GetValue(instanceObj);
                 if (values == null) return;
@@ -44,43 +50,42 @@ namespace SpaceCG
                 Console.WriteLine("Remove Anonymous Events Error:{0}", ex);
             }
         }
+        
+        /*
+                /// <summary>
+                /// 修改注册表，设置开机启动项目
+                /// </summary>
+                /// <param name="fileName"></param>
+                /// <param name="isAutoRun"></param>
+                public static void SetAutoRun(string fileName, bool isAutoRun)
+                {
+                    RegistryKey reg = null;
+                    try
+                    {
+                        if (!System.IO.File.Exists(fileName))
+                            throw new Exception("该文件不存在!");
 
-/*
-        /// <summary>
-        /// 修改注册表，设置开机启动项目
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="isAutoRun"></param>
-        [STAThread]
-        public static void SetAutoRun(string fileName, bool isAutoRun)
-        {
-            RegistryKey reg = null;
-            try
-            {
-                if (!System.IO.File.Exists(fileName))
-                    throw new Exception("该文件不存在!");
+                        String name = fileName.Substring(fileName.LastIndexOf(@"\") + 1);
+                        reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
 
-                String name = fileName.Substring(fileName.LastIndexOf(@"\") + 1);
-                reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+                        if (reg == null)
+                            reg = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
 
-                if (reg == null)
-                    reg = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
-
-                if (isAutoRun)
-                    reg.SetValue(name, fileName);
-                else
-                    reg.SetValue(name, false);
-            }
-            catch
-            {
-                Console.WriteLine("写入注册表失败");
-            }
-            finally
-            {
-                if (reg != null)
-                    reg.Close();
-            }
-        }
-        */
+                        if (isAutoRun)
+                            reg.SetValue(name, fileName);
+                        else
+                            reg.SetValue(name, false);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("写入注册表失败");
+                    }
+                    finally
+                    {
+                        if (reg != null)
+                            reg.Close();
+                    }
+                }
+                */
     }
 }

@@ -2,9 +2,12 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\Log4Net.Con
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\SpaceCGLibrary.XML
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\SpaceCGLibrary.dll
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\SpaceCGLibrary.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\HPSocket.Net.dll
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\log4net.dll
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\HPSocket.Net.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\log4net.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\log4net.xml
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.dll
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.csprojResolveAssemblyReference.cache
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Debug\HPSocket.Net.xml
