@@ -24,6 +24,8 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\SpaceCGLibrary.XML</DocumentationFile>
     <NoWarn>CS1591,CS1572,CS1573</NoWarn>
+    <LangVersion>7.1</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +36,8 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\SpaceCGLibrary.XML</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
+    <LangVersion>7.1</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HPSocket.Net, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -71,6 +75,13 @@
     <Compile Include="Extension\PerformanceExtension.cs" />
     <Compile Include="Extension\SerialPortExtension.cs" />
     <Compile Include="Extension\IEnumerableExtension.cs" />
+    <Compile Include="General\BetweenAndDataAnalyseAdapter.cs" />
+    <Compile Include="General\AbstractDataAnalyseAdapter.cs" />
+    <Compile Include="General\BoyerMoore.cs" />
+    <Compile Include="General\FixedHeaderDataAnalyseAdapter.cs" />
+    <Compile Include="General\FixedSizeDataAnalyseAdapter.cs" />
+    <Compile Include="General\IDataAnalyseAdapter.cs" />
+    <Compile Include="General\TerminatorDataAnalyseAdapter.cs" />
     <Compile Include="Log4Net\ListBoxAppender.cs" />
     <Compile Include="Log4Net\Log4NetUtils.cs" />
     <Compile Include="Log4Net\LoggerWindow.cs" />
@@ -96,7 +107,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Framework\" />
-    <Folder Include="General\" />
     <Folder Include="Interface\" />
     <Folder Include="Utility\" />
   </ItemGroup>

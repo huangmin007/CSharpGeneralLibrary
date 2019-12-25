@@ -75,13 +75,44 @@ namespace TestLibrary
 #endif
             LoggerWindow LoggerWindow = new LoggerWindow();
             LoggerWindow.Show();
+            //DeserializeLoggingEvent();
 
 
+            //IEnumerable<char> t = "aaaa";
+            List<int> list = new List<int>() { 1, 2, 3 };
+            TestList(list);
+            foreach(int i in list)
+                Console.Write("{0}, ", i);
+            Console.WriteLine();
 
+            string str = "Helloll";
+            string t = "ll"; 
+            //TestString(ref str);
+            Console.WriteLine(str);
+            List<int> indexs;
+            indexs = SpaceCG.General.BoyerMoore.SearchAll(ref str, ref t);
+            Console.WriteLine(">>>> {0}", string.Join(",,", indexs));
 
-            DeserializeLoggingEvent();
+            byte[] data = new byte[9] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x03, 0x04, 0x05, 0x06 };
+            byte[] s = new byte[2] { 0x04, 0x05 };
+
+            SpaceCG.General.BoyerMoore boyer = new SpaceCG.General.BoyerMoore(s);
+            int ind = boyer.Search(data);
+            Console.WriteLine(">>>> {0}", ind);
+            List<int> inds = boyer.SearchAll(data);
+            Console.WriteLine(">>>> {0}", string.Join(",", inds));
+
+            //SpaceCG.General.BoyerMoore<List<byte>> tff = new SpaceCG.General.BoyerMoore<List<byte>>();
         }
 
+        void TestList(List<int> list)
+        {
+            list[2] = 10;
+        }
+        void TestString(ref string str)
+        {
+            str = "ABCD";
+        }
 
         public void DeserializeLoggingEvent()
         {
