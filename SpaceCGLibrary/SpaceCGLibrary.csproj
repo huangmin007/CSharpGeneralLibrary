@@ -25,7 +25,7 @@
     <DocumentationFile>bin\Debug\SpaceCGLibrary.XML</DocumentationFile>
     <NoWarn>CS1591,CS1572,CS1573</NoWarn>
     <LangVersion>7.1</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

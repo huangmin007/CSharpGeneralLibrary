@@ -39,12 +39,12 @@ namespace SpaceCG.General
 
             bool handled = false;
             channel.Cache.AddRange(data);
-            if (channel.Cache.Count > data.Length)
-                data = channel.Cache.ToArray();
+            //if (channel.Cache.Count > data.Length)
+            //    data = channel.Cache.ToArray();
 
             // 在数据中搜索 终止数据，并返回索引集合
-            List<int> indexs = boyerMoore.SearchAll(data);
-            if (indexs.Count == 0) return false;
+            int[] indexs = boyerMoore.SearchAll(channel.Cache);
+            if (indexs.Length == 0) return false;
 
             int lastPosition = 0;
             int terminatorLength = boyerMoore.PatternLength;    // 终止符长度

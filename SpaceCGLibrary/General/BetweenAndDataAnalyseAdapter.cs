@@ -45,8 +45,8 @@ namespace SpaceCG.General
 
             bool handled = false;
             channel.Cache.AddRange(data);
-            if (channel.Cache.Count > data.Length)
-                data = channel.Cache.ToArray();
+            //if (channel.Cache.Count > data.Length)
+            //    data = channel.Cache.ToArray();
 
             int lastPosition = 0;
             int endLength = endBoyerMoore.PatternLength;
@@ -58,13 +58,13 @@ namespace SpaceCG.General
                 if (data.Length - lastPosition < startLength + endLength) break;
                
                 // 搜索起始标志
-                var startPosition = startBoyerMoore.Search(data, lastPosition);
+                var startPosition = startBoyerMoore.Search(channel.Cache, lastPosition);
                 // 是否找到了
                 if (startPosition == -1) break;
                 startPosition = lastPosition + startPosition + startLength;
 
                 // 搜索结束标志, 从起始位置+起始标志长度开始找
-                var count = endBoyerMoore.Search(data, startPosition);
+                var count = endBoyerMoore.Search(channel.Cache, startPosition);
                 if (count == -1) break;
 
                 // 得到一条完整数据包

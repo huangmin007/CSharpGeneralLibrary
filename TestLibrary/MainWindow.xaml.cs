@@ -85,24 +85,38 @@ namespace TestLibrary
                 Console.Write("{0}, ", i);
             Console.WriteLine();
 
-            string str = "Helloll";
-            string t = "ll"; 
-            //TestString(ref str);
-            Console.WriteLine(str);
-            List<int> indexs;
-            indexs = SpaceCG.General.BoyerMoore.SearchAll(ref str, ref t);
-            Console.WriteLine(">>>> {0}", string.Join(",,", indexs));
+            int index;
+            int[] indexs;
 
-            byte[] data = new byte[9] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x03, 0x04, 0x05, 0x06 };
-            byte[] s = new byte[2] { 0x04, 0x05 };
+            string str = "广，东省深圳深圳深深圳圳temp市福田,区深圳街，hello";
+            string t = "深圳圳";
 
-            SpaceCG.General.BoyerMoore boyer = new SpaceCG.General.BoyerMoore(s);
-            int ind = boyer.Search(data);
-            Console.WriteLine(">>>> {0}", ind);
-            List<int> inds = boyer.SearchAll(data);
-            Console.WriteLine(">>>> {0}", string.Join(",", inds));
+            SpaceCG.General.BoyerMoore boyer = new SpaceCG.General.BoyerMoore(ref t, false);
+            index = boyer.Search(ref str);
+            //int c = boyer.SearchAt(ref str, 1);
+            indexs = boyer.SearchAll(ref str);
+            Console.WriteLine(">>>> {0} {1} {2}", index, "-", string.Join(",,", indexs));
 
-            //SpaceCG.General.BoyerMoore<List<byte>> tff = new SpaceCG.General.BoyerMoore<List<byte>>();
+            byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x04, 0x05, 0x04, 0x02, 0x01, 0x04, 0x05, 0x04, 0x03};
+            byte[] s = new byte[] { 0x04, 0x05, 0x04};
+
+            //index = SpaceCG.General.BoyerMoore.Search(data, s);
+            //indexs = (int[])SpaceCG.General.BoyerMoore.SearchAll(ref str, ref t, false);
+            //Console.WriteLine(">>>>> {0} {1}", index, string.Join(",,", indexs));
+
+
+            SpaceCG.General.BoyerMoore<byte> tBoyer = new SpaceCG.General.BoyerMoore<byte>();
+            //SpaceCG.General.BoyerMoore<TF> tff2 = new SpaceCG.General.BoyerMoore<TF>();
+            tBoyer.SetPattern(s);
+            index = tBoyer.Search(data);
+            indexs = tBoyer.SearchAll(data);
+            Console.WriteLine(">>>>>T::{0} {1}", index, string.Join(",,", indexs));
+        }
+
+        struct TF
+        {
+            public int a;
+            public int b;
         }
 
         void TestList(List<int> list)
