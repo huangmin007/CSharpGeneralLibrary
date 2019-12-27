@@ -553,10 +553,10 @@
         </member>
         <member name="F:SpaceCG.General.BoyerMoore.CAPACITY">
             <summary>
-            返回的索引集合列表，最初可以存储的元素数量
+            返回的索引集合列表，初使最大可以存储的元素数量
             </summary>
         </member>
-        <member name="F:SpaceCG.General.BoyerMoore.offsetTable">
+        <member name="F:SpaceCG.General.BoyerMoore.badTable">
             <summary>
             能过 <see cref="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift(System.Collections.Generic.IReadOnlyList{System.Byte})"/> 生成的 坏字符表 (Bad Character Heuristic)
             </summary>
@@ -602,14 +602,14 @@
             <param name="pattern">需要匹配的数据</param>
             <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore.SetPattern(System.String@,System.Boolean)">
+        <member name="M:SpaceCG.General.BoyerMoore.ResetPattern(System.String@,System.Boolean)">
             <summary>
             设置需要匹配数据
             </summary>
             <param name="pattern"></param>
             <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore.SetPattern(System.Collections.Generic.IReadOnlyList{System.Byte})">
+        <member name="M:SpaceCG.General.BoyerMoore.ResetPattern(System.Collections.Generic.IReadOnlyList{System.Byte})">
             <summary>
             设置需要匹配数据
             </summary>
@@ -804,7 +804,7 @@
             需要匹配的数据
             </summary>
         </member>
-        <member name="F:SpaceCG.General.BoyerMoore`1.badTable">
+        <member name="F:SpaceCG.General.BoyerMoore`1.badOffsetTable">
             <summary>
             badTable
             </summary>

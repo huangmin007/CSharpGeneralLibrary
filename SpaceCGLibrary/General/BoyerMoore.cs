@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,30 +10,29 @@ using System.Threading.Tasks;
 namespace SpaceCG.General
 {
     /// <summary>
-    /// Boyer-Moore 算法实现。问题：多字节查找是否可以不生成坏字符表，直接 while 循环中查找 pattern 的位置，两种方式哪种效率更高呢？？
-    /// <para>该算法查找原始 单字节集合 效率非常高(如果匹配的 pattern集合 长度为 1 或很少，也不建议使用该方法)，但 按该算法查找 双字节字符(比如中文字符) 效率就怎么样了</para>
-    /// <para>当 isSingleByteOnly 为 false 时使用双字节字符查找，双字节字符查找生成的坏字符表占 0xFFFF + 1 长度(哎，太大了，占用字节大小 = sizeof(int) * (0xFFFF + 1))，
-    ///     所以啊，双字节查找适合大量数据的查找才能发挥该算法的优势，否则不建议使用应该算法查找双字节字符 </para>
-    /// <para>为了提高性能，字符参数使用 ref 引用类型减少数据拷贝，函数参数 isSingleByteOnly, start, end 都是为了提升查找性能，设计的限制参数</para>
-    /// <para>静态查找函数，会检查参数，但不会抛出异常，只会返回有或无，也是为了提升性能</para>
+    /// Boyer-Moore 算法实现。该算法查找原始 单字节(Max 0xFF)集合 效率非常非常高；如果匹配的 pattern 集合长度为 1 或很少，也不建议使用该方法
+    /// <para>字符匹配查找：类搜索方法 (Search*) 使用的是数组，类静态搜索方法 (BoyerMoore.Search*) 参数 tSize 大于 0xFF 时使用字典，小于 0xFF 时使用数组</para>
+    /// <para>为了提高性能，字符参数使用 ref 引用类型减少数据拷贝，函数参数 tSize, start, end 等参数，都是为了提升查找性能，设计的限制参数</para>
+    /// <para>静态查找函数会检查参数类型并抛出异常，不生成使用好后缀表，只使用坏字符表。
+    ///     但类查找函数会检查参数，但不会抛出异常，只会返回有或无，适合在 for, while, 等循环体或重复搜索对性能要求较高的环境</para>
     /// <para>参考：https://baike.baidu.com/item/Boyer-%20Moore%E7%AE%97%E6%B3%95/16548374?fr=aladdin </para>
     /// <para>参考：https://www.cnblogs.com/gaochundong/p/boyer_moore_string_matching_algorithm.html </para>
     /// </summary>
     public sealed class BoyerMoore
     {
-        #region Private Variables
+        #region Variables
         /// <summary>
-        /// 返回的索引集合列表，最初可以存储的元素数量
+        /// 返回的索引集合列表，初使最大可以存储的元素数量
         /// </summary>
         internal const int CAPACITY = 256;
 
         /// <summary>
         /// 能过 <see cref="GetBadCharacterShift(IReadOnlyList{byte})"/> 生成的 坏字符表 (Bad Character Heuristic)
         /// </summary>
-        private int[] offsetTable;
+        private int[] badTable;
 
         /// <summary>
-        /// 通过 <see cref="GetGoodSuffixShift(IReadOnlyList{byte})"/> 生成的 好后缀表 (Good Suffix Heuristic)
+        /// 通过 <see cref="GetGoodSuffixShift{T}(IReadOnlyList{T})"/> 生成的 好后缀表 (Good Suffix Heuristic)
         /// </summary>
         private int[] goodTable;
 
@@ -45,13 +45,12 @@ namespace SpaceCG.General
         /// 需要匹配的字节数据
         /// </summary>
         private IReadOnlyList<byte> patternBytes;
-        #endregion
-
+        
         /// <summary>
         /// 匹配数据的长度
         /// </summary>
         public int PatternLength { get; private set; }
-
+        #endregion
 
         #region Constructors
         /// <summary>
@@ -68,63 +67,79 @@ namespace SpaceCG.General
         /// <param name="pattern">需要匹配的数据</param>
         public BoyerMoore(IReadOnlyList<byte> pattern)
         {
-            SetPattern(pattern);
+            ResetPattern(pattern);
         }
         /// <summary>
         /// Boyer-Moore (BM) 匹配查找算法
         /// <para>适合大量数据匹配查找，数据量越大，效率越高</para>
         /// </summary>
         /// <param name="pattern">需要匹配的数据</param>
-        /// <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
-        public BoyerMoore(ref string pattern, bool isSingleByteOnly = true)
+        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+        ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+        /// </param>
+        public BoyerMoore(ref string pattern, uint tSize = 0xFF)
         {
-            SetPattern(ref pattern, isSingleByteOnly);
+            ResetPattern(ref pattern, tSize);
         }
         #endregion
 
 
-        #region Public Functions SetPattern
+        #region Public Functions ResetPattern
         /// <summary>
         /// 设置需要匹配数据
         /// </summary>
         /// <param name="pattern"></param>
-        /// <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
-        public void SetPattern(ref string pattern, bool isSingleByteOnly = true)
+        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+        ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+        /// </param>
+        public void ResetPattern(ref string pattern, uint tSize = 0xFF)
         {
             if (pattern == null || pattern.Length < 1)
                 throw new ArgumentNullException("参数 pattern 不能空，长度不能小于 1 ");
 
-            if (offsetTable != null)
-                Array.Clear(offsetTable, 0, offsetTable.Length);
+            if (badTable != null)
+            {
+                Array.Clear(badTable, 0, badTable.Length);
+                badTable = null;
+            }
             if (goodTable != null)
+            {
                 Array.Clear(goodTable, 0, goodTable.Length);
+                goodTable = null;
+            }
 
             this.patternBytes = null;
             this.patternChars = pattern;
             this.PatternLength = this.patternChars.Length;
 
-            this.offsetTable = GetBadCharacterShift(ref pattern, isSingleByteOnly);
+            this.badTable = GetBadCharacterShift(ref pattern, tSize);
             this.goodTable = GetGoodSuffixShift(ref pattern);
         }
         /// <summary>
         /// 设置需要匹配数据
         /// </summary>
         /// <param name="pattern"></param>
-        public void SetPattern(IReadOnlyList<byte> pattern)
+        public void ResetPattern(IReadOnlyList<byte> pattern)
         {
             if (pattern == null || pattern.Count < 1)
                 throw new ArgumentNullException("参数 pattern 不能空，长度不能小于 1 ");
 
-            if (offsetTable != null)
-                Array.Clear(offsetTable, 0, offsetTable.Length);
-            if(goodTable != null)
+            if (badTable != null)
+            {
+                Array.Clear(badTable, 0, badTable.Length);
+                badTable = null;
+            }
+            if (goodTable != null)
+            {
                 Array.Clear(goodTable, 0, goodTable.Length);
+                goodTable = null;
+            }
 
             this.patternChars = null;
             this.patternBytes = pattern;
             this.PatternLength = this.patternBytes.Count;
 
-            this.offsetTable = GetBadCharacterShift(pattern);
+            this.badTable = GetBadCharacterShift(pattern);
             this.goodTable = GetGoodSuffixShift(pattern);
         }
         #endregion
@@ -132,24 +147,17 @@ namespace SpaceCG.General
 
         #region Public Functions Search
         /// <summary>
-        /// 在 source 中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示在 source 中没匹配到
-        /// <para>Boyer-Moore 算法实现，与静态方法 <see cref="BoyerMoore.Search(ref string, ref string, bool, int, int)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
+        /// 在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到
+        /// <para>Boyer-Moore 算法实现，与静态方法 <see cref="BoyerMoore.Search(ref string, ref string, uint, int, int)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
-        /// <exception cref="InvalidOperationException">未设置需要匹配的数据</exception>
-        /// <exception cref="ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
-        /// <exception cref="ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
         /// <returns> 返回 -1 表示没匹配到 </returns>
         public int Search(ref string source, int start = 0, int end = int.MaxValue)
         {
-            if (patternChars == null)
-                throw new InvalidOperationException($"未设置需要匹配的数据: {nameof(patternChars)}");
-            if (source == null || source.Length < PatternLength)
-                throw new ArgumentNullException(nameof(source), "参数不能空，长度不能小于 需要匹配数据的长度 ");
-            if (start < 0 || end < 0 || end <= start || end < patternChars.Length || end - start < patternChars.Length)
-                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
+            if (patternChars == null || source == null || source.Length < PatternLength) return -1;
+            if (start < 0 || end < 0 || end <= start || end < patternChars.Length || end - start < patternChars.Length) return -1;
 
             int i, index = start;
             int lastPatternPosition = PatternLength - 1;
@@ -161,7 +169,7 @@ namespace SpaceCG.General
                 while (i >= 0 && patternChars[i] == source[index + i]) i--;
 
                 if (i < 0) return index;
-                index += Math.Max(offsetTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
 
                 if (index > end) break;
             }
@@ -169,24 +177,17 @@ namespace SpaceCG.General
             return -1;
         }
         /// <summary>
-        /// 在 source 中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示在 source 中没匹配到
+        /// 在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到
         /// <para>Boyer-Moore 算法实现，与静态方法 <see cref="BoyerMoore.Search(IReadOnlyList{byte}, IReadOnlyList{byte}, int, int)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
-        /// <exception cref="InvalidOperationException">未设置需要匹配的数据</exception>
-        /// <exception cref="ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
-        /// <exception cref="ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
         /// <returns> 返回 -1 表示没匹配到 </returns>
         public int Search(IReadOnlyList<byte> source, int start = 0, int end = int.MaxValue)
         {
-            if (patternBytes == null)
-                throw new InvalidOperationException($"未设置需要匹配的数据:{nameof(patternBytes)}");
-            if (source == null || source.Count < PatternLength)
-                throw new ArgumentNullException("参数 source 不能空，长度不能小于 需要匹配数据的长度 ");
-            if (start < 0 || end < 0 || end <= start || end < patternBytes.Count || end - start < patternBytes.Count)
-                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
+            if (patternBytes == null || source == null || source.Count < PatternLength) return -1;
+            if (start < 0 || end < 0 || end <= start || end < patternBytes.Count || end - start < patternBytes.Count) return -1;
 
             int i, index = start;
             int lastPatternPosition = PatternLength - 1;
@@ -198,7 +199,7 @@ namespace SpaceCG.General
                 while (i >= 0 && patternBytes[i] == source[index + i]) i--;
 
                 if (i <= 0) return index;
-                index += Math.Max(offsetTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
 
                 if (index > end) break;
             }
@@ -206,7 +207,6 @@ namespace SpaceCG.General
             return -1;
         }
         #endregion
-
 
         #region Public Functions SearchAt
         /// <summary>
@@ -261,35 +261,26 @@ namespace SpaceCG.General
         }
         #endregion
 
-
         #region Public Functions SearchAll
         /// <summary>
         /// 在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到
-        /// <para>Boyer-Moore 算法实现，与静态方法 <see cref="BoyerMoore.SearchAll(ref string, ref string, bool, int, int)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
+        /// <para>Boyer-Moore 算法实现，与静态方法 <see cref="BoyerMoore.SearchAll(ref string, ref string, uint, int, int)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
-        /// <exception cref="InvalidOperationException">未设置需要匹配的数据</exception>
-        /// <exception cref="ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
-        /// <exception cref="ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
         /// <returns> 返回 空集合 表示没匹配到 </returns>
         public int[] SearchAll(ref string source, int start = 0, int end = int.MaxValue)
         {
-            if (patternChars == null)
-                throw new InvalidOperationException($"未设置需要匹配的数据: {nameof(patternChars)}");
-            if (source == null || source.Length < PatternLength)
-                throw new ArgumentNullException(nameof(source), "参数不能为空，且长度不能小于需要匹配数据的长度");
-            if (start < 0 || end < 0 || end <= start || end < patternChars.Length || end - start < patternChars.Length)
-                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
+            if (patternChars == null || source == null || source.Length < PatternLength) return new int[0];
+            if (start < 0 || end < 0 || end <= start || end < patternChars.Length || end - start < patternChars.Length) return new int[0];
 
             int i, index = start;
-            List<int> indexs = new List<int>(CAPACITY);
             int maxCompareCount = source.Length - PatternLength;  //最多可比较的次数
+            List<int> indexs = new List<int>(Math.Min(source.Length / patternChars.Length, CAPACITY));
 
             while (index <= maxCompareCount)
             {
-                //for (i = PatternLength - 1; i >= 0 && patternChars[i] == source[i + index]; i--) ;
                 i = PatternLength - 1;
                 while (i >= 0 && patternChars[i] == source[index + i]) i--;
 
@@ -300,7 +291,7 @@ namespace SpaceCG.General
                 }
                 else
                 {
-                    index += Math.Max(offsetTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                    index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
                 }
 
                 if (index > end) break;
@@ -315,28 +306,20 @@ namespace SpaceCG.General
         /// <param name="source">数据源</param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
-        /// <exception cref="InvalidOperationException">未设置需要匹配的数据</exception>
-        /// <exception cref="ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
-        /// <exception cref="ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
         /// <returns> 返回 空集合 表示没匹配到 </returns>
         public int[] SearchAll(IReadOnlyList<byte> source, int start = 0, int end = int.MaxValue)
         {
-            if (patternBytes == null)
-                throw new InvalidOperationException($"未设置需要匹配的数据: {nameof(patternBytes)}");
-            if (source == null || source.Count < PatternLength)
-                throw new ArgumentNullException(nameof(source), "参数不能为空，且长度不能小于需要匹配数据的长度");
-            if (start < 0 || end < 0 || end <= start || end < patternBytes.Count || end - start < patternBytes.Count)
-                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
+            if (patternBytes == null || source == null || source.Count < PatternLength) return new int[0];
+            if (start < 0 || end < 0 || end <= start || end < patternBytes.Count || end - start < patternBytes.Count) return new int[0];
 
             int i, index = start;
-            List<int> indexs = new List<int>(CAPACITY);
             int maxCompareCount = source.Count - PatternLength;
+            List<int> indexs = new List<int>(Math.Min(source.Count / patternBytes.Count, CAPACITY));
 
             while (index <= maxCompareCount)
             {
                 i = PatternLength - 1;
                 while (i >= 0 && patternBytes[i] == source[index + i]) i--;
-                //for (i = PatternLength - 1; i >= 0 && patternBytes[i] == source[i + index]; i--) ;
 
                 if (i < 0)
                 {
@@ -345,7 +328,7 @@ namespace SpaceCG.General
                 }
                 else
                 {
-                    index += Math.Max(offsetTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                    index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
                 }
 
                 if (index > end) break;
@@ -357,7 +340,7 @@ namespace SpaceCG.General
 
 
 
-        #region Internal Debug
+        #region Internal Debug Trace
         /// <summary>
         /// 调试输出匹配过程
         /// </summary>
@@ -373,20 +356,21 @@ namespace SpaceCG.General
         }
         #endregion
 
-        #region Static Internal Functions GetBadCharacterShift
+        #region Static Internal Functions GetBadCharacterShift        
         /// <summary>
         /// 获取无效数据标记表 (坏字符 Bad Character Heuristic)
         /// </summary>
         /// <param name="pattern">需要匹配的数据内容</param>
-        /// <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
+        /// <param name="size">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+        ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+        /// </param>
         /// <returns></returns>
-        internal static int[] GetBadCharacterShift(ref string pattern, bool isSingleByteOnly = true)
+        internal static int[] GetBadCharacterShift(ref string pattern, uint size = 0xFF)
         {
             int i = 0;
-            int length = (isSingleByteOnly ? 0xFF : 0xFFFF) + 1;
-            int[] badTable = new int[length];
+            int[] badTable = new int[size + 1];
 
-            for (i = 0; i < length; i++)
+            for (i = 0; i < badTable.Length; i++)
                 badTable[i] = pattern.Length;
 
             for (i = 0; i < pattern.Length; i++)
@@ -412,20 +396,19 @@ namespace SpaceCG.General
 
             return badTable;
         }
-
         /// <summary>
         /// 获取无效数据标记表 (坏字符 Bad Character Heuristic)，返回的是字典类型数据
         /// </summary>
-        /// <typeparam name="TKey">键类型</typeparam>
+        /// <typeparam name="T">键类型</typeparam>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        internal static Dictionary<TKey, int> GetBadCharacterShift<TKey>(IReadOnlyList<TKey> pattern)
+        internal static Dictionary<T, int> GetBadCharacterShift<T>(IReadOnlyList<T> pattern)
         {
-            Dictionary<TKey, int> offsetTable = new Dictionary<TKey, int>(pattern.Count + 8);
+            Dictionary<T, int> badTable = new Dictionary<T, int>(pattern.Count + 8);
             for (int i = 0; i < pattern.Count; i++)
-                offsetTable[pattern[i]] = pattern.Count - 1 - i;
+                badTable[pattern[i]] = pattern.Count - i - 1;
 
-            return offsetTable;
+            return badTable;
         }
         #endregion
 
@@ -454,12 +437,10 @@ namespace SpaceCG.General
                 else
                 {
                     if (i < lastPatternPosition) lastPatternPosition = i;
-
                     j = i;
-                    for (; lastPatternPosition >= 0 && pattern[lastPatternPosition] == pattern[lastPatternPosition + patternLength - 1 - j]; --lastPatternPosition) ;
 
-                    //while (lastPatternPosition >= 0 && pattern[lastPatternPosition] == pattern[lastPatternPosition + patternLength - 1 - tempIndex])
-                    //    --lastPatternPosition;
+                    while (lastPatternPosition >= 0 && pattern[lastPatternPosition] == pattern[lastPatternPosition + patternLength - 1 - j])
+                        --lastPatternPosition;
 
                     suffixLengthArray[i] = j - lastPatternPosition;
                 }
@@ -490,7 +471,7 @@ namespace SpaceCG.General
         /// 获取有效数据标记表 (好后缀 Good Suffix Heuristic)
         /// </summary>
         /// <returns></returns>
-        internal static int[] GetGoodSuffixShift(IReadOnlyList<byte> pattern)
+        internal static int[] GetGoodSuffixShift<T>(IReadOnlyList<T> pattern)
         {
             int i, j = 0;
             int patternLength = pattern.Count;
@@ -510,12 +491,13 @@ namespace SpaceCG.General
                 else
                 {
                     if (i < lastPatternPosition) lastPatternPosition = i;
-
                     j = i;
-                    for (; lastPatternPosition >= 0 && pattern[lastPatternPosition] == pattern[lastPatternPosition + patternLength - 1 - j]; --lastPatternPosition) ;
 
-                    //while (lastPatternPosition >= 0 && pattern[lastPatternPosition] == pattern[lastPatternPosition + patternLength - 1 - tempIndex])
+                    //while (lastPatternPosition >= 0 && pattern[lastPatternPosition] == pattern[lastPatternPosition + patternLength - 1 - j])
                     //    --lastPatternPosition;
+
+                    while (lastPatternPosition >= 0 && pattern[lastPatternPosition].Equals(pattern[lastPatternPosition + patternLength - 1 - j]))
+                        --lastPatternPosition;
 
                     suffixLengthArray[i] = j - lastPatternPosition;
                 }
@@ -542,52 +524,79 @@ namespace SpaceCG.General
 
             return goodSuffixShifts;
         }
-
         #endregion
 
 
 
         #region Static Public Functions Search
         /// <summary>
-        /// 在 source 中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示在 source 中没匹配到
+        /// 在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到；tSize 大于 0xFF 时会使用字典做为表
         /// <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
         /// <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回 -1, 而不抛出异常信息。</para>
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="pattern">需要匹配的数据</param>
-        /// <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
+        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+        ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+        /// </param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
+        /// <exception cref="ArgumentNullException">空参数错误</exception>
+        /// <exception cref="ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
         /// <returns> 返回 -1 表示没匹配到 </returns>        
-        public static int Search(ref string source, ref string pattern, bool isSingleByteOnly = true, int start = 0, int end = int.MaxValue)
+        public static int Search(ref string source, ref string pattern, uint tSize = 0xFF, int start = 0, int end = int.MaxValue)
         {
-            if (pattern == null || pattern.Length < 1) return -1;
-            if (source == null || source.Length < pattern.Length) return -1;
-            if (start < 0 || end < 0 || end <= start || end < pattern.Length || end - start < pattern.Length) return -1;
+            if (pattern == null || pattern.Length <= 0) 
+                throw new ArgumentNullException(nameof(pattern), "参数不能为空，或长度不能为 0 ");
+            if (source == null || source.Length < pattern.Length)
+                throw new ArgumentNullException(nameof(source), $"参数不能为空，或长度不能小于 {nameof(pattern)} 的长度 ");
+            if (start < 0 || end < 0 || end <= start || end < pattern.Length || end - start < pattern.Length)
+                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
 
             int i, index = start;
             int sourceLength = source.Length;
             int patternLength = pattern.Length;
             int lastPatternPosition = pattern.Length - 1;        //最后一个匹配数据的位置
             int maxCompareCount = sourceLength - patternLength;  //最多可比较的次数
-            int[] offsetTable = GetBadCharacterShift(ref pattern, isSingleByteOnly);
 
-            while (index <= maxCompareCount)
+            if (tSize <= 0xFF)
             {
-                i = lastPatternPosition;
-                while ( i >= 0 && pattern[i] == source[index + i]) i--;
-                //for (i = lastPatternPosition; i >= 0 && pattern[i] == source[index + i]; i--) ;
+                int[] offsetTable = GetBadCharacterShift(ref pattern, tSize);
+                while (index <= maxCompareCount)
+                {
+                    i = lastPatternPosition;
+                    while (i >= 0 && pattern[i] == source[index + i]) i--;
 
-                if (i < 0) return index;
-                index += Math.Max(offsetTable[source[index + i]] - patternLength + 1 + i, 1);
+                    if (i < 0) return index;
+                    index += Math.Max(offsetTable[source[index + i]] - patternLength + 1 + i, 1);
 
-                if (index > end) break;
+                    if (index > end) break;
+                }
+            }
+            else
+            {
+                int value;
+                bool hasValue;
+                Dictionary<char, int> offsetTable = GetBadCharacterShift(pattern.ToCharArray());
+
+                while (index <= maxCompareCount)
+                {
+                    i = lastPatternPosition;
+                    while (i >= 0 && pattern[i] == source[index + i]) i--;
+
+                    if (i < 0) return index;
+
+                    hasValue = offsetTable.TryGetValue(source[index + i], out value);
+                    index += Math.Max(hasValue ? value - patternLength + i + 1 : i + 1, 1);
+
+                    if (index > end) break;
+                }
             }
 
             return -1;
         }
         /// <summary>
-        /// 在 source 中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示在 source 中没匹配到
+        /// 在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到
         /// <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
         /// <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回 -1, 而不抛出异常信息。</para>
         /// </summary>
@@ -595,12 +604,17 @@ namespace SpaceCG.General
         /// <param name="pattern">需要匹配的数据</param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
+        /// <exception cref="ArgumentNullException">空参数错误</exception>
+        /// <exception cref="ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
         /// <returns> 返回 -1 表示没匹配到 </returns>
         public static int Search(IReadOnlyList<byte> source, IReadOnlyList<byte> pattern, int start = 0, int end = int.MaxValue)
         {
-            if (pattern == null || pattern.Count < 1) return -1;
-            if (source == null || source.Count < pattern.Count) return -1;
-            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count) return -1;
+            if (pattern == null || pattern.Count <= 0)
+                throw new ArgumentNullException(nameof(pattern), "参数不能为空，或长度不能为 0 ");
+            if (source == null || source.Count < pattern.Count)
+                throw new ArgumentNullException(nameof(source), $"参数不能为空，或长度不能小于 {nameof(pattern)} 的长度 ");
+            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count)
+                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
 
             int sourceLength = source.Count;
             int patternLength = pattern.Count;
@@ -612,14 +626,8 @@ namespace SpaceCG.General
 
             while (index <= maxCompareCount)
             {
-                //Console.WriteLine("------------------------->{0}", index);
-                //Console.WriteLine("{0}", string.Join("", source));
-                //Console.WriteLine("{0}", string.Join("", pattern).PadLeft(index + pattern.Count, '-'));
-                //Console.WriteLine("-------------------------E.{0}", index);
-
                 i = lastPatternPosition;
                 while (i >= 0 && pattern[i] == source[index + i]) i--;
-                //for (i = lastPatternPosition; i >= 0 && pattern[i] == source[index + i]; i--) ;
 
                 if (i < 0) return index;
                 index += Math.Max(offsetTable[source[index + i]] - patternLength + 1 + i, 1);
@@ -633,45 +641,79 @@ namespace SpaceCG.General
 
         #region Static Public Functions SearchAll
         /// <summary>
-        /// 在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到
+        /// 在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到；tSize 大于 0xFF 时会使用字典做为表
         /// <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
         /// <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回空集合, 而不抛出异常信息。</para>
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="pattern">需要匹配的数据</param>
-        /// <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
+        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+        ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+        /// </param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
+        /// <exception cref="ArgumentNullException">空参数错误</exception>
+        /// <exception cref="ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
         /// <returns> 返回 空集合 表示没匹配到 </returns>
-        public static int[] SearchAll(ref string source, ref string pattern, bool isSingleByteOnly = true, int start = 0, int end = int.MaxValue)
+        public static int[] SearchAll(ref string source, ref string pattern, uint tSize = 0xFF, int start = 0, int end = int.MaxValue)
         {
-            List<int> indexs = new List<int>(CAPACITY);
-            if (pattern == null || pattern.Length < 1) return indexs.ToArray();
-            if (source == null || source.Length < pattern.Length) return indexs.ToArray();
-            if (start < 0 || end < 0 || end <= start || end < pattern.Length || end - start < pattern.Length) return indexs.ToArray();
+            if (pattern == null || pattern.Length <= 0)
+                throw new ArgumentNullException(nameof(pattern), "参数不能为空，或长度不能为 0 ");
+            if (source == null || source.Length < pattern.Length)
+                throw new ArgumentNullException(nameof(source), $"参数不能为空，或长度不能小于 {nameof(pattern)} 的长度 ");
+            if (start < 0 || end < 0 || end <= start || end < pattern.Length || end - start < pattern.Length)
+                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
 
             int i, index = start;
             int sourceLength = source.Length;
             int patternLength = pattern.Length;
-            int lastPatternPosition = pattern.Length - 1;        //最后一个匹配数据的位置
-            int maxCompareCount = sourceLength - patternLength;  //最多可比较的次数
-            int[] offsetTable = GetBadCharacterShift(ref pattern, isSingleByteOnly);
+            int lastPatternPosition = pattern.Length - 1;        
+            int maxCompareCount = sourceLength - patternLength;
+            List<int> indexs = new List<int>(Math.Min(source.Length / pattern.Length, CAPACITY));
 
-            while (index <= maxCompareCount)
+            if (tSize <= 0xFF)
             {
-                i = lastPatternPosition;
-                while (i >= 0 && pattern[i] == source[index + i]) i--;
-                //for (i = lastPatternPosition; i >= 0 && pattern[i] == source[index + i]; i--) ;
-
-                if (i <= 0)
+                int[] offsetTable = GetBadCharacterShift(ref pattern, tSize);
+                while (index <= maxCompareCount)
                 {
-                    indexs.Add(index);
-                    index += patternLength;
-                }
-                else
-                    index += Math.Max(offsetTable[source[index + i]] - patternLength + 1 + i, 1);
+                    i = lastPatternPosition;
+                    while (i >= 0 && pattern[i] == source[index + i]) i--;
 
-                if (index > end) break;
+                    if (i <= 0)
+                    {
+                        indexs.Add(index);
+                        index += patternLength;
+                    }
+                    else
+                        index += Math.Max(offsetTable[source[index + i]] - patternLength + 1 + i, 1);
+
+                    if (index > end) break;
+                }
+            }
+            else
+            {
+                int value;
+                bool hasValue;
+                Dictionary<char, int> offsetTable = GetBadCharacterShift(pattern.ToCharArray());
+
+                while (index <= maxCompareCount)
+                {
+                    i = lastPatternPosition;
+                    while (i >= 0 && pattern[i] == source[index + i]) i--;
+
+                    if (i <= 0)
+                    {
+                        indexs.Add(index);
+                        index += patternLength;
+                    }
+                    else
+                    {
+                        hasValue = offsetTable.TryGetValue(source[index + i], out value);
+                        index += Math.Max(hasValue ? value - patternLength + i + 1 : i + 1, 1);
+                    }
+
+                    if (index > end) break;
+                }
             }
 
             return indexs.ToArray();
@@ -685,27 +727,31 @@ namespace SpaceCG.General
         /// <param name="pattern">需要匹配的数据</param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
+        /// <exception cref="ArgumentNullException">空参数错误</exception>
+        /// <exception cref="ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
         /// <returns> 返回 空集合 表示没匹配到 </returns>
         public static int[] SearchAll(IReadOnlyList<byte> source, IReadOnlyList<byte> pattern, int start = 0, int end = int.MaxValue)
         {
-            List<int> indexs = new List<int>(Math.Min(source.Count / pattern.Count, CAPACITY));
-            if (pattern == null || pattern.Count < 1) return indexs.ToArray();
-            if (source == null || source.Count < pattern.Count) return indexs.ToArray();
-            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count) return indexs.ToArray();
-
-            int sourceLength = source.Count;
-            int patternLength = pattern.Count;
-            int maxCompareCount = sourceLength - patternLength;
+            if (pattern == null || pattern.Count <= 0)
+                throw new ArgumentNullException(nameof(pattern), "参数不能为空，或长度不能为 0 ");
+            if (source == null || source.Count < pattern.Count)
+                throw new ArgumentNullException(nameof(source), $"参数不能为空，或长度不能小于 {nameof(pattern)} 的长度 ");
+            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count)
+                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
 
             int i, index = start;
+            int sourceLength = source.Count;
+            int patternLength = pattern.Count;
             int lastPatternPosition = patternLength - 1;
+            int maxCompareCount = sourceLength - patternLength;
+
             int[] offsetTable = GetBadCharacterShift(pattern);
+            List<int> indexs = new List<int>(Math.Min(source.Count / pattern.Count, CAPACITY));
 
             while (index <= maxCompareCount)
             {
                 i = lastPatternPosition;
                 while (i >= 0 && pattern[i] == source[index + i]) i--;
-                //for (i = lastPatternPosition; i >= 0 && pattern[i] == source[index + i]; i--) ;
 
                 if (i <= 0)
                 {
@@ -726,16 +772,13 @@ namespace SpaceCG.General
     }
 
     /// <summary>
-    /// <see cref="BoyerMoore"/> 的泛型版本，性能？？？不好说，内部做了太多数据转换，好像有问题，在设计阶段就发现了
+    /// Boyer-Moore 算法实现，<see cref="BoyerMoore"/> 的泛型版本，泛型版本使用的是字典作为 好字符 表，而不是使用数组
+    /// <para>适合 集合数据 与 集合数据 的查找，在 source 集合中查找 pattern 集合相同位置和相同数据的索引 </para>
+    /// <para>集合数据的对比 是使用 <see cref="object.Equals(object)"/> 的方法，所以自定义基数据类型(比如自定义结构数据类型)，需要实现应该方法</para>
     /// </summary>
     /// <typeparam name="T">基本数据类型，基类型占用字节大小最好不要超过 2 个字节</typeparam>
     public sealed class BoyerMoore<T> where T : struct
     {
-        /// <summary>
-        /// 基类型占用字节大小
-        /// </summary>
-        public static readonly int TypeSize = 1;
-
         /// <summary>
         /// 匹配数据的长度
         /// </summary>
@@ -747,54 +790,85 @@ namespace SpaceCG.General
         private IReadOnlyList<T> pattern;
 
         /// <summary>
-        /// badTable
+        /// 通过 <see cref="BoyerMoore.GetBadCharacterShift{T}(IReadOnlyList{T})"/> 生成的 坏字符表 (Bad Character Heuristic)
         /// </summary>
         public Dictionary<T, int> badTable;
+
+        /// <summary>
+        /// 通过 <see cref="BoyerMoore.GetGoodSuffixShift{T}(IReadOnlyList{T})"/> 生成的 好后缀表 (Good Suffix Heuristic)
+        /// </summary>
+        private int[] goodTable;
+
+#if sc_t
+        /// <summary>
+        /// 基类型占用字节大小
+        /// </summary>
+        public static readonly int TypeSize = 1;
 
         static BoyerMoore()
         {
             TypeSize = Marshal.SizeOf(typeof(T));
-            Console.WriteLine("Size::{0}", TypeSize);
 
             if (TypeSize > 4)
                 throw new Exception($"暂时只支持 32 位基类型数据处理");
         }
+#endif
 
+        /// <summary>
+        /// BoyerMoore 泛型版本
+        /// </summary>
         public BoyerMoore()
-        {            
+        { 
         }
 
+        /// <summary>
+        /// BoyerMoore 泛型版本
+        /// </summary>
         public BoyerMoore(IReadOnlyList<T> pattern)
         {
-            SetPattern(pattern);
+            ResetPattern(pattern);
         }
 
-        public void SetPattern(IReadOnlyList<T> pattern)
+        /// <summary>
+        /// 设置需要匹配数据
+        /// </summary>
+        /// <param name="pattern"></param>
+        public void ResetPattern(IReadOnlyList<T> pattern)
         {
+            if(pattern == null || pattern.Count <= 0)
+                throw new ArgumentNullException(nameof(pattern), "参数不能空，或需要匹配的数据不能太小");
+
+            if (badTable != null)
+            {
+                badTable.Clear();
+                badTable = null;
+            }
+            if(goodTable != null)
+            {
+                Array.Clear(goodTable, 0, goodTable.Length);
+                goodTable = null;
+            }
+            if (this.pattern != null) this.pattern = null;
+
             this.pattern = pattern;
             PatternLength = pattern.Count;
-
-            badTable = BoyerMoore.GetBadCharacterShift<T>(pattern);
-
-            //badTable = new Dictionary<T, int>(pattern.Count + 8);
-            //for (int i = 0; i < pattern.Count; i++)
-            //{
-                //if (badTable.ContainsKey(pattern[i]))
-                    //badTable[pattern[i]] = pattern.Count - 1 - i;
-                //else
-               //     badTable.Add(pattern[i], pattern.Count - 1 - i);
-            //}
+            badTable = BoyerMoore.GetBadCharacterShift(pattern);
+            goodTable = BoyerMoore.GetGoodSuffixShift(pattern);
         }
 
+        /// <summary>
+        /// 在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到
+        /// </summary>
+        /// <param name="source">数据源</param>
+        /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
+        /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
+        /// <returns> 返回 -1 表示没匹配到 </returns>
         public int Search(IReadOnlyList<T> source, int start = 0, int end = int.MaxValue)
         {
-            if (pattern == null)
-                throw new InvalidOperationException($"未设置需要匹配的数据:{nameof(pattern)}");
-            if (source == null || source.Count < PatternLength)
-                throw new ArgumentNullException("参数 source 不能空，长度不能小于 需要匹配数据的长度 ");
-            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count)
-                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
+            if (pattern == null || source == null || source.Count < PatternLength) return -1;
+            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count) return -1;
 
+            bool hasValue;
             int i, value, index = start;
             int lastPatternPosition = PatternLength - 1;
             int maxCompareCount = source.Count - PatternLength;
@@ -805,15 +879,11 @@ namespace SpaceCG.General
 
                 i = lastPatternPosition;
                 while (i >= 0 && pattern[i].Equals(source[index + i])) i--;
-                //for(i = lastPatternPosition; i >= 0 && pattern[i].Equals(source[index + i]); i -- )
 
                 if (i < 0) return index;
-                if (badTable.TryGetValue(source[index + i], out value))
-                    index += Math.Max(value - PatternLength + 1 + i, 1);
-                else
-                    index += Math.Max(1 + i, 1);
 
-                //index += Math.Max((badTable.ContainsKey(source[index + i]) ? badTable[source[index + i]] : PatternLength) - PatternLength + 1 + i, 1);
+                hasValue = badTable.TryGetValue(source[index + i], out value);
+                index += Math.Max(hasValue ? value - PatternLength + i + 1 : i + 1, goodTable[i]);  // 1);
 
                 if (index > end) break;
             }
@@ -821,82 +891,95 @@ namespace SpaceCG.General
             return -1;
         }
 
+        /// <summary>
+        /// 查找第 rCount 次匹配到的位置索引，如果第 rCount 次的匹配不存在，则返回 -1 
+        /// <para> 相当于 <see cref="SearchAll(IReadOnlyList{T}, int, int)"/>[rCount - 1]，但不做全面查找；如果 rCount = 1 则与 <see cref="Search(IReadOnlyList{T}, int, int)"/> 相同 </para>
+        /// </summary>
+        /// <param name="source">数据源</param>
+        /// <param name="rCount">匹配到第 rCount 次后结束</param>
+        /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
+        /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
+        /// <returns></returns>
         public int SearchAt(IReadOnlyList<T> source, int rCount, int start = 0, int end = int.MaxValue)
         {
-            return -1;
+            int count = 0, index = start;
+
+            do
+            {
+                index = Search(source, index, end);
+                if (index == -1) return -1;
+
+                count++;
+                index++;
+            }
+            while (count < rCount);
+
+            return index - 1;
         }
 
+        /// <summary>
+        /// 在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到
+        /// </summary>
+        /// <param name="source">数据源</param>
+        /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
+        /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
+        /// <exception cref="InvalidOperationException">未设置需要匹配的数据</exception>
+        /// <exception cref="ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
+        /// <exception cref="ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
+        /// <returns> 返回 空集合 表示没匹配到 </returns>
         public int[] SearchAll(IReadOnlyList<T> source, int start = 0, int end = int.MaxValue)
         {
+            int index = start;
             List<int> indexs = new List<int>(Math.Min(source.Count / pattern.Count, BoyerMoore.CAPACITY));
-            if (pattern == null)
-                throw new InvalidOperationException($"未设置需要匹配的数据:{nameof(pattern)}");
-            if (source == null || source.Count < PatternLength)
-                throw new ArgumentNullException("参数 source 不能空，长度不能小于 需要匹配数据的长度 ");
-            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count)
-                throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
 
+            do
+            {
+                index = Search(source, index, end);
+                if (index != -1)
+                {
+                    indexs.Add(index);
+                    index += pattern.Count;
+                }
+            }
+            while (index > 0);
+
+            return indexs.ToArray();
+
+
+            /*
+            if (pattern == null || source == null || source.Count < PatternLength) return new int[0];
+            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count) return new int[0];
+
+            bool hasValue;
             int i, value, index = start;
             int lastPatternPosition = PatternLength - 1;
             int maxCompareCount = source.Count - PatternLength;
+            List<int> indexs = new List<int>(Math.Min(source.Count / pattern.Count, BoyerMoore.CAPACITY));
 
             while (index <= maxCompareCount)
             {
-                BoyerMoore.DebugTrace<T>(source, pattern, index);
+                //BoyerMoore.DebugTrace<T>(source, pattern, index);
 
                 i = lastPatternPosition;
                 while (i >= 0 && pattern[i].Equals(source[index + i])) i--;
-                //for(i = lastPatternPosition; i >= 0 && pattern[i].Equals(source[index + i]); i -- )
 
                 if (i < 0)
                 {
                     indexs.Add(index);
                     index += PatternLength;
-                    Console.WriteLine("Find");
                 }
                 else
                 {
-                    if(badTable.TryGetValue(source[index + i], out value))
-                        index += Math.Max(value - PatternLength + 1 + i, 1);
-                    else
-                        index += Math.Max(1 + i, 1);
-
-                    //index += Math.Max((badTable.ContainsKey(source[index + i]) ? badTable[source[index + i]] : PatternLength) - PatternLength + 1 + i, 1);
+                    hasValue = badTable.TryGetValue(source[index + i], out value);
+                    index += Math.Max(hasValue ? value - PatternLength + i + 1 : i + 1, goodTable[i]);// 1);
                 }
 
                 if (index > end) break;
             }
 
             return indexs.ToArray();
+            */
         }
-
-
-        /// <summary>
-        /// 将struct类型转换为byte[]
-        /// </summary>
-        public static byte[] StructToBytes(T structure, int size)
-        {
-            IntPtr buffer = Marshal.AllocHGlobal(size);
-
-            try
-            {
-                Marshal.StructureToPtr(structure, buffer, false);
-                byte[] bytes = new byte[size];
-                Marshal.Copy(buffer, bytes, 0, size);
-
-                return bytes;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in StructToBytes ! " + ex.Message);
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(buffer);
-            }
-        }
-
 
     }
-
 }
