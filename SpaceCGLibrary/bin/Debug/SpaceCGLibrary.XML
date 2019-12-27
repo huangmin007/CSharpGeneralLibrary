@@ -556,7 +556,7 @@
             返回的索引集合列表，最初可以存储的元素数量
             </summary>
         </member>
-        <member name="F:SpaceCG.General.BoyerMoore.badTable">
+        <member name="F:SpaceCG.General.BoyerMoore.offsetTable">
             <summary>
             能过 <see cref="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift(System.Collections.Generic.IReadOnlyList{System.Byte})"/> 生成的 坏字符表 (Bad Character Heuristic)
             </summary>
@@ -689,6 +689,15 @@
             <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 空集合 表示没匹配到 </returns>
         </member>
+        <member name="M:SpaceCG.General.BoyerMoore.DebugTrace``1(System.Collections.Generic.IReadOnlyList{``0},System.Collections.Generic.IReadOnlyList{``0},System.Int32)">
+            <summary>
+            调试输出匹配过程
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source"></param>
+            <param name="pattern"></param>
+            <param name="index"></param>
+        </member>
         <member name="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift(System.String@,System.Boolean)">
             <summary>
             获取无效数据标记表 (坏字符 Bad Character Heuristic)
@@ -702,6 +711,14 @@
             获取无效数据标记表 (坏字符 Bad Character Heuristic)
             </summary>
             <param name="pattern">需要匹配的数据内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift``1(System.Collections.Generic.IReadOnlyList{``0})">
+            <summary>
+            获取无效数据标记表 (坏字符 Bad Character Heuristic)，返回的是字典类型数据
+            </summary>
+            <typeparam name="TKey">键类型</typeparam>
+            <param name="pattern"></param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.GetGoodSuffixShift(System.String@)">

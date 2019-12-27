@@ -24,12 +24,12 @@ namespace SpaceCG.General
         /// <summary>
         /// 返回的索引集合列表，最初可以存储的元素数量
         /// </summary>
-        private const int CAPACITY = 128;
+        internal const int CAPACITY = 256;
 
         /// <summary>
         /// 能过 <see cref="GetBadCharacterShift(IReadOnlyList{byte})"/> 生成的 坏字符表 (Bad Character Heuristic)
         /// </summary>
-        private int[] badTable;
+        private int[] offsetTable;
 
         /// <summary>
         /// 通过 <see cref="GetGoodSuffixShift(IReadOnlyList{byte})"/> 生成的 好后缀表 (Good Suffix Heuristic)
@@ -94,8 +94,8 @@ namespace SpaceCG.General
             if (pattern == null || pattern.Length < 1)
                 throw new ArgumentNullException("参数 pattern 不能空，长度不能小于 1 ");
 
-            if (badTable != null)
-                Array.Clear(badTable, 0, badTable.Length);
+            if (offsetTable != null)
+                Array.Clear(offsetTable, 0, offsetTable.Length);
             if (goodTable != null)
                 Array.Clear(goodTable, 0, goodTable.Length);
 
@@ -103,7 +103,7 @@ namespace SpaceCG.General
             this.patternChars = pattern;
             this.PatternLength = this.patternChars.Length;
 
-            this.badTable = GetBadCharacterShift(ref pattern, isSingleByteOnly);
+            this.offsetTable = GetBadCharacterShift(ref pattern, isSingleByteOnly);
             this.goodTable = GetGoodSuffixShift(ref pattern);
         }
         /// <summary>
@@ -115,8 +115,8 @@ namespace SpaceCG.General
             if (pattern == null || pattern.Count < 1)
                 throw new ArgumentNullException("参数 pattern 不能空，长度不能小于 1 ");
 
-            if (badTable != null)
-                Array.Clear(badTable, 0, badTable.Length);
+            if (offsetTable != null)
+                Array.Clear(offsetTable, 0, offsetTable.Length);
             if(goodTable != null)
                 Array.Clear(goodTable, 0, goodTable.Length);
 
@@ -124,7 +124,7 @@ namespace SpaceCG.General
             this.patternBytes = pattern;
             this.PatternLength = this.patternBytes.Count;
 
-            this.badTable = GetBadCharacterShift(pattern);
+            this.offsetTable = GetBadCharacterShift(pattern);
             this.goodTable = GetGoodSuffixShift(pattern);
         }
         #endregion
@@ -161,7 +161,7 @@ namespace SpaceCG.General
                 while (i >= 0 && patternChars[i] == source[index + i]) i--;
 
                 if (i < 0) return index;
-                index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                index += Math.Max(offsetTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
 
                 if (index > end) break;
             }
@@ -198,7 +198,7 @@ namespace SpaceCG.General
                 while (i >= 0 && patternBytes[i] == source[index + i]) i--;
 
                 if (i <= 0) return index;
-                index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                index += Math.Max(offsetTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
 
                 if (index > end) break;
             }
@@ -300,7 +300,7 @@ namespace SpaceCG.General
                 }
                 else
                 {
-                    index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                    index += Math.Max(offsetTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
                 }
 
                 if (index > end) break;
@@ -345,7 +345,7 @@ namespace SpaceCG.General
                 }
                 else
                 {
-                    index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                    index += Math.Max(offsetTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
                 }
 
                 if (index > end) break;
@@ -357,15 +357,30 @@ namespace SpaceCG.General
 
 
 
+        #region Internal Debug
+        /// <summary>
+        /// 调试输出匹配过程
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="pattern"></param>
+        /// <param name="index"></param>
+        internal static void DebugTrace<T>(IReadOnlyList<T> source, IReadOnlyList<T> pattern, int index)
+        {
+            Console.WriteLine("-------------------------> {0}", index);
+            Console.WriteLine("{0}", string.Join("", source));
+            Console.WriteLine("{0}", string.Join("", pattern).PadLeft(index + pattern.Count, '-'));
+        }
+        #endregion
 
-        #region Static Private Functions GetBadCharacterShift
+        #region Static Internal Functions GetBadCharacterShift
         /// <summary>
         /// 获取无效数据标记表 (坏字符 Bad Character Heuristic)
         /// </summary>
         /// <param name="pattern">需要匹配的数据内容</param>
         /// <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
         /// <returns></returns>
-        private static int[] GetBadCharacterShift(ref string pattern, bool isSingleByteOnly = true)
+        internal static int[] GetBadCharacterShift(ref string pattern, bool isSingleByteOnly = true)
         {
             int i = 0;
             int length = (isSingleByteOnly ? 0xFF : 0xFFFF) + 1;
@@ -384,7 +399,7 @@ namespace SpaceCG.General
         /// </summary>
         /// <param name="pattern">需要匹配的数据内容</param>
         /// <returns></returns>
-        private static int[] GetBadCharacterShift(IReadOnlyList<byte> pattern)
+        internal static int[] GetBadCharacterShift(IReadOnlyList<byte> pattern)
         {
             int i = 0;
             int[] badTable = new int[0xFF + 1];
@@ -397,14 +412,29 @@ namespace SpaceCG.General
 
             return badTable;
         }
+
+        /// <summary>
+        /// 获取无效数据标记表 (坏字符 Bad Character Heuristic)，返回的是字典类型数据
+        /// </summary>
+        /// <typeparam name="TKey">键类型</typeparam>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        internal static Dictionary<TKey, int> GetBadCharacterShift<TKey>(IReadOnlyList<TKey> pattern)
+        {
+            Dictionary<TKey, int> offsetTable = new Dictionary<TKey, int>(pattern.Count + 8);
+            for (int i = 0; i < pattern.Count; i++)
+                offsetTable[pattern[i]] = pattern.Count - 1 - i;
+
+            return offsetTable;
+        }
         #endregion
 
-        #region Static Private Functions GetGoodSuffixShift
+        #region Static Internal Functions GetGoodSuffixShift
         /// <summary>
         /// 获取有效数据标记表 (好后缀 Good Suffix Heuristic)
         /// </summary>
         /// <returns></returns>
-        private static int[] GetGoodSuffixShift(ref string pattern)
+        internal static int[] GetGoodSuffixShift(ref string pattern)
         {
             int i, j = 0;
             int patternLength = pattern.Length;
@@ -460,7 +490,7 @@ namespace SpaceCG.General
         /// 获取有效数据标记表 (好后缀 Good Suffix Heuristic)
         /// </summary>
         /// <returns></returns>
-        private static int[] GetGoodSuffixShift(IReadOnlyList<byte> pattern)
+        internal static int[] GetGoodSuffixShift(IReadOnlyList<byte> pattern)
         {
             int i, j = 0;
             int patternLength = pattern.Count;
@@ -744,14 +774,16 @@ namespace SpaceCG.General
             this.pattern = pattern;
             PatternLength = pattern.Count;
 
-            badTable = new Dictionary<T, int>(pattern.Count + 8);
-            for (int i = 0; i < pattern.Count; i++)
-            {
-                if (badTable.ContainsKey(pattern[i]))
-                    badTable[pattern[i]] = pattern.Count - 1 - i;
-                else
-                    badTable.Add(pattern[i], pattern.Count - 1 - i);
-            }
+            badTable = BoyerMoore.GetBadCharacterShift<T>(pattern);
+
+            //badTable = new Dictionary<T, int>(pattern.Count + 8);
+            //for (int i = 0; i < pattern.Count; i++)
+            //{
+                //if (badTable.ContainsKey(pattern[i]))
+                    //badTable[pattern[i]] = pattern.Count - 1 - i;
+                //else
+               //     badTable.Add(pattern[i], pattern.Count - 1 - i);
+            //}
         }
 
         public int Search(IReadOnlyList<T> source, int start = 0, int end = int.MaxValue)
@@ -763,23 +795,25 @@ namespace SpaceCG.General
             if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count)
                 throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
 
-            int i, index = start;
+            int i, value, index = start;
             int lastPatternPosition = PatternLength - 1;
             int maxCompareCount = source.Count - PatternLength;
 
             while (index <= maxCompareCount)
             {
-                Console.WriteLine("------------------------->{0}", index);
-                Console.WriteLine("{0}", string.Join("", source));
-                Console.WriteLine("{0}", string.Join("", pattern).PadLeft(index + pattern.Count, '-'));
-                Console.WriteLine("-------------------------E.{0}", index);
+                BoyerMoore.DebugTrace<T>(source, pattern, index);
 
                 i = lastPatternPosition;
                 while (i >= 0 && pattern[i].Equals(source[index + i])) i--;
                 //for(i = lastPatternPosition; i >= 0 && pattern[i].Equals(source[index + i]); i -- )
 
                 if (i < 0) return index;
-                index += badTable.ContainsKey(source[index + i]) ? badTable[source[index + i]] : PatternLength;
+                if (badTable.TryGetValue(source[index + i], out value))
+                    index += Math.Max(value - PatternLength + 1 + i, 1);
+                else
+                    index += Math.Max(1 + i, 1);
+
+                //index += Math.Max((badTable.ContainsKey(source[index + i]) ? badTable[source[index + i]] : PatternLength) - PatternLength + 1 + i, 1);
 
                 if (index > end) break;
             }
@@ -794,7 +828,7 @@ namespace SpaceCG.General
 
         public int[] SearchAll(IReadOnlyList<T> source, int start = 0, int end = int.MaxValue)
         {
-            List<int> indexs = new List<int>(Math.Min(source.Count / pattern.Count, 128));
+            List<int> indexs = new List<int>(Math.Min(source.Count / pattern.Count, BoyerMoore.CAPACITY));
             if (pattern == null)
                 throw new InvalidOperationException($"未设置需要匹配的数据:{nameof(pattern)}");
             if (source == null || source.Count < PatternLength)
@@ -802,16 +836,13 @@ namespace SpaceCG.General
             if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count)
                 throw new ArgumentOutOfRangeException($"参数 {nameof(start)}, {nameof(end)} 设置错误，超出查找匹配界限范围");
 
-            int i, index = start;
+            int i, value, index = start;
             int lastPatternPosition = PatternLength - 1;
             int maxCompareCount = source.Count - PatternLength;
 
             while (index <= maxCompareCount)
             {
-                Console.WriteLine("ALL------------------------->{0}", index);
-                Console.WriteLine("{0}", string.Join("", source));
-                Console.WriteLine("{0}", string.Join("", pattern).PadLeft(index + pattern.Count, '-'));
-                Console.WriteLine("-------------------------E.{0}", index);
+                BoyerMoore.DebugTrace<T>(source, pattern, index);
 
                 i = lastPatternPosition;
                 while (i >= 0 && pattern[i].Equals(source[index + i])) i--;
@@ -824,7 +855,14 @@ namespace SpaceCG.General
                     Console.WriteLine("Find");
                 }
                 else
-                    index += Math.Max(badTable.ContainsKey(source[index + i]) ? badTable[source[index + i]] - PatternLength + 1 + i : PatternLength, 1);
+                {
+                    if(badTable.TryGetValue(source[index + i], out value))
+                        index += Math.Max(value - PatternLength + 1 + i, 1);
+                    else
+                        index += Math.Max(1 + i, 1);
+
+                    //index += Math.Max((badTable.ContainsKey(source[index + i]) ? badTable[source[index + i]] : PatternLength) - PatternLength + 1 + i, 1);
+                }
 
                 if (index > end) break;
             }

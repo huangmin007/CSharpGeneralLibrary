@@ -2361,3 +2361,26 @@
 [18:50:04] [ 1] [ INFO] [TestLibrary.App] [OnExit(54)] - Application OnExit (5971) 
 [Footer]
 
+[Header]
+[18:56:58] [ 1] [ INFO] [TestLibrary.App] [OnStartup(37)] - Application OnStartup (326) 
+[18:56:58] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(180)] - Initialize. (555) 
+[18:56:58] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(52)] - MainWindow. (570) 
+[18:56:58] [ 1] [ INFO] [TestLibrary.App] [CreateClient(114)] - 客户端(HPSocket.Tcp.TcpClient)连接的为本地网络服务地址：127.0.0.1 ，未监听网络的可用性变化。 (608) 
+[18:56:58] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (643) 
+[18:56:59] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(230)] - Window Loaded. (1709) 
+[18:56:59] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(231)] - Debug Foramt (1725) 
+[18:56:59] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(232)] - Warn Format (1738) 
+[18:56:59] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(233)] - Error Format (1755) 
+[18:56:59] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(234)] - Fatal Format (1772) 
+[18:56:59] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(235)] - Window Loaded. (1788) 
+[18:56:59] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(236)] - Debug Foramt (1802) 
+[18:56:59] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(237)] - Warn Format (1816) 
+[18:56:59] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(238)] - Error Format (1832) 
+[18:56:59] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(239)] - Fatal Format (1850) 
+[18:57:00] [16] [ INFO] [TestLibrary.App] [<CreateClient>b__2(73)] - 客户端(HPSocket.Tcp.TcpClient)连接被断开(Connect)，描述：(10061) 由于目标计算机积极拒绝，无法连接。 (2617) 
+[18:57:00] [16] [ INFO] [TestLibrary.App] [<CreateClient>b__2(78)] - 客户端等待 1000ms 后，重尝试重新连接 (2636) 
+[18:57:02] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (4678) 
+[18:57:02] [ 1] [ INFO] [TestLibrary.App] [DisposeClient(150)] - 客户端(HPSocket.Tcp.TcpClient) 0.0.0.0:0 断开连接并销毁释放 (4715) 
+[18:57:02] [ 1] [ INFO] [TestLibrary.App] [OnExit(54)] - Application OnExit (4822) 
+[Footer]
+

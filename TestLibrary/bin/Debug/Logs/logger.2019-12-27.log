@@ -1,0 +1,23 @@
+﻿[Header]
+[09:26:48] [ 1] [ INFO] [TestLibrary.App] [OnStartup(37)] - Application OnStartup (394) 
+[09:26:49] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(180)] - Initialize. (779) 
+[09:26:49] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(52)] - MainWindow. (792) 
+[09:26:50] [ 1] [ INFO] [TestLibrary.App] [CreateClient(114)] - 客户端(HPSocket.Tcp.TcpClient)连接的为本地网络服务地址：127.0.0.1 ，未监听网络的可用性变化。 (2037) 
+[09:26:50] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (2089) 
+[09:26:51] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(230)] - Window Loaded. (3063) 
+[09:26:51] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(231)] - Debug Foramt (3158) 
+[09:26:51] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(232)] - Warn Format (3167) 
+[09:26:51] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(233)] - Error Format (3177) 
+[09:26:51] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(234)] - Fatal Format (3187) 
+[09:26:51] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(235)] - Window Loaded. (3196) 
+[09:26:51] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(236)] - Debug Foramt (3205) 
+[09:26:51] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(237)] - Warn Format (3222) 
+[09:26:51] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(238)] - Error Format (3231) 
+[09:26:51] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(239)] - Fatal Format (3240) 
+[09:26:52] [14] [ INFO] [TestLibrary.App] [<CreateClient>b__2(73)] - 客户端(HPSocket.Tcp.TcpClient)连接被断开(Connect)，描述：(10061) 由于目标计算机积极拒绝，无法连接。 (4040) 
+[09:26:52] [14] [ INFO] [TestLibrary.App] [<CreateClient>b__2(78)] - 客户端等待 1000ms 后，重尝试重新连接 (4103) 
+[09:26:54] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (6154) 
+[09:26:54] [ 1] [ INFO] [TestLibrary.App] [DisposeClient(150)] - 客户端(HPSocket.Tcp.TcpClient) 0.0.0.0:0 断开连接并销毁释放 (6190) 
+[09:26:54] [ 1] [ INFO] [TestLibrary.App] [OnExit(54)] - Application OnExit (6298) 
+[Footer]
+
