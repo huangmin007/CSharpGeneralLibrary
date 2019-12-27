@@ -86,33 +86,30 @@ namespace TestLibrary
             Console.WriteLine();
 
             int index;
-            int[] indexs;
+            int[] indexs = new int[1];
 
-            string str = "广，东省深圳深圳深深圳圳temp市福田,区深圳街，hello";
+            string str = "广，东省深圳深圳深深圳圳temp市福田,区深圳圳街，hello";
             string t = "深圳圳";
-
-            SpaceCG.General.BoyerMoore boyer = new SpaceCG.General.BoyerMoore(ref t);
+            
+            SpaceCG.General.BoyerMoore boyer = new SpaceCG.General.BoyerMoore(ref t, 0xFFFF);
             index = boyer.Search(ref str);
             //int c = boyer.SearchAt(ref str, 1);
             indexs = boyer.SearchAll(ref str);
             Console.WriteLine(">>>> {0} {1} {2}", index, "-", string.Join(",,", indexs));
-
-            byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x04, 0x05, 0x04, 0x02, 0x01, 0x04, 0x05, 0x04, 0x03};
-            byte[] s = new byte[] { 0x04, 0x05, 0x04};
+            
+            byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x04, 0x05, 0x04, 0x02, 0x01, 0x04, 0x04, 0x05, 0x04, 0x03};
+            byte[] s = new byte[] { 0x04, 0x04, 0x05, 0x04};
 
 
             index = SpaceCG.General.BoyerMoore.Search(data, s);
-            indexs = (int[])SpaceCG.General.BoyerMoore.SearchAll(ref str, ref t);
+            indexs = SpaceCG.General.BoyerMoore.SearchAll(ref str, ref t, 0xFFFF);
             Console.WriteLine(">>>>> {0} {1}", index, string.Join(",,", indexs));
 
-            SpaceCG.General.BoyerMoore<byte> tBoyer = new SpaceCG.General.BoyerMoore<byte>();
-            //SpaceCG.General.BoyerMoore<TF> tff2 = new SpaceCG.General.BoyerMoore<TF>();
-            tBoyer.ResetPattern(s);
-            index = tBoyer.Search(data);
-            indexs = tBoyer.SearchAll(data);
-            Console.WriteLine(">>>>>T::{0} {1}", index, string.Join(",,", indexs));
-
-            //SpaceCG.General.BoyerMoore<int>.Search(ref str, ref s);
+            //SpaceCG.General.BoyerMoore<byte> tBoyer = new SpaceCG.General.BoyerMoore<byte>();
+            //tBoyer.ResetPattern(s);
+            //index = tBoyer.Search(data);
+            //indexs = tBoyer.SearchAll(data);
+            //Console.WriteLine(">>>>>T::{0} {1}", index, string.Join(",,", indexs));
 
 
 

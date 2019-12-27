@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceCG.General
 {
     /// <summary>
     /// Boyer-Moore 算法实现。该算法查找原始 单字节(Max 0xFF)集合 效率非常非常高；如果匹配的 pattern 集合长度为 1 或很少，也不建议使用该方法
     /// <para>字符匹配查找：类搜索方法 (Search*) 使用的是数组，类静态搜索方法 (BoyerMoore.Search*) 参数 tSize 大于 0xFF 时使用字典，小于 0xFF 时使用数组</para>
-    /// <para>为了提高性能，字符参数使用 ref 引用类型减少数据拷贝，函数参数 tSize, start, end 等参数，都是为了提升查找性能，设计的限制参数</para>
-    /// <para>静态查找函数会检查参数类型并抛出异常，不生成使用好后缀表，只使用坏字符表。
-    ///     但类查找函数会检查参数，但不会抛出异常，只会返回有或无，适合在 for, while, 等循环体或重复搜索对性能要求较高的环境</para>
+    /// <para>类查找函数会检查参数，但不会抛出异常，只会返回有或无，适合在 for, while, 等循环体或重复搜索 对性能要求较高的环境中使用；
+    ///     静态查找函数会检查参数类型并抛出异常，不生成使用好后缀表，只使用坏字符表。
+    /// </para>
     /// <para>参考：https://baike.baidu.com/item/Boyer-%20Moore%E7%AE%97%E6%B3%95/16548374?fr=aladdin </para>
     /// <para>参考：https://www.cnblogs.com/gaochundong/p/boyer_moore_string_matching_algorithm.html </para>
     /// </summary>
@@ -30,7 +24,6 @@ namespace SpaceCG.General
         /// 能过 <see cref="GetBadCharacterShift(IReadOnlyList{byte})"/> 生成的 坏字符表 (Bad Character Heuristic)
         /// </summary>
         private int[] badTable;
-
         /// <summary>
         /// 通过 <see cref="GetGoodSuffixShift{T}(IReadOnlyList{T})"/> 生成的 好后缀表 (Good Suffix Heuristic)
         /// </summary>
@@ -40,7 +33,6 @@ namespace SpaceCG.General
         /// 需要匹配的字符数据
         /// </summary>
         private string patternChars;
-
         /// <summary>
         /// 需要匹配的字节数据
         /// </summary>
@@ -81,8 +73,30 @@ namespace SpaceCG.General
         {
             ResetPattern(ref pattern, tSize);
         }
-        #endregion
+        ~BoyerMoore()
+        {
+            ClearParams();
+        }
 
+        /// <summary>
+        /// 清理一些变量和数组
+        /// </summary>
+        private void ClearParams()
+        {
+            if (badTable != null)
+                Array.Clear(badTable, 0, badTable.Length);
+            if (goodTable != null)
+                Array.Clear(goodTable, 0, goodTable.Length);
+
+            badTable = null;
+            goodTable = null;
+
+            PatternLength = -1;
+
+            patternChars = null;
+            patternBytes = null;
+        }
+        #endregion
 
         #region Public Functions ResetPattern
         /// <summary>
@@ -92,28 +106,28 @@ namespace SpaceCG.General
         /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
         ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
         /// </param>
+        /// <exception cref="ArgumentException"></exception>
         public void ResetPattern(ref string pattern, uint tSize = 0xFF)
         {
             if (pattern == null || pattern.Length < 1)
                 throw new ArgumentNullException("参数 pattern 不能空，长度不能小于 1 ");
 
-            if (badTable != null)
-            {
-                Array.Clear(badTable, 0, badTable.Length);
-                badTable = null;
-            }
-            if (goodTable != null)
-            {
-                Array.Clear(goodTable, 0, goodTable.Length);
-                goodTable = null;
-            }
+            ClearParams();
 
             this.patternBytes = null;
             this.patternChars = pattern;
             this.PatternLength = this.patternChars.Length;
 
-            this.badTable = GetBadCharacterShift(ref pattern, tSize);
-            this.goodTable = GetGoodSuffixShift(ref pattern);
+            try
+            {
+                this.badTable = GetBadCharacterShift(ref pattern, tSize);
+                this.goodTable = GetGoodSuffixShift(ref pattern);
+            }
+            catch (Exception ex)
+            {
+                ClearParams();
+                throw new ArgumentException($" {nameof(tSize)} 参数错误，创建 (坏字符 Bad Character Heuristic) 表失败，查找的数据内容与表大小不匹配", ex);
+            }
         }
         /// <summary>
         /// 设置需要匹配数据
@@ -124,16 +138,7 @@ namespace SpaceCG.General
             if (pattern == null || pattern.Count < 1)
                 throw new ArgumentNullException("参数 pattern 不能空，长度不能小于 1 ");
 
-            if (badTable != null)
-            {
-                Array.Clear(badTable, 0, badTable.Length);
-                badTable = null;
-            }
-            if (goodTable != null)
-            {
-                Array.Clear(goodTable, 0, goodTable.Length);
-                goodTable = null;
-            }
+            ClearParams();
 
             this.patternChars = null;
             this.patternBytes = pattern;
@@ -165,6 +170,8 @@ namespace SpaceCG.General
 
             while (index <= maxCompareCount)
             {
+                //DebugTrace(ref source, ref patternChars, index);
+
                 i = lastPatternPosition;
                 while (i >= 0 && patternChars[i] == source[index + i]) i--;
 
@@ -195,10 +202,12 @@ namespace SpaceCG.General
 
             while (index <= maxCompareCount)
             {
+                //DebugTrace<byte>(source, patternBytes, index);
+
                 i = lastPatternPosition;
                 while (i >= 0 && patternBytes[i] == source[index + i]) i--;
 
-                if (i <= 0) return index;
+                if (i < 0) return index;
                 index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
 
                 if (index > end) break;
@@ -272,30 +281,19 @@ namespace SpaceCG.General
         /// <returns> 返回 空集合 表示没匹配到 </returns>
         public int[] SearchAll(ref string source, int start = 0, int end = int.MaxValue)
         {
-            if (patternChars == null || source == null || source.Length < PatternLength) return new int[0];
-            if (start < 0 || end < 0 || end <= start || end < patternChars.Length || end - start < patternChars.Length) return new int[0];
+            int index = start;
+            List<int> indexs = new List<int>(Math.Min(source.Length / patternChars.Length, BoyerMoore.CAPACITY));
 
-            int i, index = start;
-            int maxCompareCount = source.Length - PatternLength;  //最多可比较的次数
-            List<int> indexs = new List<int>(Math.Min(source.Length / patternChars.Length, CAPACITY));
-
-            while (index <= maxCompareCount)
+            do
             {
-                i = PatternLength - 1;
-                while (i >= 0 && patternChars[i] == source[index + i]) i--;
-
-                if (i < 0)
+                index = Search(ref source, index, end);
+                if (index != -1)
                 {
                     indexs.Add(index);
-                    index += PatternLength; //goodTable[0];
+                    index += patternChars.Length;
                 }
-                else
-                {
-                    index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
-                }
-
-                if (index > end) break;
             }
+            while (index > 0);
 
             return indexs.ToArray();
         }
@@ -309,38 +307,38 @@ namespace SpaceCG.General
         /// <returns> 返回 空集合 表示没匹配到 </returns>
         public int[] SearchAll(IReadOnlyList<byte> source, int start = 0, int end = int.MaxValue)
         {
-            if (patternBytes == null || source == null || source.Count < PatternLength) return new int[0];
-            if (start < 0 || end < 0 || end <= start || end < patternBytes.Count || end - start < patternBytes.Count) return new int[0];
+            int index = start;
+            List<int> indexs = new List<int>(Math.Min(source.Count / patternBytes.Count, BoyerMoore.CAPACITY));
 
-            int i, index = start;
-            int maxCompareCount = source.Count - PatternLength;
-            List<int> indexs = new List<int>(Math.Min(source.Count / patternBytes.Count, CAPACITY));
-
-            while (index <= maxCompareCount)
+            do
             {
-                i = PatternLength - 1;
-                while (i >= 0 && patternBytes[i] == source[index + i]) i--;
-
-                if (i < 0)
+                index = Search(source, index, end);
+                if (index != -1)
                 {
                     indexs.Add(index);
-                    index += PatternLength; //goodTable[0];
+                    index += patternBytes.Count;
                 }
-                else
-                {
-                    index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
-                }
-
-                if (index > end) break;
             }
+            while (index > 0);
 
             return indexs.ToArray();
         }
         #endregion
 
 
-
         #region Internal Debug Trace
+        /// <summary>
+        /// 调试输出匹配过程
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="pattern"></param>
+        /// <param name="index"></param>
+        internal static void DebugTrace(ref string source, ref string pattern, int index)
+        {
+            Console.WriteLine("-------------------------> {0}", index);
+            Console.WriteLine("{0}", string.Join("", source));
+            Console.WriteLine("{0}", string.Join("", pattern).PadLeft(index + pattern.Length, '-'));
+        }
         /// <summary>
         /// 调试输出匹配过程
         /// </summary>
@@ -374,7 +372,7 @@ namespace SpaceCG.General
                 badTable[i] = pattern.Length;
 
             for (i = 0; i < pattern.Length; i++)
-                badTable[pattern[i]] = pattern.Length - 1 - i;
+                badTable[pattern[i]] = pattern.Length - i - 1;
 
             return badTable;
         }
@@ -392,7 +390,7 @@ namespace SpaceCG.General
                 badTable[i] = pattern.Count;
 
             for (i = 0; i < pattern.Count; i++)
-                badTable[pattern[i]] = pattern.Count - 1 - i;
+                badTable[pattern[i]] = pattern.Count - i - 1;
 
             return badTable;
         }
@@ -525,6 +523,7 @@ namespace SpaceCG.General
             return goodSuffixShifts;
         }
         #endregion
+
 
 
 
@@ -773,10 +772,10 @@ namespace SpaceCG.General
 
     /// <summary>
     /// Boyer-Moore 算法实现，<see cref="BoyerMoore"/> 的泛型版本，泛型版本使用的是字典作为 好字符 表，而不是使用数组
-    /// <para>适合 集合数据 与 集合数据 的查找，在 source 集合中查找 pattern 集合相同位置和相同数据的索引 </para>
+    /// <para>适合 集合数据 与 集合数据 的查找，在 source 集合中查找 pattern 集合相同位置、相同数据的索引；与 <see cref="BoyerMoore"/> 类一样 Search*() 方法不会抛出异常信息，只会返回结果</para>
     /// <para>集合数据的对比 是使用 <see cref="object.Equals(object)"/> 的方法，所以自定义基数据类型(比如自定义结构数据类型)，需要实现应该方法</para>
     /// </summary>
-    /// <typeparam name="T">基本数据类型，基类型占用字节大小最好不要超过 2 个字节</typeparam>
+    /// <typeparam name="T">基本数据类型，自定义基数据类型(比如自定义结构数据类型)，需要实现 <see cref="object.Equals(object)"/> 方法</typeparam>
     public sealed class BoyerMoore<T> where T : struct
     {
         /// <summary>
@@ -792,33 +791,36 @@ namespace SpaceCG.General
         /// <summary>
         /// 通过 <see cref="BoyerMoore.GetBadCharacterShift{T}(IReadOnlyList{T})"/> 生成的 坏字符表 (Bad Character Heuristic)
         /// </summary>
-        public Dictionary<T, int> badTable;
+        private Dictionary<T, int> badTable;
 
         /// <summary>
         /// 通过 <see cref="BoyerMoore.GetGoodSuffixShift{T}(IReadOnlyList{T})"/> 生成的 好后缀表 (Good Suffix Heuristic)
         /// </summary>
         private int[] goodTable;
 
-#if sc_t
-        /// <summary>
-        /// 基类型占用字节大小
-        /// </summary>
-        public static readonly int TypeSize = 1;
-
-        static BoyerMoore()
-        {
-            TypeSize = Marshal.SizeOf(typeof(T));
-
-            if (TypeSize > 4)
-                throw new Exception($"暂时只支持 32 位基类型数据处理");
-        }
-#endif
-
         /// <summary>
         /// BoyerMoore 泛型版本
         /// </summary>
         public BoyerMoore()
         { 
+        }
+        ~BoyerMoore()
+        {
+            ClearParams();
+        }
+        /// <summary>
+        /// 清理参数
+        /// </summary>
+        private void ClearParams()
+        {
+            if (badTable != null) badTable.Clear();
+            if (goodTable != null) Array.Clear(goodTable, 0, goodTable.Length);
+
+            badTable = null;
+            goodTable = null;
+
+            pattern = null;
+            PatternLength = -1;
         }
 
         /// <summary>
@@ -838,17 +840,7 @@ namespace SpaceCG.General
             if(pattern == null || pattern.Count <= 0)
                 throw new ArgumentNullException(nameof(pattern), "参数不能空，或需要匹配的数据不能太小");
 
-            if (badTable != null)
-            {
-                badTable.Clear();
-                badTable = null;
-            }
-            if(goodTable != null)
-            {
-                Array.Clear(goodTable, 0, goodTable.Length);
-                goodTable = null;
-            }
-            if (this.pattern != null) this.pattern = null;
+            ClearParams();
 
             this.pattern = pattern;
             PatternLength = pattern.Count;
@@ -875,7 +867,7 @@ namespace SpaceCG.General
 
             while (index <= maxCompareCount)
             {
-                BoyerMoore.DebugTrace<T>(source, pattern, index);
+                //BoyerMoore.DebugTrace<T>(source, pattern, index);
 
                 i = lastPatternPosition;
                 while (i >= 0 && pattern[i].Equals(source[index + i])) i--;
@@ -944,41 +936,6 @@ namespace SpaceCG.General
             while (index > 0);
 
             return indexs.ToArray();
-
-
-            /*
-            if (pattern == null || source == null || source.Count < PatternLength) return new int[0];
-            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count) return new int[0];
-
-            bool hasValue;
-            int i, value, index = start;
-            int lastPatternPosition = PatternLength - 1;
-            int maxCompareCount = source.Count - PatternLength;
-            List<int> indexs = new List<int>(Math.Min(source.Count / pattern.Count, BoyerMoore.CAPACITY));
-
-            while (index <= maxCompareCount)
-            {
-                //BoyerMoore.DebugTrace<T>(source, pattern, index);
-
-                i = lastPatternPosition;
-                while (i >= 0 && pattern[i].Equals(source[index + i])) i--;
-
-                if (i < 0)
-                {
-                    indexs.Add(index);
-                    index += PatternLength;
-                }
-                else
-                {
-                    hasValue = badTable.TryGetValue(source[index + i], out value);
-                    index += Math.Max(hasValue ? value - PatternLength + i + 1 : i + 1, goodTable[i]);// 1);
-                }
-
-                if (index > end) break;
-            }
-
-            return indexs.ToArray();
-            */
         }
 
     }

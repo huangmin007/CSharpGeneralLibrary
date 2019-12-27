@@ -7,7 +7,7 @@ namespace SpaceCG.General
     /// <para>按固定大小的字节数据做为一个数据包分析，无头无尾，按字节大小封包转换</para>
     /// </summary>
     /// <typeparam name="TChannelType">通道键类型</typeparam>
-    /// <typeparam name="TResultType">返回的数据结果类型</typeparam>
+    /// <typeparam name="TResultType">数据结果封装类型</typeparam>
     public abstract class FixedSizeDataAnalyseAdapter<TChannelType, TResultType>:AbstractDataAnalyseAdapter<TChannelType, TResultType>
     {
         /// <summary>
@@ -22,7 +22,7 @@ namespace SpaceCG.General
         /// <exception cref="ArgumentException"> 参数错误，数据包不得小于 1 </exception>
         protected FixedSizeDataAnalyseAdapter(int packetSize)
         {
-            if (packetSize < 1) throw new ArgumentException("参数 packetSize 不得小于 1");
+            if (packetSize < 1) throw new ArgumentException($"参数 {nameof(packetSize)} 不得小于 1");
             this.packetSize = packetSize;
         }
 
@@ -31,6 +31,7 @@ namespace SpaceCG.General
         {
             Channel<TChannelType> channel = GetChannel(key);
             if (channel == null) return false;
+
             if (channel.MaxSize < packetSize)
                 throw new ArgumentException("参数异常：通道缓存大小 小于 数据包大小");
 
@@ -68,7 +69,7 @@ namespace SpaceCG.General
         }
 
         /// <inheritdoc/>
-        protected virtual TResultType ParseResultType(byte[] packet)
+        protected override TResultType ParseResultType(params byte[][] blocks)
         {
             return default;
         }

@@ -541,12 +541,11 @@
         </member>
         <member name="T:SpaceCG.General.BoyerMoore">
             <summary>
-            Boyer-Moore 算法实现。问题：多字节查找是否可以不生成坏字符表，直接 while 循环中查找 pattern 的位置，两种方式哪种效率更高呢？？
-            <para>该算法查找原始 单字节集合 效率非常高(如果匹配的 pattern集合 长度为 1 或很少，也不建议使用该方法)，但 按该算法查找 双字节字符(比如中文字符) 效率就怎么样了</para>
-            <para>当 isSingleByteOnly 为 false 时使用双字节字符查找，双字节字符查找生成的坏字符表占 0xFFFF + 1 长度(哎，太大了，占用字节大小 = sizeof(int) * (0xFFFF + 1))，
-                所以啊，双字节查找适合大量数据的查找才能发挥该算法的优势，否则不建议使用应该算法查找双字节字符 </para>
-            <para>为了提高性能，字符参数使用 ref 引用类型减少数据拷贝，函数参数 isSingleByteOnly, start, end 都是为了提升查找性能，设计的限制参数</para>
-            <para>静态查找函数，会检查参数，但不会抛出异常，只会返回有或无，也是为了提升性能</para>
+            Boyer-Moore 算法实现。该算法查找原始 单字节(Max 0xFF)集合 效率非常非常高；如果匹配的 pattern 集合长度为 1 或很少，也不建议使用该方法
+            <para>字符匹配查找：类搜索方法 (Search*) 使用的是数组，类静态搜索方法 (BoyerMoore.Search*) 参数 tSize 大于 0xFF 时使用字典，小于 0xFF 时使用数组</para>
+            <para>为了提高性能，字符参数使用 ref 引用类型减少数据拷贝，函数参数 tSize, start, end 等参数，都是为了提升查找性能，设计的限制参数</para>
+            <para>静态查找函数会检查参数类型并抛出异常，不生成使用好后缀表，只使用坏字符表。
+                但类查找函数会检查参数，但不会抛出异常，只会返回有或无，适合在 for, while, 等循环体或重复搜索对性能要求较高的环境</para>
             <para>参考：https://baike.baidu.com/item/Boyer-%20Moore%E7%AE%97%E6%B3%95/16548374?fr=aladdin </para>
             <para>参考：https://www.cnblogs.com/gaochundong/p/boyer_moore_string_matching_algorithm.html </para>
             </summary>
@@ -563,7 +562,7 @@
         </member>
         <member name="F:SpaceCG.General.BoyerMoore.goodTable">
             <summary>
-            通过 <see cref="M:SpaceCG.General.BoyerMoore.GetGoodSuffixShift(System.Collections.Generic.IReadOnlyList{System.Byte})"/> 生成的 好后缀表 (Good Suffix Heuristic)
+            通过 <see cref="M:SpaceCG.General.BoyerMoore.GetGoodSuffixShift``1(System.Collections.Generic.IReadOnlyList{``0})"/> 生成的 好后缀表 (Good Suffix Heuristic)
             </summary>
         </member>
         <member name="F:SpaceCG.General.BoyerMoore.patternChars">
@@ -594,20 +593,30 @@
             </summary>
             <param name="pattern">需要匹配的数据</param>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore.#ctor(System.String@,System.Boolean)">
+        <member name="M:SpaceCG.General.BoyerMoore.#ctor(System.String@,System.UInt32)">
             <summary>
             Boyer-Moore (BM) 匹配查找算法
             <para>适合大量数据匹配查找，数据量越大，效率越高</para>
             </summary>
             <param name="pattern">需要匹配的数据</param>
-            <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
+            <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+                <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+            </param>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore.ResetPattern(System.String@,System.Boolean)">
+        <member name="M:SpaceCG.General.BoyerMoore.ClearParams">
+            <summary>
+            清理一些变量和数组
+            </summary>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore.ResetPattern(System.String@,System.UInt32)">
             <summary>
             设置需要匹配数据
             </summary>
             <param name="pattern"></param>
-            <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
+            <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+                <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+            </param>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.ResetPattern(System.Collections.Generic.IReadOnlyList{System.Byte})">
             <summary>
@@ -617,28 +626,22 @@
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.Search(System.String@,System.Int32,System.Int32)">
             <summary>
-            在 source 中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示在 source 中没匹配到
-            <para>Boyer-Moore 算法实现，与静态方法 <see cref="M:SpaceCG.General.BoyerMoore.Search(System.String@,System.String@,System.Boolean,System.Int32,System.Int32)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
+            在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到
+            <para>Boyer-Moore 算法实现，与静态方法 <see cref="M:SpaceCG.General.BoyerMoore.Search(System.String@,System.String@,System.UInt32,System.Int32,System.Int32)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
             </summary>
             <param name="source">数据源</param>
             <param name="start">从 source 指定的起始位置开始匹配查找</param>
             <param name="end">到 source 指定的结束位置停止匹配查找</param>
-            <exception cref="T:System.InvalidOperationException">未设置需要匹配的数据</exception>
-            <exception cref="T:System.ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 -1 表示没匹配到 </returns>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.Search(System.Collections.Generic.IReadOnlyList{System.Byte},System.Int32,System.Int32)">
             <summary>
-            在 source 中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示在 source 中没匹配到
+            在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到
             <para>Boyer-Moore 算法实现，与静态方法 <see cref="M:SpaceCG.General.BoyerMoore.Search(System.Collections.Generic.IReadOnlyList{System.Byte},System.Collections.Generic.IReadOnlyList{System.Byte},System.Int32,System.Int32)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
             </summary>
             <param name="source">数据源</param>
             <param name="start">从 source 指定的起始位置开始匹配查找</param>
             <param name="end">到 source 指定的结束位置停止匹配查找</param>
-            <exception cref="T:System.InvalidOperationException">未设置需要匹配的数据</exception>
-            <exception cref="T:System.ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 -1 表示没匹配到 </returns>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.SearchAt(System.String@,System.Int32,System.Int32,System.Int32)">
@@ -666,14 +669,11 @@
         <member name="M:SpaceCG.General.BoyerMoore.SearchAll(System.String@,System.Int32,System.Int32)">
             <summary>
             在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到
-            <para>Boyer-Moore 算法实现，与静态方法 <see cref="M:SpaceCG.General.BoyerMoore.SearchAll(System.String@,System.String@,System.Boolean,System.Int32,System.Int32)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
+            <para>Boyer-Moore 算法实现，与静态方法 <see cref="M:SpaceCG.General.BoyerMoore.SearchAll(System.String@,System.String@,System.UInt32,System.Int32,System.Int32)"/> 不一样，该方法同时生成并使用了 坏字符（Bad Character Heuristic） 和 好后缀（Good Suffix Heuristic）表</para>
             </summary>
             <param name="source">数据源</param>
             <param name="start">从 source 指定的起始位置开始匹配查找</param>
             <param name="end">到 source 指定的结束位置停止匹配查找</param>
-            <exception cref="T:System.InvalidOperationException">未设置需要匹配的数据</exception>
-            <exception cref="T:System.ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 空集合 表示没匹配到 </returns>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.SearchAll(System.Collections.Generic.IReadOnlyList{System.Byte},System.Int32,System.Int32)">
@@ -684,9 +684,6 @@
             <param name="source">数据源</param>
             <param name="start">从 source 指定的起始位置开始匹配查找</param>
             <param name="end">到 source 指定的结束位置停止匹配查找</param>
-            <exception cref="T:System.InvalidOperationException">未设置需要匹配的数据</exception>
-            <exception cref="T:System.ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 空集合 表示没匹配到 </returns>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.DebugTrace``1(System.Collections.Generic.IReadOnlyList{``0},System.Collections.Generic.IReadOnlyList{``0},System.Int32)">
@@ -698,12 +695,14 @@
             <param name="pattern"></param>
             <param name="index"></param>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift(System.String@,System.Boolean)">
+        <member name="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift(System.String@,System.UInt32)">
             <summary>
             获取无效数据标记表 (坏字符 Bad Character Heuristic)
             </summary>
             <param name="pattern">需要匹配的数据内容</param>
-            <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
+            <param name="size">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+                <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+            </param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift(System.Collections.Generic.IReadOnlyList{System.Byte})">
@@ -717,7 +716,7 @@
             <summary>
             获取无效数据标记表 (坏字符 Bad Character Heuristic)，返回的是字典类型数据
             </summary>
-            <typeparam name="TKey">键类型</typeparam>
+            <typeparam name="T">键类型</typeparam>
             <param name="pattern"></param>
             <returns></returns>
         </member>
@@ -727,28 +726,32 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore.GetGoodSuffixShift(System.Collections.Generic.IReadOnlyList{System.Byte})">
+        <member name="M:SpaceCG.General.BoyerMoore.GetGoodSuffixShift``1(System.Collections.Generic.IReadOnlyList{``0})">
             <summary>
             获取有效数据标记表 (好后缀 Good Suffix Heuristic)
             </summary>
             <returns></returns>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore.Search(System.String@,System.String@,System.Boolean,System.Int32,System.Int32)">
+        <member name="M:SpaceCG.General.BoyerMoore.Search(System.String@,System.String@,System.UInt32,System.Int32,System.Int32)">
             <summary>
-            在 source 中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示在 source 中没匹配到
+            在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到；tSize 大于 0xFF 时会使用字典做为表
             <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
             <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回 -1, 而不抛出异常信息。</para>
             </summary>
             <param name="source">数据源</param>
             <param name="pattern">需要匹配的数据</param>
-            <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
+            <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+                <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+            </param>
             <param name="start">从 source 指定的起始位置开始匹配查找</param>
             <param name="end">到 source 指定的结束位置停止匹配查找</param>
+            <exception cref="T:System.ArgumentNullException">空参数错误</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 -1 表示没匹配到 </returns>        
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.Search(System.Collections.Generic.IReadOnlyList{System.Byte},System.Collections.Generic.IReadOnlyList{System.Byte},System.Int32,System.Int32)">
             <summary>
-            在 source 中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示在 source 中没匹配到
+            在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到
             <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
             <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回 -1, 而不抛出异常信息。</para>
             </summary>
@@ -756,19 +759,25 @@
             <param name="pattern">需要匹配的数据</param>
             <param name="start">从 source 指定的起始位置开始匹配查找</param>
             <param name="end">到 source 指定的结束位置停止匹配查找</param>
+            <exception cref="T:System.ArgumentNullException">空参数错误</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 -1 表示没匹配到 </returns>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore.SearchAll(System.String@,System.String@,System.Boolean,System.Int32,System.Int32)">
+        <member name="M:SpaceCG.General.BoyerMoore.SearchAll(System.String@,System.String@,System.UInt32,System.Int32,System.Int32)">
             <summary>
-            在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到
+            在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到；tSize 大于 0xFF 时会使用字典做为表
             <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
             <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回空集合, 而不抛出异常信息。</para>
             </summary>
             <param name="source">数据源</param>
             <param name="pattern">需要匹配的数据</param>
-            <param name="isSingleByteOnly">需要匹配查找的数据，是否只是单字节字符</param>
+            <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+                <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+            </param>
             <param name="start">从 source 指定的起始位置开始匹配查找</param>
             <param name="end">到 source 指定的结束位置停止匹配查找</param>
+            <exception cref="T:System.ArgumentNullException">空参数错误</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 空集合 表示没匹配到 </returns>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.SearchAll(System.Collections.Generic.IReadOnlyList{System.Byte},System.Collections.Generic.IReadOnlyList{System.Byte},System.Int32,System.Int32)">
@@ -781,18 +790,17 @@
             <param name="pattern">需要匹配的数据</param>
             <param name="start">从 source 指定的起始位置开始匹配查找</param>
             <param name="end">到 source 指定的结束位置停止匹配查找</param>
+            <exception cref="T:System.ArgumentNullException">空参数错误</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 空集合 表示没匹配到 </returns>
         </member>
         <member name="T:SpaceCG.General.BoyerMoore`1">
             <summary>
-            <see cref="T:SpaceCG.General.BoyerMoore"/> 的泛型版本，性能？？？不好说，内部做了太多数据转换，好像有问题，在设计阶段就发现了
+            Boyer-Moore 算法实现，<see cref="T:SpaceCG.General.BoyerMoore"/> 的泛型版本，泛型版本使用的是字典作为 好字符 表，而不是使用数组
+            <para>适合 集合数据 与 集合数据 的查找，在 source 集合中查找 pattern 集合相同位置和相同数据的索引 </para>
+            <para>集合数据的对比 是使用 <see cref="M:System.Object.Equals(System.Object)"/> 的方法，所以自定义基数据类型(比如自定义结构数据类型)，需要实现应该方法</para>
             </summary>
             <typeparam name="T">基本数据类型，基类型占用字节大小最好不要超过 2 个字节</typeparam>
-        </member>
-        <member name="F:SpaceCG.General.BoyerMoore`1.TypeSize">
-            <summary>
-            基类型占用字节大小
-            </summary>
         </member>
         <member name="P:SpaceCG.General.BoyerMoore`1.PatternLength">
             <summary>
@@ -804,15 +812,63 @@
             需要匹配的数据
             </summary>
         </member>
-        <member name="F:SpaceCG.General.BoyerMoore`1.badOffsetTable">
+        <member name="F:SpaceCG.General.BoyerMoore`1.badTable">
             <summary>
-            badTable
+            通过 <see cref="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift``1(System.Collections.Generic.IReadOnlyList{``0})"/> 生成的 坏字符表 (Bad Character Heuristic)
             </summary>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore`1.StructToBytes(`0,System.Int32)">
+        <member name="F:SpaceCG.General.BoyerMoore`1.goodTable">
             <summary>
-            将struct类型转换为byte[]
+            通过 <see cref="M:SpaceCG.General.BoyerMoore.GetGoodSuffixShift``1(System.Collections.Generic.IReadOnlyList{``0})"/> 生成的 好后缀表 (Good Suffix Heuristic)
             </summary>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore`1.#ctor">
+            <summary>
+            BoyerMoore 泛型版本
+            </summary>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore`1.#ctor(System.Collections.Generic.IReadOnlyList{`0})">
+            <summary>
+            BoyerMoore 泛型版本
+            </summary>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore`1.ResetPattern(System.Collections.Generic.IReadOnlyList{`0})">
+            <summary>
+            设置需要匹配数据
+            </summary>
+            <param name="pattern"></param>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore`1.Search(System.Collections.Generic.IReadOnlyList{`0},System.Int32,System.Int32)">
+            <summary>
+            在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到
+            </summary>
+            <param name="source">数据源</param>
+            <param name="start">从 source 指定的起始位置开始匹配查找</param>
+            <param name="end">到 source 指定的结束位置停止匹配查找</param>
+            <returns> 返回 -1 表示没匹配到 </returns>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore`1.SearchAt(System.Collections.Generic.IReadOnlyList{`0},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            查找第 rCount 次匹配到的位置索引，如果第 rCount 次的匹配不存在，则返回 -1 
+            <para> 相当于 <see cref="M:SpaceCG.General.BoyerMoore`1.SearchAll(System.Collections.Generic.IReadOnlyList{`0},System.Int32,System.Int32)"/>[rCount - 1]，但不做全面查找；如果 rCount = 1 则与 <see cref="M:SpaceCG.General.BoyerMoore`1.Search(System.Collections.Generic.IReadOnlyList{`0},System.Int32,System.Int32)"/> 相同 </para>
+            </summary>
+            <param name="source">数据源</param>
+            <param name="rCount">匹配到第 rCount 次后结束</param>
+            <param name="start">从 source 指定的起始位置开始匹配查找</param>
+            <param name="end">到 source 指定的结束位置停止匹配查找</param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore`1.SearchAll(System.Collections.Generic.IReadOnlyList{`0},System.Int32,System.Int32)">
+            <summary>
+            在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到
+            </summary>
+            <param name="source">数据源</param>
+            <param name="start">从 source 指定的起始位置开始匹配查找</param>
+            <param name="end">到 source 指定的结束位置停止匹配查找</param>
+            <exception cref="T:System.InvalidOperationException">未设置需要匹配的数据</exception>
+            <exception cref="T:System.ArgumentNullException">数据源不能为空，长度不得小于需要匹配数据长度</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
+            <returns> 返回 空集合 表示没匹配到 </returns>
         </member>
         <member name="T:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2">
             <summary>

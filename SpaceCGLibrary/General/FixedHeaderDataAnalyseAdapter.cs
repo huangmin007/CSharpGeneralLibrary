@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceCG.General
 {
@@ -11,7 +7,7 @@ namespace SpaceCG.General
     /// <para>跟据读取的包头(固定字节大小)内容，获取包体大小</para>
     /// </summary>
     /// <typeparam name="TChannelType">通道键类型</typeparam>
-    /// <typeparam name="TResultType">返回的数据结果类型</typeparam>
+    /// <typeparam name="TResultType">数据结果封装类型</typeparam>
     public abstract class FixedHeaderDataAnalyseAdapter<TChannelType, TResultType> : AbstractDataAnalyseAdapter<TChannelType, TResultType>
     {
         /// <summary>
@@ -38,7 +34,7 @@ namespace SpaceCG.General
             this.headerSize = headerSize;
             this.maxPacketSize = maxPacketSize;
         }
-
+        
         /// <inheritdoc/>
         public override bool AnalyseChannel(TChannelType key, byte[] data, AnalyseResultHandler<TChannelType, TResultType> analyseResult)
         {
@@ -115,13 +111,8 @@ namespace SpaceCG.General
             return 0;
         }
 
-        /// <summary>
-        /// 解析封装数据类型
-        /// </summary>
-        /// <param name="header">包头</param>
-        /// <param name="body">源数据包体</param>
-        /// <returns>需子类根据包体 data 自己解析对象并返回</returns>
-        protected virtual TResultType ParseResultType(byte[] header, byte[] body)
+        /// <inheritdoc />
+        protected override TResultType ParseResultType(params byte[][] blocks)
         {
             return default;
         }

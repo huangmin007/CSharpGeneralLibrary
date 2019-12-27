@@ -80,7 +80,6 @@
     <Compile Include="General\BoyerMoore.cs" />
     <Compile Include="General\FixedHeaderDataAnalyseAdapter.cs" />
     <Compile Include="General\FixedSizeDataAnalyseAdapter.cs" />
-    <Compile Include="General\IDataAnalyseAdapter.cs" />
     <Compile Include="General\TerminatorDataAnalyseAdapter.cs" />
     <Compile Include="Log4Net\ListBoxAppender.cs" />
     <Compile Include="Log4Net\Log4NetUtils.cs" />
@@ -100,6 +99,7 @@
     <Compile Include="WindowsAPI\WinUser\WinUserUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="General\README.md" />
     <None Include="Log4Net.Config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

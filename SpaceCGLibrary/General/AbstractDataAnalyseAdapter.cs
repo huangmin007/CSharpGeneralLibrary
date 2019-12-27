@@ -5,14 +5,15 @@ using System.Linq;
 
 namespace SpaceCG.General
 {
+
     /// <summary>
-    /// 数据分析通道
+    /// 数据通道对象
     /// </summary>
     /// <typeparam name="TChannelType"></typeparam>
     public class Channel<TChannelType>
     {
         /// <summary>
-        /// 数据通道键类型，通道唯一标识
+        /// 通道的唯一标识键
         /// </summary>
         internal TChannelType Key;
         /// <summary>
@@ -30,149 +31,137 @@ namespace SpaceCG.General
     }
 
     /// <summary>
-    /// 抽象多通道数据分析适配器(支持多线程)
+    /// 数据分析产生结果时调用的代理函数
+    /// <para>返回结果如果 true 表示清除这部份的缓存数据，否则会存储在缓存中，直到缓存大小超出 最大缓存 才会被移除</para>
     /// </summary>
     /// <typeparam name="TChannelType">通道键类型</typeparam>
-    /// <typeparam name="TResultType">返回的数据结果类型</typeparam>
-    public abstract class AbstractDataAnalyseAdapter<TChannelType, TResultType> : IDataAnalyseAdapter<TChannelType, TResultType>
+    /// <typeparam name="TResultType">数据结果类型</typeparam>
+    /// <param name="key">通道的唯一标识键</param>
+    /// <param name="result">分析产生的数据结果</param>
+    /// <returns> 返回结果如果 true 表示清除这部份的缓存数据，否则会存储在缓存中，直到缓存大小超出 最大缓存 才会被移除 </returns>
+    public delegate bool AnalyseResultHandler<in TChannelType, in TResultType>(TChannelType key, TResultType result);
+
+    /// <summary>
+    /// 抽象类，多通道数据分析适配器(支持多线程)
+    /// <para>该类为抽象类，需继承实现 <see cref="AnalyseChannel(TChannelType, byte[], AnalyseResultHandler{TChannelType, TResultType})"/>, <see cref="ParseResultType(byte[][])"/> 函数</para>
+    /// </summary>
+    /// <typeparam name="TChannelType">通道键类型</typeparam>
+    /// <typeparam name="TResultType">数据结果封装类型</typeparam>
+    public abstract class AbstractDataAnalyseAdapter<TChannelType, TResultType> : IDisposable
     {
         /// <summary>
-        /// 数据通道缓存字典
+        /// 多通道数据缓存字典
         /// </summary>
-        protected readonly ConcurrentDictionary<TChannelType, Channel<TChannelType>> Channels = new ConcurrentDictionary<TChannelType, Channel<TChannelType>>();
+        private readonly ConcurrentDictionary<TChannelType, Channel<TChannelType>> Channels = new ConcurrentDictionary<TChannelType, Channel<TChannelType>>();
 
-        /// <inheritdoc />
+        /// <summary>
+        /// 添加一个数据分析通道
+        /// </summary>
+        /// <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+        /// <returns>添加成功返回 true </returns>
         public bool AddChannel(TChannelType key)
         {
-            if (Channels.ContainsKey(key))
-                throw new ArgumentException($"数据分析通道 key:{key} 已存在");
+            if (key == null) return false;
 
-            try
+            bool result = Channels.TryAdd(key, new Channel<TChannelType>()
             {
-                return Channels.TryAdd(key, new Channel<TChannelType>()
-                {
-                    Cache = new List<byte>(512),
-                    Capacity = 512,
-                    MaxSize = 1024,
-                    Key = key,
-                }) ;
-            }
-            catch(Exception)
-            {
-                return false;
-            }
-        }
+                Cache = new List<byte>(512),
+                Capacity = 512,
+                MaxSize = 1024,
+                Key = key,
+            });
 
-        /// <inheritdoc />
-        public bool AddChannel(TChannelType key, int capacity, int maxSize)
-        {
-            if (Channels.ContainsKey(key))
-                throw new ArgumentException($"数据分析通道 key:{key} 已存在");
-
-            try
-            {
-                return Channels.TryAdd(key, new Channel<TChannelType>()
-                {
-                    Cache = new List<byte>(capacity),
-                    Capacity = capacity,
-                    MaxSize = maxSize,
-                    Key = key,
-                });
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public bool RemoveChannel(TChannelType key)
-        {
-            if (!Channels.ContainsKey(key))
-                throw new ArgumentException($"数据分析通道 key:{key} 不存在");
-
-            try
-            {
-                Channel<TChannelType> channel;
-                bool result = Channels.TryRemove(key, out channel);
-
-                if (channel != null)
-                {
-                    channel.Cache.Clear();
-                    channel.Cache = null;
-                    channel = null;
-                }
-                return result;
-            }
-            catch (ArgumentNullException)
-            {
-                return false;
-            }
+            return result;
         }
 
         /// <summary>
-        /// 获取数据分析通道对象
+        /// 添加一个数据分析通道
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        protected Channel<TChannelType> GetChannel(TChannelType key)
+        /// <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+        /// <param name="capacity">缓存数据块最初可以存储的元素数量；缓存数据块可自动扩容(会产生数据拷贝)，但不会超出 maxSize; 实际数据缓存量建议不要超过该值</param>
+        /// <param name="maxSize">缓存数据块最大容量，一般是 capacity * 1.5 到 2.0 大小</param>
+        /// <returns> 添加成功返回 true </returns>
+        public bool AddChannel(TChannelType key, int capacity, int maxSize)
         {
-            Channel<TChannelType> channel = null;
+            if (key == null) return false;
+            if (capacity <= 0 || maxSize < capacity)
+            {
+                Console.WriteLine($"Error:: {nameof(capacity)}, {nameof(maxSize)} 缓存大小设置错误");
+                return false;
+            }
 
-            try
+            bool result = Channels.TryAdd(key, new Channel<TChannelType>()
             {
-                bool result = Channels.TryGetValue(key, out channel);
-                return channel;
-            }
-            catch (ArgumentNullException)
-            {
-                return channel;
-            }
+                Cache = new List<byte>(capacity),
+                Capacity = capacity,
+                MaxSize = maxSize,
+                Key = key,
+            });
+
+            return result;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// 移除一个数据分析通道，移除会清除缓存数据
+        /// </summary>
+        /// <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+        /// <returns>移除成功返回 true </returns>
+        public bool RemoveChannel(TChannelType key)
+        {
+            if (key == null) return false;
+
+            Channel<TChannelType> channel = null;
+            bool result = Channels.TryRemove(key, out channel);
+            if (result)
+            {
+                channel.Cache.Clear();
+                channel.Cache = null;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 获取数据通道对象；不会抛出异常信息，如果通道不存在，则返回 null 值
+        /// </summary>
+        /// <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+        /// <returns> </returns>
+        public Channel<TChannelType> GetChannel(TChannelType key)
+        {
+            if (key == null) return null;
+
+            Channel<TChannelType> channel = null;
+            bool result = Channels.TryGetValue(key, out channel);
+
+            return result ? channel : null;
+        }
+        
+        /// <summary>
+        /// 分析指定通道的数据
+        /// </summary>
+        /// <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+        /// <param name="data">需要分析或缓存的数据</param>
+        /// <param name="analyseResultHandler">分析产生结果时的代理调用</param>
+        /// <exception cref="ArgumentNullException">参数不能为空</exception>
+        /// <returns> 返回数据分析状态 </returns>
         public virtual bool AnalyseChannel(TChannelType key, byte[] data, AnalyseResultHandler<TChannelType, TResultType> analyseResultHandler)
         {
             // 1. 数据分析过程在这里实现
-            // 3. 转换完成回调 analyseResult
+            // 3. 转换完成回调 analyseResultHandler
             return false;
         }
-
+        
         /// <summary>
-        /// 解析封装数据类型
+        /// 通道数据块封装数据类型
         /// </summary>
-        /// <param name="block">源数据块</param>
-        /// <returns> 需子类根据 源数据块 解析对象并返回 结果类型 </returns>
-        protected virtual TResultType ParseResultType(byte[] block)
+        /// <param name="blocks">源数据块</param>
+        /// <returns> 返回数据结果 </returns>
+        protected virtual TResultType ParseResultType(params byte[][] blocks)
         {
             // 2. 数据解析转换在这里实现
             return default;
         }
 
-        /// <summary>
-        /// 解析封装数据类型
-        /// </summary>
-        /// <param name="block0">源数据块</param>
-        /// <param name="block1">源数据块</param>
-        /// <returns> 需子类根据 源数据块 解析对象并返回 结果类型 </returns>
-        protected virtual TResultType ParseResultType(byte[] block0, byte[] block1)
-        {
-            // 2. 数据解析转换在这里实现
-            return default;
-        }
-
-        /// <summary>
-        /// 解析封装数据类型
-        /// </summary>
-        /// <param name="block0">源数据块</param>
-        /// <param name="block1">源数据块</param>
-        /// <param name="block2">源数据块</param>
-        /// <returns> 需子类根据 源数据块 解析对象并返回 结果类型 </returns>
-        protected virtual TResultType ParseResultType(byte[] block0, byte[] block1, byte[] block2)
-        {
-            // 2. 数据解析转换在这里实现
-            return default;
-        }
 
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
@@ -204,16 +193,15 @@ namespace SpaceCG.General
         // }
 
         // 添加此代码以正确实现可处置模式。
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
         public void Dispose()
         {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             Dispose(true);
-            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
-            // GC.SuppressFinalize(this);
         }
         #endregion
-
-
 
     }
 }

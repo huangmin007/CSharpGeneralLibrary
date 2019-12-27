@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceCG.General
 {
@@ -89,7 +85,7 @@ namespace SpaceCG.General
         }
 
         /// <inheritdoc/>
-        protected virtual TResultType ParseResultType(byte[] packet)
+        protected override TResultType ParseResultType(params byte[][] blocks)
         {
             return default;
         }
