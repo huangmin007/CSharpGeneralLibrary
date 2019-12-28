@@ -6,7 +6,6 @@ using System;
 using System.Timers;
 using System.Windows.Input;
 using SpaceCG.WindowsAPI.WinUser;
-using SpaceCG.WindowsAPI.Kernel32;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
@@ -16,23 +15,61 @@ using SpaceCG.WindowsAPI;
 using System.Management;
 using SpaceCG.Extension;
 using System.IO.Ports;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Collections.Generic;
 using System.Windows.Media;
-using SpaceCG.Template;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using log4net.Core;
 using System.IO;
 using HPSocket.Tcp;
-using HPSocket;
 using HPSocket.Udp;
-using System.Reflection;
+using SpaceCG.General;
+
+
+
 
 //[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.Config", Watch = true)]
 namespace TestLibrary
 {
+    public class TextDataAnalyse<TChannelKey> : TerminatorDataAnalysePattern<TChannelKey, string>
+    {
+        public TextDataAnalyse(): 
+            base(terminator: Encoding.Default.GetBytes("\r\n")) // 指定结束符为\r\n
+        {
+        }
+
+        /// <inheritdoc/>
+        protected override string ConvertResultType(List<byte> data)
+        {
+            return Encoding.Default.GetString(data.ToArray());
+        }
+    }
+
+    public class Data
+    {
+        public int a = 0;
+        public int b = 0;
+        public string c = "";
+    }
+    public class TestDataAnalyse : FixedSizeDataAnalysePattern<HPSocket.IClient, Data>
+    {
+        public TestDataAnalyse() : base(32)
+        {
+        }
+
+        /// <inheritdoc/>
+        protected sealed override Data ConvertResultType(List<byte> packet)
+        {
+            byte[] value = packet.ToArray();
+            return new Data()
+            {
+                a = BitConverter.ToInt32(value, 0),
+                b = BitConverter.ToInt32(value, 4),
+                c = Encoding.Default.GetString(value, 8, value.Length - 8),
+            };
+        }
+    }
+
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
@@ -43,8 +80,8 @@ namespace TestLibrary
         protected IntPtr Handle;
 
         private SerialPort serialPort;
-        private IClient client;
-        private IServer server;
+        private HPSocket.IClient client;
+        private HPSocket.IServer server;
 
         public MainWindow()
         {
@@ -55,7 +92,9 @@ namespace TestLibrary
             Console.WriteLine("{0} {1} {2}", this.IsInitialized, this.IsLoaded, Handle);
 
             //Client = HPSocketExtension.CreateClient<HPSocket.Tcp.TcpClient>("127.0.0.1", 9999, SocketReceivedHandler, true, App.Log);
-            client = HPSocketExtension.CreateClient<TcpClient>("127.0.0.1", 9999, SocketReceivedHandler, true, App.Log);
+
+
+
             //HPSocketExtension.CreateServer<TcpServer<Byte>>(444, (aa, f) => {    });
             server = HPSocketExtension.CreateServer<UdpServer>(4444, (connid, bytes) =>
             {
@@ -63,7 +102,7 @@ namespace TestLibrary
                 using (MemoryStream ms = new MemoryStream(bytes))
                 {
                     IFormatter format = new BinaryFormatter();
-                    LoggingEvent ev = (LoggingEvent)format.Deserialize(ms);
+                    log4net.Core.LoggingEvent ev = (log4net.Core.LoggingEvent)format.Deserialize(ms);
                     Console.WriteLine(ev);
                     Console.WriteLine("{0}, {1}", ev.LoggerName, ev.RenderedMessage);
                 }
@@ -78,47 +117,6 @@ namespace TestLibrary
             //DeserializeLoggingEvent();
 
 
-            //IEnumerable<char> t = "aaaa";
-            List<int> list = new List<int>() { 1, 2, 3 };
-            TestList(list);
-            foreach(int i in list)
-                Console.Write("{0}, ", i);
-            Console.WriteLine();
-
-            int index;
-            int[] indexs = new int[1];
-
-            string str = "广，东省深圳深圳深深圳圳temp市福田,区深圳圳街，hello";
-            string t = "深圳圳";
-            
-            SpaceCG.General.BoyerMoore boyer = new SpaceCG.General.BoyerMoore(ref t, 0xFFFF);
-            index = boyer.Search(ref str);
-            //int c = boyer.SearchAt(ref str, 1);
-            indexs = boyer.SearchAll(ref str);
-            Console.WriteLine(">>>> {0} {1} {2}", index, "-", string.Join(",,", indexs));
-            
-            byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x04, 0x05, 0x04, 0x02, 0x01, 0x04, 0x04, 0x05, 0x04, 0x03};
-            byte[] s = new byte[] { 0x04, 0x04, 0x05, 0x04};
-
-
-            index = SpaceCG.General.BoyerMoore.Search(data, s);
-            indexs = SpaceCG.General.BoyerMoore.SearchAll(ref str, ref t, 0xFFFF);
-            Console.WriteLine(">>>>> {0} {1}", index, string.Join(",,", indexs));
-
-            //SpaceCG.General.BoyerMoore<byte> tBoyer = new SpaceCG.General.BoyerMoore<byte>();
-            //tBoyer.ResetPattern(s);
-            //index = tBoyer.Search(data);
-            //indexs = tBoyer.SearchAll(data);
-            //Console.WriteLine(">>>>>T::{0} {1}", index, string.Join(",,", indexs));
-
-
-
-        }
-
-        struct TF
-        {
-            public int a;
-            public int b;
         }
 
         void TestList(List<int> list)
@@ -132,17 +130,17 @@ namespace TestLibrary
 
         public void DeserializeLoggingEvent()
         {
-            
-            LoggingEventData data = new LoggingEventData()
+
+            log4net.Core.LoggingEventData data = new log4net.Core.LoggingEventData()
             {
                 Domain = "domain",
                 ExceptionString = "exception string",
-                Level = Level.Info,
+                Level = log4net.Core.Level.Info,
                 LoggerName = "test",
                 Message = "Hello world",
             };
-            LoggingEvent le = new LoggingEvent(data);
-            
+            log4net.Core.LoggingEvent le = new log4net.Core.LoggingEvent(data);
+
 
             //string le = @"[2019-12-20 10:14:34] [Huangmin] [ 9] [ INFO] [TestLibrary.App] [CreateTcpClient(103)] - 客户端连接的为本地网络服务地址：127.0.0.1 ，未监听网络的可用性变化。";
 
@@ -150,11 +148,11 @@ namespace TestLibrary
             MemoryStream stream = new MemoryStream();
             formatter.Serialize(stream, le);
             stream.Position = 0;
-            for(int i = 0; i < stream.Length; i ++)
+            for (int i = 0; i < stream.Length; i++)
                 Console.Write("{0} ", stream.ReadByte());
             Console.WriteLine(stream.Length);
             stream.Position = 0;
-            
+
             //byte[] buffer = new byte[stream.Length];
             byte[] buffer = stream.GetBuffer();
             //int length = stream.Read(buffer, 0, buffer.Length);
@@ -162,7 +160,7 @@ namespace TestLibrary
             //stream.Write(buffer, 0, buffer.Length);
             //for (int i = 0; i < buffer.Length; i++)
             //    buffer[i] = (byte)stream.ReadByte();
-            
+
             stream.Close();
             stream.Dispose();
 
@@ -182,12 +180,12 @@ namespace TestLibrary
             App.Log.InfoFormat("Initialize.");
         }
 
-        private void SocketReceivedHandler(byte[] data)
+        private void SocketReceivedHandler(HPSocket.IClient client, byte[] data)
         {
             Console.WriteLine("Socket {0}", data.Length);
         }
 
-#region override
+        #region override
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
@@ -214,7 +212,7 @@ namespace TestLibrary
                 client = null;
             }
         }
-#endregion
+        #endregion
 
         PerformanceCounter PC;
         PerformanceCounter[] PCs;
@@ -239,6 +237,26 @@ namespace TestLibrary
             Log.WarnFormat("Warn Format");
             Log.ErrorFormat("Error Format");
             Log.FatalFormat("Fatal Format");
+
+            //AbstractDataAnalyseAdapter<HPSocket.IClient, byte[]> dataAnalyse = new FixedSizeDataAnalyse<HPSocket.IClient>(32);
+            //AbstractDataAnalyseAdapter<HPSocket.IClient, Data> dataAnalyse = new TestDataAnalyse();
+            //var dataAnalyse = new FixedSizeDataAnalyse<HPSocket.IClient>(32);
+            var dataAnalyse = new TestDataAnalyse();
+            HPSocket.IClient client = HPSocketExtension.CreateClient<TcpClient>("127.0.0.1", 9999, (HPSocket.IClient client, byte[] data) =>
+            {
+                
+                dataAnalyse.AnalyseChannel(client, data, (c, d) =>
+                {
+                    //StackTrace st = new StackTrace(new StackFrame(true));
+                    //StackFrame sf = st.GetFrame(0);
+                    //Console.WriteLine("File:{0} Method:{1} Line:{2} Column:{3}", sf.GetFileName(), sf.GetMethod().Name, sf.GetFileLineNumber(), sf.GetFileColumnNumber());
+
+                    //Console.WriteLine("Length:{0} {1}", d.Length, Encoding.Default.GetString(d));
+                    Console.WriteLine("Value:{0}", d);
+                    return true;
+                });
+            }, true, App.Log);
+            dataAnalyse.AddChannel(client);
 
 
             /*
@@ -285,7 +303,7 @@ namespace TestLibrary
             HwndSource.FromHwnd(hwnd).AddHook(WindowProcHandler);
             //Marshal.GetLastWin32Error();
 
-            
+
             string wql = $"TargetInstance isa 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%COM_%'";
             ManagementExtension.ListenInstanceChange(wql, InstanceChangedHandler, App.Log);
             //await Task.Run(() => ManagementExtension.ListenInstanceChange(wql, InstanceChangedHandler, App.Log));
@@ -324,7 +342,7 @@ namespace TestLibrary
             */
         }
 
-        private void SerialPortReceivedHandler(byte[] data) 
+        private void SerialPortReceivedHandler(byte[] data)
         {
             string str = Encoding.Default.GetString(data);
             Console.WriteLine("{0}, {1}", data.Length, str);
@@ -365,7 +383,7 @@ namespace TestLibrary
                 DeviceBroadcastType dbt = (DeviceBroadcastType)wParam.ToInt32();
                 Console.WriteLine("DeviceBroadcastType: {0}", dbt);
 
-                if(dbt == DeviceBroadcastType.DBT_DEVICEARRIVAL || dbt == DeviceBroadcastType.DBT_DEVICEREMOVECOMPLETE)
+                if (dbt == DeviceBroadcastType.DBT_DEVICEARRIVAL || dbt == DeviceBroadcastType.DBT_DEVICEREMOVECOMPLETE)
                 {
                     DEV_BROADCAST_HDR hdr = Marshal.PtrToStructure<DEV_BROADCAST_HDR>(lParam);
                     Console.WriteLine(hdr);
@@ -381,8 +399,8 @@ namespace TestLibrary
                 }
                 handled = true;
             }
-            
-            
+
+
             return IntPtr.Zero;
         }
 
@@ -415,7 +433,7 @@ namespace TestLibrary
             Console.WriteLine("=====================================");
             Console.WriteLine("{0}", PC.NextValue() / 1024.0);
 
-            foreach(PerformanceCounter counter in PCs)
+            foreach (PerformanceCounter counter in PCs)
             {
                 Console.WriteLine("{0}  {1}  {2}  {3}", counter.InstanceName, counter.CounterName.PadRight(32), counter.CounterType.ToString().PadRight(16), counter.NextValue());
             }
@@ -431,7 +449,7 @@ namespace TestLibrary
 
             length = WinUser.GetClassName(hWnd, lpString, 256);
             Log.InfoFormat("Length:{0}  String:{1}", length, lpString);
-           
+
             ManagementExtension.RemoveInstanceChange();
 
             if (client != null)
@@ -447,4 +465,6 @@ namespace TestLibrary
 
     }
 }
+
+
 

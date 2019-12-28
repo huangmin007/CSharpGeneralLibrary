@@ -26,7 +26,7 @@ namespace SpaceCG.Extension
         /// <param name="log"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>返回 <see cref="HPSocket.IClient"/> 实例对象。</returns>
-        public static IClient CreateClient<IClient>(string remoteAddress, ushort remotePort, Action<byte[]> receivedCallback, bool autoConnect = true, log4net.ILog log = null) 
+        public static IClient CreateClient<IClient>(string remoteAddress, ushort remotePort, Action<HPSocket.IClient, byte[]> receivedCallback, bool autoConnect = true, log4net.ILog log = null) 
             where IClient : class, HPSocket.IClient, new()
         {
             if (string.IsNullOrWhiteSpace(remoteAddress) || remotePort <= 0 || receivedCallback == null)
@@ -62,7 +62,7 @@ namespace SpaceCG.Extension
             };
             client.OnReceive += (HPSocket.IClient sender, byte[] data) =>
             {
-                receivedCallback?.Invoke(data);
+                receivedCallback?.Invoke(sender, data);
                 return HPSocket.HandleResult.Ok;
             };
             client.OnClose += (HPSocket.IClient sender, HPSocket.SocketOperation enOperation, int errorCode) =>

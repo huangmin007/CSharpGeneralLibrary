@@ -69,7 +69,7 @@
             HPSocket 扩展类/功能
             </summary>
         </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{System.Byte[]},System.Boolean,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean,log4net.ILog)">
             <summary>
             创建 HPSocket.IClient 客户端连接对象，并创建匿名监听事件。如果只关心数据的接收/处理，适用此方法。
             <para>建议使用 <see cref="M:SpaceCG.Extension.HPSocketExtension.DisposeClient(HPSocket.IClient,log4net.ILog)"/> 断开销毁客户端对象。 </para>
@@ -86,7 +86,7 @@
         </member>
         <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeClient(HPSocket.IClient,log4net.ILog)">
             <summary>
-            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{System.Byte[]},System.Boolean,log4net.ILog)"/> 创建的客户端对象
+            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean,log4net.ILog)"/> 创建的客户端对象
             <para>注意：静态函数，非引用参数 client, 需实例变量 设为 null </para>
             </summary>
             <param name="client"></param>
@@ -456,17 +456,21 @@
             <inheritdoc/>
         </member>
         <member name="M:SpaceCG.General.BetweenAndDataAnalyseAdapter`2.ParseResultType(System.Byte[])">
-            <inheritdoc/>
+            <summary>
+            通道数据块封装数据类型
+            </summary>
+            <param name="body">主体源数据</param>
+            <returns></returns>
         </member>
         <member name="T:SpaceCG.General.Channel`1">
             <summary>
-            数据分析通道
+            数据通道对象
             </summary>
             <typeparam name="TChannelType"></typeparam>
         </member>
         <member name="F:SpaceCG.General.Channel`1.Key">
             <summary>
-            数据通道键类型，通道唯一标识
+            通道的唯一标识键
             </summary>
         </member>
         <member name="F:SpaceCG.General.Channel`1.Cache">
@@ -484,68 +488,89 @@
             缓存数据最大字节大小
             </summary>
         </member>
-        <member name="T:SpaceCG.General.AbstractDataAnalyseAdapter`2">
+        <member name="T:SpaceCG.General.AnalyseResultHandler`2">
             <summary>
-            抽象多通道数据分析适配器(支持多线程)
+            数据分析产生结果时调用的代理函数
+            <para>返回结果如果 true 表示清除这部份的缓存数据，否则会存储在缓存中，直到缓存大小超出 最大缓存 才会被移除</para>
             </summary>
             <typeparam name="TChannelType">通道键类型</typeparam>
-            <typeparam name="TResultType">返回的数据结果类型</typeparam>
+            <typeparam name="TResultType">数据结果类型</typeparam>
+            <param name="key">通道的唯一标识键</param>
+            <param name="result">分析产生的数据结果</param>
+            <returns> 返回结果如果 true 表示清除这部份的缓存数据，否则会存储在缓存中，直到缓存大小超出 最大缓存 才会被移除 </returns>
+        </member>
+        <member name="T:SpaceCG.General.AbstractDataAnalyseAdapter`2">
+            <summary>
+            抽象类，多通道数据分析适配器(支持多线程)
+            <para>该类为抽象类，需继承实现 <see cref="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.AnalyseChannel(`0,System.Byte[],SpaceCG.General.AnalyseResultHandler{`0,`1})"/>, <see cref="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.ParseResultType(System.Byte[][])"/> 函数</para>
+            </summary>
+            <typeparam name="TChannelType">通道键类型</typeparam>
+            <typeparam name="TResultType">数据结果封装类型</typeparam>
         </member>
         <member name="F:SpaceCG.General.AbstractDataAnalyseAdapter`2.Channels">
             <summary>
-            数据通道缓存字典
+            多通道数据缓存字典
             </summary>
         </member>
         <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.AddChannel(`0)">
-            <inheritdoc />
+            <summary>
+            添加一个数据分析通道
+            </summary>
+            <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+            <returns>添加成功返回 true </returns>
         </member>
         <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.AddChannel(`0,System.Int32,System.Int32)">
-            <inheritdoc />
+            <summary>
+            添加一个数据分析通道
+            </summary>
+            <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+            <param name="capacity">缓存数据块最初可以存储的元素数量；缓存数据块可自动扩容(会产生数据拷贝)，但不会超出 maxSize; 实际数据缓存量建议不要超过该值</param>
+            <param name="maxSize">缓存数据块最大容量，一般是 capacity * 1.5 到 2.0 大小</param>
+            <returns> 添加成功返回 true </returns>
         </member>
         <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.RemoveChannel(`0)">
-            <inheritdoc />
+            <summary>
+            移除一个数据分析通道，移除会清除缓存数据
+            </summary>
+            <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+            <returns>移除成功返回 true </returns>
         </member>
         <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.GetChannel(`0)">
             <summary>
-            获取数据分析通道对象
+            获取数据通道对象；不会抛出异常信息，如果通道不存在，则返回 null 值
             </summary>
-            <param name="key"></param>
-            <returns></returns>
+            <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+            <returns> </returns>
         </member>
         <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.AnalyseChannel(`0,System.Byte[],SpaceCG.General.AnalyseResultHandler{`0,`1})">
-            <inheritdoc/>
-        </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.ParseResultType(System.Byte[])">
             <summary>
-            解析封装数据类型
+            分析指定通道的数据
             </summary>
-            <param name="block">源数据块</param>
-            <returns> 需子类根据 源数据块 解析对象并返回 结果类型 </returns>
+            <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+            <param name="data">需要分析或缓存的数据</param>
+            <param name="analyseResultHandler">分析产生结果时的代理调用</param>
+            <exception cref="T:System.ArgumentNullException">参数不能为空</exception>
+            <returns> 返回数据分析状态 </returns>
         </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.ParseResultType(System.Byte[],System.Byte[])">
+        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.ParseResultType(System.Byte[][])">
             <summary>
-            解析封装数据类型
+            通道数据块封装数据类型
             </summary>
-            <param name="block0">源数据块</param>
-            <param name="block1">源数据块</param>
-            <returns> 需子类根据 源数据块 解析对象并返回 结果类型 </returns>
+            <param name="blocks">源数据块</param>
+            <returns> 返回数据结果 </returns>
         </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.ParseResultType(System.Byte[],System.Byte[],System.Byte[])">
+        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.Dispose">
             <summary>
-            解析封装数据类型
+            Dispose
             </summary>
-            <param name="block0">源数据块</param>
-            <param name="block1">源数据块</param>
-            <param name="block2">源数据块</param>
-            <returns> 需子类根据 源数据块 解析对象并返回 结果类型 </returns>
         </member>
         <member name="T:SpaceCG.General.BoyerMoore">
             <summary>
             Boyer-Moore 算法实现。该算法查找原始 单字节(Max 0xFF)集合 效率非常非常高；如果匹配的 pattern 集合长度为 1 或很少，也不建议使用该方法
             <para>字符匹配查找：类搜索方法 (Search*) 使用的是数组，类静态搜索方法 (BoyerMoore.Search*) 参数 tSize 大于 0xFF 时使用字典，小于 0xFF 时使用数组</para>
-            <para>为了提高性能，字符参数使用 ref 引用类型减少数据拷贝，函数参数 tSize, start, end 等参数，都是为了提升查找性能，设计的限制参数</para>
-            <para>静态查找函数会检查参数类型并抛出异常，不生成使用好后缀表，只使用坏字符表。
-                但类查找函数会检查参数，但不会抛出异常，只会返回有或无，适合在 for, while, 等循环体或重复搜索对性能要求较高的环境</para>
+            <para>类查找函数会检查参数，但不会抛出异常，只会返回有或无，适合在 for, while, 等循环体或重复搜索 对性能要求较高的环境中使用；
+                静态查找函数会检查参数类型并抛出异常，不生成使用好后缀表，只使用坏字符表。
+            </para>
             <para>参考：https://baike.baidu.com/item/Boyer-%20Moore%E7%AE%97%E6%B3%95/16548374?fr=aladdin </para>
             <para>参考：https://www.cnblogs.com/gaochundong/p/boyer_moore_string_matching_algorithm.html </para>
             </summary>
@@ -686,6 +711,14 @@
             <param name="end">到 source 指定的结束位置停止匹配查找</param>
             <returns> 返回 空集合 表示没匹配到 </returns>
         </member>
+        <member name="M:SpaceCG.General.BoyerMoore.DebugTrace(System.String@,System.String@,System.Int32)">
+            <summary>
+            调试输出匹配过程
+            </summary>
+            <param name="source"></param>
+            <param name="pattern"></param>
+            <param name="index"></param>
+        </member>
         <member name="M:SpaceCG.General.BoyerMoore.DebugTrace``1(System.Collections.Generic.IReadOnlyList{``0},System.Collections.Generic.IReadOnlyList{``0},System.Int32)">
             <summary>
             调试输出匹配过程
@@ -797,10 +830,10 @@
         <member name="T:SpaceCG.General.BoyerMoore`1">
             <summary>
             Boyer-Moore 算法实现，<see cref="T:SpaceCG.General.BoyerMoore"/> 的泛型版本，泛型版本使用的是字典作为 好字符 表，而不是使用数组
-            <para>适合 集合数据 与 集合数据 的查找，在 source 集合中查找 pattern 集合相同位置和相同数据的索引 </para>
-            <para>集合数据的对比 是使用 <see cref="M:System.Object.Equals(System.Object)"/> 的方法，所以自定义基数据类型(比如自定义结构数据类型)，需要实现应该方法</para>
+            <para>适合 集合数据 与 集合数据 的查找，在 source 集合中查找 pattern 集合相同位置、相同数据的索引；与 <see cref="T:SpaceCG.General.BoyerMoore"/> 类一样 Search*() 方法不会抛出异常信息，只会返回结果</para>
+            <para>集合数据的元素对比 是使用 <see cref="M:System.Object.Equals(System.Object)"/> 的方法，所以自定义基数据类型(比如自定义结构数据类型)，需要实现应该方法</para>
             </summary>
-            <typeparam name="T">基本数据类型，基类型占用字节大小最好不要超过 2 个字节</typeparam>
+            <typeparam name="T">基本数据类型，自定义基数据类型(比如自定义结构数据类型)，需要实现 <see cref="M:System.Object.Equals(System.Object)"/> 方法</typeparam>
         </member>
         <member name="P:SpaceCG.General.BoyerMoore`1.PatternLength">
             <summary>
@@ -825,6 +858,11 @@
         <member name="M:SpaceCG.General.BoyerMoore`1.#ctor">
             <summary>
             BoyerMoore 泛型版本
+            </summary>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore`1.ClearParams">
+            <summary>
+            清理参数
             </summary>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore`1.#ctor(System.Collections.Generic.IReadOnlyList{`0})">
@@ -876,7 +914,7 @@
             <para>跟据读取的包头(固定字节大小)内容，获取包体大小</para>
             </summary>
             <typeparam name="TChannelType">通道键类型</typeparam>
-            <typeparam name="TResultType">返回的数据结果类型</typeparam>
+            <typeparam name="TResultType">数据结果封装类型</typeparam>
         </member>
         <member name="F:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2.headerSize">
             <summary>
@@ -904,16 +942,16 @@
             分析头部字节数据
             <para>因为字节端不确定，或是头部信息不确定，所以需要在这里实现分析头部数据并返回一个值</para>
             </summary>
-            <param name="header">头部字节数据</param>
-            <returns></returns>
+            <param name="header">头部源数据</param>
+            <returns>返回包主体字节大小</returns>
         </member>
         <member name="M:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2.ParseResultType(System.Byte[],System.Byte[])">
             <summary>
-            解析封装数据类型
+            通道数据块封装数据类型
             </summary>
-            <param name="header">包头</param>
-            <param name="body">源数据包体</param>
-            <returns>需子类根据包体 data 自己解析对象并返回</returns>
+            <param name="header">头部源数据</param>
+            <param name="body">主体源数据</param>
+            <returns></returns>
         </member>
         <member name="T:SpaceCG.General.FixedSizeDataAnalyseAdapter`2">
             <summary>
@@ -921,7 +959,7 @@
             <para>按固定大小的字节数据做为一个数据包分析，无头无尾，按字节大小封包转换</para>
             </summary>
             <typeparam name="TChannelType">通道键类型</typeparam>
-            <typeparam name="TResultType">返回的数据结果类型</typeparam>
+            <typeparam name="TResultType">数据结果封装类型</typeparam>
         </member>
         <member name="F:SpaceCG.General.FixedSizeDataAnalyseAdapter`2.packetSize">
             <summary>
@@ -939,60 +977,11 @@
             <inheritdoc/>
         </member>
         <member name="M:SpaceCG.General.FixedSizeDataAnalyseAdapter`2.ParseResultType(System.Byte[])">
-            <inheritdoc/>
-        </member>
-        <member name="T:SpaceCG.General.AnalyseResultHandler`2">
             <summary>
-            分析结果处理，代理函数
+            通道数据块封装数据类型
             </summary>
-            <typeparam name="TChannelType">通道键类型</typeparam>
-            <typeparam name="TResultType">数据结果类型</typeparam>
-            <param name="key">通道键类型，或通道唯一标识 key </param>
-            <param name="result">分析完成后的数据类型</param>
-            <returns></returns>
-        </member>
-        <member name="T:SpaceCG.General.IDataAnalyseAdapter`2">
-            <summary>
-            数据分析适配器
-            </summary>
-            <typeparam name="TChannelType">通道 key 类型</typeparam>
-            <typeparam name="TResultType">分析完成后的结果类型</typeparam>
-        </member>
-        <member name="M:SpaceCG.General.IDataAnalyseAdapter`2.AddChannel(`0)">
-            <summary>
-            添加一个数据分析通道
-            </summary>
-            <param name="key">通道键类型，或通道唯一标识 key</param>
-            <exception cref="T:System.ArgumentException">参数错误</exception>
-            <returns>添加成功返回 true </returns>
-        </member>
-        <member name="M:SpaceCG.General.IDataAnalyseAdapter`2.AddChannel(`0,System.Int32,System.Int32)">
-            <summary>
-            添加一个数据分析通道
-            </summary>
-            <param name="key">通道键类型，或通道唯一标识 key</param>
-            <param name="capacity">缓存数据最初可以存储的元素数</param>
-            <param name="maxSize">缓存数据最大字节大小</param>
-            <exception cref="T:System.ArgumentException">参数错误</exception>
-            <returns>添加成功返回 true </returns>
-        </member>
-        <member name="M:SpaceCG.General.IDataAnalyseAdapter`2.AnalyseChannel(`0,System.Byte[],SpaceCG.General.AnalyseResultHandler{`0,`1})">
-            <summary>
-            分析指定通道的数据
-            </summary>
-            <param name="key">通道键类型，或通道唯一标识 key</param>
-            <param name="data">需要分析，或需要添加到缓存的数据</param>
-            <param name="analyseResultHandler">分析产生结果时的代理调用</param>
-            <exception cref="T:System.ArgumentException">参数错误</exception>
-            <returns>数据分析成功，或结果数据处理完成后 返回 true </returns>
-        </member>
-        <member name="M:SpaceCG.General.IDataAnalyseAdapter`2.RemoveChannel(`0)">
-            <summary>
-            移除并清除数据分析通道
-            </summary>
-            <param name="key">通道键类型，或通道唯一标识 key</param>
-            <exception cref="T:System.ArgumentException">参数错误</exception>
-            <returns>移除成功返回 true </returns>
+            <param name="packet">源数据包内容</param>
+            <returns> 返回数据结果 </returns>
         </member>
         <member name="T:SpaceCG.General.TerminatorDataAnalyseAdapter`2">
             <summary>
@@ -1017,7 +1006,11 @@
             <inheritdoc/>
         </member>
         <member name="M:SpaceCG.General.TerminatorDataAnalyseAdapter`2.ParseResultType(System.Byte[])">
-            <inheritdoc/>
+            <summary>
+            通道数据块封装数据类型
+            </summary>
+            <param name="packet">源数据包内容</param>
+            <returns> 返回数据结果 </returns>
         </member>
         <member name="T:SpaceCG.Log4Net.MultiStringConverter">
             <summary>

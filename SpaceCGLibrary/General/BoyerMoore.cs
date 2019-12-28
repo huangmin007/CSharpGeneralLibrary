@@ -348,9 +348,9 @@ namespace SpaceCG.General
         /// <param name="index"></param>
         internal static void DebugTrace<T>(IReadOnlyList<T> source, IReadOnlyList<T> pattern, int index)
         {
-            Console.WriteLine("-------------------------> {0}", index);
-            Console.WriteLine("{0}", string.Join("", source));
-            Console.WriteLine("{0}", string.Join("", pattern).PadLeft(index + pattern.Count, '-'));
+            Console.WriteLine("--> index:{0}", index);
+            Console.WriteLine("{0}", string.Join(",", source));
+            //Console.WriteLine("{0}", string.Join(",", pattern).PadLeft(index + pattern.Count, '-'));
         }
         #endregion
 
@@ -773,7 +773,7 @@ namespace SpaceCG.General
     /// <summary>
     /// Boyer-Moore 算法实现，<see cref="BoyerMoore"/> 的泛型版本，泛型版本使用的是字典作为 好字符 表，而不是使用数组
     /// <para>适合 集合数据 与 集合数据 的查找，在 source 集合中查找 pattern 集合相同位置、相同数据的索引；与 <see cref="BoyerMoore"/> 类一样 Search*() 方法不会抛出异常信息，只会返回结果</para>
-    /// <para>集合数据的对比 是使用 <see cref="object.Equals(object)"/> 的方法，所以自定义基数据类型(比如自定义结构数据类型)，需要实现应该方法</para>
+    /// <para>集合数据的元素对比 是使用 <see cref="object.Equals(object)"/> 的方法，所以自定义基数据类型(比如自定义结构数据类型)，需要实现应该方法</para>
     /// </summary>
     /// <typeparam name="T">基本数据类型，自定义基数据类型(比如自定义结构数据类型)，需要实现 <see cref="object.Equals(object)"/> 方法</typeparam>
     public sealed class BoyerMoore<T> where T : struct

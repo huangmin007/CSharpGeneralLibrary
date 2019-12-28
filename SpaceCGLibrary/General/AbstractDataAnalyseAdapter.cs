@@ -5,17 +5,16 @@ using System.Linq;
 
 namespace SpaceCG.General
 {
-
     /// <summary>
     /// 数据通道对象
     /// </summary>
-    /// <typeparam name="TChannelType"></typeparam>
-    public class Channel<TChannelType>
+    /// <typeparam name="TChannelKey"></typeparam>
+    public class Channel<TChannelKey>
     {
         /// <summary>
         /// 通道的唯一标识键
         /// </summary>
-        internal TChannelType Key;
+        internal TChannelKey Key;
         /// <summary>
         /// 通道缓存数据
         /// </summary>
@@ -34,36 +33,36 @@ namespace SpaceCG.General
     /// 数据分析产生结果时调用的代理函数
     /// <para>返回结果如果 true 表示清除这部份的缓存数据，否则会存储在缓存中，直到缓存大小超出 最大缓存 才会被移除</para>
     /// </summary>
-    /// <typeparam name="TChannelType">通道键类型</typeparam>
-    /// <typeparam name="TResultType">数据结果类型</typeparam>
+    /// <typeparam name="TChannelKey">通道键类型</typeparam>
+    /// <typeparam name="TResultType">返回的数据结果类型</typeparam>
     /// <param name="key">通道的唯一标识键</param>
     /// <param name="result">分析产生的数据结果</param>
     /// <returns> 返回结果如果 true 表示清除这部份的缓存数据，否则会存储在缓存中，直到缓存大小超出 最大缓存 才会被移除 </returns>
-    public delegate bool AnalyseResultHandler<in TChannelType, in TResultType>(TChannelType key, TResultType result);
+    public delegate bool AnalyseResultHandler<in TChannelKey, in TResultType>(TChannelKey key, TResultType result);
 
     /// <summary>
     /// 抽象类，多通道数据分析适配器(支持多线程)
-    /// <para>该类为抽象类，需继承实现 <see cref="AnalyseChannel(TChannelType, byte[], AnalyseResultHandler{TChannelType, TResultType})"/>, <see cref="ParseResultType(byte[][])"/> 函数</para>
+    /// <para>该类为抽象类，需继承实现 <see cref="AnalyseChannel(TChannelKey, IReadOnlyList{byte}, AnalyseResultHandler{TChannelKey, TResultType})"/>, <see cref="ParseResultType(byte[][])"/> 函数</para>
     /// </summary>
-    /// <typeparam name="TChannelType">通道键类型</typeparam>
+    /// <typeparam name="TChannelKey">通道键类型</typeparam>
     /// <typeparam name="TResultType">数据结果封装类型</typeparam>
-    public abstract class AbstractDataAnalyseAdapter<TChannelType, TResultType> : IDisposable
+    public abstract class AbstractDataAnalyseAdapter<TChannelKey, TResultType> : IDisposable
     {
         /// <summary>
         /// 多通道数据缓存字典
         /// </summary>
-        private readonly ConcurrentDictionary<TChannelType, Channel<TChannelType>> Channels = new ConcurrentDictionary<TChannelType, Channel<TChannelType>>();
+        private readonly ConcurrentDictionary<TChannelKey, Channel<TChannelKey>> Channels = new ConcurrentDictionary<TChannelKey, Channel<TChannelKey>>();
 
         /// <summary>
         /// 添加一个数据分析通道
         /// </summary>
         /// <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
         /// <returns>添加成功返回 true </returns>
-        public bool AddChannel(TChannelType key)
+        public bool AddChannel(TChannelKey key)
         {
             if (key == null) return false;
 
-            bool result = Channels.TryAdd(key, new Channel<TChannelType>()
+            bool result = Channels.TryAdd(key, new Channel<TChannelKey>()
             {
                 Cache = new List<byte>(512),
                 Capacity = 512,
@@ -81,7 +80,7 @@ namespace SpaceCG.General
         /// <param name="capacity">缓存数据块最初可以存储的元素数量；缓存数据块可自动扩容(会产生数据拷贝)，但不会超出 maxSize; 实际数据缓存量建议不要超过该值</param>
         /// <param name="maxSize">缓存数据块最大容量，一般是 capacity * 1.5 到 2.0 大小</param>
         /// <returns> 添加成功返回 true </returns>
-        public bool AddChannel(TChannelType key, int capacity, int maxSize)
+        public bool AddChannel(TChannelKey key, int capacity, int maxSize)
         {
             if (key == null) return false;
             if (capacity <= 0 || maxSize < capacity)
@@ -90,7 +89,7 @@ namespace SpaceCG.General
                 return false;
             }
 
-            bool result = Channels.TryAdd(key, new Channel<TChannelType>()
+            bool result = Channels.TryAdd(key, new Channel<TChannelKey>()
             {
                 Cache = new List<byte>(capacity),
                 Capacity = capacity,
@@ -106,11 +105,11 @@ namespace SpaceCG.General
         /// </summary>
         /// <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
         /// <returns>移除成功返回 true </returns>
-        public bool RemoveChannel(TChannelType key)
+        public bool RemoveChannel(TChannelKey key)
         {
             if (key == null) return false;
 
-            Channel<TChannelType> channel = null;
+            Channel<TChannelKey> channel = null;
             bool result = Channels.TryRemove(key, out channel);
             if (result)
             {
@@ -126,11 +125,11 @@ namespace SpaceCG.General
         /// </summary>
         /// <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
         /// <returns> </returns>
-        public Channel<TChannelType> GetChannel(TChannelType key)
+        protected Channel<TChannelKey> GetChannel(TChannelKey key)
         {
             if (key == null) return null;
 
-            Channel<TChannelType> channel = null;
+            Channel<TChannelKey> channel = null;
             bool result = Channels.TryGetValue(key, out channel);
 
             return result ? channel : null;
@@ -144,21 +143,22 @@ namespace SpaceCG.General
         /// <param name="analyseResultHandler">分析产生结果时的代理调用</param>
         /// <exception cref="ArgumentNullException">参数不能为空</exception>
         /// <returns> 返回数据分析状态 </returns>
-        public virtual bool AnalyseChannel(TChannelType key, byte[] data, AnalyseResultHandler<TChannelType, TResultType> analyseResultHandler)
+        public virtual bool AnalyseChannel(TChannelKey key, IReadOnlyList<byte> data, AnalyseResultHandler<TChannelKey, TResultType> analyseResultHandler)
         {
             // 1. 数据分析过程在这里实现
-            // 3. 转换完成回调 analyseResultHandler
+            // 3. 转换完成后回调 analyseResultHandler
             return false;
         }
-        
+
         /// <summary>
-        /// 通道数据块封装数据类型
+        /// 通道数据块转换数据类型
         /// </summary>
-        /// <param name="blocks">源数据块</param>
+        /// <param name="packet">数据包</param>
+        /// <param name="args">更多数据包</param>
         /// <returns> 返回数据结果 </returns>
-        protected virtual TResultType ParseResultType(params byte[][] blocks)
+        protected virtual TResultType ConvertResultType(IReadOnlyList<byte> packet, params object[] args)
         {
-            // 2. 数据解析转换在这里实现
+            //2. 数据解析转换在这里实现
             return default;
         }
 
