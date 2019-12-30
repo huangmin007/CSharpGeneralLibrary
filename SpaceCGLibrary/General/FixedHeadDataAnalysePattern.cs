@@ -9,95 +9,78 @@ namespace SpaceCG.General
     /// </summary>
     /// <typeparam name="TChannelKey">通道键类型</typeparam>
     /// <typeparam name="TResultType">数据结果封装类型</typeparam>
-    public abstract class FixedHeadDataAnalysePattern<TChannelKey, TResultType> : AbstractDataAnalyseAdapter<TChannelKey, TResultType>
+    public abstract class FixedHeadDataAnalysePattern<TChannelKey, TResultType> : AbstractDataAnalyseAdapter<TChannelKey, byte, TResultType>
     {
         /// <summary>
         /// 包头大小, 调用 <see cref="GetBodySize"/> 方法时候会返回动态包体大小；需要继承当前接口的类在构造函数中设置包头长度
         /// </summary>
-        protected readonly int headSize;
+        protected readonly int HeadSize;
 
         /// <summary>
         ///  数据包最大大小，如果 数据包大小(包头长度 + 包体长度) 大于该值，表示数据错误
         /// </summary>
-        protected readonly int maxPacketSize;
+        protected readonly int MaxPacketSize;
 
         /// <summary>
         /// 固定包头数据分析适配器
+        /// <para>参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于 最大缓存大小，且大于 动态包体大小，否则算数据异常，但不抛出异常，返回 false</para>
         /// </summary>
         /// <param name="headSize">包头字节 占 整体数据包的大小</param>
-        /// <param name="maxPacketSize">整体数据包 预计 最大字节大小，超出则清除处理，为 0 表示不做包的超出检测比较</param>
-        /// <exception cref="ArgumentException">参数错误，参数 headSize 必须大于 0, 参数 maxPacketSize 必须大于或等于 0 </exception>
-        protected FixedHeadDataAnalysePattern(int headSize, int maxPacketSize)
+        /// <param name="maxPacketSize">整体数据包 预计 最大字节大小，超出则清除处理；注意：最大包大小不得超出最大缓存大小</param>
+        /// <exception cref="ArgumentException">参数错误，参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于缓存大小，且大于动态包体大小 + HeadSize </exception>
+        protected FixedHeadDataAnalysePattern(int headSize, int maxPacketSize = 1024)
         {
             if (headSize < 1 || maxPacketSize < 0)
-                throw new ArgumentException("参数 headSize 必须大于 0, 参数 maxPacketSize 必须大于或等于 0");
+                throw new ArgumentException("参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于 最大缓存大小，且大于 动态包体大小");
 
-            this.headSize = headSize;
-            this.maxPacketSize = maxPacketSize;
+            this.HeadSize = headSize;
+            this.MaxPacketSize = maxPacketSize;
         }
         
         /// <inheritdoc/>
-        public override bool AnalyseChannel(TChannelKey key, IReadOnlyList<byte> data, AnalyseResultHandler<TChannelKey, TResultType> analyseResult)
+        public override bool AnalyseChannel(TChannelKey key, IReadOnlyList<byte> data, AnalyseResultHandler<TChannelKey, TResultType> analyseResultHandler)
         {
-            Channel<TChannelKey> channel = GetChannel(key);
+            if (key == null || data == null || analyseResultHandler == null) return false;
+            Channel<TChannelKey, byte> channel = GetChannel(key);
             if (channel == null) return false;
-            if (maxPacketSize != 0 && channel.MaxSize < maxPacketSize)
-                throw new ArgumentException("参数异常：通道缓存大小 小于 数据包最大大小");
 
-            bool handled = false; 
-            channel.Cache.AddRange(data);   // 添加数据到通道缓存
-            
-            do
+            if (MaxPacketSize > channel.MaxSize)
             {
-                if (channel.Cache.Count < headSize) return false;
-
-                // 包头字节数据
-                var headBytes = channel.Cache.GetRange(0, headSize);
-                // 包体长度从适配器子类中获取
-                int bodySize = GetBodySize(headBytes);
-                // 当前完整的 数据包长度(包头大小 + 数据包的大小)
-                var currentPacketSize = headSize + bodySize;
-
-                // 判断最大封包长度，该整包大小超出设定的包大小，数据错误？？是否要清除呢？？
-                if (maxPacketSize != 0 && currentPacketSize > maxPacketSize)
-                {
-                    //  ...
-                    // 如果缓存大小，大于设置的最大大小，则移除多余的数据
-                    if (channel.Cache.Count >= channel.MaxSize)
-                        channel.Cache.RemoveRange(0, channel.Cache.Count - channel.MaxSize);
-
-                    return false;
-                }
-
-                if (channel.MaxSize < currentPacketSize)
-                    throw new ArgumentException("参数异常：通道缓存大小 小于 当前数据包大小");
-
-                // 缓存数据大小 还没 达到当前包的大小 ?
-                if (channel.Cache.Count >= currentPacketSize)
-                {
-                    // 包体字节数据
-                    var bodyBytes = channel.Cache.GetRange(headSize, bodySize);
-                    
-                    TResultType result = ConvertResultType(headBytes, bodyBytes);   // 包体数据封装，从适配器子类中实现
-                    handled = analyseResult?.Invoke(key, result) ?? false;          // 分析结果回调
-
-                    // 如果数据处理了，则移除处理完成后的数据
-                    if (handled) channel.Cache.RemoveRange(0, currentPacketSize);
-                    // 如果缓存大小，大于设置的最大大小，则移除多余的数据
-                    if (channel.Cache.Count >= channel.MaxSize)
-                        channel.Cache.RemoveRange(0, channel.Cache.Count - channel.MaxSize);
-
-                    // 没有数据了就返回了
-                    if (channel.Cache.Count == 0) break;
-                }
-                else
-                {
-                    return false;
-                }
+                Console.WriteLine("Error:设定的最大包大小 {0}:{1} 超出，设定的最大通道缓存 Cache.MaxSize:{2}  大小", nameof(MaxPacketSize), MaxPacketSize, channel.MaxSize);
+                return false;  
             }
-            while (true);
 
-            return handled;
+            bool isDataError = false;
+            channel.AddRange(data);
+
+            while (true)
+            {
+                if (channel.Available < HeadSize) break;
+                var headBytes = channel.GetRange(channel.Offset, HeadSize);
+
+                int bodySize = GetBodySize(headBytes);
+                if (HeadSize + bodySize > MaxPacketSize || bodySize < 0)
+                {
+                    isDataError = true;
+                    Console.WriteLine("Error:当前包大小 {0}， 超出设定的最大包大小 {1}", HeadSize + bodySize, MaxPacketSize);
+                    break;
+                }
+
+                if (channel.Available - HeadSize < bodySize) break;                
+                var bodyBytes = channel.GetRange(channel.Offset + HeadSize, bodySize);
+
+                TResultType result = ConvertResultType(headBytes, bodyBytes);
+                bool handled = analyseResultHandler.Invoke(key, result);
+
+                if (handled)
+                    channel.RemoveRange(channel.Offset, HeadSize + bodySize);
+                else
+                    channel.Offset += HeadSize + bodySize;
+            }
+
+            channel.CheckOverflow();
+
+            return !isDataError;
         }
 
         /// <summary>

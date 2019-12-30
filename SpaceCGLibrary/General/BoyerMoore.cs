@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace SpaceCG.General
@@ -14,12 +15,17 @@ namespace SpaceCG.General
     /// </summary>
     public sealed class BoyerMoore
     {
-        #region Variables
         /// <summary>
         /// 返回的索引集合列表，初使最大可以存储的元素数量
         /// </summary>
         internal const int CAPACITY = 256;
 
+        /// <summary>
+        /// 匹配数据的长度
+        /// </summary>
+        public int PatternLength { get; private set; }
+
+        #region Variables
         /// <summary>
         /// 能过 <see cref="GetBadCharacterShift(IReadOnlyList{byte})"/> 生成的 坏字符表 (Bad Character Heuristic)
         /// </summary>
@@ -28,7 +34,6 @@ namespace SpaceCG.General
         /// 通过 <see cref="GetGoodSuffixShift{T}(IReadOnlyList{T})"/> 生成的 好后缀表 (Good Suffix Heuristic)
         /// </summary>
         private int[] goodTable;
-
         /// <summary>
         /// 需要匹配的字符数据
         /// </summary>
@@ -37,11 +42,6 @@ namespace SpaceCG.General
         /// 需要匹配的字节数据
         /// </summary>
         private IReadOnlyList<byte> patternBytes;
-        
-        /// <summary>
-        /// 匹配数据的长度
-        /// </summary>
-        public int PatternLength { get; private set; }
         #endregion
 
         #region Constructors
@@ -50,7 +50,7 @@ namespace SpaceCG.General
         /// <para>适合大量数据匹配查找，数据量越大，效率越高</para>
         /// </summary>
         public BoyerMoore()
-        {            
+        {
         }
         /// <summary>
         /// Boyer-Moore (BM) 匹配查找算法
@@ -399,10 +399,16 @@ namespace SpaceCG.General
         /// </summary>
         /// <typeparam name="T">键类型</typeparam>
         /// <param name="pattern"></param>
+        /// <param name="useThreadSafe">是否使用 可由多个线程同时访问的 键/值对 的 线程安全集合</param>
         /// <returns></returns>
-        internal static Dictionary<T, int> GetBadCharacterShift<T>(IReadOnlyList<T> pattern)
+        internal static IDictionary<T, int> GetBadCharacterShift<T>(IReadOnlyList<T> pattern, bool useThreadSafe = false)
         {
-            Dictionary<T, int> badTable = new Dictionary<T, int>(pattern.Count + 8);
+            IDictionary<T, int> badTable;
+            if (useThreadSafe)
+                badTable = new ConcurrentDictionary<T, int>(2, pattern.Count + 8);
+            else
+                badTable = new Dictionary<T, int>(pattern.Count + 8);
+
             for (int i = 0; i < pattern.Count; i++)
                 badTable[pattern[i]] = pattern.Count - i - 1;
 
@@ -445,7 +451,7 @@ namespace SpaceCG.General
             }
             #endregion
 
-            for (i = 0; i < patternLength; ++ i)
+            for (i = 0; i < patternLength; ++i)
                 goodSuffixShifts[i] = patternLength;
 
             for (i = patternLength - 1; i >= -1; --i)
@@ -545,7 +551,7 @@ namespace SpaceCG.General
         /// <returns> 返回 -1 表示没匹配到 </returns>        
         public static int Search(ref string source, ref string pattern, uint tSize = 0xFF, int start = 0, int end = int.MaxValue)
         {
-            if (pattern == null || pattern.Length <= 0) 
+            if (pattern == null || pattern.Length <= 0)
                 throw new ArgumentNullException(nameof(pattern), "参数不能为空，或长度不能为 0 ");
             if (source == null || source.Length < pattern.Length)
                 throw new ArgumentNullException(nameof(source), $"参数不能为空，或长度不能小于 {nameof(pattern)} 的长度 ");
@@ -576,7 +582,7 @@ namespace SpaceCG.General
             {
                 int value;
                 bool hasValue;
-                Dictionary<char, int> offsetTable = GetBadCharacterShift(pattern.ToCharArray());
+                IDictionary<char, int> offsetTable = GetBadCharacterShift(pattern.ToCharArray());
 
                 while (index <= maxCompareCount)
                 {
@@ -618,7 +624,7 @@ namespace SpaceCG.General
             int sourceLength = source.Count;
             int patternLength = pattern.Count;
             int maxCompareCount = sourceLength - patternLength;  //最多可比较的次数
-            
+
             int i, index = start;
             int lastPatternPosition = patternLength - 1;        //最后一个匹配数据的位置
             int[] offsetTable = GetBadCharacterShift(pattern);
@@ -666,7 +672,7 @@ namespace SpaceCG.General
             int i, index = start;
             int sourceLength = source.Length;
             int patternLength = pattern.Length;
-            int lastPatternPosition = pattern.Length - 1;        
+            int lastPatternPosition = pattern.Length - 1;
             int maxCompareCount = sourceLength - patternLength;
             List<int> indexs = new List<int>(Math.Min(source.Length / pattern.Length, CAPACITY));
 
@@ -693,7 +699,7 @@ namespace SpaceCG.General
             {
                 int value;
                 bool hasValue;
-                Dictionary<char, int> offsetTable = GetBadCharacterShift(pattern.ToCharArray());
+                IDictionary<char, int> offsetTable = GetBadCharacterShift(pattern.ToCharArray());
 
                 while (index <= maxCompareCount)
                 {
@@ -789,14 +795,18 @@ namespace SpaceCG.General
         private IReadOnlyList<T> pattern;
 
         /// <summary>
-        /// 通过 <see cref="BoyerMoore.GetBadCharacterShift{T}(IReadOnlyList{T})"/> 生成的 坏字符表 (Bad Character Heuristic)
+        /// 通过 <see cref="BoyerMoore.GetBadCharacterShift{T}(IReadOnlyList{T}, bool)"/> 生成的 坏字符表 (Bad Character Heuristic)
         /// </summary>
-        private Dictionary<T, int> badTable;
+        private IDictionary<T, int> badTable;
 
         /// <summary>
         /// 通过 <see cref="BoyerMoore.GetGoodSuffixShift{T}(IReadOnlyList{T})"/> 生成的 好后缀表 (Good Suffix Heuristic)
         /// </summary>
         private int[] goodTable;
+        /// <summary>
+        /// 是否使用 可由多个线程同时访问的 键/值对 的 线程安全集合
+        /// </summary>
+        private bool useThreadSafe = false;
 
         /// <summary>
         /// BoyerMoore 泛型版本
@@ -814,9 +824,9 @@ namespace SpaceCG.General
         private void ClearParams()
         {
             if (badTable != null) badTable.Clear();
-            if (goodTable != null) Array.Clear(goodTable, 0, goodTable.Length);
-
             badTable = null;
+
+            if (goodTable != null) Array.Clear(goodTable, 0, goodTable.Length);
             goodTable = null;
 
             pattern = null;
@@ -835,7 +845,8 @@ namespace SpaceCG.General
         /// 设置需要匹配数据
         /// </summary>
         /// <param name="pattern"></param>
-        public void ResetPattern(IReadOnlyList<T> pattern)
+        /// <param name="useThreadSafe">是否使用 可由多个线程同时访问的 键/值对 的 线程安全集合</param>
+        public void ResetPattern(IReadOnlyList<T> pattern, bool useThreadSafe = false)
         {
             if(pattern == null || pattern.Count <= 0)
                 throw new ArgumentNullException(nameof(pattern), "参数不能空，或需要匹配的数据不能太小");
@@ -843,9 +854,11 @@ namespace SpaceCG.General
             ClearParams();
 
             this.pattern = pattern;
-            PatternLength = pattern.Count;
-            badTable = BoyerMoore.GetBadCharacterShift(pattern);
+            this.PatternLength = pattern.Count;
+            this.useThreadSafe = useThreadSafe;
+
             goodTable = BoyerMoore.GetGoodSuffixShift(pattern);
+            badTable = BoyerMoore.GetBadCharacterShift(pattern, useThreadSafe);
         }
 
         /// <summary>
@@ -875,7 +888,7 @@ namespace SpaceCG.General
                 if (i < 0) return index;
 
                 hasValue = badTable.TryGetValue(source[index + i], out value);
-                index += Math.Max(hasValue ? value - PatternLength + i + 1 : i + 1, goodTable[i]);  // 1);
+                index += Math.Max(hasValue ? value - PatternLength + i + 1 : i + 1, goodTable[i]); // : 1);
 
                 if (index > end) break;
             }

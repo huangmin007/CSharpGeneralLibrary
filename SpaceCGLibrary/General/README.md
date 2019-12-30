@@ -180,7 +180,7 @@ public class TestDataAnalyse : FixedSizeDataAnalysePattern<HPSocket.IClient, Dat
 //AbstractDataAnalyseAdapter<HPSocket.IClient, Data> dataAnalyse = new TestDataAnalyse();
 //var dataAnalyse = new FixedSizeDataAnalyse<HPSocket.IClient>(32);
 var dataAnalyse = new TestDataAnalyse();
-client = HPSocketExtension.CreateClient<TcpClient>("127.0.0.1", 9999, (HPSocket.IClient client, byte[] data) =>
+var tcpClient = HPSocketExtension.CreateClient<TcpClient>("127.0.0.1", 9999, (HPSocket.IClient client, byte[] data) =>
 {
     dataAnalyse.AnalyseChannel(client, data, (c, d) =>
     {
@@ -193,7 +193,17 @@ client = HPSocketExtension.CreateClient<TcpClient>("127.0.0.1", 9999, (HPSocket.
         return true;
     });
 }, true, App.Log);
-dataAnalyse.AddChannel(client);
+dataAnalyse.AddChannel(tcpClient);
+
+var udpClient = HPSocketExtension.CreateClient<UdpClient>("127.0.0.1", 9999, (client, data) =>
+{
+    dataAnalyse.AnalyseChannel(client, data, (c, d) =>
+    {
+        Console.WriteLine("Value:{0}", d);
+        return true;
+    });
+}, false, App.Log);
+dataAnalyse.AddChannel(udpClient);
 ```
 
 

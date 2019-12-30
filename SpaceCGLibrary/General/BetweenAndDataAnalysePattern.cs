@@ -8,7 +8,7 @@ namespace SpaceCG.General
     /// </summary>
     /// <typeparam name="TChannelKey"></typeparam>
     /// <typeparam name="TResultType"></typeparam>
-    public abstract class BetweenAndDataAnalysePattern<TChannelKey, TResultType> : AbstractDataAnalyseAdapter<TChannelKey, TResultType>
+    public abstract class BetweenAndDataAnalysePattern<TChannelKey, TResultType> : AbstractDataAnalyseAdapter<TChannelKey, byte, TResultType>
     {
         /// <summary>
         /// Start Boyer Moore
@@ -19,7 +19,7 @@ namespace SpaceCG.General
         /// End Boyer Moore
         /// </summary>
         protected readonly BoyerMoore EndBoyerMoore;
-
+        
         /// <summary>
         /// 在 包头 和 包尾 之间，数据分析适配器
         /// </summary>
@@ -37,50 +37,36 @@ namespace SpaceCG.General
         /// <inheritdoc/>
         public override bool AnalyseChannel(TChannelKey key, IReadOnlyList<byte> data, AnalyseResultHandler<TChannelKey, TResultType> analyseResultHandler)
         {
-            Channel<TChannelKey> channel = GetChannel(key);
+            if (key == null || data == null || analyseResultHandler == null) return false;
+            Channel<TChannelKey, byte> channel = GetChannel(key);
             if (channel == null) return false;
 
-            bool handled = false;
-            channel.Cache.AddRange(data);
+            channel.AddRange(data);
 
-            int lastPosition = 0;
-            int endLength = EndBoyerMoore.PatternLength;
-            int startLength = StartBoyerMoore.PatternLength;
-
-            do
+            // start index - end index
+            while(true)
             {
-                // 长度不够一个包等下次再来
-                if (data.Count - lastPosition < startLength + endLength) break;
-               
-                // 搜索起始标志
-                var startPosition = StartBoyerMoore.Search(channel.Cache, lastPosition);
-                // 是否找到了
-                if (startPosition == -1) break;
-                startPosition = lastPosition + startPosition + startLength;
+                int start = StartBoyerMoore.Search(channel.Cache, channel.Offset);
+                if (start < 0) break;
 
-                // 搜索结束标志, 从起始位置+起始标志长度开始找
-                var count = EndBoyerMoore.Search(channel.Cache, startPosition);
-                if (count == -1) break;
+                start += StartBoyerMoore.PatternLength;
+                int end = EndBoyerMoore.Search(channel.Cache, start);
+                if (end < 0) break;
 
-                // 得到一条完整数据包
-                var bodyData = channel.Cache.GetRange(startPosition, count);
-                lastPosition += count + startLength + endLength;
+                int bodySize = end - start;
+                var bodyBytes = channel.GetRange(start, bodySize);
+                TResultType result = ConvertResultType(bodyBytes);
 
-                TResultType result = ConvertResultType(bodyData);
-                bool boo = analyseResultHandler?.Invoke(key, result) ?? false;
-                handled = handled || boo;
+                bool handled = analyseResultHandler.Invoke(key, result);
+                if (handled)
+                    channel.RemoveRange(channel.Offset, bodySize + EndBoyerMoore.PatternLength);
+                else
+                    channel.Offset = end + EndBoyerMoore.PatternLength;
             }
-            while (true);
 
-            // 清除已处理了的数据
-            if (handled && lastPosition > 0)
-                channel.Cache.RemoveRange(0, lastPosition);
+            channel.CheckOverflow();
 
-            // 如果缓存大小，大于设置的最大大小，则移除多余的数据
-            if (channel.Cache.Count >= channel.MaxSize)
-                channel.Cache.RemoveRange(0, channel.Cache.Count - channel.MaxSize);
-
-            return handled;
+            return true;
         }
 
         /// <summary>

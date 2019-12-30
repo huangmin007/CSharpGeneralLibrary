@@ -38,6 +38,13 @@ namespace TestLibrary
         {
         }
 
+        public override bool AnalyseChannel(TChannelKey key, IReadOnlyList<byte> data, AnalyseResultHandler<TChannelKey, string> analyseResultHandler)
+        {
+            Channel<TChannelKey, byte> channel = GetChannel(key);
+            
+            return false;
+        }
+
         /// <inheritdoc/>
         protected override string ConvertResultType(List<byte> data)
         {
@@ -237,26 +244,24 @@ namespace TestLibrary
             Log.WarnFormat("Warn Format");
             Log.ErrorFormat("Error Format");
             Log.FatalFormat("Fatal Format");
-
-            //AbstractDataAnalyseAdapter<HPSocket.IClient, byte[]> dataAnalyse = new FixedSizeDataAnalyse<HPSocket.IClient>(32);
-            //AbstractDataAnalyseAdapter<HPSocket.IClient, Data> dataAnalyse = new TestDataAnalyse();
-            //var dataAnalyse = new FixedSizeDataAnalyse<HPSocket.IClient>(32);
-            var dataAnalyse = new TestDataAnalyse();
-            HPSocket.IClient client = HPSocketExtension.CreateClient<TcpClient>("127.0.0.1", 9999, (HPSocket.IClient client, byte[] data) =>
+            
+            TerminatorDataAnalyse<int> analyse = new TerminatorDataAnalyse<int>(Encoding.Default.GetBytes("AB"));
+            analyse.AddChannel(0);
+            analyse.AnalyseChannel(0, Encoding.Default.GetBytes("ABHelloABworldABtestABworldABtestABtst323ABworldABtest"), (key, data) =>
             {
-                
-                dataAnalyse.AnalyseChannel(client, data, (c, d) =>
-                {
-                    //StackTrace st = new StackTrace(new StackFrame(true));
-                    //StackFrame sf = st.GetFrame(0);
-                    //Console.WriteLine("File:{0} Method:{1} Line:{2} Column:{3}", sf.GetFileName(), sf.GetMethod().Name, sf.GetFileLineNumber(), sf.GetFileColumnNumber());
+                string str = Encoding.Default.GetString(data);
+                Console.WriteLine(">>>{0}", str);
+                return str != "world";
+            });
 
-                    //Console.WriteLine("Length:{0} {1}", d.Length, Encoding.Default.GetString(d));
-                    Console.WriteLine("Value:{0}", d);
-                    return true;
-                });
-            }, true, App.Log);
-            dataAnalyse.AddChannel(client);
+            BetweenAndDataAnalyse<int> analyse2 = new BetweenAndDataAnalyse<int>(Encoding.Default.GetBytes("AB"), Encoding.Default.GetBytes("CDE"));
+            analyse2.AddChannel(0);
+            analyse2.AnalyseChannel(0, Encoding.Default.GetBytes("ABHelloABworldCDEaAtestABworldCDEqwABtestABtst323CDE12ABworldCDEaABtestCDEadf"), (key, data) =>
+            {
+                string str = Encoding.Default.GetString(data);
+                //Console.WriteLine(">>>>>{0}", str);
+                return str != "world";
+            });
 
 
             /*

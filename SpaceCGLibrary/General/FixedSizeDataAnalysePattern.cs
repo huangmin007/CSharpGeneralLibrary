@@ -9,13 +9,13 @@ namespace SpaceCG.General
     /// </summary>
     /// <typeparam name="TChannelKey">通道键类型</typeparam>
     /// <typeparam name="TResultType">数据结果封装类型</typeparam>
-    public abstract class FixedSizeDataAnalysePattern<TChannelKey, TResultType>:AbstractDataAnalyseAdapter<TChannelKey, TResultType>
+    public abstract class FixedSizeDataAnalysePattern<TChannelKey, TResultType>:AbstractDataAnalyseAdapter<TChannelKey, byte, TResultType>
     {
         /// <summary>
         /// 数据包固定大小
         /// </summary>
         protected readonly int PacketSize;
-
+        
         /// <summary>
         /// 固定包大小数据分析适配器
         /// </summary>
@@ -28,45 +28,38 @@ namespace SpaceCG.General
         }
 
         /// <inheritdoc/>
-        public override bool AnalyseChannel(TChannelKey key, IReadOnlyList<byte> data, AnalyseResultHandler<TChannelKey, TResultType> analyseResult)
+        public override bool AnalyseChannel(TChannelKey key, IReadOnlyList<byte> data, AnalyseResultHandler<TChannelKey, TResultType> analyseResultHandler)
         {
-            Channel<TChannelKey> channel = GetChannel(key);
+            if (key == null || data == null || analyseResultHandler == null) return false;
+            Channel<TChannelKey, byte> channel = GetChannel(key);
             if (channel == null) return false;
 
-            //if (channel.MaxSize < packetSize)
-            //    throw new ArgumentException("参数异常：通道缓存大小 小于 数据包大小");
-
-            bool handled = false;
-            channel.Cache.AddRange(data);   // 添加数据到通道缓存
-
-            do
+            if(channel.MaxSize < PacketSize)
             {
-                // 缓存数据大小 还没 达到包的大小 ?
-                if (channel.Cache.Count >= PacketSize)
-                {
-                    //当前整包数据字节
-                    var packetBytes = channel.Cache.GetRange(0, PacketSize);
-
-                    TResultType result = ConvertResultType(packetBytes);      //包体数据封装，从适配器子类中实现
-                    handled = analyseResult?.Invoke(key, result) ?? false;  //分析结果回调
-
-                    // 如果数据处理了，则移除处理完成后的数据
-                    if (handled)    channel.Cache.RemoveRange(0, PacketSize);
-                    // 如果缓存大小，大于设置的最大大小，则移除多余的数据
-                    if (channel.Cache.Count >= channel.MaxSize)  
-                        channel.Cache.RemoveRange(0, channel.Cache.Count - channel.MaxSize);
-
-                    // 没有数据了就返回了
-                    if (channel.Cache.Count == 0) break;
-                }
-                else
-                {
-                    return false;
-                }
+                Console.WriteLine("Error:设定的最大缓存大小 {0}:{1} 小于 设定的包 {2}:{3} 大小", "Cache.MaxSize", channel.MaxSize, nameof(PacketSize), PacketSize);
+                return false;
             }
-            while (true);
 
-            return handled;
+            // 添加数据到通道缓存
+            channel.AddRange(data);   
+
+            while(true)
+            {
+                if (channel.Available < PacketSize) break;
+
+                var packetBytes = channel.GetRange(channel.Offset, PacketSize);
+                TResultType result = ConvertResultType(packetBytes);
+                bool handled = analyseResultHandler.Invoke(key, result);
+
+                if (handled)
+                    channel.RemoveRange(channel.Offset, PacketSize);
+                else
+                    channel.Offset += PacketSize;
+            }
+
+            channel.CheckOverflow();
+
+            return true;
         }
 
         /// <summary>

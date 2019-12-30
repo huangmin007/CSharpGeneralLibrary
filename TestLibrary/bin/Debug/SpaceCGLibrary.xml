@@ -428,64 +428,161 @@
             <param name="state"><see cref="T:SpaceCG.WindowsAPI.WinUser.SwpState"/></param>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="T:SpaceCG.General.BetweenAndDataAnalyseAdapter`2">
+        <member name="T:SpaceCG.General.BetweenAndDataAnalysePattern`2">
             <summary>
-            在 包头 和 包尾 之间，数据分析适配器基类
+            在 包头 和 包尾 之间，数据分析模式适配器基类
             </summary>
-            <typeparam name="TChannelType"></typeparam>
+            <typeparam name="TChannelKey"></typeparam>
             <typeparam name="TResultType"></typeparam>
         </member>
-        <member name="F:SpaceCG.General.BetweenAndDataAnalyseAdapter`2.startBoyerMoore">
+        <member name="F:SpaceCG.General.BetweenAndDataAnalysePattern`2.StartBoyerMoore">
             <summary>
             Start Boyer Moore
             </summary>
         </member>
-        <member name="F:SpaceCG.General.BetweenAndDataAnalyseAdapter`2.endBoyerMoore">
+        <member name="F:SpaceCG.General.BetweenAndDataAnalysePattern`2.EndBoyerMoore">
             <summary>
             End Boyer Moore
             </summary>
         </member>
-        <member name="M:SpaceCG.General.BetweenAndDataAnalyseAdapter`2.#ctor(System.Byte[],System.Byte[])">
+        <member name="M:SpaceCG.General.BetweenAndDataAnalysePattern`2.#ctor(System.Collections.Generic.IReadOnlyList{System.Byte},System.Collections.Generic.IReadOnlyList{System.Byte})">
             <summary>
             在 包头 和 包尾 之间，数据分析适配器
             </summary>
             <param name="start">包头数据</param>
             <param name="end">包尾数据</param>
         </member>
-        <member name="M:SpaceCG.General.BetweenAndDataAnalyseAdapter`2.AnalyseChannel(`0,System.Byte[],SpaceCG.General.AnalyseResultHandler{`0,`1})">
+        <member name="M:SpaceCG.General.BetweenAndDataAnalysePattern`2.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{System.Byte},SpaceCG.General.AnalyseResultHandler{`0,`1})">
             <inheritdoc/>
         </member>
-        <member name="M:SpaceCG.General.BetweenAndDataAnalyseAdapter`2.ParseResultType(System.Byte[])">
+        <member name="M:SpaceCG.General.BetweenAndDataAnalysePattern`2.ConvertResultType(System.Collections.Generic.List{System.Byte})">
             <summary>
-            通道数据块封装数据类型
+            通道数据块转换数据类型
             </summary>
             <param name="body">主体源数据</param>
             <returns></returns>
         </member>
-        <member name="T:SpaceCG.General.Channel`1">
+        <member name="T:SpaceCG.General.BetweenAndDataAnalyse`1">
+            <summary>
+            在 包头 和 包尾 之间，数据分析模式适配器
+            </summary>
+            <typeparam name="TChannelKey"></typeparam>
+        </member>
+        <member name="M:SpaceCG.General.BetweenAndDataAnalyse`1.#ctor(System.Collections.Generic.IReadOnlyList{System.Byte},System.Collections.Generic.IReadOnlyList{System.Byte})">
+            <summary>
+            在 包头 和 包尾 之间，数据分析适配器
+            </summary>
+            <param name="start">包头数据</param>
+            <param name="end">包尾数据</param>
+        </member>
+        <member name="M:SpaceCG.General.BetweenAndDataAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte})">
+            <inheritdoc/>
+        </member>
+        <member name="T:SpaceCG.General.Channel`2">
             <summary>
             数据通道对象
             </summary>
-            <typeparam name="TChannelType"></typeparam>
+            <typeparam name="TChannelKey">通道键类型</typeparam>
+            <typeparam name="TDataType">数据类型</typeparam>
         </member>
-        <member name="F:SpaceCG.General.Channel`1.Key">
+        <member name="P:SpaceCG.General.Channel`2.Key">
             <summary>
             通道的唯一标识键
             </summary>
         </member>
-        <member name="F:SpaceCG.General.Channel`1.Cache">
+        <member name="P:SpaceCG.General.Channel`2.Cache">
             <summary>
-            通道缓存数据
+            缓存数据
             </summary>
         </member>
-        <member name="F:SpaceCG.General.Channel`1.Capacity">
-            <summary>
-            缓存数据最初可以存储的元素数
-            </summary>
-        </member>
-        <member name="F:SpaceCG.General.Channel`1.MaxSize">
+        <member name="P:SpaceCG.General.Channel`2.MaxSize">
             <summary>
             缓存数据最大字节大小
+            </summary>
+        </member>
+        <member name="P:SpaceCG.General.Channel`2.Offset">
+            <summary>
+            数据处理的偏移量
+            <para>在 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 左侧的数据不会处理，只会溢出移除</para>
+            </summary>
+        </member>
+        <member name="P:SpaceCG.General.Channel`2.Available">
+            <summary>
+            有效数据大小，可读取的数据大小
+            <para> <see cref="P:SpaceCG.General.Channel`2.Available"/> = <see cref="!:Cache.Count"/> - <see cref="P:SpaceCG.General.Channel`2.Offset"/></para>
+            </summary>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.#ctor(`0)">
+            <summary>
+            数据通道对象，默认最大缓存大小 1024 
+            </summary>
+            <param name="key">通道键类型</param>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.#ctor(`0,System.Int32)">
+            <summary>
+            数据通道对象
+            </summary>
+            <param name="key">通道键类型</param>
+            <param name="maxSize">通道缓存大小</param>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.CheckOverflow">
+            <summary>
+            检查溢出。如果溢出，则清除多余的数据，从最先入缓存处计算
+            <para> 如果有清除数据，则 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 也会向左移动，移动范围为清除数据的大小</para>
+            </summary>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.Add(`1)">
+            <summary>
+            添加数据到缓存结尾
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.AddRange(System.Collections.Generic.IEnumerable{`1})">
+            <summary>
+            添加数据到缓存结尾
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.GetRange(System.Int32,System.Boolean)">
+            <summary>
+            获取部份缓存数据，从 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 处开始的 size 大小，移除会修改 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 值。
+            <para>如果参数错误，则返回 null ；如果可读取元素小于 size ，则返回可读取元素的大小</para>
+            </summary>
+            <param name="size">从 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 处开始的元素数量</param>
+            <param name="remove">是否从缓存中移除返回的数据大小，实则调用 <see cref="M:SpaceCG.General.Channel`2.RemoveRange(System.Int32)"/></param>
+            <returns>返回从 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 处开始的元素数量</returns>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.GetRange(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            获取部份缓存数据，从 index 处开始的 size 元素数量，移除不会修改 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 值。
+            <para>如果参数错误，则返回 null ；如果可读取元素小于 size ，则返回可读取元素的大小</para>
+            </summary>
+            <param name="index">范围开始处的从零开始的索引</param>
+            <param name="size">范围中的元素数量</param>
+            <param name="remove">是否从缓存中移除返回的数据大小，实则调用 <see cref="M:SpaceCG.General.Channel`2.RemoveRange(System.Int32,System.Int32)"/></param>
+            <returns>返回从 index 处开始的 size 元素数量</returns>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.RemoveRange(System.Int32)">
+            <summary>
+            从缓存中移除部份元素，从 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 处开始移除元素，<see cref="P:SpaceCG.General.Channel`2.Offset"/> 会向左偏移被移除的数量
+            </summary>
+            <param name="size">移除元素的数量</param>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            从缓存中移除部份元素，从 index 处开始移除元素，<see cref="P:SpaceCG.General.Channel`2.Offset"/> 不会被修改
+            </summary>
+            <param name="index">范围开始处的从零开始的索引</param>
+            <param name="size">移除元素的数量</param>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.Clear">
+            <summary>
+            清除缓存数据，设置 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 为 0
+            </summary>
+        </member>
+        <member name="M:SpaceCG.General.Channel`2.Dispose">
+            <summary>
+            Dispose
             </summary>
         </member>
         <member name="T:SpaceCG.General.AnalyseResultHandler`2">
@@ -493,58 +590,64 @@
             数据分析产生结果时调用的代理函数
             <para>返回结果如果 true 表示清除这部份的缓存数据，否则会存储在缓存中，直到缓存大小超出 最大缓存 才会被移除</para>
             </summary>
-            <typeparam name="TChannelType">通道键类型</typeparam>
-            <typeparam name="TResultType">数据结果类型</typeparam>
+            <typeparam name="TChannelKey">通道键类型</typeparam>
+            <typeparam name="TResultType">返回的数据结果类型</typeparam>
             <param name="key">通道的唯一标识键</param>
             <param name="result">分析产生的数据结果</param>
             <returns> 返回结果如果 true 表示清除这部份的缓存数据，否则会存储在缓存中，直到缓存大小超出 最大缓存 才会被移除 </returns>
         </member>
-        <member name="T:SpaceCG.General.AbstractDataAnalyseAdapter`2">
+        <member name="T:SpaceCG.General.AbstractDataAnalyseAdapter`3">
             <summary>
             抽象类，多通道数据分析适配器(支持多线程)
-            <para>该类为抽象类，需继承实现 <see cref="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.AnalyseChannel(`0,System.Byte[],SpaceCG.General.AnalyseResultHandler{`0,`1})"/>, <see cref="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.ParseResultType(System.Byte[][])"/> 函数</para>
+            <para>该类为抽象类，需继承实现 <see cref="M:SpaceCG.General.AbstractDataAnalyseAdapter`3.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{`1},SpaceCG.General.AnalyseResultHandler{`0,`2})"/>, <see cref="M:SpaceCG.General.AbstractDataAnalyseAdapter`3.ConvertResultType(System.Collections.Generic.IReadOnlyList{`1},System.Object[])"/> 函数</para>
             </summary>
-            <typeparam name="TChannelType">通道键类型</typeparam>
+            <typeparam name="TChannelKey">通道键类型</typeparam>
+            <typeparam name="TDataType">数据类型</typeparam>
             <typeparam name="TResultType">数据结果封装类型</typeparam>
         </member>
-        <member name="F:SpaceCG.General.AbstractDataAnalyseAdapter`2.Channels">
+        <member name="F:SpaceCG.General.AbstractDataAnalyseAdapter`3.Channels">
             <summary>
             多通道数据缓存字典
             </summary>
         </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.AddChannel(`0)">
+        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`3.AddChannel(`0)">
             <summary>
             添加一个数据分析通道
             </summary>
             <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
             <returns>添加成功返回 true </returns>
         </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.AddChannel(`0,System.Int32,System.Int32)">
+        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`3.AddChannel(`0,System.Int32)">
             <summary>
             添加一个数据分析通道
             </summary>
             <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
-            <param name="capacity">缓存数据块最初可以存储的元素数量；缓存数据块可自动扩容(会产生数据拷贝)，但不会超出 maxSize; 实际数据缓存量建议不要超过该值</param>
-            <param name="maxSize">缓存数据块最大容量，一般是 capacity * 1.5 到 2.0 大小</param>
+            <param name="maxSize">缓存数据的最大容量</param>
             <returns> 添加成功返回 true </returns>
         </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.RemoveChannel(`0)">
-            <summary>
-            移除一个数据分析通道，移除会清除缓存数据
-            </summary>
-            <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
-            <returns>移除成功返回 true </returns>
-        </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.GetChannel(`0)">
+        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`3.GetChannel(`0)">
             <summary>
             获取数据通道对象；不会抛出异常信息，如果通道不存在，则返回 null 值
             </summary>
             <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
             <returns> </returns>
         </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.AnalyseChannel(`0,System.Byte[],SpaceCG.General.AnalyseResultHandler{`0,`1})">
+        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`3.RemoveChannel(`0)">
+            <summary>
+            移除一个数据分析通道，移除会清除缓存数据
+            </summary>
+            <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
+            <returns>移除成功返回 true </returns>
+        </member>
+        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`3.ClearChannels">
+            <summary>
+            清除所有通道，及其通道缓存数据
+            </summary>
+        </member>
+        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`3.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{`1},SpaceCG.General.AnalyseResultHandler{`0,`2})">
             <summary>
             分析指定通道的数据
+            <para>考虑到如果在线程中运行，不建议抛出异常信息，直接返回 bool 值，参数错误 或 数据错误 返回 false</para>
             </summary>
             <param name="key">通道的唯一标识键，不能为 null 值，或无效引用</param>
             <param name="data">需要分析或缓存的数据</param>
@@ -552,17 +655,13 @@
             <exception cref="T:System.ArgumentNullException">参数不能为空</exception>
             <returns> 返回数据分析状态 </returns>
         </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.ParseResultType(System.Byte[][])">
+        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`3.ConvertResultType(System.Collections.Generic.IReadOnlyList{`1},System.Object[])">
             <summary>
-            通道数据块封装数据类型
+            通道数据块转换数据类型
             </summary>
-            <param name="blocks">源数据块</param>
+            <param name="packet">数据包</param>
+            <param name="args">更多数据包</param>
             <returns> 返回数据结果 </returns>
-        </member>
-        <member name="M:SpaceCG.General.AbstractDataAnalyseAdapter`2.Dispose">
-            <summary>
-            Dispose
-            </summary>
         </member>
         <member name="T:SpaceCG.General.BoyerMoore">
             <summary>
@@ -578,6 +677,11 @@
         <member name="F:SpaceCG.General.BoyerMoore.CAPACITY">
             <summary>
             返回的索引集合列表，初使最大可以存储的元素数量
+            </summary>
+        </member>
+        <member name="P:SpaceCG.General.BoyerMoore.PatternLength">
+            <summary>
+            匹配数据的长度
             </summary>
         </member>
         <member name="F:SpaceCG.General.BoyerMoore.badTable">
@@ -598,11 +702,6 @@
         <member name="F:SpaceCG.General.BoyerMoore.patternBytes">
             <summary>
             需要匹配的字节数据
-            </summary>
-        </member>
-        <member name="P:SpaceCG.General.BoyerMoore.PatternLength">
-            <summary>
-            匹配数据的长度
             </summary>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.#ctor">
@@ -745,12 +844,13 @@
             <param name="pattern">需要匹配的数据内容</param>
             <returns></returns>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift``1(System.Collections.Generic.IReadOnlyList{``0})">
+        <member name="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift``1(System.Collections.Generic.IReadOnlyList{``0},System.Boolean)">
             <summary>
             获取无效数据标记表 (坏字符 Bad Character Heuristic)，返回的是字典类型数据
             </summary>
             <typeparam name="T">键类型</typeparam>
             <param name="pattern"></param>
+            <param name="useThreadSafe">是否使用 可由多个线程同时访问的 键/值对 的 线程安全集合</param>
             <returns></returns>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.GetGoodSuffixShift(System.String@)">
@@ -847,12 +947,17 @@
         </member>
         <member name="F:SpaceCG.General.BoyerMoore`1.badTable">
             <summary>
-            通过 <see cref="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift``1(System.Collections.Generic.IReadOnlyList{``0})"/> 生成的 坏字符表 (Bad Character Heuristic)
+            通过 <see cref="M:SpaceCG.General.BoyerMoore.GetBadCharacterShift``1(System.Collections.Generic.IReadOnlyList{``0},System.Boolean)"/> 生成的 坏字符表 (Bad Character Heuristic)
             </summary>
         </member>
         <member name="F:SpaceCG.General.BoyerMoore`1.goodTable">
             <summary>
             通过 <see cref="M:SpaceCG.General.BoyerMoore.GetGoodSuffixShift``1(System.Collections.Generic.IReadOnlyList{``0})"/> 生成的 好后缀表 (Good Suffix Heuristic)
+            </summary>
+        </member>
+        <member name="F:SpaceCG.General.BoyerMoore`1.useThreadSafe">
+            <summary>
+            是否使用 可由多个线程同时访问的 键/值对 的 线程安全集合
             </summary>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore`1.#ctor">
@@ -870,11 +975,12 @@
             BoyerMoore 泛型版本
             </summary>
         </member>
-        <member name="M:SpaceCG.General.BoyerMoore`1.ResetPattern(System.Collections.Generic.IReadOnlyList{`0})">
+        <member name="M:SpaceCG.General.BoyerMoore`1.ResetPattern(System.Collections.Generic.IReadOnlyList{`0},System.Boolean)">
             <summary>
             设置需要匹配数据
             </summary>
             <param name="pattern"></param>
+            <param name="useThreadSafe">是否使用 可由多个线程同时访问的 键/值对 的 线程安全集合</param>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore`1.Search(System.Collections.Generic.IReadOnlyList{`0},System.Int32,System.Int32)">
             <summary>
@@ -908,109 +1014,162 @@
             <exception cref="T:System.ArgumentOutOfRangeException">起始结束匹配位置设置错误，超出查找匹配界限范围</exception>
             <returns> 返回 空集合 表示没匹配到 </returns>
         </member>
-        <member name="T:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2">
+        <member name="T:SpaceCG.General.FixedHeadDataAnalysePattern`2">
             <summary>
-            数据包大小 = 固定包头大小 + 动态包体大小，固定包头数据分析适配器基类
+            数据包大小 = 固定包头大小 + 动态包体大小，固定包头数据分析模式适配器基类
             <para>跟据读取的包头(固定字节大小)内容，获取包体大小</para>
             </summary>
-            <typeparam name="TChannelType">通道键类型</typeparam>
+            <typeparam name="TChannelKey">通道键类型</typeparam>
             <typeparam name="TResultType">数据结果封装类型</typeparam>
         </member>
-        <member name="F:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2.headerSize">
+        <member name="F:SpaceCG.General.FixedHeadDataAnalysePattern`2.HeadSize">
             <summary>
-            包头大小, 调用 <see cref="M:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2.GetBodySize(System.Byte[])"/> 方法时候会返回动态包体大小；需要继承当前接口的类在构造函数中设置包头长度
+            包头大小, 调用 <see cref="M:SpaceCG.General.FixedHeadDataAnalysePattern`2.GetBodySize(System.Collections.Generic.List{System.Byte})"/> 方法时候会返回动态包体大小；需要继承当前接口的类在构造函数中设置包头长度
             </summary>
         </member>
-        <member name="F:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2.maxPacketSize">
+        <member name="F:SpaceCG.General.FixedHeadDataAnalysePattern`2.MaxPacketSize">
             <summary>
              数据包最大大小，如果 数据包大小(包头长度 + 包体长度) 大于该值，表示数据错误
             </summary>
         </member>
-        <member name="M:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2.#ctor(System.Int32,System.Int32)">
+        <member name="M:SpaceCG.General.FixedHeadDataAnalysePattern`2.#ctor(System.Int32,System.Int32)">
             <summary>
             固定包头数据分析适配器
+            <para>参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于 最大缓存大小，且大于 动态包体大小，否则算数据异常，但不抛出异常，返回 false</para>
             </summary>
-            <param name="headerSize">包头字节 占 整体数据包的大小</param>
-            <param name="maxPacketSize">整体数据包 预计 最大字节大小，超出则清除处理，为 0 表示不做包的超出检测比较</param>
-            <exception cref="T:System.ArgumentException">参数错误，参数 headerSize 必须大于 0, 参数 maxPacketSize 必须大于或等于 0 </exception>
+            <param name="headSize">包头字节 占 整体数据包的大小</param>
+            <param name="maxPacketSize">整体数据包 预计 最大字节大小，超出则清除处理；注意：最大包大小不得超出最大缓存大小</param>
+            <exception cref="T:System.ArgumentException">参数错误，参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于缓存大小，且大于动态包体大小 + HeadSize </exception>
         </member>
-        <member name="M:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2.AnalyseChannel(`0,System.Byte[],SpaceCG.General.AnalyseResultHandler{`0,`1})">
+        <member name="M:SpaceCG.General.FixedHeadDataAnalysePattern`2.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{System.Byte},SpaceCG.General.AnalyseResultHandler{`0,`1})">
             <inheritdoc/>
         </member>
-        <member name="M:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2.GetBodySize(System.Byte[])">
+        <member name="M:SpaceCG.General.FixedHeadDataAnalysePattern`2.GetBodySize(System.Collections.Generic.List{System.Byte})">
             <summary>
             分析头部字节数据
             <para>因为字节端不确定，或是头部信息不确定，所以需要在这里实现分析头部数据并返回一个值</para>
             </summary>
-            <param name="header">头部源数据</param>
+            <param name="head">头部源数据</param>
             <returns>返回包主体字节大小</returns>
         </member>
-        <member name="M:SpaceCG.General.FixedHeaderDataAnalyseAdapter`2.ParseResultType(System.Byte[],System.Byte[])">
+        <member name="M:SpaceCG.General.FixedHeadDataAnalysePattern`2.ConvertResultType(System.Collections.Generic.List{System.Byte},System.Collections.Generic.List{System.Byte})">
             <summary>
-            通道数据块封装数据类型
+            通道数据块转换数据类型
             </summary>
-            <param name="header">头部源数据</param>
+            <param name="head">头部源数据</param>
             <param name="body">主体源数据</param>
             <returns></returns>
         </member>
-        <member name="T:SpaceCG.General.FixedSizeDataAnalyseAdapter`2">
+        <member name="T:SpaceCG.General.FixedHeadDataAnalyse`1">
             <summary>
-            固定包大小的数据分析适配器基类
+            数据包大小 = 固定包头大小 + 动态包体大小，固定包头数据分析
+            <para>跟据读取的包头(固定字节大小)内容，获取包体大小</para>
+            </summary>
+            <typeparam name="TChannelKey">通道键类型</typeparam>
+        </member>
+        <member name="M:SpaceCG.General.FixedHeadDataAnalyse`1.#ctor(System.Int32,System.Int32)">
+            <summary>
+            固定包头数据分析
+            </summary>
+            <param name="headSize">包头字节 占 整体数据包的大小</param>
+            <param name="maxPacketSize">整体数据包 预计 最大字节大小，超出则清除处理，为 0 表示不做包的超出检测比较</param>
+        </member>
+        <member name="M:SpaceCG.General.FixedHeadDataAnalyse`1.GetBodySize(System.Collections.Generic.List{System.Byte})">
+            <inheritdoc/>
+        </member>
+        <member name="M:SpaceCG.General.FixedHeadDataAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte},System.Collections.Generic.List{System.Byte})">
+            <inheritdoc/>
+        </member>
+        <member name="T:SpaceCG.General.FixedSizeDataAnalysePattern`2">
+            <summary>
+            固定大小的数据分析模式适配器基类
             <para>按固定大小的字节数据做为一个数据包分析，无头无尾，按字节大小封包转换</para>
             </summary>
-            <typeparam name="TChannelType">通道键类型</typeparam>
+            <typeparam name="TChannelKey">通道键类型</typeparam>
             <typeparam name="TResultType">数据结果封装类型</typeparam>
         </member>
-        <member name="F:SpaceCG.General.FixedSizeDataAnalyseAdapter`2.packetSize">
+        <member name="F:SpaceCG.General.FixedSizeDataAnalysePattern`2.PacketSize">
             <summary>
-            整体数据包固定大小
+            数据包固定大小
             </summary>
         </member>
-        <member name="M:SpaceCG.General.FixedSizeDataAnalyseAdapter`2.#ctor(System.Int32)">
+        <member name="M:SpaceCG.General.FixedSizeDataAnalysePattern`2.#ctor(System.Int32)">
             <summary>
             固定包大小数据分析适配器
             </summary>
             <param name="packetSize">整体数据包固定大小</param>
             <exception cref="T:System.ArgumentException"> 参数错误，数据包不得小于 1 </exception>
         </member>
-        <member name="M:SpaceCG.General.FixedSizeDataAnalyseAdapter`2.AnalyseChannel(`0,System.Byte[],SpaceCG.General.AnalyseResultHandler{`0,`1})">
+        <member name="M:SpaceCG.General.FixedSizeDataAnalysePattern`2.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{System.Byte},SpaceCG.General.AnalyseResultHandler{`0,`1})">
             <inheritdoc/>
         </member>
-        <member name="M:SpaceCG.General.FixedSizeDataAnalyseAdapter`2.ParseResultType(System.Byte[])">
+        <member name="M:SpaceCG.General.FixedSizeDataAnalysePattern`2.ConvertResultType(System.Collections.Generic.List{System.Byte})">
             <summary>
-            通道数据块封装数据类型
+            通道数据块转换数据类型
             </summary>
             <param name="packet">源数据包内容</param>
             <returns> 返回数据结果 </returns>
         </member>
-        <member name="T:SpaceCG.General.TerminatorDataAnalyseAdapter`2">
+        <member name="T:SpaceCG.General.FixedSizeDataAnalyse`1">
             <summary>
-            跟据终止字节数据，分割数据包分析适配器基类
+            固定大小的数据分析
+            <para>按固定大小的字节数据做为一个数据包分析，无头无尾，按字节大小封包转换</para>
             </summary>
-            <typeparam name="TChannelType">通道键类型</typeparam>
+            <typeparam name="TChannelKey">通道键类型</typeparam>
+        </member>
+        <member name="M:SpaceCG.General.FixedSizeDataAnalyse`1.#ctor(System.Int32)">
+            <summary>
+            固定大小的数据分析
+            </summary>
+            <param name="packetSize">整体数据包固定大小</param>
+        </member>
+        <member name="M:SpaceCG.General.FixedSizeDataAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte})">
+            <inheritdoc/>
+        </member>
+        <member name="T:SpaceCG.General.TerminatorDataAnalysePattern`2">
+            <summary>
+            跟据终止字节数据分割数据包的分析模式适配器基类
+            </summary>
+            <typeparam name="TChannelKey">通道键类型</typeparam>
             <typeparam name="TResultType">返回的数据结果类型</typeparam>
         </member>
-        <member name="F:SpaceCG.General.TerminatorDataAnalyseAdapter`2.boyerMoore">
+        <member name="F:SpaceCG.General.TerminatorDataAnalysePattern`2.BoyerMoore">
             <summary>
-            Boyer Moore
+            Terminator Boyer - Moore
             </summary>
         </member>
-        <member name="M:SpaceCG.General.TerminatorDataAnalyseAdapter`2.#ctor(System.Byte[])">
+        <member name="M:SpaceCG.General.TerminatorDataAnalysePattern`2.#ctor(System.Collections.Generic.IReadOnlyList{System.Byte})">
             <summary>
             跟据终止字节数据，分割数据包分析适配器
             </summary>
             <param name="terminator">终止字节数据</param>
             <exception cref="T:System.ArgumentNullException">参数错误，参数 terminator 不能为空</exception>
         </member>
-        <member name="M:SpaceCG.General.TerminatorDataAnalyseAdapter`2.AnalyseChannel(`0,System.Byte[],SpaceCG.General.AnalyseResultHandler{`0,`1})">
+        <member name="M:SpaceCG.General.TerminatorDataAnalysePattern`2.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{System.Byte},SpaceCG.General.AnalyseResultHandler{`0,`1})">
             <inheritdoc/>
         </member>
-        <member name="M:SpaceCG.General.TerminatorDataAnalyseAdapter`2.ParseResultType(System.Byte[])">
+        <member name="M:SpaceCG.General.TerminatorDataAnalysePattern`2.ConvertResultType(System.Collections.Generic.List{System.Byte})">
             <summary>
-            通道数据块封装数据类型
+            通道数据块转换数据类型
             </summary>
             <param name="packet">源数据包内容</param>
             <returns> 返回数据结果 </returns>
+        </member>
+        <member name="T:SpaceCG.General.TerminatorDataAnalyse`1">
+            <summary>
+            跟据终止字节数据分割数据包的分析模式适配器
+            </summary>
+            <typeparam name="TChannelKey">通道键类型</typeparam>
+        </member>
+        <member name="M:SpaceCG.General.TerminatorDataAnalyse`1.#ctor(System.Collections.Generic.IReadOnlyList{System.Byte})">
+            <summary>
+            跟据终止字节数据，分割数据包分析适配器
+            </summary>
+            <param name="terminator">终止字节数据</param>
+            <exception cref="T:System.ArgumentNullException">参数错误，参数 terminator 不能为空</exception>
+        </member>
+        <member name="M:SpaceCG.General.TerminatorDataAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte})">
+            <inheritdoc/>
         </member>
         <member name="T:SpaceCG.Log4Net.MultiStringConverter">
             <summary>
