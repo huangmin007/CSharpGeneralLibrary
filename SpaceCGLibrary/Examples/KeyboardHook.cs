@@ -1,5 +1,4 @@
 ﻿#pragma warning disable CS1591,CS1572
-using SpaceCG.WindowsAPI.Kernel32;
 using SpaceCG.WindowsAPI.WinUser;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Windows.Input;
 namespace SpaceCG.Examples
 {
     /// <summary>
-    /// 
+    /// Keyboard Hook
     /// </summary>
     [Example]
     public class KeyboardHook:IDisposable
@@ -55,7 +54,7 @@ namespace SpaceCG.Examples
             if(nCode >= 0)
             {
                 MessageType flag = (MessageType)wParam;
-                KeyboardLLHookStruct keyData = (KeyboardLLHookStruct)Marshal.PtrToStructure<KeyboardLLHookStruct>(lParam);
+                KeyboardLLHookStruct keyData = Marshal.PtrToStructure<KeyboardLLHookStruct>(lParam);
 
                 Console.WriteLine("Flag:{0} KeyData:{1}", flag, keyData);
 

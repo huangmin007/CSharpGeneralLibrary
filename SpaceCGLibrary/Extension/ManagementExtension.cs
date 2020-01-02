@@ -39,9 +39,8 @@ namespace SpaceCG.Extension
         /// <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
         /// <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
         /// <param name="changeCallback"></param>
-        /// <param name="Log"></param>
         /// <exception cref="InvalidOperationException"></exception>
-        public static void ListenInstanceChange(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
+        public static void ListenInstanceChange(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback)
         {
             if (InstanceCreationEvent != null || InstanceDeletionEvent != null)
                 throw new InvalidOperationException("此函数只是单个监听示例，不可重复调用监听");
@@ -59,7 +58,7 @@ namespace SpaceCG.Extension
             InstanceCreationEvent = new ManagementEventWatcher(scope, new WqlEventQuery("__InstanceCreationEvent", withinInterval, wql_condition));
             InstanceCreationEvent.EventArrived += (s, e) =>
             {
-                Log?.InfoFormat("Instance Creation Event :: {0}", e.NewEvent.ClassPath);
+                SpaceCGUtils.Log.InfoFormat("Instance Creation Event :: {0}", e.NewEvent.ClassPath);
                 changeCallback?.Invoke(e.NewEvent);
             };
 
@@ -67,7 +66,7 @@ namespace SpaceCG.Extension
             InstanceDeletionEvent = new ManagementEventWatcher(scope, new WqlEventQuery("__InstanceDeletionEvent", withinInterval, wql_condition));
             InstanceDeletionEvent.EventArrived += (s, e) =>
             {
-                Log?.InfoFormat("Instance Deletion Event :: {0}", e.NewEvent.ClassPath);
+                SpaceCGUtils.Log.InfoFormat("Instance Deletion Event :: {0}", e.NewEvent.ClassPath);
                 changeCallback?.Invoke(e.NewEvent);
             };
 
@@ -83,11 +82,10 @@ namespace SpaceCG.Extension
         /// </summary>
         /// <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
         /// <param name="changeCallback"></param>
-        /// <param name="Log"></param>
         /// <exception cref="InvalidOperationException"></exception>
-        public static void ListenInstanceChange(String wql_condition, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
+        public static void ListenInstanceChange(String wql_condition, Action<ManagementBaseObject> changeCallback)
         {
-            ListenInstanceChange(wql_condition, TimeSpan.FromSeconds(1), changeCallback, Log);
+            ListenInstanceChange(wql_condition, TimeSpan.FromSeconds(1), changeCallback);
         }
         /// <summary>
         /// 监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="RemoveInstanceChange"/> 移除监听
@@ -101,9 +99,9 @@ namespace SpaceCG.Extension
         /// <param name="changeCallback"></param>
         /// <param name="Log"></param>
         /// <exception cref="InvalidOperationException"></exception>
-        public static async Task ListenInstanceChangeAsync(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
+        public static async Task ListenInstanceChangeAsync(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback)
         {
-            await Task.Run(() => ListenInstanceChange(wql_condition, withinInterval, changeCallback, Log));
+            await Task.Run(() => ListenInstanceChange(wql_condition, withinInterval, changeCallback));
         }
         /// <summary>
         /// 移除并销毁 由 <see cref="ListenInstanceChange(string, TimeSpan, Action{ManagementBaseObject}, log4net.ILog)"/> 创建的监听。
@@ -146,9 +144,8 @@ namespace SpaceCG.Extension
         /// <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
         /// <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
         /// <param name="changeCallback"></param>
-        /// <param name="Log"></param>
         /// <exception cref="InvalidOperationException"></exception>
-        public static void ListenInstanceModification(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
+        public static void ListenInstanceModification(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback)
         {
             if (InstanceModificationEvent != null)
                 throw new InvalidOperationException("此函数只是单个监听示例，不可重复调用监听"); ;
@@ -172,8 +169,7 @@ namespace SpaceCG.Extension
             };
             InstanceModificationEvent.EventArrived += (s, e) =>
             {
-                if (Log != null && Log.IsDebugEnabled)
-                    Log.DebugFormat("Instance Modification Event :: {0}", e.NewEvent.ClassPath);
+                SpaceCGUtils.Log.DebugFormat("Instance Modification Event :: {0}", e.NewEvent.ClassPath);
                 changeCallback?.Invoke(e.NewEvent);
             };
             InstanceModificationEvent.Start();
@@ -186,11 +182,10 @@ namespace SpaceCG.Extension
         /// </summary>
         /// <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
         /// <param name="changeCallback"></param>
-        /// <param name="Log"></param>
         /// <exception cref="InvalidOperationException"></exception>
-        public static void ListenInstanceModification(String wql_condition, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
+        public static void ListenInstanceModification(String wql_condition, Action<ManagementBaseObject> changeCallback)
         {
-            ListenInstanceModification(wql_condition, TimeSpan.FromSeconds(1), changeCallback, Log);
+            ListenInstanceModification(wql_condition, TimeSpan.FromSeconds(1), changeCallback);
         }
         /// <summary>
         /// 监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
@@ -203,9 +198,9 @@ namespace SpaceCG.Extension
         /// <param name="changeCallback"></param>
         /// <param name="Log"></param>
         /// <exception cref="InvalidOperationException"></exception>
-        public static async Task ListenInstanceModificationAsync(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback, log4net.ILog Log = null)
+        public static async Task ListenInstanceModificationAsync(String wql_condition, TimeSpan withinInterval, Action<ManagementBaseObject> changeCallback)
         {
-            await Task.Run(() => ListenInstanceModification(wql_condition, withinInterval, changeCallback, Log));
+            await Task.Run(() => ListenInstanceModification(wql_condition, withinInterval, changeCallback));
         }
         /// <summary>
         /// 移除并销毁 由 <see cref="ListenInstanceChange(string, TimeSpan, Action{ManagementBaseObject}, log4net.ILog)"/> 创建的监听。

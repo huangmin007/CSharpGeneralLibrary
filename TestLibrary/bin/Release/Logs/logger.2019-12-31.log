@@ -1,0 +1,62 @@
+﻿[Header]
+[15:29:52] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (381) 
+[15:29:53] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(189)] - Initialize. (693) 
+[15:29:53] [ 1] [ERROR] [TestLibrary.App] [<SettingEventLogger>b__0(31)] - Application Unhandled Exception: System.Windows.Markup.XamlParseException: 初始化“TestLibrary.MainWindow”时引发了异常。 ---> System.FormatException: 索引(从零开始)必须大于或等于零，且小于参数列表的大小。
+   在 System.Text.StringBuilder.AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.String.FormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.IO.TextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.IO.TextWriter.SyncTextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.Console.WriteLine(String format, Object arg0, Object arg1)
+   在 TestLibrary.MainWindow.OnInitialized(EventArgs e) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\MainWindow.xaml.cs:行号 189
+   在 System.Windows.FrameworkElement.TryFireInitialized()
+   在 System.Windows.FrameworkElement.EndInit()
+   在 MS.Internal.Xaml.Runtime.ClrObjectRuntime.InitializationGuard(XamlType xamlType, Object obj, Boolean begin)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   在 System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   在 System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   在 System.Windows.Application.LoadBamlStreamWithSyncInfo(Stream stream, ParserContext pc)
+   在 System.Windows.Application.LoadComponent(Uri resourceLocator, Boolean bSkipJournaledProperties)
+   在 System.Windows.Application.DoStartup()
+   在 System.Windows.Application.<.ctor>b__1_0(Object unused)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (875) 
+[Header]
+[15:30:57] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (664) 
+[15:30:58] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(189)] - Initialize. (1306) 
+[15:30:58] [ 1] [ERROR] [TestLibrary.App] [<SettingEventLogger>b__0(32)] - Application Unhandled Exception: System.Windows.Markup.XamlParseException: 初始化“TestLibrary.MainWindow”时引发了异常。 ---> System.FormatException: 索引(从零开始)必须大于或等于零，且小于参数列表的大小。
+   在 System.Text.StringBuilder.AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.String.FormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.IO.TextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.IO.TextWriter.SyncTextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.Console.WriteLine(String format, Object arg0, Object arg1)
+   在 TestLibrary.MainWindow.OnInitialized(EventArgs e) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\MainWindow.xaml.cs:行号 189
+   在 System.Windows.FrameworkElement.TryFireInitialized()
+   在 System.Windows.FrameworkElement.EndInit()
+   在 MS.Internal.Xaml.Runtime.ClrObjectRuntime.InitializationGuard(XamlType xamlType, Object obj, Boolean begin)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   在 System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   在 System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   在 System.Windows.Application.LoadBamlStreamWithSyncInfo(Stream stream, ParserContext pc)
+   在 System.Windows.Application.LoadComponent(Uri resourceLocator, Boolean bSkipJournaledProperties)
+   在 System.Windows.Application.DoStartup()
+   在 System.Windows.Application.<.ctor>b__1_0(Object unused)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1348) 
+
+[Header]
+[16:23:32] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (306) 
+[16:23:33] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(62)] - Initialize. (644) 
+[16:23:33] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(52)] - MainWindow. (711) 
+[16:23:36] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3699) 
+[Footer]
+
+
+[Header]
+[16:26:56] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (333) 
+[16:26:57] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(62)] - Initialize. (597) 
+[16:26:57] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(52)] - MainWindow. (610) 
+[16:26:59] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3232) 
+[Footer]
+

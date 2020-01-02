@@ -4,28 +4,6 @@
         <name>SpaceCGLibrary</name>
     </assembly>
     <members>
-        <member name="T:SpaceCG.Examples.MyApp">
-            <summary>
-            跨应用程序会话保留和还原应用程序范围属性 示例
-            </summary>
-        </member>
-        <member name="T:SpaceCG.Examples.ApplicationRunOne">
-            <summary>
-            Application Run One Example
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Examples.ApplicationRunOne.MainX">
-            <summary>
-            只运行一个实体对象
-            <para>Main 函数</para>
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Examples.ApplicationRunOne.OnStartup(System.Windows.StartupEventArgs)">
-            <summary>
-            WPF override OnStartup
-            </summary>
-            <param name="e"></param>
-        </member>
         <member name="T:SpaceCG.Examples.ExampleAttribute">
             <summary>
             这是一个示例
@@ -33,7 +11,7 @@
         </member>
         <member name="T:SpaceCG.Examples.KeyboardHook">
             <summary>
-            
+            Keyboard Hook
             </summary>
         </member>
         <member name="M:SpaceCG.Examples.KeyboardHook.Initialize">
@@ -64,15 +42,49 @@
             <param name="vkCey"></param>
             <returns></returns>
         </member>
+        <member name="T:SpaceCG.Extension.ApplicationExtension">
+            <summary>
+            Application Extension
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.ApplicationExtension.RunDefaultSetting(System.Windows.Application,System.Windows.ShutdownMode,System.Boolean,System.String)">
+            <summary>
+            运行设置是否只运行一个实例，以及启用 Application 的事件记录，和未处理的异常信息记录
+            </summary>
+            <param name="app"></param>
+            <param name="shutdownmMode">Shutdown Mode </param>
+            <param name="runOnlyOne">只运行一个应用实例</param>
+            <param name="name">如果 runOnlyOne 为 true, 该参数有效，表示系统范围内同步事件的名称</param>
+        </member>
+        <member name="M:SpaceCG.Extension.ApplicationExtension.IsRunningInstance">
+            <summary>
+            指示应用程序是否正在运行实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ApplicationExtension.ReadApplicationProperties(System.Windows.Application,System.String)">
+            <summary>
+            读取应用程序范围属性的集合，一般发生在 <see cref="M:System.Windows.Application.OnStartup(System.Windows.StartupEventArgs)"/> 处理
+            </summary>
+            <param name="app"></param>
+            <param name="filename"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.ApplicationExtension.WriteApplicationProperties(System.Windows.Application,System.String)">
+            <summary>
+            保存应用程序范围属性的集合，一般发生在 <see cref="M:System.Windows.Application.OnExit(System.Windows.ExitEventArgs)"/> 处理
+            </summary>
+            <param name="app"></param>
+            <param name="filename"></param>
+        </member>
         <member name="T:SpaceCG.Extension.HPSocketExtension">
             <summary>
             HPSocket 扩展类/功能
             </summary>
         </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean)">
             <summary>
             创建 HPSocket.IClient 客户端连接对象，并创建匿名监听事件。如果只关心数据的接收/处理，适用此方法。
-            <para>建议使用 <see cref="M:SpaceCG.Extension.HPSocketExtension.DisposeClient(HPSocket.IClient,log4net.ILog)"/> 断开销毁客户端对象。 </para>
+            <para>建议使用 <see cref="!:DisposeClient(HPSocket.IClient, log4net.ILog)"/> 断开销毁客户端对象。 </para>
             <para> &lt;IClient&gt; 类型约束实现 <see cref="T:HPSocket.IClient"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpClient"/>, <see cref="T:HPSocket.Udp.UdpClient"/>, <see cref="T:HPSocket.Udp.UdpCast"/> ... </para>
             </summary>
             <typeparam name="IClient">&lt;IClient&gt; 类型约束实现 <see cref="T:HPSocket.IClient"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpClient"/>, <see cref="T:HPSocket.Udp.UdpClient"/>, <see cref="T:HPSocket.Udp.UdpCast"/> ...</typeparam>
@@ -80,29 +92,26 @@
             <param name="remotePort">远程服务端端口</param>
             <param name="receivedCallback">数据接收回调</param>
             <param name="autoConnect">断开后是否自动连接，等待 3000ms 后重新连接</param>
-            <param name="log"></param>
             <exception cref="T:System.ArgumentException"></exception>
             <returns>返回 <see cref="T:HPSocket.IClient"/> 实例对象。</returns>
         </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeClient(HPSocket.IClient,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeClient(HPSocket.IClient)">
             <summary>
-            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean,log4net.ILog)"/> 创建的客户端对象
+            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean)"/> 创建的客户端对象
             <para>注意：静态函数，非引用参数 client, 需实例变量 设为 null </para>
             </summary>
             <param name="client"></param>
-            <param name="log"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateServer``1(System.UInt16,System.Action{System.IntPtr,System.Byte[]},log4net.ILog)">
+        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateServer``1(System.UInt16,System.Action{System.IntPtr,System.Byte[]})">
             <summary>
             创建简单 HPSocket.IServer 服务端对象，并创建匿名监听事件。
-            <para>建议使用 <see cref="M:SpaceCG.Extension.HPSocketExtension.DisposeServer(HPSocket.IServer,log4net.ILog)"/> 断开销毁客户端对象。 </para>
+            <para>建议使用 <see cref="!:DisposeServer(HPSocket.IServer, log4net.ILog)"/> 断开销毁客户端对象。 </para>
             <para>&lt;IServer&gt; 类型约束实现 <see cref="T:HPSocket.IServer"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpServer"/>, <see cref="T:HPSocket.Udp.UdpServer"/> ... </para>
             </summary>
             <typeparam name="IServer">&lt;IServer&gt; 类型约束实现 <see cref="T:HPSocket.IServer"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpServer"/>, <see cref="T:HPSocket.Udp.UdpServer"/> ... </typeparam>
             <param name="localPort">绑定的本机端口号</param>
             <param name="receivedCallback">数据接收回调函数</param>
-            <param name="log"></param>
             <exception cref="T:System.ArgumentException"></exception>
             <returns>返回 <see cref="T:HPSocket.IServer"/> 实例对象。</returns>
         </member>
@@ -114,13 +123,12 @@
             <param name="connId">不对此 connId 广播，或可为 null </param>
             <param name="bytes"></param>
         </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeServer(HPSocket.IServer,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeServer(HPSocket.IServer)">
             <summary>
-            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateServer``1(System.UInt16,System.Action{System.IntPtr,System.Byte[]},log4net.ILog)"/> 创建的服务端对象
+            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateServer``1(System.UInt16,System.Action{System.IntPtr,System.Byte[]})"/> 创建的服务端对象
             <para>注意：静态函数，非引用参数 server, 需实例变量 设为 null </para>
             </summary>
             <param name="server"></param>
-            <param name="log"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="T:SpaceCG.Extension.ManagementExtension">
@@ -144,7 +152,7 @@
         <member name="F:SpaceCG.Extension.ManagementExtension.InstanceDeletionEvent">
             <summary> ManagementEventWatcher Object </summary>
         </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
             <summary>
             监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
             <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
@@ -155,10 +163,9 @@
             <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
             <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
             <param name="changeCallback"></param>
-            <param name="Log"></param>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.Action{System.Management.ManagementBaseObject})">
             <summary>
             监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
             <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
@@ -168,10 +175,9 @@
             </summary>
             <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
             <param name="changeCallback"></param>
-            <param name="Log"></param>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChangeAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChangeAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
             <summary>
             监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
             <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
@@ -187,14 +193,14 @@
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange">
             <summary>
-            移除并销毁 由 <see cref="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)"/> 创建的监听。
+            移除并销毁 由 <see cref="!:ListenInstanceChange(string, TimeSpan, Action&lt;ManagementBaseObject&gt;, log4net.ILog)"/> 创建的监听。
             <para>移除监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件</para>
             </summary>
         </member>
         <member name="F:SpaceCG.Extension.ManagementExtension.InstanceModificationEvent">
             <summary> ManagementEventWatcher Object </summary>
         </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
             <summary>
             监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
             <para>请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification"/> 移除监听 </para>
@@ -204,10 +210,9 @@
             <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
             <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
             <param name="changeCallback"></param>
-            <param name="Log"></param>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.Action{System.Management.ManagementBaseObject})">
             <summary>
             监听 "__InstanceModificationEvent"(继承 "__InstanceOperationEvent") 事件 （持续监听事件，按固定 1s 查询一次状态生成事件）；有关事件请参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/--instancemodificationevent 
             <para>请使用 RemoveInstanceModification 移除监听 </para>
@@ -216,10 +221,9 @@
             </summary>
             <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
             <param name="changeCallback"></param>
-            <param name="Log"></param>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModificationAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)">
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModificationAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
             <summary>
             监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
             <para>请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification"/> 移除监听 </para>
@@ -234,7 +238,7 @@
         </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification">
             <summary>
-            移除并销毁 由 <see cref="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject},log4net.ILog)"/> 创建的监听。
+            移除并销毁 由 <see cref="!:ListenInstanceChange(string, TimeSpan, Action&lt;ManagementBaseObject&gt;, log4net.ILog)"/> 创建的监听。
             <para>移除监听 "__InstanceModificationEvent" 事件</para>
             </summary>
         </member>
@@ -292,10 +296,10 @@
             串口 Serial_ErrorReceived 事件的错误描述信息
             </summary>
         </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.Byte[]},System.Int32,System.Boolean,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.IO.Ports.SerialPort,System.Byte[]},System.Int32,System.Boolean)">
             <summary>
-            根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。。如果只关心数据的接收/处理，适用此方法。
-            <para>建议使用 <see cref="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort@,log4net.ILog)"/> 清理该实例。</para>
+            根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。如果只关心数据的接收/处理，适用此方法，其它事件状态会记录在日志中。
+            <para>建议使用 <see cref="!:CloseAndDispose(ref SerialPort, log4net.ILog)"/> 清理该实例。</para>
             </summary>
             <param name="config">串口构造函数参数，参见 <see cref="T:System.IO.Ports.SerialPort"/> 构造函数。
                 <para>参数顺序："portName, baudRate, Parity, dataBits, StopBits"，按顺序不得少于 1 个参数，如果只有一个参数时，第二个参数 baudRate 将默认为 9600。示例："COM3", "COM3,115200", "COM3,9600,0"</para>
@@ -306,47 +310,42 @@
                 <para>获取或设置 <see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件发生前内部输入缓冲区中的字节数。</para>
                 <para><see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件触发前内部输入缓冲区中的字节数；默认值为 1，可跟据数据设计大小定义。</para>
             </param>
-            <param name="ignoreOpenError">是否忽略由 <see cref="M:System.IO.Ports.SerialPort.Open"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort,log4net.ILog)"/>。
+            <param name="ignoreOpenError">是否忽略由 <see cref="M:System.IO.Ports.SerialPort.Open"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="!:AutoReconnection(SerialPort, log4net.ILog)"/>。
                 <para>如果为 true 则产生的异常信息由 Log(如果有) 记录，否则会抛出异常信息。</para>
             </param>
-            <param name="Log">日志记录对象。如果不为 null ，则会监听记录 <see cref="E:System.IO.Ports.SerialPort.ErrorReceived"/> 和 <see cref="E:System.IO.Ports.SerialPort.PinChanged"/> 事件信息，和其它创建过程信息。</param>
             <exception cref="T:System.ArgumentException"></exception>
             <exception cref="T:System.ArgumentNullException"></exception>
             <returns> 返回串口对象 </returns>
         </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort)">
             <summary>
             串口设备热插拔自动重新连接
             <para>使用 ManagementEventWatcher WQL 事件监听模式</para>
             </summary>
             <param name="serialPort"></param>
-            <param name="Log"></param>
         </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort,System.Windows.Window,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort,System.Windows.Window)">
             <summary>
             串口设备热插拔自动重新连接
             <para>使用 HwndSource Hook Window Message #WM_DEVICECHANGE 事件监听模式</para>
             </summary>
             <param name="serialPort"></param>
             <param name="window">IsLoaded 为 True 的窗口对象</param>
-            <param name="Log"></param>
         </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort@,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort@)">
             <summary>
-            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.Byte[]},System.Int32,System.Boolean,log4net.ILog)"/> 创建的串口实例
+            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.IO.Ports.SerialPort,System.Byte[]},System.Int32,System.Boolean)"/> 创建的串口实例
             <para>注意：静态函数，引用参数 serialPort, 该方法会将 实例变量 设为 null </para>
             </summary>
             <param name="serialPort"></param>
-            <param name="Log"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort,log4net.ILog)">
+        <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort)">
             <summary>
-            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.Byte[]},System.Int32,System.Boolean,log4net.ILog)"/> 创建的串口实例
+            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.IO.Ports.SerialPort,System.Byte[]},System.Int32,System.Boolean)"/> 创建的串口实例
             <para>注意：扩展函数，需手动将实例变量设为 null</para>
             </summary>
             <param name="serialPort"></param>
-            <param name="Log">日志记录对象</param>
         </member>
         <member name="T:SpaceCG.Extension.IEnumerableExtension">
             <summary>
@@ -492,29 +491,31 @@
         </member>
         <member name="P:SpaceCG.General.Channel`2.Cache">
             <summary>
-            缓存数据
+            缓存容器实例
+            <para>不建议直接操作该实例，而是调用 <see cref="T:SpaceCG.General.Channel`2"/> 的方法操作缓存实例</para>
             </summary>
         </member>
         <member name="P:SpaceCG.General.Channel`2.MaxSize">
             <summary>
-            缓存数据最大字节大小
+            最大缓存数据大小
             </summary>
         </member>
         <member name="P:SpaceCG.General.Channel`2.Offset">
             <summary>
-            数据处理的偏移量
+            数据处理的偏移量 (内部索引)
             <para>在 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 左侧的数据不会处理，只会溢出移除</para>
+            <para>函数 <see cref="M:SpaceCG.General.Channel`2.GetRange(System.Int32,System.Int32,System.Boolean)"/>, <see cref="M:SpaceCG.General.Channel`2.RemoveRange(System.Int32,System.Int32)"/> ... 的参数 index 属于外部索引</para>
             </summary>
         </member>
         <member name="P:SpaceCG.General.Channel`2.Available">
             <summary>
-            有效数据大小，可读取的数据大小
+            有效元素大小/可读取的数据大小
             <para> <see cref="P:SpaceCG.General.Channel`2.Available"/> = <see cref="!:Cache.Count"/> - <see cref="P:SpaceCG.General.Channel`2.Offset"/></para>
             </summary>
         </member>
         <member name="M:SpaceCG.General.Channel`2.#ctor(`0)">
             <summary>
-            数据通道对象，默认最大缓存大小 1024 
+            数据通道对象，默认最大缓存元素大小 1024 
             </summary>
             <param name="key">通道键类型</param>
         </member>
@@ -546,7 +547,7 @@
         <member name="M:SpaceCG.General.Channel`2.GetRange(System.Int32,System.Boolean)">
             <summary>
             获取部份缓存数据，从 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 处开始的 size 大小，移除会修改 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 值。
-            <para>如果参数错误，则返回 null ；如果可读取元素小于 size ，则返回可读取元素的大小</para>
+            <para>如果参数错误，则返回 null ；如果可读取的数据小于 size ，则返回可读取的数据部份</para>
             </summary>
             <param name="size">从 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 处开始的元素数量</param>
             <param name="remove">是否从缓存中移除返回的数据大小，实则调用 <see cref="M:SpaceCG.General.Channel`2.RemoveRange(System.Int32)"/></param>
@@ -555,7 +556,7 @@
         <member name="M:SpaceCG.General.Channel`2.GetRange(System.Int32,System.Int32,System.Boolean)">
             <summary>
             获取部份缓存数据，从 index 处开始的 size 元素数量，移除不会修改 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 值。
-            <para>如果参数错误，则返回 null ；如果可读取元素小于 size ，则返回可读取元素的大小</para>
+            <para>如果参数错误，则返回 null ；如果可读取的数据小于 size ，则返回可读取的数据部份</para>
             </summary>
             <param name="index">范围开始处的从零开始的索引</param>
             <param name="size">范围中的元素数量</param>
@@ -564,20 +565,20 @@
         </member>
         <member name="M:SpaceCG.General.Channel`2.RemoveRange(System.Int32)">
             <summary>
-            从缓存中移除部份元素，从 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 处开始移除元素，<see cref="P:SpaceCG.General.Channel`2.Offset"/> 会向左偏移被移除的数量
+            从缓存中移除部份数据，从 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 处开始移除数据，<see cref="P:SpaceCG.General.Channel`2.Offset"/> 会向左偏移被移除的数量
             </summary>
-            <param name="size">移除元素的数量</param>
+            <param name="size">移除数据的数量</param>
         </member>
         <member name="M:SpaceCG.General.Channel`2.RemoveRange(System.Int32,System.Int32)">
             <summary>
-            从缓存中移除部份元素，从 index 处开始移除元素，<see cref="P:SpaceCG.General.Channel`2.Offset"/> 不会被修改
+            从缓存中移除部份数据，从 index 处开始移除数据，<see cref="P:SpaceCG.General.Channel`2.Offset"/> 不会被修改
             </summary>
             <param name="index">范围开始处的从零开始的索引</param>
-            <param name="size">移除元素的数量</param>
+            <param name="size">移除数据的数量</param>
         </member>
         <member name="M:SpaceCG.General.Channel`2.Clear">
             <summary>
-            清除缓存数据，设置 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 为 0
+            清除通道所有缓存的数据，设置 <see cref="P:SpaceCG.General.Channel`2.Offset"/> 为 0
             </summary>
         </member>
         <member name="M:SpaceCG.General.Channel`2.Dispose">
@@ -726,6 +727,11 @@
             <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
                 <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
             </param>
+        </member>
+        <member name="M:SpaceCG.General.BoyerMoore.Finalize">
+            <summary>
+            析构函数
+            </summary>
         </member>
         <member name="M:SpaceCG.General.BoyerMoore.ClearParams">
             <summary>
@@ -965,6 +971,11 @@
             BoyerMoore 泛型版本
             </summary>
         </member>
+        <member name="M:SpaceCG.General.BoyerMoore`1.Finalize">
+            <summary>
+            析构函数
+            </summary>
+        </member>
         <member name="M:SpaceCG.General.BoyerMoore`1.ClearParams">
             <summary>
             清理参数
@@ -1200,6 +1211,16 @@
         <member name="F:SpaceCG.Log4Net.ListBoxAppender.AppendHandlerDelegate">
             <summary> TextBox.AppendText Delegate Function </summary>
         </member>
+        <member name="F:SpaceCG.Log4Net.ListBoxAppender.view">
+            <summary>
+            表格视图列的容器
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.ListBoxAppender.ViewColumns">
+            <summary>
+            所有视图列的容器
+            </summary>
+        </member>
         <member name="M:SpaceCG.Log4Net.ListBoxAppender.#ctor(System.Windows.Controls.ListBox)">
             <summary>
             Log4Net Appender for WPF ListBox and ListView
@@ -1319,11 +1340,31 @@
             独立的日志窗体对象
             </summary>
         </member>
+        <member name="F:SpaceCG.Log4Net.LoggerWindow.TextBox">
+            <summary> TextBox </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.LoggerWindow.ListView">
+            <summary> ListView </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.LoggerWindow.ListBoxAppender">
+            <summary> ListBoxAppender </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.LoggerWindow.MaxLines">
+            <summary>
+            最大显示行数
+            </summary>
+        </member>
         <member name="M:SpaceCG.Log4Net.LoggerWindow.#ctor(System.Int32)">
             <summary>
             Logger Window
             </summary>
-            <param name="log"></param>
+            <param name="maxLines"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.LoggerWindow.OnClosing(System.ComponentModel.CancelEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SpaceCG.Log4Net.LoggerWindow.OnClosed(System.EventArgs)">
+            <inheritdoc/>
         </member>
         <member name="M:SpaceCG.Log4Net.LoggerWindow.OnInitializeControls">
             <summary>
@@ -1461,16 +1502,6 @@
             <param name="level"></param>
             <param name="change"></param>
             <returns></returns>
-        </member>
-        <member name="T:SpaceCG.Template.AppTemplate">
-            <summary>
-            Application Template
-            </summary>
-        </member>
-        <member name="F:SpaceCG.Template.AppTemplate.Log">
-            <summary>
-            应用程序日志对象
-            </summary>
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType">
             <summary>
@@ -7385,6 +7416,16 @@
         <member name="T:SpaceCG.SpaceCGUtils">
             <summary>
             SpaceCG 实用/通用 函数
+            </summary>
+        </member>
+        <member name="F:SpaceCG.SpaceCGUtils.Log">
+            <summary>
+            SpaceCG Library Logger
+            </summary>
+        </member>
+        <member name="M:SpaceCG.SpaceCGUtils.#cctor">
+            <summary>
+            静态构造函数
             </summary>
         </member>
         <member name="M:SpaceCG.SpaceCGUtils.RemoveAnonymousEvents(System.Object,System.String)">

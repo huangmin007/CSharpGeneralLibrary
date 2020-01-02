@@ -687,3 +687,40 @@
 [17:34:52] [ 1] [ INFO] [TestLibrary.App] [OnExit(54)] - Application OnExit (4325) 
 [Footer]
 
+[Header]
+[18:32:11] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (573) 
+[18:32:11] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(96)] - MainWindow. (626) 
+[18:32:11] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (654) 
+[18:32:12] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(237)] - Window Loaded. (1569) 
+[18:32:12] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(238)] - Debug Foramt (1585) 
+[18:32:12] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(239)] - Warn Format (1598) 
+[18:32:12] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(240)] - Error Format (1609) 
+[18:32:12] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(241)] - Fatal Format (1620) 
+[18:32:12] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(242)] - Window Loaded. (1632) 
+[18:32:12] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(243)] - Debug Foramt (1642) 
+[18:32:12] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(244)] - Warn Format (1655) 
+[18:32:12] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(245)] - Error Format (1665) 
+[18:32:12] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(246)] - Fatal Format (1678) 
+[18:32:46] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (35835) 
+[18:32:46] [ 1] [ INFO] [Library] [<ApplicationSetting>b__0_2(38)] - Application Exit. (35951) 
+[Footer]
+
+[Header]
+[18:34:14] [ 1] [ INFO] [Library] [<ApplicationSetting>b__0_1(34)] - Application Startup. (347) 
+[18:34:14] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (565) 
+[18:34:14] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(96)] - MainWindow. (589) 
+[18:34:14] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (622) 
+[18:34:15] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(237)] - Window Loaded. (1500) 
+[18:34:15] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(238)] - Debug Foramt (1514) 
+[18:34:15] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(239)] - Warn Format (1524) 
+[18:34:15] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(240)] - Error Format (1535) 
+[18:34:15] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(241)] - Fatal Format (1546) 
+[18:34:15] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(242)] - Window Loaded. (1555) 
+[18:34:15] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(243)] - Debug Foramt (1564) 
+[18:34:15] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(244)] - Warn Format (1575) 
+[18:34:15] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(245)] - Error Format (1585) 
+[18:34:15] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(246)] - Fatal Format (1596) 
+[18:34:17] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (3588) 
+[18:34:17] [ 1] [ INFO] [Library] [<ApplicationSetting>b__0_2(38)] - Application Exit. (3703) 
+[Footer]
+

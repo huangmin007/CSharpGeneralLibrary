@@ -1,0 +1,22 @@
+﻿
+[Header]
+[17:56:24] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__1(47)] - Application Startup. (187) 
+[17:56:24] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__1(47)] - Application Startup. (187) 
+[17:56:25] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(41)] - Initialize. (1375) 
+[17:56:25] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(31)] - MainWindow. (1390) 
+[17:56:25] [ 1] [ INFO] [Library.Logger] [CreateInstance(51)] - Create SerialPort Instance : COM3,9600 (1515) 
+[17:56:25] [ 1] [ INFO] [Library.Logger] [CreateInstance(51)] - Create SerialPort Instance : COM3,9600 (1515) 
+[17:56:25] [ 1] [ERROR] [Library.Logger] [CreateInstance(114)] - CreateInstance Error:System.IO.IOException: 端口“COM3”不存在。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SpaceCG.Extension.SerialPortExtension.CreateInstance(String config, Action`2 dataReceivedCallback, Int32 receivedBytesThreshold, Boolean ignoreOpenError) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\Extension\SerialPortExtension.cs:行号 109 (1547) 
+[17:56:25] [ 1] [ERROR] [Library.Logger] [CreateInstance(114)] - CreateInstance Error:System.IO.IOException: 端口“COM3”不存在。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SpaceCG.Extension.SerialPortExtension.CreateInstance(String config, Action`2 dataReceivedCallback, Int32 receivedBytesThreshold, Boolean ignoreOpenError) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\Extension\SerialPortExtension.cs:行号 109 (1547) 
+[17:56:31] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__0_2(49)] - Application Exit. (6826) 
+[17:56:31] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__0_2(49)] - Application Exit. (6826) 
+[Footer]
+

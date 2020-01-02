@@ -23,10 +23,9 @@ namespace SpaceCG.Extension
         /// <param name="remotePort">远程服务端端口</param>
         /// <param name="receivedCallback">数据接收回调</param>
         /// <param name="autoConnect">断开后是否自动连接，等待 3000ms 后重新连接</param>
-        /// <param name="log"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>返回 <see cref="HPSocket.IClient"/> 实例对象。</returns>
-        public static IClient CreateClient<IClient>(string remoteAddress, ushort remotePort, Action<HPSocket.IClient, byte[]> receivedCallback, bool autoConnect = true, log4net.ILog log = null) 
+        public static IClient CreateClient<IClient>(string remoteAddress, ushort remotePort, Action<HPSocket.IClient, byte[]> receivedCallback, bool autoConnect = true) 
             where IClient : class, HPSocket.IClient, new()
         {
             if (string.IsNullOrWhiteSpace(remoteAddress) || remotePort <= 0 || receivedCallback == null)
@@ -56,7 +55,7 @@ namespace SpaceCG.Extension
                 ushort localPort = 0;
                 string localAddr = null;                
                 client.GetListenAddress(out localAddr, out localPort);
-                log?.InfoFormat("客户端({0}) {1}:{2} 连接成功", typeof(IClient), localAddr, localPort);
+                SpaceCGUtils.Log.InfoFormat("客户端({0}) {1}:{2} 连接成功", typeof(IClient), localAddr, localPort);
 
                 return HPSocket.HandleResult.Ok;
             };
@@ -68,12 +67,12 @@ namespace SpaceCG.Extension
             client.OnClose += (HPSocket.IClient sender, HPSocket.SocketOperation enOperation, int errorCode) =>
             {
                 string message = Kernel32Utils.GetSysErrroMessage((uint)errorCode);
-                log?.InfoFormat("客户端({0})连接被断开({1})，描述：({2}) {3}", typeof(IClient), enOperation, errorCode, message);
+                SpaceCGUtils.Log.InfoFormat("客户端({0})连接被断开({1})，描述：({2}) {3}", typeof(IClient), enOperation, errorCode, message);
 
                 if (IsAvailable && autoConnect)
                 //if (client.ExtraData != null && (bool)client.ExtraData && autoConnect)
                 {
-                    log?.InfoFormat("客户端等待 {0}ms 后，重尝试重新连接", Timeout);
+                    SpaceCGUtils.Log.InfoFormat("客户端等待 {0}ms 后，重尝试重新连接", Timeout);
                     
                     Task.Run(() =>
                     {
@@ -96,7 +95,7 @@ namespace SpaceCG.Extension
                 NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) =>
                 {
                     if (client == null) return;
-                    log?.InfoFormat("网络的可用性发生变化，Network Change, IsAvailable : {0}", e.IsAvailable);
+                    SpaceCGUtils.Log.InfoFormat("网络的可用性发生变化，Network Change, IsAvailable : {0}", e.IsAvailable);
 
                     Timeout = 1000;
                     IsAvailable = e.IsAvailable;
@@ -108,7 +107,7 @@ namespace SpaceCG.Extension
             }
             else
             {
-                log?.InfoFormat("客户端({0})连接的为本地网络服务地址：{1} ，未监听网络的可用性变化。", typeof(IClient), remoteAddress);
+                SpaceCGUtils.Log.InfoFormat("客户端({0})连接的为本地网络服务地址：{1} ，未监听网络的可用性变化。", typeof(IClient), remoteAddress);
             }
 
             return client;
@@ -119,9 +118,8 @@ namespace SpaceCG.Extension
         /// <para>注意：静态函数，非引用参数 client, 需实例变量 设为 null </para>
         /// </summary>
         /// <param name="client"></param>
-        /// <param name="log"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void DisposeClient(this HPSocket.IClient client, log4net.ILog log = null)
+        public static void DisposeClient(this HPSocket.IClient client)
         {
             Console.WriteLine("connectid:{0}", client.ConnectionId);
 
@@ -146,7 +144,7 @@ namespace SpaceCG.Extension
             client.Dispose();
             client = null;
 
-            log?.InfoFormat("客户端({0}) {1}:{2} 断开连接并销毁释放", type, localAddr, localPort);
+            SpaceCGUtils.Log.InfoFormat("客户端({0}) {1}:{2} 断开连接并销毁释放", type, localAddr, localPort);
         }
 
 
@@ -158,10 +156,9 @@ namespace SpaceCG.Extension
         /// <typeparam name="IServer">&lt;IServer&gt; 类型约束实现 <see cref="HPSocket.IServer"/> 接口，参考: <see cref="HPSocket.Tcp.TcpServer"/>, <see cref="HPSocket.Udp.UdpServer"/> ... </typeparam>
         /// <param name="localPort">绑定的本机端口号</param>
         /// <param name="receivedCallback">数据接收回调函数</param>
-        /// <param name="log"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>返回 <see cref="HPSocket.IServer"/> 实例对象。</returns>
-        public static IServer CreateServer<IServer>(ushort localPort, Action<IntPtr, byte[]> receivedCallback, log4net.ILog log = null)
+        public static IServer CreateServer<IServer>(ushort localPort, Action<IntPtr, byte[]> receivedCallback)
             where IServer : class, HPSocket.IServer, new()
         {
             if (localPort <= 0 || receivedCallback == null) throw new ArgumentException("参数不能为空");
@@ -177,7 +174,7 @@ namespace SpaceCG.Extension
                 ushort port = 0;
                 string ip = "0.0.0.0";
                 server.GetRemoteAddress(connId, out ip, out port);
-                log?.InfoFormat("客户端 {0}:{1} 连接成功", ip, port);
+                SpaceCGUtils.Log.InfoFormat("客户端 {0}:{1} 连接成功", ip, port);
 
                 return HPSocket.HandleResult.Ok;
             };
@@ -188,20 +185,17 @@ namespace SpaceCG.Extension
             };
             server.OnClose += (HPSocket.IServer sender, IntPtr connId, HPSocket.SocketOperation socketOperation, int errorCode) =>
             {
-                if (log != null)
-                {
-                    ushort port = 0;
-                    string ip = "0.0.0.0";
-                    server.GetRemoteAddress(connId, out ip, out port);
-                    string message = Kernel32Utils.GetSysErrroMessage((uint)errorCode);
-                    log.InfoFormat("客户端 {0}:{1} 断开连接({2})，描述：({3}) {4}", ip, port, socketOperation, errorCode, message);
-                }
+                ushort port = 0;
+                string ip = "0.0.0.0";
+                server.GetRemoteAddress(connId, out ip, out port);
+                string message = Kernel32Utils.GetSysErrroMessage((uint)errorCode);
+                SpaceCGUtils.Log.InfoFormat("客户端 {0}:{1} 断开连接({2})，描述：({3}) {4}", ip, port, socketOperation, errorCode, message);
 
                 return HPSocket.HandleResult.Ok;
             };
 
             bool result = server.Start();
-            log?.InfoFormat("服务端({0}) {1}:{2} {3}", typeof(IServer), server.Address, server.Port, result ? "已启动监听" : "启动失败");
+            SpaceCGUtils.Log.InfoFormat("服务端({0}) {1}:{2} {3}", typeof(IServer), server.Address, server.Port, result ? "已启动监听" : "启动失败");
 
             return server;
         }
@@ -229,9 +223,8 @@ namespace SpaceCG.Extension
         /// <para>注意：静态函数，非引用参数 server, 需实例变量 设为 null </para>
         /// </summary>
         /// <param name="server"></param>
-        /// <param name="log"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void DisposeServer(this HPSocket.IServer server, log4net.ILog log = null)
+        public static void DisposeServer(this HPSocket.IServer server)
         {
             if (server == null) throw new ArgumentNullException("参数 server 不能为空");
 
@@ -254,7 +247,7 @@ namespace SpaceCG.Extension
             server.Dispose();
             server = null;
 
-            log?.InfoFormat("服务端({0}) {1}:{2} 已停止服务并销毁释放", type, address, port);
+            SpaceCGUtils.Log.InfoFormat("服务端({0}) {1}:{2} 已停止服务并销毁释放", type, address, port);
         }
 
     }

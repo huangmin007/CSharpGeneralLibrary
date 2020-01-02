@@ -2,8 +2,15 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\Log4Net.C
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\SpaceCGLibrary.dll
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\SpaceCGLibrary.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\log4net.dll
-E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\log4net.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\log4net.xml
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.dll
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\SpaceCGLibrary.XML
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\HPSocket.Net.dll
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\HPSocket.Net.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\bin\Release\HPSocket.Net.xml
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.csproj.CopyComplete
+E:\2020\001_Libraries\CSharp\GeneralLibrary\build\Release\Log4Net.Config
+E:\2020\001_Libraries\CSharp\GeneralLibrary\build\Release\SpaceCGLibrary.XML
+E:\2020\001_Libraries\CSharp\GeneralLibrary\build\Release\SpaceCGLibrary.dll
+E:\2020\001_Libraries\CSharp\GeneralLibrary\build\Release\SpaceCGLibrary.pdb

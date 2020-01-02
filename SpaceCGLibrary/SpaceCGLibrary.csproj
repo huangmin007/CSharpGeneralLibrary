@@ -13,40 +13,44 @@
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\build\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SpaceCGLibrary.XML</DocumentationFile>
-    <NoWarn>CS1591,CS1572,CS1573</NoWarn>
+    <DocumentationFile>..\build\Debug\SpaceCGLibrary.XML</DocumentationFile>
+    <NoWarn>CS1591,CS1572,CS1573;CS1574;CA1063</NoWarn>
     <LangVersion>7.1</LangVersion>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\build\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SpaceCGLibrary.XML</DocumentationFile>
+    <DocumentationFile>..\build\Release\SpaceCGLibrary.XML</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
     <LangVersion>7.1</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>CS1574;CA1063;CS1591</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HPSocket.Net, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\HPSocket.Net\src\HPSocket.Net\bin\Release\netstandard2.0\HPSocket.Net.dll</HintPath>
+      <HintPath>..\..\HPSocket.Net\build\Release\netstandard2.0\HPSocket.Net.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+    <Reference Include="log4net, Version=2.0.8.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\log4net-2.0.8\build\bin\net\4.5\debug\log4net.dll</HintPath>
+      <HintPath>..\..\log4net-2.0.9\build\Release\log4net.dll</HintPath>
     </Reference>
     <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="PresentationCore" />
@@ -59,17 +63,15 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples\ApplicationRunOne.cs" />
     <Compile Include="Examples\ExampleAttribute.cs" />
-    <Compile Include="Examples\HwndSourceExample.cs" />
+    <None Include="Examples\HwndSourceExample.md" />
     <Compile Include="Examples\KeyboardHook.cs" />
-    <Compile Include="Examples\LINQExamples.cs" />
     <Compile Include="Examples\MouseHook.cs" />
+    <Compile Include="Extension\ApplicationExtension.cs" />
     <Compile Include="Extension\HPSocketExtension.cs" />
     <Compile Include="Extension\ManagementExtension.cs" />
     <Compile Include="Extension\PerformanceExtension.cs" />
@@ -81,11 +83,10 @@
     <Compile Include="General\FixedHeadDataAnalysePattern.cs" />
     <Compile Include="General\FixedSizeDataAnalysePattern.cs" />
     <Compile Include="General\TerminatorDataAnalysePattern.cs" />
-    <Compile Include="Log4Net\ListBoxAppender.cs" />
+    <Compile Include="Log4Net\Controls\ListBoxAppender.cs" />
     <Compile Include="Log4Net\Log4NetUtils.cs" />
-    <Compile Include="Log4Net\LoggerWindow.cs" />
-    <Compile Include="Log4Net\TextBoxAppender.cs" />
-    <Compile Include="Template\AppTemplate.cs" />
+    <Compile Include="Log4Net\Controls\LoggerWindow.cs" />
+    <Compile Include="Log4Net\Controls\TextBoxAppender.cs" />
     <Compile Include="WindowsAPI\WinUser\DBTDef.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32Def.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="WindowsAPI\WinUser\WinUserUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Examples\readme.md" />
     <None Include="Extension\README.md" />
     <None Include="General\README.md" />
     <None Include="Log4Net.Config">
@@ -109,8 +111,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Framework\" />
+    <Folder Include="HPSocket\" />
     <Folder Include="Interface\" />
-    <Folder Include="Utility\" />
+    <Folder Include="Template\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="WindowsAPI\.hFiles\Dbt.h" />

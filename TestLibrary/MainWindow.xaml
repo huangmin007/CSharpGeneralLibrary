@@ -3,8 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-         xmlns:s="clr-namespace:System;assembly=mscorlib"
-        xmlns:local="clr-namespace:TestLibrary"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>  
@@ -31,13 +29,7 @@
         <Button Content="Button" Height="100" Grid.Column="1" Click="Button_Click"/>
 
         <ListView Name="listBox" Grid.Row="2">
-            <!--
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="{Binding ElementName=listBox, Path=ActualWidth}" Header="aaa"/>
-                </GridView>
-            </ListView.View>
-            -->
+           
         </ListView>
     </Grid>
 </Window>

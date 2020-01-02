@@ -9,6 +9,18 @@ namespace SpaceCG
     /// </summary>
     public static class SpaceCGUtils
     {
+        /// <summary>
+        /// SpaceCG Library Logger
+        /// </summary>
+        public static readonly log4net.ILog Log = log4net.LogManager.GetLogger("Library.Logger");
+
+        /// <summary>
+        /// 静态构造函数
+        /// </summary>
+        static SpaceCGUtils()
+        {
+
+        }
 
         /// <summary>
         /// 移除对象的匿名委托事件（Lambda 表达式 或 匿名方法来创建 的 匿名函数）
@@ -40,52 +52,17 @@ namespace SpaceCG
                     Delegate anonymity = (Delegate)values;
                     foreach (Delegate handler in anonymity.GetInvocationList())
                     {
-                        Console.WriteLine("Remove Anonymous Event: {0}", handler.Method.Name);
+                        Log.InfoFormat("Remove Anonymous Event: {0}", handler.Method.Name);
                         instanceObj.GetType().GetEvent(eventName).RemoveEventHandler(instanceObj, handler);
                     }
                 }
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Remove Anonymous Events Error:{0}", ex);
+                Log.InfoFormat("Remove Anonymous Events Error: ObjectInstance:{0} EventName:{1}", instanceObj, eventName);
+                Log.ErrorFormat("Remove Anonymous Events Error:{0}", ex);
             }
         }
         
-        /*
-                /// <summary>
-                /// 修改注册表，设置开机启动项目
-                /// </summary>
-                /// <param name="fileName"></param>
-                /// <param name="isAutoRun"></param>
-                public static void SetAutoRun(string fileName, bool isAutoRun)
-                {
-                    RegistryKey reg = null;
-                    try
-                    {
-                        if (!System.IO.File.Exists(fileName))
-                            throw new Exception("该文件不存在!");
-
-                        String name = fileName.Substring(fileName.LastIndexOf(@"\") + 1);
-                        reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-
-                        if (reg == null)
-                            reg = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
-
-                        if (isAutoRun)
-                            reg.SetValue(name, fileName);
-                        else
-                            reg.SetValue(name, false);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("写入注册表失败");
-                    }
-                    finally
-                    {
-                        if (reg != null)
-                            reg.Close();
-                    }
-                }
-                */
     }
 }

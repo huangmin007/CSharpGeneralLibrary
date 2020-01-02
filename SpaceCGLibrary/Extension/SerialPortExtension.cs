@@ -27,7 +27,7 @@ namespace SpaceCG.Extension
 
 
         /// <summary>
-        /// 根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。。如果只关心数据的接收/处理，适用此方法。
+        /// 根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。如果只关心数据的接收/处理，适用此方法，其它事件状态会记录在日志中。
         /// <para>建议使用 <see cref="CloseAndDispose(ref SerialPort, log4net.ILog)"/> 清理该实例。</para>
         /// </summary>
         /// <param name="config">串口构造函数参数，参见 <see cref="SerialPort"/> 构造函数。
@@ -42,13 +42,12 @@ namespace SpaceCG.Extension
         /// <param name="ignoreOpenError">是否忽略由 <see cref="SerialPort.Open()"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="AutoReconnection(SerialPort, log4net.ILog)"/>。
         ///     <para>如果为 true 则产生的异常信息由 Log(如果有) 记录，否则会抛出异常信息。</para>
         /// </param>
-        /// <param name="Log">日志记录对象。如果不为 null ，则会监听记录 <see cref="SerialPort.ErrorReceived"/> 和 <see cref="SerialPort.PinChanged"/> 事件信息，和其它创建过程信息。</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns> 返回串口对象 </returns>
-        public static SerialPort CreateInstance(string config, Action<byte[]> dataReceivedCallback, int receivedBytesThreshold = 1,  bool ignoreOpenError = true, log4net.ILog Log = null)
+        public static SerialPort CreateInstance(string config, Action<SerialPort, byte[]> dataReceivedCallback, int receivedBytesThreshold = 1, bool ignoreOpenError = true)
         {
-            Log?.InfoFormat("Create SerialPort Instance : {0}", config);
+            SpaceCGUtils.Log.InfoFormat("Create SerialPort Instance : {0}", config);
             if (String.IsNullOrWhiteSpace(config)) throw new ArgumentNullException("串口构造函数参数不能为空");
 
             SerialPort serialPort;
@@ -66,7 +65,7 @@ namespace SpaceCG.Extension
             else if (cfg.Length == 5)
                 serialPort = new SerialPort(cfg[0].ToUpper(), int.Parse(cfg[1]), (Parity)Enum.Parse(typeof(Parity), cfg[2]), int.Parse(cfg[3]), (StopBits)Enum.Parse(typeof(StopBits), cfg[4]));
             else
-                throw new ArgumentException($"串口参考配置错误:[{config}]");
+                throw new ArgumentException(nameof(config), $"串口参考配置错误:[{config}]");
 
             //默认配置参数
             serialPort.ReadTimeout = 500;
@@ -76,10 +75,11 @@ namespace SpaceCG.Extension
 
             //事件监听处理
             if (dataReceivedCallback != null)
+            {
                 serialPort.DataReceived += (s, e) =>
                 {
-                    if (Log != null && Log.IsDebugEnabled)
-                        Log.DebugFormat("SerialPort_DataReceived  EventType:{0}  BytesToRead:{1}", e.EventType, serialPort.BytesToRead);
+                    if (SpaceCGUtils.Log.IsDebugEnabled)
+                        SpaceCGUtils.Log.DebugFormat("SerialPort_DataReceived  EventType:{0}  BytesToRead:{1}", e.EventType, serialPort.BytesToRead);
 
                     int length = -1;
                     byte[] buffer = new byte[serialPort.BytesToRead];
@@ -90,23 +90,18 @@ namespace SpaceCG.Extension
                     }
                     catch (Exception ex)
                     {
-                        Log?.Error("SerialPort_DataReceived", ex);
+                        SpaceCGUtils.Log.Error("SerialPort_DataReceived", ex);
                     }
 
                     if (buffer.Length != length)
-                        Log?.WarnFormat("串口数据接收不完整，有丢失数据 {0} byte", buffer.Length - length);
+                        SpaceCGUtils.Log.WarnFormat("串口数据接收不完整，有丢失数据 {0} byte", buffer.Length - length);
 
-                    if (length > 0) dataReceivedCallback?.Invoke(buffer);
+                    if (length > 0) dataReceivedCallback?.Invoke(serialPort, buffer);
                 };
-            
-            if (Log != null)
-            {
-                serialPort.ErrorReceived += (s, e) =>
-                {
-                    Log.ErrorFormat($"串口上发生错误：[{e.EventType}:{(int)e.EventType}], Description：{SerialErrorDescriptions[e.EventType]}");
-                };
-                serialPort.PinChanged += (s, e) => Log.InfoFormat("PinChanged::{0}", e.EventType);
             }
+
+            serialPort.PinChanged += (s, e) => SpaceCGUtils.Log.InfoFormat("PinChanged::{0}", e.EventType);
+            serialPort.ErrorReceived += (s, e) => SpaceCGUtils.Log.ErrorFormat($"串口上发生错误：[{e.EventType}:{(int)e.EventType}], Description：{SerialErrorDescriptions[e.EventType]}");
 
             //SerialPort Open
             try
@@ -116,7 +111,7 @@ namespace SpaceCG.Extension
             catch (Exception ex)
             {
                 if (ignoreOpenError)
-                    Log?.ErrorFormat("CreateInstance Error:{0}", ex);
+                    SpaceCGUtils.Log.ErrorFormat("CreateInstance Error:{0}", ex);
                 else
                     throw ex;
             }
@@ -130,11 +125,10 @@ namespace SpaceCG.Extension
         /// <para>使用 ManagementEventWatcher WQL 事件监听模式</para>
         /// </summary>
         /// <param name="serialPort"></param>
-        /// <param name="Log"></param>
-        public static void AutoReconnection(this SerialPort serialPort, log4net.ILog Log = null)
+        public static void AutoReconnection(this SerialPort serialPort)
         {
             if (serialPort == null) throw new ArgumentException("参数不能为空");
-            Log?.InfoFormat("ManagementEventWatcher WQL Event Listen SerialPort Name:{0}", serialPort.PortName);
+            SpaceCGUtils.Log.InfoFormat("ManagementEventWatcher WQL Event Listen SerialPort Name:{0}", serialPort.PortName);
 
             TimeSpan withinInterval = TimeSpan.FromSeconds(1);
             string wql_condition = $"TargetInstance isa 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({serialPort.PortName.ToUpper()})'";
@@ -148,13 +142,13 @@ namespace SpaceCG.Extension
             CreationEvent.EventArrived += (s, e) =>
             {
                 if (!serialPort.IsOpen) serialPort.Open();
-                Log?.InfoFormat("Instance Creation Event SerialPort Name:{0}", serialPort.PortName);
+                SpaceCGUtils.Log.InfoFormat("Instance Creation Event SerialPort Name:{0}", serialPort.PortName);
             };
             ManagementEventWatcher DeletionEvent = new ManagementEventWatcher(scope, new WqlEventQuery("__InstanceDeletionEvent", withinInterval, wql_condition));
             DeletionEvent.EventArrived += (s, e) =>
             {
                 if (serialPort.IsOpen) serialPort.Close();
-                Log?.ErrorFormat("Instance Deletion Event SerialPort Name:{0}", serialPort.PortName);
+                SpaceCGUtils.Log.ErrorFormat("Instance Deletion Event SerialPort Name:{0}", serialPort.PortName);
             };
 
             CreationEvent.Start();
@@ -167,12 +161,11 @@ namespace SpaceCG.Extension
         /// </summary>
         /// <param name="serialPort"></param>
         /// <param name="window">IsLoaded 为 True 的窗口对象</param>
-        /// <param name="Log"></param>
-        public static void AutoReconnection(this SerialPort serialPort, System.Windows.Window window, log4net.ILog Log = null)
+        public static void AutoReconnection(this SerialPort serialPort, System.Windows.Window window)
         {
             if (serialPort == null || window == null) throw new ArgumentException("参数不能为空");
             if (!window.IsLoaded) throw new InvalidOperationException("Window 对象 IsLoaded 为 True 时才能获取窗口句柄");
-            Log?.InfoFormat("HwndSource Hook Window Message #WM_DEVICECHANGE Event Listen SerialPort Name:{0}", serialPort.PortName);
+            SpaceCGUtils.Log.InfoFormat("HwndSource Hook Window Message #WM_DEVICECHANGE Event Listen SerialPort Name:{0}", serialPort.PortName);
 
             HwndSource hwndSource = HwndSource.FromVisual(window) as HwndSource;
             if (hwndSource != null) hwndSource.AddHook((IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) =>
@@ -192,12 +185,12 @@ namespace SpaceCG.Extension
                     if (dbt == DeviceBroadcastType.DBT_DEVICEARRIVAL)
                     {
                         if (!serialPort.IsOpen) serialPort.Open();
-                        Log?.InfoFormat("Device Arrival SerialPort Name:{0}", serialPort.PortName);
+                        SpaceCGUtils.Log.InfoFormat("Device Arrival SerialPort Name:{0}", port.dbcp_name);
                     }
                     if (dbt == DeviceBroadcastType.DBT_DEVICEREMOVECOMPLETE)
                     {
                         if (serialPort.IsOpen) serialPort.Close();
-                        Log?.ErrorFormat("Device Remove Complete SerialPort Name:{0}", serialPort.PortName);
+                        SpaceCGUtils.Log.ErrorFormat("Device Remove Complete SerialPort Name:{0}", port.dbcp_name);
                     }
 
                     handled = true;
@@ -219,11 +212,10 @@ namespace SpaceCG.Extension
         /// <para>注意：静态函数，引用参数 serialPort, 该方法会将 实例变量 设为 null </para>
         /// </summary>
         /// <param name="serialPort"></param>
-        /// <param name="Log"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void CloseAndDispose(ref SerialPort serialPort, log4net.ILog Log = null)
+        public static void CloseAndDispose(ref SerialPort serialPort)
         {
-            Log?.InfoFormat("Close And Dispose Serial Port.");
+            SpaceCGUtils.Log.InfoFormat("Close And Dispose Serial Port.");
             if (serialPort == null) throw new ArgumentNullException("参数不能为空");
 
             SpaceCGUtils.RemoveAnonymousEvents(serialPort, "PinChanged");
@@ -241,7 +233,7 @@ namespace SpaceCG.Extension
             }
             catch (Exception ex)
             {
-                Log?.ErrorFormat("关闭并清理串口时产生异常：{0}", ex);
+                SpaceCGUtils.Log.ErrorFormat("关闭并清理串口时产生异常：{0}", ex);
             }
 
             serialPort.Dispose();
@@ -253,10 +245,9 @@ namespace SpaceCG.Extension
         /// <para>注意：扩展函数，需手动将实例变量设为 null</para>
         /// </summary>
         /// <param name="serialPort"></param>
-        /// <param name="Log">日志记录对象</param>
-        public static void CloseAndDispose(this SerialPort serialPort, log4net.ILog Log = null)
+        public static void CloseAndDispose(this SerialPort serialPort)
         {
-            CloseAndDispose(ref serialPort, Log);
+            CloseAndDispose(ref serialPort);
         }
 
         

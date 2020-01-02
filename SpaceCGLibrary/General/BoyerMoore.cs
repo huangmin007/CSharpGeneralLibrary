@@ -73,6 +73,9 @@ namespace SpaceCG.General
         {
             ResetPattern(ref pattern, tSize);
         }
+        /// <summary>
+        /// 析构函数
+        /// </summary>
         ~BoyerMoore()
         {
             ClearParams();
@@ -814,6 +817,9 @@ namespace SpaceCG.General
         public BoyerMoore()
         { 
         }
+        /// <summary>
+        /// 析构函数
+        /// </summary>
         ~BoyerMoore()
         {
             ClearParams();

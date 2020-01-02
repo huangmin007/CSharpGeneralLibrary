@@ -88,6 +88,8 @@ namespace SpaceCG.Extension
 
             WinUser.SetWindowPos(hwnd, state, 0, 0, 0, 0, SwpFlag.NOMOVE | SwpFlag.NOSIZE);
         }
+
         
+
     }
 }

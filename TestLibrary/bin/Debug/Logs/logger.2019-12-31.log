@@ -1,0 +1,635 @@
+﻿[Header]
+[15:25:50] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (1132) 
+[15:25:51] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (1674) 
+[Header]
+[15:26:38] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (82) 
+[15:26:38] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (253) 
+[15:26:38] [ 1] [ERROR] [TestLibrary.App] [<SettingEventLogger>b__0(32)] - Application Unhandled Exception: System.Windows.Markup.XamlParseException: “初始化“TestLibrary.MainWindow”时引发了异常。”，行号为“42”，行位置为“7”。 ---> System.FormatException: 索引(从零开始)必须大于或等于零，且小于参数列表的大小。
+   在 System.Text.StringBuilder.AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.String.FormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.IO.TextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.IO.TextWriter.SyncTextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.Console.WriteLine(String format, Object arg0, Object arg1)
+   在 TestLibrary.MainWindow.OnInitialized(EventArgs e) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\MainWindow.xaml.cs:行号 189
+   在 System.Windows.FrameworkElement.TryFireInitialized()
+   在 System.Windows.FrameworkElement.EndInit()
+   在 MS.Internal.Xaml.Runtime.ClrObjectRuntime.InitializationGuard(XamlType xamlType, Object obj, Boolean begin)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   在 System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   在 System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   在 System.Windows.Application.LoadBamlStreamWithSyncInfo(Stream stream, ParserContext pc)
+   在 System.Windows.Application.LoadComponent(Uri resourceLocator, Boolean bSkipJournaledProperties)
+   在 System.Windows.Application.DoStartup()
+   在 System.Windows.Application.<.ctor>b__1_0(Object unused)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (281) 
+[Header]
+[15:27:43] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (85) 
+[15:27:43] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (363) 
+[15:27:44] [ 1] [ERROR] [TestLibrary.App] [<SettingEventLogger>b__0(32)] - Application Unhandled Exception: System.Windows.Markup.XamlParseException: “初始化“TestLibrary.MainWindow”时引发了异常。”，行号为“42”，行位置为“7”。 ---> System.FormatException: 索引(从零开始)必须大于或等于零，且小于参数列表的大小。
+   在 System.Text.StringBuilder.AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.String.FormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.IO.TextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.IO.TextWriter.SyncTextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.Console.WriteLine(String format, Object arg0, Object arg1)
+   在 TestLibrary.MainWindow.OnInitialized(EventArgs e) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\MainWindow.xaml.cs:行号 189
+   在 System.Windows.FrameworkElement.TryFireInitialized()
+   在 System.Windows.FrameworkElement.EndInit()
+   在 MS.Internal.Xaml.Runtime.ClrObjectRuntime.InitializationGuard(XamlType xamlType, Object obj, Boolean begin)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   在 System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   在 System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   在 System.Windows.Application.LoadBamlStreamWithSyncInfo(Stream stream, ParserContext pc)
+   在 System.Windows.Application.LoadComponent(Uri resourceLocator, Boolean bSkipJournaledProperties)
+   在 System.Windows.Application.DoStartup()
+   在 System.Windows.Application.<.ctor>b__1_0(Object unused)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (395) 
+[Header]
+[15:27:57] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (814) 
+[15:27:58] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (1380) 
+[Header]
+[15:28:07] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (89) 
+[15:28:07] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (385) 
+[15:28:07] [ 1] [ERROR] [TestLibrary.App] [<SettingEventLogger>b__0(31)] - Application Unhandled Exception: System.Windows.Markup.XamlParseException: “初始化“TestLibrary.MainWindow”时引发了异常。”，行号为“42”，行位置为“7”。 ---> System.FormatException: 索引(从零开始)必须大于或等于零，且小于参数列表的大小。
+   在 System.Text.StringBuilder.AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.String.FormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.IO.TextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.IO.TextWriter.SyncTextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.Console.WriteLine(String format, Object arg0, Object arg1)
+   在 TestLibrary.MainWindow.OnInitialized(EventArgs e) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\MainWindow.xaml.cs:行号 189
+   在 System.Windows.FrameworkElement.TryFireInitialized()
+   在 System.Windows.FrameworkElement.EndInit()
+   在 MS.Internal.Xaml.Runtime.ClrObjectRuntime.InitializationGuard(XamlType xamlType, Object obj, Boolean begin)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   在 System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   在 System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   在 System.Windows.Application.LoadBamlStreamWithSyncInfo(Stream stream, ParserContext pc)
+   在 System.Windows.Application.LoadComponent(Uri resourceLocator, Boolean bSkipJournaledProperties)
+   在 System.Windows.Application.DoStartup()
+   在 System.Windows.Application.<.ctor>b__1_0(Object unused)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (409) 
+[Header]
+[15:30:25] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (84) 
+[15:30:25] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (461) 
+[15:30:25] [ 1] [ERROR] [TestLibrary.App] [<SettingEventLogger>b__0(31)] - Application Unhandled Exception: System.Windows.Markup.XamlParseException: “初始化“TestLibrary.MainWindow”时引发了异常。”，行号为“42”，行位置为“7”。 ---> System.FormatException: 索引(从零开始)必须大于或等于零，且小于参数列表的大小。
+   在 System.Text.StringBuilder.AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.String.FormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.IO.TextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.IO.TextWriter.SyncTextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.Console.WriteLine(String format, Object arg0, Object arg1)
+   在 TestLibrary.MainWindow.OnInitialized(EventArgs e) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\MainWindow.xaml.cs:行号 189
+   在 System.Windows.FrameworkElement.TryFireInitialized()
+   在 System.Windows.FrameworkElement.EndInit()
+   在 MS.Internal.Xaml.Runtime.ClrObjectRuntime.InitializationGuard(XamlType xamlType, Object obj, Boolean begin)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   在 System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   在 System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   在 System.Windows.Application.LoadBamlStreamWithSyncInfo(Stream stream, ParserContext pc)
+   在 System.Windows.Application.LoadComponent(Uri resourceLocator, Boolean bSkipJournaledProperties)
+   在 System.Windows.Application.DoStartup()
+   在 System.Windows.Application.<.ctor>b__1_0(Object unused)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (538) 
+[Header]
+[15:30:32] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (95) 
+[15:30:33] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (644) 
+[15:30:33] [ 1] [ERROR] [TestLibrary.App] [<SettingEventLogger>b__0(31)] - Application Unhandled Exception: System.Windows.Markup.XamlParseException: “初始化“TestLibrary.MainWindow”时引发了异常。”，行号为“42”，行位置为“7”。 ---> System.FormatException: 索引(从零开始)必须大于或等于零，且小于参数列表的大小。
+   在 System.Text.StringBuilder.AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.String.FormatHelper(IFormatProvider provider, String format, ParamsArray args)
+   在 System.IO.TextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.IO.TextWriter.SyncTextWriter.WriteLine(String format, Object arg0, Object arg1)
+   在 System.Console.WriteLine(String format, Object arg0, Object arg1)
+   在 TestLibrary.MainWindow.OnInitialized(EventArgs e) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\MainWindow.xaml.cs:行号 189
+   在 System.Windows.FrameworkElement.TryFireInitialized()
+   在 System.Windows.FrameworkElement.EndInit()
+   在 MS.Internal.Xaml.Runtime.ClrObjectRuntime.InitializationGuard(XamlType xamlType, Object obj, Boolean begin)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   在 System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   在 System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   在 System.Windows.Application.LoadBamlStreamWithSyncInfo(Stream stream, ParserContext pc)
+   在 System.Windows.Application.LoadComponent(Uri resourceLocator, Boolean bSkipJournaledProperties)
+   在 System.Windows.Application.DoStartup()
+   在 System.Windows.Application.<.ctor>b__1_0(Object unused)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (669) 
+[Header]
+[15:35:38] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (364) 
+[15:35:38] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (595) 
+[15:35:38] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(96)] - MainWindow. (613) 
+[15:35:41] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (2623) 
+[15:35:42] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(239)] - Window Loaded. (4008) 
+[15:35:42] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(240)] - Debug Foramt (4023) 
+[15:35:42] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(241)] - Warn Format (4034) 
+[15:35:42] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(242)] - Error Format (4084) 
+[15:35:42] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(243)] - Fatal Format (4097) 
+[15:35:42] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(244)] - Window Loaded. (4109) 
+[15:35:42] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(245)] - Debug Foramt (4119) 
+[15:35:42] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(246)] - Warn Format (4129) 
+[15:35:42] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(247)] - Error Format (4139) 
+[15:35:42] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(248)] - Fatal Format (4147) 
+[15:35:44] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (6575) 
+[15:35:45] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (6777) 
+[Footer]
+
+
+[Header][15:36:51] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (431) 
+[15:36:51] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (638) 
+[15:36:51] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(96)] - MainWindow. (651) 
+[15:36:51] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (685) 
+[15:36:52] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(239)] - Window Loaded. (1714) 
+[15:36:52] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(240)] - Debug Foramt (1729) 
+[15:36:52] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(241)] - Warn Format (1742) 
+[15:36:52] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(242)] - Error Format (1757) 
+[15:36:52] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(243)] - Fatal Format (1769) 
+[15:36:52] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(244)] - Window Loaded. (1784) 
+[15:36:52] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(245)] - Debug Foramt (1799) 
+[15:36:52] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(246)] - Warn Format (1811) 
+[15:36:52] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(247)] - Error Format (1822) 
+[15:36:52] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(248)] - Fatal Format (1833) 
+[15:36:54] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (3621) 
+[15:36:54] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3858) 
+[Footer]
+
+[Header]
+[15:37:44] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (804) 
+[15:37:44] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (1010) 
+[15:37:44] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(96)] - MainWindow. (1022) 
+[15:37:44] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (1055) 
+[15:37:45] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(239)] - Window Loaded. (2264) 
+[15:37:45] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(240)] - Debug Foramt (2277) 
+[15:37:46] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(241)] - Warn Format (2288) 
+[15:37:46] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(242)] - Error Format (2298) 
+[15:37:46] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(243)] - Fatal Format (2309) 
+[15:37:46] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(244)] - Window Loaded. (2319) 
+[15:37:46] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(245)] - Debug Foramt (2332) 
+[15:37:46] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(246)] - Warn Format (2346) 
+[15:37:46] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(247)] - Error Format (2358) 
+[15:37:46] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(248)] - Fatal Format (2369) 
+[15:37:49] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (5512) 
+[15:37:49] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (5614) 
+[Footer]
+
+[Header]
+[15:38:09] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (472) 
+[15:38:09] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(187)] - Initialize. (682) 
+[15:38:09] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(96)] - MainWindow. (698) 
+[15:38:09] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (735) 
+[15:38:10] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(239)] - Window Loaded. (1716) 
+[15:38:10] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(240)] - Debug Foramt (1742) 
+[15:38:10] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(241)] - Warn Format (1753) 
+[15:38:10] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(242)] - Error Format (1764) 
+[15:38:10] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(243)] - Fatal Format (1775) 
+[15:38:10] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(244)] - Window Loaded. (1786) 
+[15:38:10] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(245)] - Debug Foramt (1797) 
+[15:38:10] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(246)] - Warn Format (1809) 
+[15:38:10] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(247)] - Error Format (1821) 
+[15:38:10] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(248)] - Fatal Format (1832) 
+[15:38:12] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (3799) 
+[15:38:12] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4006) 
+[Footer]
+
+[Header]
+[15:39:28] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (345) 
+[15:39:28] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(143)] - Initialize. (564) 
+[15:39:28] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(52)] - MainWindow. (674) 
+[15:39:28] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (711) 
+[15:39:30] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(195)] - Window Loaded. (1991) 
+[15:39:30] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(196)] - Debug Foramt (2004) 
+[15:39:30] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(197)] - Warn Format (2016) 
+[15:39:30] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(198)] - Error Format (2028) 
+[15:39:30] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(199)] - Fatal Format (2041) 
+[15:39:30] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(200)] - Window Loaded. (2051) 
+[15:39:30] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(201)] - Debug Foramt (2063) 
+[15:39:30] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(202)] - Warn Format (2076) 
+[15:39:30] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(203)] - Error Format (2086) 
+[15:39:30] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(204)] - Fatal Format (2097) 
+[15:39:32] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (4302) 
+[15:39:32] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4426) 
+[Footer]
+
+
+[Header]
+[15:39:45] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (583) 
+[15:39:45] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(143)] - Initialize. (826) 
+[15:39:45] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(52)] - MainWindow. (1042) 
+[15:39:46] [ 1] [ INFO] [TestLibrary.App] [CreateServer(206)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已启动监听 (1118) 
+[15:39:47] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(195)] - Window Loaded. (2293) 
+[15:39:47] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(196)] - Debug Foramt (2309) 
+[15:39:47] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(197)] - Warn Format (2327) 
+[15:39:47] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(198)] - Error Format (2344) 
+[15:39:47] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(199)] - Fatal Format (2358) 
+[15:39:47] [ 1] [ INFO] [TestLibrary.MainWindow] [MoveNext(200)] - Window Loaded. (2372) 
+[15:39:47] [ 1] [DEBUG] [TestLibrary.MainWindow] [MoveNext(201)] - Debug Foramt (2381) 
+[15:39:47] [ 1] [ WARN] [TestLibrary.MainWindow] [MoveNext(202)] - Warn Format (2394) 
+[15:39:47] [ 1] [ERROR] [TestLibrary.MainWindow] [MoveNext(203)] - Error Format (2403) 
+[15:39:47] [ 1] [FATAL] [TestLibrary.MainWindow] [MoveNext(204)] - Fatal Format (2413) 
+[15:39:49] [ 1] [ INFO] [TestLibrary.App] [DisposeServer(258)] - 服务端(HPSocket.Udp.UdpServer) 0.0.0.0:4444 已停止服务并销毁释放 (4599) 
+[15:39:49] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4798) 
+[Footer]
+
+
+[Header]
+[15:43:32] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (676) 
+[15:43:33] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(59)] - Initialize. (875) 
+[15:43:33] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (887) 
+[15:43:36] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(95)] - aaa (4735) 
+System.Exception: Exception,Exception,Exception
+[15:43:37] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(95)] - aaa (5757) 
+System.Exception: Exception,Exception,Exception
+[15:43:49] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (17414) 
+[Footer]
+
+
+[Header]
+[15:45:09] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (699) 
+[15:45:09] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(55)] - Initialize. (875) 
+[15:45:09] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (949) 
+[15:45:14] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (5695) 
+[Footer]
+
+
+[Header]
+[15:45:34] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (370) 
+[15:45:34] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(55)] - Initialize. (624) 
+[15:45:34] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (799) 
+[15:45:40] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (6147) 
+[Footer]
+
+
+[Header]
+[15:45:51] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (612) 
+[15:45:51] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(56)] - Initialize. (1100) 
+[15:45:51] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (1114) 
+[15:45:56] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(92)] - aaa (5986) 
+System.Exception: Exception,Exception,Exception
+[15:45:57] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(92)] - aaa (6686) 
+System.Exception: Exception,Exception,Exception
+[15:45:57] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(92)] - aaa (6991) 
+System.Exception: Exception,Exception,Exception
+
+[Header]
+[15:48:00] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (361) 
+[15:48:00] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (738) 
+[15:48:00] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (753) 
+[15:48:06] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (7154) 
+[Footer]
+
+
+[Header]
+[15:52:30] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (2923) 
+[15:52:31] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (3910) 
+[15:52:31] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (3964) 
+[15:52:36] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (8346) 
+[Footer]
+
+
+[Header]
+[15:52:46] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (755) 
+[15:52:46] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (1002) 
+[15:52:46] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (1018) 
+[15:52:51] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (5808) 
+[Footer]
+
+
+[Header]
+[15:53:44] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (443) 
+[15:53:45] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (733) 
+[15:53:45] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (746) 
+[15:53:58] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (14008) 
+[Footer]
+
+
+[Header]
+[15:54:28] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (481) 
+[15:54:29] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (1212) 
+[15:54:29] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (1235) 
+[15:54:33] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(92)] - aaa (5077) 
+System.Exception: Exception,Exception,Exception
+[15:54:34] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (6361) 
+[Footer]
+
+
+[Header]
+[15:54:40] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (405) 
+[15:54:40] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (636) 
+[15:54:40] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (659) 
+[15:54:44] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4477) 
+[Footer]
+
+
+[Header]
+[15:56:12] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (2158) 
+[15:56:13] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (3220) 
+[15:56:14] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (4508) 
+[15:56:17] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (7916) 
+[Footer]
+
+
+[Header]
+[15:56:22] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (337) 
+[15:56:22] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (591) 
+[15:56:22] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (603) 
+[15:56:25] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3592) 
+[Footer]
+
+
+[Header]
+[15:59:55] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (378) 
+[15:59:56] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (789) 
+[15:59:56] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (804) 
+[15:59:59] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4604) 
+[Footer]
+
+
+[Header]
+[16:00:05] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (283) 
+[16:00:05] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (544) 
+[16:00:05] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (562) 
+[16:00:08] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3230) 
+[Footer]
+
+
+[Header]
+[16:00:20] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (471) 
+[16:00:21] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (962) 
+[16:00:21] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (977) 
+[16:00:24] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4068) 
+[Footer]
+
+
+[Header]
+[16:00:30] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (1392) 
+[16:00:30] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (1616) 
+[16:00:30] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (1631) 
+[16:00:32] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4027) 
+[Footer]
+
+
+[Header]
+[16:00:37] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (685) 
+[16:00:37] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (900) 
+[16:00:38] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (970) 
+[16:00:42] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (5344) 
+[Footer]
+
+
+[Header]
+[16:04:03] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (1309) 
+[16:04:04] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (1587) 
+[16:04:04] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (1602) 
+[16:04:09] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (6386) 
+[Footer]
+
+
+[Header]
+[16:07:36] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (333) 
+[16:07:37] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (678) 
+[16:07:37] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (694) 
+[16:07:41] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4534) 
+[Footer]
+
+
+[Header]
+[16:07:46] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (351) 
+[16:07:47] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (775) 
+[16:07:47] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (817) 
+
+[Header]
+[16:17:07] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (911) 
+[16:17:07] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (1546) 
+[16:17:07] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (1733) 
+[16:17:15] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (9169) 
+[Footer]
+
+
+[Header]
+[16:17:20] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (293) 
+[16:17:20] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (573) 
+[16:17:20] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (591) 
+[16:17:23] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4187) 
+[Footer]
+
+
+[Header]
+[16:18:34] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (310) 
+[16:18:35] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (543) 
+[16:18:35] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (699) 
+[16:18:37] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3199) 
+[Footer]
+
+
+[Header]
+[16:18:53] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (333) 
+[16:18:53] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (559) 
+[16:18:53] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (577) 
+[16:18:57] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3745) 
+[Footer]
+
+
+[Header]
+[16:19:03] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (1152) 
+[16:19:03] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(57)] - Initialize. (1360) 
+[16:19:03] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (1375) 
+[16:19:05] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4063) 
+[Footer]
+
+
+[Header]
+[16:19:57] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (346) 
+[16:19:57] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (584) 
+[16:19:57] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (625) 
+[16:20:00] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3659) 
+[Footer]
+
+
+[Header]
+[16:23:08] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (407) 
+[16:23:08] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (742) 
+[16:23:09] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (855) 
+[16:23:12] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4117) 
+[Footer]
+
+
+[Header]
+[16:23:18] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (811) 
+[16:23:18] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (1083) 
+[16:23:18] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (1151) 
+[16:23:21] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3563) 
+[Footer]
+
+
+[Header]
+[16:30:02] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (295) 
+[16:30:03] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (730) 
+[16:30:03] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (741) 
+[16:30:06] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3894) 
+[Footer]
+
+
+[Header]
+[16:30:12] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (442) 
+[16:30:12] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (712) 
+[16:30:12] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (724) 
+[16:30:16] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4640) 
+[Footer]
+
+
+[Header]
+[16:30:39] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (368) 
+[16:30:39] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (679) 
+[16:30:39] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (772) 
+[16:30:42] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3707) 
+[Footer]
+
+
+[Header]
+[16:31:26] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (368) 
+[16:31:26] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (644) 
+[16:31:26] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (657) 
+[16:31:30] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (4454) 
+[Footer]
+
+
+[Header]
+[16:31:57] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (331) 
+[16:31:57] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (573) 
+[16:31:57] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (696) 
+[16:32:00] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3803) 
+[Footer]
+
+
+[Header]
+[16:32:42] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (383) 
+[16:32:42] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (655) 
+[16:32:42] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (718) 
+[16:32:45] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3268) 
+[Footer]
+
+
+[Header]
+[16:32:50] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (460) 
+[16:32:51] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (697) 
+[16:32:51] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (804) 
+[16:32:54] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (3956) 
+[Footer]
+
+
+[Header]
+[16:44:12] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (297) 
+[16:44:12] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(60)] - Initialize. (641) 
+[16:44:12] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (656) 
+[16:44:19] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(95)] - aaa (6755) 
+System.Exception: Exception,Exception,Exception
+
+[Header]
+[16:44:33] [ 1] [ INFO] [Library] [<SettingEventLogger>b__1(46)] - Application Startup. (325) 
+[16:44:34] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(62)] - Initialize. (1514) 
+[16:44:34] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(48)] - MainWindow. (1532) 
+[16:44:48] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(97)] - aaa (15527) 
+System.Exception: Exception,Exception,Exception
+[16:44:48] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(97)] - aaa (15984) 
+System.Exception: Exception,Exception,Exception
+[16:44:49] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(97)] - aaa (16203) 
+System.Exception: Exception,Exception,Exception
+[16:44:57] [ 1] [ INFO] [Library] [<SettingEventLogger>b__0_2(50)] - Application Exit. (24250) 
+[Footer]
+
+
+[Header]
+[17:12:07] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__1(46)] - Application Startup. (2766) 
+[17:12:08] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(36)] - Initialize. (3774) 
+[17:12:08] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(27)] - MainWindow. (3802) 
+[17:12:11] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__0_2(48)] - Application Exit. (7411) 
+[Footer]
+
+
+[Header]
+[17:12:18] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__1(46)] - Application Startup. (85) 
+[17:12:19] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(36)] - Initialize. (848) 
+[17:12:19] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(27)] - MainWindow. (862) 
+
+[Header]
+[Footer]
+
+
+[Header]
+[Footer]
+
+[17:12:27] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__0_2(48)] - Application Exit. (9076) 
+[Footer]
+
+
+[Header]
+[17:12:40] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__1(46)] - Application Startup. (284) 
+[17:12:41] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(36)] - Initialize. (1397) 
+[17:12:41] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(27)] - MainWindow. (1431) 
+[17:12:44] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__0_2(48)] - Application Exit. (4290) 
+[Footer]
+
+
+[Header]
+[17:12:49] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__1(46)] - Application Startup. (82) 
+[17:12:49] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(36)] - Initialize. (817) 
+[17:12:49] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(27)] - MainWindow. (831) 
+
+[Header]
+[17:12:52] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__1(46)] - Application Startup. (83) 
+[17:12:53] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(36)] - Initialize. (895) 
+[17:12:53] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(27)] - MainWindow. (910) 
+[17:12:54] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__0_2(48)] - Application Exit. (2315) 
+[Footer]
+
+[17:12:56] [ 1] [ INFO] [Library] [<ApplicationEventLogger>b__0_2(48)] - Application Exit. (7802) 
+[Footer]
+
+
+[Header]
+[17:30:34] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__1(47)] - Application Startup. (1352) 
+[17:30:34] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__1(47)] - Application Startup. (1352) 
+[17:30:35] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(36)] - Initialize. (2750) 
+[17:30:35] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(27)] - MainWindow. (2766) 
+[17:30:38] [ 1] [ERROR] [TestLibrary.MainWindow] [Button_Click(59)] - aaa (5572) 
+System.Exception: Exception,Exception,Exception
+
+[Header]
+[17:32:11] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__1(47)] - Application Startup. (622) 
+[17:32:11] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__1(47)] - Application Startup. (622) 
+[17:32:12] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(38)] - Initialize. (1621) 
+[17:32:12] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(29)] - MainWindow. (1640) 
+[17:32:12] [ 1] [ INFO] [Library.Logger] [CreateInstance(51)] - Create SerialPort Instance : COM3,9600 (1779) 
+[17:32:12] [ 1] [ INFO] [Library.Logger] [CreateInstance(51)] - Create SerialPort Instance : COM3,9600 (1779) 
+[17:32:13] [ 1] [ERROR] [Library.Logger] [CreateInstance(114)] - CreateInstance Error:System.IO.IOException: 端口“COM3”不存在。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SpaceCG.Extension.SerialPortExtension.CreateInstance(String config, Action`2 dataReceivedCallback, Int32 receivedBytesThreshold, Boolean ignoreOpenError) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\Extension\SerialPortExtension.cs:行号 109 (1828) 
+[17:32:13] [ 1] [ERROR] [Library.Logger] [CreateInstance(114)] - CreateInstance Error:System.IO.IOException: 端口“COM3”不存在。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SpaceCG.Extension.SerialPortExtension.CreateInstance(String config, Action`2 dataReceivedCallback, Int32 receivedBytesThreshold, Boolean ignoreOpenError) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\Extension\SerialPortExtension.cs:行号 109 (1828) 
+[17:32:38] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__0_2(49)] - Application Exit. (27451) 
+[17:32:38] [ 1] [ INFO] [Library.Logger] [<ApplicationEventLogger>b__0_2(49)] - Application Exit. (27451) 
+[Footer]
+
+
+[Header]
+[17:32:57] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(38)] - Initialize. (1543) 
+[17:32:57] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(29)] - MainWindow. (1632) 
+[17:32:57] [ 1] [ERROR] [Library.Logger] [CreateInstance(114)] - CreateInstance Error:System.IO.IOException: 端口“COM3”不存在。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SpaceCG.Extension.SerialPortExtension.CreateInstance(String config, Action`2 dataReceivedCallback, Int32 receivedBytesThreshold, Boolean ignoreOpenError) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\Extension\SerialPortExtension.cs:行号 109 (1873) 
+[17:32:57] [ 1] [ERROR] [Library.Logger] [CreateInstance(114)] - CreateInstance Error:System.IO.IOException: 端口“COM3”不存在。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SpaceCG.Extension.SerialPortExtension.CreateInstance(String config, Action`2 dataReceivedCallback, Int32 receivedBytesThreshold, Boolean ignoreOpenError) 位置 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\Extension\SerialPortExtension.cs:行号 109 (1873) 
