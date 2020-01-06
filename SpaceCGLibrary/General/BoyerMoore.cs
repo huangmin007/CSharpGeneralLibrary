@@ -6,8 +6,8 @@ namespace SpaceCG.General
 {
     /// <summary>
     /// Boyer-Moore 算法实现。该算法查找原始 单字节(Max 0xFF)集合 效率非常非常高；如果匹配的 pattern 集合长度为 1 或很少，也不建议使用该方法
-    /// <para>字符匹配查找：类搜索方法 (Search*) 使用的是数组，类静态搜索方法 (BoyerMoore.Search*) 参数 tSize 大于 0xFF 时使用字典，小于 0xFF 时使用数组</para>
-    /// <para>类查找函数会检查参数，但不会抛出异常，只会返回有或无，适合在 for, while, 等循环体或重复搜索 对性能要求较高的环境中使用；
+    /// <para>字符匹配查找：类方法 (Search*) 使用的是数组，类静态方法 (BoyerMoore.Search*) 参数 tSize 大于 0xFF 时使用字典，小于等于 0xFF 时使用数组</para>
+    /// <para>类查找函数会检查参数，但不会抛出异常，结果返回 索引或索引集合，-1 表示没查找到；适合在 for, while, 等循环体或重复搜索 对性能要求较高的环境中使用；
     ///     静态查找函数会检查参数类型并抛出异常，不生成使用好后缀表，只使用坏字符表。
     /// </para>
     /// <para>参考：https://baike.baidu.com/item/Boyer-%20Moore%E7%AE%97%E6%B3%95/16548374?fr=aladdin </para>
@@ -16,7 +16,7 @@ namespace SpaceCG.General
     public sealed class BoyerMoore
     {
         /// <summary>
-        /// 返回的索引集合列表，初使最大可以存储的元素数量
+        /// 返回的索引集合列表，默认初使最大可以存储的元素数量
         /// </summary>
         internal const int CAPACITY = 256;
 
@@ -66,8 +66,9 @@ namespace SpaceCG.General
         /// <para>适合大量数据匹配查找，数据量越大，效率越高</para>
         /// </summary>
         /// <param name="pattern">需要匹配的数据</param>
-        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集是 0xFF 大小，中文字符的全集就是 0xFFFF 大小；
         ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+        ///     <para>类方法使用的是数组，类静态方法小于等于 0xFF 使用字典，大于 0xFF 使用字典</para>
         /// </param>
         public BoyerMoore(ref string pattern, uint tSize = 0xFF)
         {
@@ -106,8 +107,9 @@ namespace SpaceCG.General
         /// 设置需要匹配数据
         /// </summary>
         /// <param name="pattern"></param>
-        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集是 0xFF 大小，中文字符的全集就是 0xFFFF 大小；
         ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+        ///     <para>构造函数方法使用的是数组</para>
         /// </param>
         /// <exception cref="ArgumentException"></exception>
         public void ResetPattern(ref string pattern, uint tSize = 0xFF)
@@ -226,7 +228,7 @@ namespace SpaceCG.General
         /// <para> 相当于 <see cref="SearchAll(ref string, int, int)"/>[rCount - 1]，但不做全面查找；如果 rCount = 1 则与 <see cref="Search(ref string, int, int)"/> 相同 </para>
         /// </summary>
         /// <param name="source">数据源</param>
-        /// <param name="rCount">匹配到第 rCount 次后结束</param>
+        /// <param name="rCount">如果存在匹配项，则匹配到第 rCount 次后结束</param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
         /// <returns></returns>
@@ -251,7 +253,7 @@ namespace SpaceCG.General
         /// <para> 相当于 <see cref="SearchAll(IReadOnlyList{byte}, int, int)"/>[rCount - 1]，但不做全面查找；如果 rCount = 1 则与 <see cref="Search(IReadOnlyList{byte}, int, int)"/> 相同 </para>
         /// </summary>
         /// <param name="source">数据源</param>
-        /// <param name="rCount">匹配到第 rCount 次后结束</param>
+        /// <param name="rCount">如果存在匹配项，则匹配到第 rCount 次后结束</param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
         /// <returns></returns>
@@ -359,7 +361,7 @@ namespace SpaceCG.General
 
         #region Static Internal Functions GetBadCharacterShift        
         /// <summary>
-        /// 获取无效数据标记表 (坏字符 Bad Character Heuristic)
+        /// 获取 坏字符 (Bad Character Heuristic) 表
         /// </summary>
         /// <param name="pattern">需要匹配的数据内容</param>
         /// <param name="size">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
@@ -380,7 +382,7 @@ namespace SpaceCG.General
             return badTable;
         }
         /// <summary>
-        /// 获取无效数据标记表 (坏字符 Bad Character Heuristic)
+        /// 获取 坏字符 (Bad Character Heuristic) 表
         /// </summary>
         /// <param name="pattern">需要匹配的数据内容</param>
         /// <returns></returns>
@@ -398,10 +400,10 @@ namespace SpaceCG.General
             return badTable;
         }
         /// <summary>
-        /// 获取无效数据标记表 (坏字符 Bad Character Heuristic)，返回的是字典类型数据
+        /// 获取 坏字符 (Bad Character Heuristic) 表，该方法返回的是字典类型集合
         /// </summary>
-        /// <typeparam name="T">键类型</typeparam>
-        /// <param name="pattern"></param>
+        /// <typeparam name="T">基数据类型</typeparam>
+        /// <param name="pattern">需要匹配的数据内容</param>
         /// <param name="useThreadSafe">是否使用 可由多个线程同时访问的 键/值对 的 线程安全集合</param>
         /// <returns></returns>
         internal static IDictionary<T, int> GetBadCharacterShift<T>(IReadOnlyList<T> pattern, bool useThreadSafe = false)
@@ -421,8 +423,9 @@ namespace SpaceCG.General
 
         #region Static Internal Functions GetGoodSuffixShift
         /// <summary>
-        /// 获取有效数据标记表 (好后缀 Good Suffix Heuristic)
+        /// 获取 好后缀 (Good Suffix Heuristic) 表
         /// </summary>
+        /// <param name="pattern">需要匹配的数据内容</param>
         /// <returns></returns>
         internal static int[] GetGoodSuffixShift(ref string pattern)
         {
@@ -475,8 +478,9 @@ namespace SpaceCG.General
             return goodSuffixShifts;
         }
         /// <summary>
-        /// 获取有效数据标记表 (好后缀 Good Suffix Heuristic)
+        /// 获取 好后缀 (Good Suffix Heuristic) 表
         /// </summary>
+        /// <param name="pattern">需要匹配的数据内容</param>
         /// <returns></returns>
         internal static int[] GetGoodSuffixShift<T>(IReadOnlyList<T> pattern)
         {
@@ -540,12 +544,12 @@ namespace SpaceCG.General
         /// <summary>
         /// 在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到；tSize 大于 0xFF 时会使用字典做为表
         /// <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
-        /// <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回 -1, 而不抛出异常信息。</para>
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="pattern">需要匹配的数据</param>
-        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值；如果是英文和符号字符的全集是 0xFF 大小，中文字符的全集就是 0xFFFF 大小；
         ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+        ///     <para>静态函数使用的是综合方案：即大于 0xFF 就会使用字典表；构造函数方法使用的是数组；</para>
         /// </param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
@@ -606,7 +610,6 @@ namespace SpaceCG.General
         /// <summary>
         /// 在 source 中的 start 到 end 的位置中查找匹配 pattern 第一次出现的位置并返回，如果返回 -1 表示跟据参数条件没匹配到
         /// <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
-        /// <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回 -1, 而不抛出异常信息。</para>
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="pattern">需要匹配的数据</param>
@@ -651,12 +654,12 @@ namespace SpaceCG.General
         /// <summary>
         /// 在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到；tSize 大于 0xFF 时会使用字典做为表
         /// <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
-        /// <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回空集合, 而不抛出异常信息。</para>
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="pattern">需要匹配的数据</param>
-        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值，如果是英文和符号字符的全集，是 0xFF 大小；如果是中文字符的全集就是 0xFFFF 大小；
+        /// <param name="tSize">坏字符 (Bad Character Heuristic) 表的大小，取决于字符 (Unicode 字符的16位值序列) 的最大值；如果是英文和符号字符的全集是 0xFF 大小，中文字符的全集就是 0xFFFF 大小；
         ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
+        ///     <para>静态函数使用的是综合方案：即大于 0xFF 就会使用字典表；构造函数方法使用的是数组；</para>
         /// </param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
@@ -729,7 +732,6 @@ namespace SpaceCG.General
         /// <summary>
         /// 在 source 中查找匹配 pattern 的所有位置的集合，返回 空集合 表示没匹配到
         /// <para>Boyer-Moore-Horspool 算法实现，是 Boyer-Moore 算法 的简化版本，只用到了 坏字符（Bad Character Heuristic）表</para>
-        /// <para>注意：参数错误 (参数为空，或长度小于 1，或 source 长度小于 pattern 的长度) 也会返回空集合, 而不抛出异常信息。</para>
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="pattern">需要匹配的数据</param>
@@ -877,7 +879,7 @@ namespace SpaceCG.General
         public int Search(IReadOnlyList<T> source, int start = 0, int end = int.MaxValue)
         {
             if (pattern == null || source == null || source.Count < PatternLength) return -1;
-            if (start < 0 || end < 0 || end <= start || end < pattern.Count || end - start < pattern.Count) return -1;
+            if (start < 0 || end < 0 || end <= start || end < PatternLength || end - start < PatternLength) return -1;
 
             bool hasValue;
             int i, value, index = start;
@@ -887,7 +889,7 @@ namespace SpaceCG.General
             while (index <= maxCompareCount)
             {
                 //BoyerMoore.DebugTrace<T>(source, pattern, index);
-
+                
                 i = lastPatternPosition;
                 while (i >= 0 && pattern[i].Equals(source[index + i])) i--;
 
@@ -907,7 +909,7 @@ namespace SpaceCG.General
         /// <para> 相当于 <see cref="SearchAll(IReadOnlyList{T}, int, int)"/>[rCount - 1]，但不做全面查找；如果 rCount = 1 则与 <see cref="Search(IReadOnlyList{T}, int, int)"/> 相同 </para>
         /// </summary>
         /// <param name="source">数据源</param>
-        /// <param name="rCount">匹配到第 rCount 次后结束</param>
+        /// <param name="rCount">如果存在匹配项，则匹配到第 rCount 次后结束</param>
         /// <param name="start">从 source 指定的起始位置开始匹配查找</param>
         /// <param name="end">到 source 指定的结束位置停止匹配查找</param>
         /// <returns></returns>
@@ -921,11 +923,12 @@ namespace SpaceCG.General
                 if (index == -1) return -1;
 
                 count++;
-                index++;
+                //index++;
+                index += PatternLength;
             }
             while (count < rCount);
 
-            return index - 1;
+            return index - PatternLength;
         }
 
         /// <summary>
@@ -941,7 +944,7 @@ namespace SpaceCG.General
         public int[] SearchAll(IReadOnlyList<T> source, int start = 0, int end = int.MaxValue)
         {
             int index = start;
-            List<int> indexs = new List<int>(Math.Min(source.Count / pattern.Count, BoyerMoore.CAPACITY));
+            List<int> indexs = new List<int>(Math.Min(source.Count / PatternLength, BoyerMoore.CAPACITY));
 
             do
             {
@@ -949,7 +952,7 @@ namespace SpaceCG.General
                 if (index != -1)
                 {
                     indexs.Add(index);
-                    index += pattern.Count;
+                    index += PatternLength;
                 }
             }
             while (index > 0);

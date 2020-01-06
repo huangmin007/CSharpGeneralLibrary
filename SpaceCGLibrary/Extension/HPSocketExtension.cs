@@ -14,7 +14,7 @@ namespace SpaceCG.Extension
     public static partial class HPSocketExtension
     {
         /// <summary>
-        /// 创建 HPSocket.IClient 客户端连接对象，并创建匿名监听事件。如果只关心数据的接收/处理，适用此方法。
+        /// 创建 HPSocket.IClient 客户端连接对象，并创建匿名监听事件。如果只关心数据的接收/处理，适用此方法，其它事件状态会记录在日志中。
         /// <para>建议使用 <see cref="DisposeClient(HPSocket.IClient, log4net.ILog)"/> 断开销毁客户端对象。 </para>
         /// <para> &lt;IClient&gt; 类型约束实现 <see cref="HPSocket.IClient"/> 接口，参考: <see cref="HPSocket.Tcp.TcpClient"/>, <see cref="HPSocket.Udp.UdpClient"/>, <see cref="HPSocket.Udp.UdpCast"/> ... </para>
         /// </summary>
@@ -155,7 +155,7 @@ namespace SpaceCG.Extension
         /// </summary>
         /// <typeparam name="IServer">&lt;IServer&gt; 类型约束实现 <see cref="HPSocket.IServer"/> 接口，参考: <see cref="HPSocket.Tcp.TcpServer"/>, <see cref="HPSocket.Udp.UdpServer"/> ... </typeparam>
         /// <param name="localPort">绑定的本机端口号</param>
-        /// <param name="receivedCallback">数据接收回调函数</param>
+        /// <param name="receivedCallback">客户端数据接收回调函数</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>返回 <see cref="HPSocket.IServer"/> 实例对象。</returns>
         public static IServer CreateServer<IServer>(ushort localPort, Action<IntPtr, byte[]> receivedCallback)

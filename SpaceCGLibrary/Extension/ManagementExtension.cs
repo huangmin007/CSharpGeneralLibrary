@@ -1,5 +1,7 @@
 ﻿#pragma warning disable CS1591,CS1572
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Management;
 using System.Threading.Tasks;
@@ -9,7 +11,7 @@ namespace SpaceCG.Extension
     /// <summary>
     /// System.Management 命名空间 扩展/实用/通用 函数
     /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/cimwin32-wmi-providers </para>
-    /// <para>有关 WMI 类，参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+    /// <para>有关 WMI 类，参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-provider </para>
     /// <para>有关 WMI Events，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/determining-the-type-of-event-to-receive </para>
     /// <para>有关 WQL 语法，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </para>
     /// </summary>
@@ -327,7 +329,90 @@ namespace SpaceCG.Extension
         }
         #endregion
 
+        /// <summary>
+        /// 获取 ManagementClass 的属性
+        /// </summary>
+        /// <param name="path">WMI 类的路径。该类表示 WMI 中的一个 CIM 管理类。CIM 类表示包括硬件、软件、进程等在内的管理信息。
+        ///     <para>系统硬件类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+        ///     <para>操作系统类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/operating-system-classes </para>
+        ///     <para>性能计数器类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/performance-counter-classes </para>
+        ///     <para>WMI服务管理类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/wmi-service-management-classes </para>
+        /// </param>
+        /// <returns></returns>
+        public static string[] GetClassProperties(string path)
+        {
+            using (ManagementClass mc = new ManagementClass(path))
+                return (from PropertyData data in mc.Properties select data.Name).ToArray();
+        }
 
+        /// <summary>
+        /// 调用指定的 WMI 查询并返回结果
+        /// </summary>
+        /// <param name="query">对象将调用的 WMI 查询</param>
+        /// <returns></returns>
+        public static Dictionary<string, string>[] Searcher(string query)
+        {
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+            {
+                int index = 0;
+                ManagementObjectCollection collection = searcher.Get();
+                Dictionary<string, string>[] list = new Dictionary<string, string>[collection.Count];
+
+                foreach (ManagementObject obj in collection)
+                {
+                    list[index] = new Dictionary<string, string>();
+                    foreach (PropertyData pd in obj.Properties)
+                    {
+                        if (string.IsNullOrWhiteSpace(pd.Name)) continue;
+                        list[index].Add(pd.Name, pd.Value == null ? "<null>" : pd.IsArray ? string.Join(",", (Array)pd.Value) : pd.Value.ToString());
+                    }
+
+                    index++;
+                }
+
+                return list;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path">WMI 类的路径。该类表示 WMI 中的一个 CIM 管理类。CIM 类表示包括硬件、软件、进程等在内的管理信息。
+        ///     <para>系统硬件类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+        ///     <para>操作系统类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/operating-system-classes </para>
+        ///     <para>性能计数器类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/performance-counter-classes </para>
+        ///     <para>WMI服务管理类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/wmi-service-management-classes </para>
+        /// </param>
+        /// <param name="conditions"></param>
+        /// <param name="properties">需要输出的 WMI 类的属性值，为空表示所有属性</param>
+        /// <returns></returns>
+        public static Dictionary<string, string>[] Searcher(string path, string conditions, params string[] properties)
+        {
+            string pros = properties.Length > 0 ? string.Join(",", properties) : "*";
+            string query = string.IsNullOrWhiteSpace(conditions) ? $"SELECT {pros} FROM {path}" : $"SELECT {pros} FROM {path} WHERE {conditions}";
+
+            return Searcher(query);
+        }
+
+        /// <summary>
+        /// 获取 CPU处理器 信息
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, string> GetProcessorInfo()
+        {
+            return Searcher("SELECT * FROM Win32_Processor")[0];
+        }
+
+        /// <summary>
+        /// 获取主板信息
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, string> GetBaseBoardInfo()
+        {
+            return Searcher("SELECT * FROM Win32_BaseBoard")[0];
+        }
+
+        #region GetPortNames
         /// <summary>
         /// 获取当前计算机的 串行端口 完整名称 的数组
         /// <para>与 <see cref="System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
@@ -359,6 +444,7 @@ namespace SpaceCG.Extension
         {
             return await Task.Run<string[]>(()=> GetPortNamesAsync());
         }
+        #endregion
 
     }
 }

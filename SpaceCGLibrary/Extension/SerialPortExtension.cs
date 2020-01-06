@@ -1,10 +1,12 @@
 ﻿using SpaceCG.WindowsAPI.WinUser;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Threading.Tasks;
 
 namespace SpaceCG.Extension
 {
@@ -39,8 +41,8 @@ namespace SpaceCG.Extension
         ///     <para>获取或设置 <see cref="SerialPort.DataReceived"/> 事件发生前内部输入缓冲区中的字节数。</para>
         ///     <para><see cref="SerialPort.DataReceived"/> 事件触发前内部输入缓冲区中的字节数；默认值为 1，可跟据数据设计大小定义。</para>
         /// </param>
-        /// <param name="ignoreOpenError">是否忽略由 <see cref="SerialPort.Open()"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="AutoReconnection(SerialPort, log4net.ILog)"/>。
-        ///     <para>如果为 true 则产生的异常信息由 Log(如果有) 记录，否则会抛出异常信息。</para>
+        /// <param name="ignoreOpenError">是否忽略由 <see cref="SerialPort.Open()"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="AutoReconnection(SerialPort)"/>。
+        ///     <para>如果为 true 则产生的异常信息会记录在日志中，否则会抛出异常信息。</para>
         /// </param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -176,10 +178,10 @@ namespace SpaceCG.Extension
                 DeviceBroadcastType dbt = (DeviceBroadcastType)wParam.ToInt32();
                 if (dbt == DeviceBroadcastType.DBT_DEVICEARRIVAL || dbt == DeviceBroadcastType.DBT_DEVICEREMOVECOMPLETE)
                 {
-                    DEV_BROADCAST_HDR hdr = Marshal.PtrToStructure<DEV_BROADCAST_HDR>(lParam);
+                    DEV_BROADCAST_HDR hdr = (DEV_BROADCAST_HDR)Marshal.PtrToStructure(lParam, typeof(DEV_BROADCAST_HDR));
                     if (hdr.dbch_devicetype != DeviceType.DBT_DEVTYP_PORT) return IntPtr.Zero;
 
-                    DEV_BROADCAST_PORT port = Marshal.PtrToStructure<DEV_BROADCAST_PORT>(lParam);
+                    DEV_BROADCAST_PORT port = (DEV_BROADCAST_PORT)Marshal.PtrToStructure(lParam, typeof(DEV_BROADCAST_PORT));
                     if (port.dbcp_name.ToUpper() != serialPort.PortName.ToUpper()) return IntPtr.Zero;
 
                     if (dbt == DeviceBroadcastType.DBT_DEVICEARRIVAL)
@@ -250,7 +252,37 @@ namespace SpaceCG.Extension
             CloseAndDispose(ref serialPort);
         }
 
-        
+        /// <summary>
+        /// 获取当前计算机的 串行端口 完整名称 的数组
+        /// <para>与 <see cref="System.IO.Ports.SerialPort.GetPortNames"/> 函数不同，<see cref="System.IO.Ports.SerialPort.GetPortNames"/> 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
+        /// <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
+        /// </summary>
+        /// <returns></returns>
+        public static string[] GetPortNames()
+        {
+            String query = "SELECT Name FROM Win32_PnPEntity WHERE Name LIKE '%(COM_)' OR Name LIKE '%(COM__)'";
+
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+            {
+                var names = from ManagementObject obj in searcher.Get()
+                            from PropertyData pd in obj.Properties
+                            where !string.IsNullOrWhiteSpace(pd.Name) && pd.Value != null
+                            select pd.Value.ToString();
+
+                return names.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// 获取当前计算机的 串行端口 完整名称 的数组
+        /// <para><see cref="GetPortNames"/> 的异步方法</para>
+        /// <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<string[]> GetPortNamesAsync()
+        {
+            return await Task.Run<string[]>(() => GetPortNamesAsync());
+        }
 
     }
 }

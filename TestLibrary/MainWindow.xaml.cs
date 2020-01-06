@@ -7,6 +7,8 @@ using System.Text;
 using System.Windows.Media;
 using System.IO.Ports;
 using SpaceCG.Extension;
+using System.Collections.Generic;
+using SpaceCG.General;
 
 namespace TestLibrary
 {
@@ -49,11 +51,19 @@ namespace TestLibrary
         {
             Handle = new WindowInteropHelper(this).Handle;
 
-            SerialPort port = SerialPortExtension.CreateInstance("COM3,9600", (s, d) =>
-            {
+            //Console.WriteLine(string.Join(",", ManagementExtension.GetClassProperties("Win32_ClusterShare")));
 
-            });
+            var pros = ManagementExtension.GetClassProperties("Win32_USBHub");
+            Console.WriteLine(string.Join(",", pros));
 
+            Dictionary<string, string> dic = ManagementExtension.GetProcessorInfo();
+            foreach(var kv in dic)
+                Console.WriteLine("{0}: {1}", kv.Key, kv.Value);
+
+            Console.WriteLine("--------------");
+            Dictionary<string, string> dic1 = ManagementExtension.GetBaseBoardInfo();
+            foreach (var kv in dic1)
+                Console.WriteLine("{0}: {1}", kv.Key, kv.Value);
         }
 
         private void SerialPortReceivedHandler(byte[] data)

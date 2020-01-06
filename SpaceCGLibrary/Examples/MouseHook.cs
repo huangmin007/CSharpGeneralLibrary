@@ -32,7 +32,7 @@ namespace SpaceCG.Examples
             if(nCode >= 0)
             {
                 MessageType flag = (MessageType)wParam;
-                MouseHookStruct mouseData = (MouseHookStruct)Marshal.PtrToStructure<MouseHookStruct>(lParam);
+                MouseHookStruct mouseData = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
                 Console.WriteLine("Flag:{0} mouseData:{1}", flag, mouseData);
             }
             return WinUser.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);

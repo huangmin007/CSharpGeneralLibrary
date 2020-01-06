@@ -171,7 +171,8 @@ namespace SpaceCG.WindowsAPI.Kernel32
         /// <returns></returns>
         public static SECURITY_ATTRIBUTES Create()
         {
-            return new SECURITY_ATTRIBUTES() { nLength = Marshal.SizeOf<SECURITY_ATTRIBUTES>() };
+            //return new SECURITY_ATTRIBUTES() { nLength = Marshal.SizeOf<SECURITY_ATTRIBUTES>() };
+            return new SECURITY_ATTRIBUTES() { nLength = Marshal.SizeOf(typeof(SECURITY_ATTRIBUTES)) };
         }
 
         /// <summary>

@@ -131,11 +131,170 @@
             <param name="server"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
+        <member name="T:SpaceCG.Extension.Win32Classes">
+            <summary>
+            Win32 提供程序类类别(WMI 类)，分为四大类：
+            <para>系统硬件类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            <para>操作系统类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/operating-system-classes </para>
+            <para>性能计数器类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/performance-counter-classes </para>
+            <para>WMI服务管理类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/wmi-service-management-classes </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_Processor">
+            <summary> CPU处理器信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_PhysicalMemory">
+            <summary> 物理内存信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_Keyboard">
+            <summary> 键盘信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_PointingDevice">
+            <summary> 点输入设备 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_FloppyDrive">
+            <summary> 软盘驱动器信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_DiskDrive">
+            <summary> 硬盘驱动器信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_CDROMDrive">
+            <summary> 光盘驱动器 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_BaseBoard">
+            <summary> 主板 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_BIOS">
+            <summary> BIOS 芯片 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_ParallelPort">
+            <summary> 并口 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_SerialPort">
+            <summary> 串口信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_SerialPortConfiguration">
+            <summary> 串口配置 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_SoundDevice">
+            <summary> 多媒体设备信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_SystemSlot">
+            <summary> 主板插槽 (ISA &lt; PCI &gt; AGP) </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_USBController">
+            <summary> USB 控制器 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_NetworkAdapter">
+            <summary> 网络适配器 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_NetworkAdapterConfiguration">
+            <summary> 网络适配器配置信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_Printer">
+            <summary> 打印机 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_PrinterConfiguration">
+            <summary> 打印机配置信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_PrintJob">
+            <summary> 打印机任务信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_TCPIPPrinterPort">
+            <summary> 打印机端口 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_POTSModem">
+            <summary> MODEM </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_POTSModemToSerialPort">
+            <summary> MODEM 端口 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_DesktopMonitor">
+            <summary> 显示器 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_DisplayConfiguration">
+            <summary> 显示器配置信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_DisplayControllerConfiguration">
+            <summary> 显卡配置 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_VideoController">
+            <summary> 显卡细节 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_VideoSettings">
+            <summary> 显卡支持的显示模式 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_TimeZone">
+            <summary> 时区 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_SystemDriver">
+            <summary> 驱动程序 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_DiskPartition">
+            <summary> 磁盘分区 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_LogicalDisk">
+            <summary> 逻辑磁盘 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_LogicalDiskToPartition">
+            <summary> 逻辑磁盘所在分区及始末位置 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_LogicalMemoryConfiguration">
+            <summary> 逻辑内存配置 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_PageFile">
+            <summary> 系统页文件信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_PageFileSetting">
+            <summary> 页文件设置 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_BootConfiguration">
+            <summary> 系统启动配置 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_ComputerSystem">
+            <summary> 计算机信息简要 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_OperatingSystem">
+            <summary> 操作系统信息 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_StartupCommand">
+            <summary> 系统自动启动程序 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_Service">
+            <summary> 系统安装的服务 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_Group">
+            <summary> 系统管理组 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_GroupUser">
+            <summary> 系统组帐号 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_UserAccount">
+            <summary> 用户帐号 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_Process">
+            <summary> 系统进程 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_Thread">
+            <summary> 系统线程 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_Share">
+            <summary> 共享 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_NetworkClient">
+            <summary> 已安装的网络客户端 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_NetworkProtocol">
+            <summary> 已安装的网络协议 </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.Win32Classes.Win32_PnPEntity">
+            <summary> all device </summary>
+        </member>
         <member name="T:SpaceCG.Extension.ManagementExtension">
             <summary>
             System.Management 命名空间 扩展/实用/通用 函数
             <para>参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/cimwin32-wmi-providers </para>
-            <para>有关 WMI 类，参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            <para>有关 WMI 类，参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-provider </para>
             <para>有关 WMI Events，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/determining-the-type-of-event-to-receive </para>
             <para>有关 WQL 语法，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </para>
             </summary>
@@ -242,6 +401,51 @@
             <para>移除监听 "__InstanceModificationEvent" 事件</para>
             </summary>
         </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.GetClassProperties(System.String)">
+            <summary>
+            获取 ManagementClass 的属性
+            </summary>
+            <param name="path">WMI 类的路径。该类表示 WMI 中的一个 CIM 管理类。CIM 类表示包括硬件、软件、进程等在内的管理信息。
+                <para>系统硬件类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+                <para>操作系统类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/operating-system-classes </para>
+                <para>性能计数器类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/performance-counter-classes </para>
+                <para>WMI服务管理类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/wmi-service-management-classes </para>
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.Searcher(System.String)">
+            <summary>
+            调用指定的 WMI 查询并返回结果
+            </summary>
+            <param name="query">对象将调用的 WMI 查询</param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.Searcher(System.String,System.String,System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="path">WMI 类的路径。该类表示 WMI 中的一个 CIM 管理类。CIM 类表示包括硬件、软件、进程等在内的管理信息。
+                <para>系统硬件类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+                <para>操作系统类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/operating-system-classes </para>
+                <para>性能计数器类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/performance-counter-classes </para>
+                <para>WMI服务管理类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/wmi-service-management-classes </para>
+            </param>
+            <param name="conditions"></param>
+            <param name="properties">需要输出的 WMI 类的属性值，为空表示所有属性</param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.GetProcessorInfo">
+            <summary>
+            获取 CPU处理器 信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.GetBaseBoardInfo">
+            <summary>
+            获取主板信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SpaceCG.Extension.ManagementExtension.GetPortNames">
             <summary>
             获取当前计算机的 串行端口 完整名称 的数组
@@ -346,6 +550,22 @@
             <para>注意：扩展函数，需手动将实例变量设为 null</para>
             </summary>
             <param name="serialPort"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.GetPortNames">
+            <summary>
+            获取当前计算机的 串行端口 完整名称 的数组
+            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
+            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.GetPortNamesAsync">
+            <summary>
+            获取当前计算机的 串行端口 完整名称 的数组
+            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
+            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:SpaceCG.Extension.IEnumerableExtension">
             <summary>
@@ -1182,103 +1402,103 @@
         <member name="M:SpaceCG.General.TerminatorDataAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte})">
             <inheritdoc/>
         </member>
-        <member name="T:SpaceCG.Log4Net.MultiStringConverter">
+        <member name="T:SpaceCG.Log4Net.Controls.MultiStringConverter">
             <summary>
             多字符值转换
             </summary>
         </member>
-        <member name="T:SpaceCG.Log4Net.WidthConverter">
+        <member name="T:SpaceCG.Log4Net.Controls.WidthConverter">
             <summary>
             ba la ba la
             </summary>
         </member>
-        <member name="T:SpaceCG.Log4Net.ListBoxAppender">
+        <member name="T:SpaceCG.Log4Net.Controls.ListBoxAppender">
             <summary>
             Log4Net WPF ListBox/ListView Appender
             </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.ListBoxAppender.MaxLines">
+        <member name="F:SpaceCG.Log4Net.Controls.ListBoxAppender.MaxLines">
             <summary>
             获取或设置最大可见行数
             </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.ListBoxAppender.ListBox">
+        <member name="F:SpaceCG.Log4Net.Controls.ListBoxAppender.ListBox">
             <summary> ListBox </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.ListBoxAppender.ListView">
+        <member name="F:SpaceCG.Log4Net.Controls.ListBoxAppender.ListView">
             <summary> ListView </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.ListBoxAppender.AppendHandlerDelegate">
+        <member name="F:SpaceCG.Log4Net.Controls.ListBoxAppender.AppendHandlerDelegate">
             <summary> TextBox.AppendText Delegate Function </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.ListBoxAppender.view">
+        <member name="F:SpaceCG.Log4Net.Controls.ListBoxAppender.view">
             <summary>
             表格视图列的容器
             </summary>
         </member>
-        <member name="F:SpaceCG.Log4Net.ListBoxAppender.ViewColumns">
+        <member name="F:SpaceCG.Log4Net.Controls.ListBoxAppender.ViewColumns">
             <summary>
             所有视图列的容器
             </summary>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.#ctor(System.Windows.Controls.ListBox)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.#ctor(System.Windows.Controls.ListBox)">
             <summary>
             Log4Net Appender for WPF ListBox and ListView
             </summary>
             <param name="listBox"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.DefaultStyle(System.Windows.Controls.ListBox)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.DefaultStyle(System.Windows.Controls.ListBox)">
             <summary>
             设置控件默认样式
             </summary>
             <param name="listBox"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.ListBox_MouseDoubleClick(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.ListBox_MouseDoubleClick(System.Object,System.Windows.Input.MouseButtonEventArgs)">
             <summary>
             Mouse Double Cliek Copy to Clipboard
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.#ctor(System.Windows.Controls.ListBox,System.Int32)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.#ctor(System.Windows.Controls.ListBox,System.Int32)">
             <summary>
             Log4Net Appender for WPF ListBox and ListView
             </summary>
             <param name="listBox"></param>
             <param name="maxLines">最大行数为 1024 行，默认为 512 行</param>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.AppendLoggingEvent(log4net.Core.LoggingEvent)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.AppendLoggingEvent(log4net.Core.LoggingEvent)">
             <summary>
             添加日志事件对象
             </summary>
             <param name="loggingEvent"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.Append(log4net.Core.LoggingEvent)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.Append(log4net.Core.LoggingEvent)">
             <summary>
             @override
             </summary>
             <param name="loggingEvent"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.AppendHandler(log4net.Core.LoggingEvent)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.AppendHandler(log4net.Core.LoggingEvent)">
             <summary>
             Addend Logging Event
             </summary>
             <param name="loggingEvent"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.MenuItem_ClickHandler(System.Object,System.Windows.RoutedEventArgs)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.MenuItem_ClickHandler(System.Object,System.Windows.RoutedEventArgs)">
             <summary>
             MenuItem Click Handler
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.CreateListViewContextMenu">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.CreateListViewContextMenu">
             <summary>
             Create ListView ContextMenu
             </summary>
             <returns></returns>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.CreateColumn(System.String,System.String,System.Int32)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.CreateColumn(System.String,System.String,System.Int32)">
             <summary>
             创建简单的 GridViewColumn 对象
             </summary>
@@ -1287,13 +1507,181 @@
             <param name="width"></param>
             <returns></returns>
         </member>
-        <member name="M:SpaceCG.Log4Net.ListBoxAppender.CreateColumn(System.String,System.String[],System.String)">
+        <member name="M:SpaceCG.Log4Net.Controls.ListBoxAppender.CreateColumn(System.String,System.String[],System.String)">
             <summary>
             创建简单的 GridViewColumn 对象
             </summary>
             <param name="header"></param>
             <param name="paths"></param>
             <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SpaceCG.Log4Net.Controls.LoggerWindow">
+            <summary>
+            独立的日志窗体对象
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.LoggerWindow.TextBox">
+            <summary> TextBox </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.LoggerWindow.ListView">
+            <summary> ListView </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.LoggerWindow.ListBoxAppender">
+            <summary> ListBoxAppender </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.LoggerWindow.MaxLines">
+            <summary>
+            最大显示行数
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.#ctor(System.Int32)">
+            <summary>
+            Logger Window
+            </summary>
+            <param name="maxLines"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.OnClosing(System.ComponentModel.CancelEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.OnClosed(System.EventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.OnInitializeControls">
+            <summary>
+            初使化 UI 控件
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.AppendLoggingEvent(log4net.Core.LoggingEvent)">
+            <summary>
+            添加日志事件对象
+            </summary>
+            <param name="loggingEvent"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.ClearLogger">
+            <summary>
+            清除日志列表内容
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.ClearTextBox">
+            <summary>
+            清除 TextBox 内容
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.ListView_SelectionChanged(System.Object,System.Windows.Controls.SelectionChangedEventArgs)">
+            <summary>
+            ListView Select Changed Handler
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.LoggerWindow_Loaded(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Window Loaded Event Handler
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.LoggerWindow.WindowProcHandler(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <summary>
+            Window Process Handler
+            </summary>
+            <param name="hwnd"></param>
+            <param name="msg"></param>
+            <param name="wParam"></param>
+            <param name="lParam"></param>
+            <param name="handled"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SpaceCG.Log4Net.Controls.TextBoxAppender">
+            <summary>
+            Log4Net WPF TextBoxBase/TextBox/RichTextBox Appender
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.BgColor1">
+            <summary> Backgroud Color 1 </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.BgColor2">
+            <summary> Backgroud Color 2 </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.TextColor">
+            <summary> Default Text Color 3 </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.InfoColor">
+            <summary> Info Color </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.WarnColor">
+            <summary> Warn Color </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.ErrorColor">
+            <summary> Error Color </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.FatalColor">
+            <summary> Fatal Color </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.MaxLines">
+            <summary>
+            获取或设置最大可见行数
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.TextBoxBase">
+            <summary> TextBoxBase </summary>
+        </member>
+        <member name="F:SpaceCG.Log4Net.Controls.TextBoxAppender.AppendLoggingEventDelegate">
+            <summary> TextBox.AppendText Delegate Function </summary>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.TextBoxAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase)">
+            <summary>
+            Log4Net Appender for WPF TextBoxBase(TextBox and RichTextBox)
+            </summary>
+            <param name="textBox"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.TextBoxAppender.DefaultStyle(System.Windows.Controls.Primitives.TextBoxBase)">
+            <summary>
+            设置控件默认样式
+            </summary>
+            <param name="textBox"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.TextBoxAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase,System.UInt32)">
+            <summary>
+            Log4Net Appender for WPF TextBoxBase 
+            </summary>
+            <param name="textBox"></param>
+            <param name="maxLines">最大行数为 1024 行，默认为 512 行</param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.TextBoxAppender.Append(log4net.Core.LoggingEvent)">
+            <summary>
+            @override
+            </summary>
+            <param name="loggingEvent"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.TextBoxAppender.AppendLoggingEvent(log4net.Core.LoggingEvent)">
+            <summary>
+            TextBox Append LoggingEvent
+            </summary>
+            <param name="loggingEvent"></param>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.TextBoxAppender.GetColorBrush(log4net.Core.Level)">
+            <summary>
+            跟据 Level 获取颜色
+            </summary>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.TextBoxAppender.GetBgColorBrush(log4net.Core.Level,System.Int32)">
+            <summary>
+            跟据 Level and Line 获取背景颜色
+            </summary>
+            <param name="level"></param>
+            <param name="line"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Log4Net.Controls.TextBoxAppender.GetBgColorBrush(log4net.Core.Level,System.Boolean)">
+            <summary>
+            跟据 Level and Change 获取背景颜色
+            </summary>
+            <param name="level"></param>
+            <param name="change"></param>
             <returns></returns>
         </member>
         <member name="T:SpaceCG.Log4Net.Log4NetUtils">
@@ -1334,174 +1722,6 @@
             </summary>
             <param name="buffer">要反序列化的数据的流</param>
             <returns>返回 <see cref="T:log4net.Core.LoggingEvent"/> 对象</returns>
-        </member>
-        <member name="T:SpaceCG.Log4Net.LoggerWindow">
-            <summary>
-            独立的日志窗体对象
-            </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.LoggerWindow.TextBox">
-            <summary> TextBox </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.LoggerWindow.ListView">
-            <summary> ListView </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.LoggerWindow.ListBoxAppender">
-            <summary> ListBoxAppender </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.LoggerWindow.MaxLines">
-            <summary>
-            最大显示行数
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.#ctor(System.Int32)">
-            <summary>
-            Logger Window
-            </summary>
-            <param name="maxLines"></param>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.OnClosing(System.ComponentModel.CancelEventArgs)">
-            <inheritdoc/>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.OnClosed(System.EventArgs)">
-            <inheritdoc/>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.OnInitializeControls">
-            <summary>
-            初使化 UI 控件
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.AppendLoggingEvent(log4net.Core.LoggingEvent)">
-            <summary>
-            添加日志事件对象
-            </summary>
-            <param name="loggingEvent"></param>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.ClearLogger">
-            <summary>
-            清除日志列表内容
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.ClearTextBox">
-            <summary>
-            清除 TextBox 内容
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.ListView_SelectionChanged(System.Object,System.Windows.Controls.SelectionChangedEventArgs)">
-            <summary>
-            ListView Select Changed Handler
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.LoggerWindow_Loaded(System.Object,System.Windows.RoutedEventArgs)">
-            <summary>
-            Window Loaded Event Handler
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-        </member>
-        <member name="M:SpaceCG.Log4Net.LoggerWindow.WindowProcHandler(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)">
-            <summary>
-            Window Process Handler
-            </summary>
-            <param name="hwnd"></param>
-            <param name="msg"></param>
-            <param name="wParam"></param>
-            <param name="lParam"></param>
-            <param name="handled"></param>
-            <returns></returns>
-        </member>
-        <member name="T:SpaceCG.Log4Net.TextBoxAppender">
-            <summary>
-            Log4Net WPF TextBoxBase/TextBox/RichTextBox Appender
-            </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.BgColor1">
-            <summary> Backgroud Color 1 </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.BgColor2">
-            <summary> Backgroud Color 2 </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.TextColor">
-            <summary> Default Text Color 3 </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.InfoColor">
-            <summary> Info Color </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.WarnColor">
-            <summary> Warn Color </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.ErrorColor">
-            <summary> Error Color </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.FatalColor">
-            <summary> Fatal Color </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.MaxLines">
-            <summary>
-            获取或设置最大可见行数
-            </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.TextBoxBase">
-            <summary> TextBoxBase </summary>
-        </member>
-        <member name="F:SpaceCG.Log4Net.TextBoxAppender.AppendLoggingEventDelegate">
-            <summary> TextBox.AppendText Delegate Function </summary>
-        </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase)">
-            <summary>
-            Log4Net Appender for WPF TextBoxBase(TextBox and RichTextBox)
-            </summary>
-            <param name="textBox"></param>
-        </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.DefaultStyle(System.Windows.Controls.Primitives.TextBoxBase)">
-            <summary>
-            设置控件默认样式
-            </summary>
-            <param name="textBox"></param>
-        </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.#ctor(System.Windows.Controls.Primitives.TextBoxBase,System.UInt32)">
-            <summary>
-            Log4Net Appender for WPF TextBoxBase 
-            </summary>
-            <param name="textBox"></param>
-            <param name="maxLines">最大行数为 1024 行，默认为 512 行</param>
-        </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.Append(log4net.Core.LoggingEvent)">
-            <summary>
-            @override
-            </summary>
-            <param name="loggingEvent"></param>
-        </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.AppendLoggingEvent(log4net.Core.LoggingEvent)">
-            <summary>
-            TextBox Append LoggingEvent
-            </summary>
-            <param name="loggingEvent"></param>
-        </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetColorBrush(log4net.Core.Level)">
-            <summary>
-            跟据 Level 获取颜色
-            </summary>
-            <param name="level"></param>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetBgColorBrush(log4net.Core.Level,System.Int32)">
-            <summary>
-            跟据 Level and Line 获取背景颜色
-            </summary>
-            <param name="level"></param>
-            <param name="line"></param>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Log4Net.TextBoxAppender.GetBgColorBrush(log4net.Core.Level,System.Boolean)">
-            <summary>
-            跟据 Level and Change 获取背景颜色
-            </summary>
-            <param name="level"></param>
-            <param name="change"></param>
-            <returns></returns>
         </member>
         <member name="T:SpaceCG.WindowsAPI.WinUser.DeviceBroadcastType">
             <summary>

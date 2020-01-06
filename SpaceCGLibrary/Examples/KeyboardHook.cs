@@ -54,7 +54,7 @@ namespace SpaceCG.Examples
             if(nCode >= 0)
             {
                 MessageType flag = (MessageType)wParam;
-                KeyboardLLHookStruct keyData = Marshal.PtrToStructure<KeyboardLLHookStruct>(lParam);
+                KeyboardLLHookStruct keyData = (KeyboardLLHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardLLHookStruct));
 
                 Console.WriteLine("Flag:{0} KeyData:{1}", flag, keyData);
 
