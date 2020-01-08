@@ -111,11 +111,11 @@ namespace SpaceCG.General
         ///     <para>建议全英文符号字符集可直接设置为 0xFF 大小；中文字符两种方案：1.取中文字符的最大值 2.使用中文字符字典；如果使用中文字符全集，将会达到 0xFFFF 大小的数组</para>
         ///     <para>构造函数方法使用的是数组</para>
         /// </param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public void ResetPattern(ref string pattern, uint tSize = 0xFF)
         {
-            if (pattern == null || pattern.Length < 1)
-                throw new ArgumentNullException("参数 pattern 不能空，长度不能小于 1 ");
+            if (pattern == null || pattern.Length < 1 || tSize <= 0 || tSize > 0xFFFF)
+                throw new ArgumentNullException("参数 pattern 不能空，长度不能小于 1，或是 tSize 超出范围");
 
             ClearParams();
 
@@ -123,21 +123,14 @@ namespace SpaceCG.General
             this.patternChars = pattern;
             this.PatternLength = this.patternChars.Length;
 
-            try
-            {
-                this.badTable = GetBadCharacterShift(ref pattern, tSize);
-                this.goodTable = GetGoodSuffixShift(ref pattern);
-            }
-            catch (Exception ex)
-            {
-                ClearParams();
-                throw new ArgumentException($" {nameof(tSize)} 参数错误，创建 (坏字符 Bad Character Heuristic) 表失败，查找的数据内容与表大小不匹配", ex);
-            }
+            this.goodTable = GetGoodSuffixShift(ref pattern);
+            this.badTable = GetBadCharacterShift(ref pattern, tSize);
         }
         /// <summary>
         /// 设置需要匹配数据
         /// </summary>
         /// <param name="pattern"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void ResetPattern(IReadOnlyList<byte> pattern)
         {
             if (pattern == null || pattern.Count < 1)
@@ -149,8 +142,8 @@ namespace SpaceCG.General
             this.patternBytes = pattern;
             this.PatternLength = this.patternBytes.Count;
 
-            this.badTable = GetBadCharacterShift(pattern);
             this.goodTable = GetGoodSuffixShift(pattern);
+            this.badTable = GetBadCharacterShift(pattern);
         }
         #endregion
 
@@ -167,7 +160,7 @@ namespace SpaceCG.General
         public int Search(ref string source, int start = 0, int end = int.MaxValue)
         {
             if (patternChars == null || source == null || source.Length < PatternLength) return -1;
-            if (start < 0 || end < 0 || end <= start || end < patternChars.Length || end - start < patternChars.Length) return -1;
+            if (start < 0 || end < 0 || end <= start || end < PatternLength || end - start < PatternLength) return -1;
 
             int i, index = start;
             int lastPatternPosition = PatternLength - 1;
@@ -181,7 +174,7 @@ namespace SpaceCG.General
                 while (i >= 0 && patternChars[i] == source[index + i]) i--;
 
                 if (i < 0) return index;
-                index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                index += Math.Max(badTable[source[index + i]] - PatternLength + i + 1, goodTable[i]);
 
                 if (index > end) break;
             }
@@ -199,7 +192,7 @@ namespace SpaceCG.General
         public int Search(IReadOnlyList<byte> source, int start = 0, int end = int.MaxValue)
         {
             if (patternBytes == null || source == null || source.Count < PatternLength) return -1;
-            if (start < 0 || end < 0 || end <= start || end < patternBytes.Count || end - start < patternBytes.Count) return -1;
+            if (start < 0 || end < 0 || end <= start || end < PatternLength || end - start < PatternLength) return -1;
 
             int i, index = start;
             int lastPatternPosition = PatternLength - 1;
@@ -213,7 +206,7 @@ namespace SpaceCG.General
                 while (i >= 0 && patternBytes[i] == source[index + i]) i--;
 
                 if (i < 0) return index;
-                index += Math.Max(badTable[source[index + i]] - PatternLength + 1 + i, goodTable[i]);
+                index += Math.Max(badTable[source[index + i]] - PatternLength + i + 1, goodTable[i]);
 
                 if (index > end) break;
             }
@@ -242,11 +235,11 @@ namespace SpaceCG.General
                 if (index == -1) return -1;
 
                 count++;
-                index++;
+                index += PatternLength;
             }
             while (count < rCount);
 
-            return index - 1;
+            return index - PatternLength;
         }
         /// <summary>
         /// 查找第 rCount 次匹配到的位置索引，如果第 rCount 次的匹配不存在，则返回 -1 
@@ -267,11 +260,11 @@ namespace SpaceCG.General
                 if (index == -1) return -1;
 
                 count++;
-                index++;
+                index += PatternLength;
             }
             while (count < rCount);
 
-            return index - 1;
+            return index - PatternLength;
         }
         #endregion
 
@@ -287,7 +280,7 @@ namespace SpaceCG.General
         public int[] SearchAll(ref string source, int start = 0, int end = int.MaxValue)
         {
             int index = start;
-            List<int> indexs = new List<int>(Math.Min(source.Length / patternChars.Length, BoyerMoore.CAPACITY));
+            List<int> indexs = new List<int>(Math.Min(source.Length / PatternLength, BoyerMoore.CAPACITY));
 
             do
             {
@@ -295,7 +288,7 @@ namespace SpaceCG.General
                 if (index != -1)
                 {
                     indexs.Add(index);
-                    index += patternChars.Length;
+                    index += PatternLength;
                 }
             }
             while (index > 0);
@@ -313,7 +306,7 @@ namespace SpaceCG.General
         public int[] SearchAll(IReadOnlyList<byte> source, int start = 0, int end = int.MaxValue)
         {
             int index = start;
-            List<int> indexs = new List<int>(Math.Min(source.Count / patternBytes.Count, BoyerMoore.CAPACITY));
+            List<int> indexs = new List<int>(Math.Min(source.Count / PatternLength, BoyerMoore.CAPACITY));
 
             do
             {
@@ -321,7 +314,7 @@ namespace SpaceCG.General
                 if (index != -1)
                 {
                     indexs.Add(index);
-                    index += patternBytes.Count;
+                    index += PatternLength;
                 }
             }
             while (index > 0);
@@ -410,7 +403,7 @@ namespace SpaceCG.General
         {
             IDictionary<T, int> badTable;
             if (useThreadSafe)
-                badTable = new ConcurrentDictionary<T, int>(2, pattern.Count + 8);
+                badTable = new ConcurrentDictionary<T, int>(4, pattern.Count + 8);
             else
                 badTable = new Dictionary<T, int>(pattern.Count + 8);
 
@@ -568,7 +561,7 @@ namespace SpaceCG.General
             int i, index = start;
             int sourceLength = source.Length;
             int patternLength = pattern.Length;
-            int lastPatternPosition = pattern.Length - 1;        //最后一个匹配数据的位置
+            int lastPatternPosition = patternLength - 1;        //最后一个匹配数据的位置
             int maxCompareCount = sourceLength - patternLength;  //最多可比较的次数
 
             if (tSize <= 0xFF)
@@ -678,9 +671,9 @@ namespace SpaceCG.General
             int i, index = start;
             int sourceLength = source.Length;
             int patternLength = pattern.Length;
-            int lastPatternPosition = pattern.Length - 1;
+            int lastPatternPosition = patternLength - 1;
             int maxCompareCount = sourceLength - patternLength;
-            List<int> indexs = new List<int>(Math.Min(source.Length / pattern.Length, CAPACITY));
+            List<int> indexs = new List<int>(Math.Min(sourceLength / patternLength, CAPACITY));
 
             if (tSize <= 0xFF)
             {
@@ -756,7 +749,7 @@ namespace SpaceCG.General
             int maxCompareCount = sourceLength - patternLength;
 
             int[] offsetTable = GetBadCharacterShift(pattern);
-            List<int> indexs = new List<int>(Math.Min(source.Count / pattern.Count, CAPACITY));
+            List<int> indexs = new List<int>(Math.Min(sourceLength / patternLength, CAPACITY));
 
             while (index <= maxCompareCount)
             {
@@ -846,7 +839,7 @@ namespace SpaceCG.General
         /// </summary>
         public BoyerMoore(IReadOnlyList<T> pattern)
         {
-            ResetPattern(pattern);
+            ResetPattern(pattern, false);
         }
 
         /// <summary>
@@ -923,7 +916,6 @@ namespace SpaceCG.General
                 if (index == -1) return -1;
 
                 count++;
-                //index++;
                 index += PatternLength;
             }
             while (count < rCount);

@@ -1,5 +1,4 @@
-﻿#pragma warning disable CS1591,CS1572,CS1573
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace SpaceCG
@@ -52,14 +51,14 @@ namespace SpaceCG
                     Delegate anonymity = (Delegate)values;
                     foreach (Delegate handler in anonymity.GetInvocationList())
                     {
-                        Log.InfoFormat("Remove Anonymous Event: {0}", handler.Method.Name);
+                        Log.InfoFormat("Object {0} Remove Anonymous Event: {1}", nameof(instanceObj), handler.Method.Name);
                         instanceObj.GetType().GetEvent(eventName).RemoveEventHandler(instanceObj, handler);
                     }
                 }
             }
             catch(Exception ex)
             {
-                Log.InfoFormat("Remove Anonymous Events Error: ObjectInstance:{0} EventName:{1}", instanceObj, eventName);
+                Log.InfoFormat("Remove Anonymous Events Error: ObjectInstance:{0}({1}) EventName:{2}", instanceObj, nameof(instanceObj), eventName);
                 Log.ErrorFormat("Remove Anonymous Events Error:{0}", ex);
             }
         }

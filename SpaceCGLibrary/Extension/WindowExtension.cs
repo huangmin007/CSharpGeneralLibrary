@@ -75,7 +75,7 @@ namespace SpaceCG.Extension
         /// <summary>
         /// 设置窗口在 Z 顺序中位于定位的窗口之前的窗口的值
         /// <para>调用 <see cref="WinUser.SetWindowPos(IntPtr, SwpState, int, int, int, int, SwpFlag)"/></para>
-        /// <para>WPF Window Handle use <see cref="WindowInteropHelper"/>.Handle</para>
+        /// <para>WPF Window Handle use <see cref="WindowInteropHelper.Handle"/></para>
         /// </summary>
         /// <param name="window"></param>
         /// <param name="state"><see cref="SwpState"/></param>

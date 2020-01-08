@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SpaceCG.General
 {
@@ -76,7 +77,7 @@ namespace SpaceCG.General
     }
 
     /// <summary>
-    /// 跟据终止字节数据分割数据包的分析模式适配器
+    /// 跟据终原始止字节数据分割数据包的分析模式适配器
     /// </summary>
     /// <typeparam name="TChannelKey">通道键类型</typeparam>
     public class TerminatorDataAnalyse<TChannelKey> : TerminatorDataAnalysePattern<TChannelKey, byte[]>
@@ -88,12 +89,34 @@ namespace SpaceCG.General
         /// <exception cref="ArgumentNullException">参数错误，参数 terminator 不能为空</exception>
         public TerminatorDataAnalyse(IReadOnlyList<byte> terminator) :base(terminator)
         {
-
         }
+
         /// <inheritdoc/>
         protected override byte[] ConvertResultType(List<byte> packet)
         {
             return packet.ToArray();
+        }
+    }
+
+    /// <summary>
+    /// 跟据终止字符数据分割数据包的分析模式适配器
+    /// </summary>
+    /// <typeparam name="TChannelKey"></typeparam>
+    public class TerminatorStringAnalyse<TChannelKey>: TerminatorDataAnalysePattern<TChannelKey, string>
+    {
+        /// <summary>
+        /// 跟据终止字符数据，分割数据包分析适配器
+        /// </summary>
+        /// <param name="terminator">终止字符数据</param>
+        /// <exception cref="ArgumentNullException">参数错误，参数 terminator 不能为空</exception>
+        public TerminatorStringAnalyse(string terminator) : base(Encoding.Default.GetBytes(terminator))
+        {
+        }
+
+        /// <inheritdoc/>
+        protected override string ConvertResultType(List<byte> packet)
+        {
+            return Encoding.Default.GetString(packet.ToArray());
         }
     }
 }

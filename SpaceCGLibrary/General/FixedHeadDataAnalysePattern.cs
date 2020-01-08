@@ -126,6 +126,10 @@ namespace SpaceCG.General
         protected override int GetBodySize(List<byte> head)
         {
             byte[] data = head.ToArray();
+
+            // 如果当前环境不是小端字节序，转换为小端字节序
+            if (!BitConverter.IsLittleEndian) Array.Reverse(data);
+            
             return BitConverter.ToInt32(data, 0);
         }
 

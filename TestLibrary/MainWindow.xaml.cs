@@ -9,6 +9,7 @@ using System.IO.Ports;
 using SpaceCG.Extension;
 using System.Collections.Generic;
 using SpaceCG.General;
+using System.Runtime.InteropServices;
 
 namespace TestLibrary
 {
@@ -64,6 +65,8 @@ namespace TestLibrary
             Dictionary<string, string> dic1 = ManagementExtension.GetBaseBoardInfo();
             foreach (var kv in dic1)
                 Console.WriteLine("{0}: {1}", kv.Key, kv.Value);
+
+            Marshal.AllocHGlobal(100);
         }
 
         private void SerialPortReceivedHandler(byte[] data)

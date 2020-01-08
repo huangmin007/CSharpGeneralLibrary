@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SpaceCG.General
 {
@@ -74,14 +75,14 @@ namespace SpaceCG.General
     }
 
     /// <summary>
-    /// 固定大小的数据分析
+    /// 固定大小的原始字节数据分析
     /// <para>按固定大小的字节数据做为一个数据包分析，无头无尾，按字节大小封包转换</para>
     /// </summary>
     /// <typeparam name="TChannelKey">通道键类型</typeparam>
     public class FixedSizeDataAnalyse<TChannelKey> : FixedSizeDataAnalysePattern<TChannelKey, byte[]>
     {
         /// <summary>
-        /// 固定大小的数据分析
+        /// 固定大小的原始字节数据分析
         /// </summary>
         /// <param name="packetSize">整体数据包固定大小</param>
         public FixedSizeDataAnalyse(int packetSize) :base(packetSize)
@@ -92,6 +93,28 @@ namespace SpaceCG.General
         protected override byte[] ConvertResultType(List<byte> packet)
         {
             return packet.ToArray();
+        }
+    }
+
+    /// <summary>
+    /// 固定长度的字符数据分析
+    /// <para>按固定长度的字符做为一个数据包分析，无头无尾，按字节大小封包转换</para>
+    /// </summary>
+    /// <typeparam name="TChannelKey">通道键类型</typeparam>
+    public class FixedSizeStringAnalyse<TChannelKey>: FixedSizeDataAnalysePattern<TChannelKey, string>
+    {
+        /// <summary>
+        /// 固定长度的字符数据分析
+        /// </summary>
+        /// <param name="packetSize">字符长度</param>
+        public FixedSizeStringAnalyse(int length) : base(length)
+        {
+        }
+
+        /// <inheritdoc/>
+        protected override string ConvertResultType(List<byte> packet)
+        {
+            return Encoding.Default.GetString(packet.ToArray());
         }
     }
 }

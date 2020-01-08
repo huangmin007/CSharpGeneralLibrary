@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SpaceCG.General
 {
@@ -81,7 +82,7 @@ namespace SpaceCG.General
     }
 
     /// <summary>
-    /// 在 包头 和 包尾 之间，数据分析模式适配器
+    /// 在 包头 和 包尾 之间，原始数据分析模式适配器
     /// </summary>
     /// <typeparam name="TChannelKey"></typeparam>
     public class BetweenAndDataAnalyse<TChannelKey> : BetweenAndDataAnalysePattern<TChannelKey, byte[]>
@@ -93,13 +94,35 @@ namespace SpaceCG.General
         /// <param name="end">包尾数据</param>
         public BetweenAndDataAnalyse(IReadOnlyList<byte> start, IReadOnlyList<byte> end) :base(start, end)
         {
-
         }
 
         /// <inheritdoc/>
         protected override byte[] ConvertResultType(List<byte> body)
         {
             return body.ToArray();
+        }
+    }
+
+    /// <summary>
+    /// 在 包头 和 包尾 之间，字符分析模式适配器
+    /// </summary>
+    /// <typeparam name="TChannelKey"></typeparam>
+    public class BetweenAndStringAnalyse<TChannelKey> : BetweenAndDataAnalysePattern<TChannelKey, string>
+    {
+        /// <summary>
+        /// 两端字符分析模式适配器
+        /// </summary>
+        /// <param name="start">开始字符</param>
+        /// <param name="end">结束字符</param>
+        public BetweenAndStringAnalyse(string start, string end):
+            base(Encoding.Default.GetBytes(start), Encoding.Default.GetBytes(end))
+        {
+        }
+
+        /// <inheritdoc/>
+        protected override string ConvertResultType(List<byte> body)
+        {
+            return Encoding.Default.GetString(body.ToArray());
         }
     }
 }
