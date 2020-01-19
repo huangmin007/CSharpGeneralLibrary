@@ -1,5 +1,5 @@
 ﻿#pragma warning disable CS1591,CS1572
-using SpaceCG.WindowsAPI.WinUser;
+using SpaceCG.WindowsAPI.User32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -39,7 +39,7 @@ namespace SpaceCG.Examples
             //IntPtr hInstance = Kernel32.GetModuleHandle(processModule.ModuleName);
 
             KeysList = new List<KeyboardLLHookStruct>();
-            HookIntPtr = WinUser.SetWindowsHookEx(HookType.WH_KEYBOARD_LL, HookProc, processModule.BaseAddress, 0);
+            HookIntPtr = User32.SetWindowsHookEx(HookType.WH_KEYBOARD_LL, HookProc, processModule.BaseAddress, 0);
         }
 
         /// <summary>
@@ -94,10 +94,10 @@ namespace SpaceCG.Examples
                 if(KeyPress != null && flag == MessageType.WM_KEYDOWN)
                 {
                     byte[] keyState = new byte[256];
-                    WinUser.GetKeyboardState(keyState);
+                    User32.GetKeyboardState(keyState);
                     byte[] inBuffer = new byte[2];
 
-                    if (WinUser.ToAscii(keyData.vkCode, (uint)keyData.scanCode, keyState, inBuffer, (uint)keyData.flags) == 1)
+                    if (User32.ToAscii(keyData.vkCode, (uint)keyData.scanCode, keyState, inBuffer, (uint)keyData.flags) == 1)
                     {
                         Console.WriteLine("KeyChar:{0}", (char)inBuffer[0]);
                         Key k = KeyInterop.KeyFromVirtualKey((int)keyData.vkCode);
@@ -105,7 +105,7 @@ namespace SpaceCG.Examples
                 }
             }
 
-            return WinUser.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
+            return User32.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
         }
 
         
@@ -118,7 +118,7 @@ namespace SpaceCG.Examples
         {
             byte[] lpkeyState = new byte[256];
 
-            WinUser.GetKeyboardState(lpkeyState);
+            User32.GetKeyboardState(lpkeyState);
 
             // ba la ba la
 
@@ -151,7 +151,7 @@ namespace SpaceCG.Examples
                 {
                     // TODO: 释放托管状态(托管对象)。
                     if (HookIntPtr != null && HookIntPtr != IntPtr.Zero)
-                        WinUser.UnhookWindowsHookEx(HookIntPtr);
+                        User32.UnhookWindowsHookEx(HookIntPtr);
                 }
 
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。

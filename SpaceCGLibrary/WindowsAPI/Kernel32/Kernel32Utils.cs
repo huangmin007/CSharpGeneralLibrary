@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceCG.WindowsAPI.Kernel32
 {
@@ -32,5 +30,13 @@ namespace SpaceCG.WindowsAPI.Kernel32
             return message.ToString().Trim();
         }
 
+        public static string GetSysErrroMessage(string functionName)
+        {
+            StringBuilder message = new StringBuilder(255);
+            int errorCode = Marshal.GetLastWin32Error();
+            int len = Kernel32.FormatMessage(FmFlag.FORMAT_MESSAGE_FROM_SYSTEM, IntPtr.Zero, (uint)errorCode, 0, message, 255, IntPtr.Zero);
+
+            return $"调用 {functionName} 执行结果为: {message.ToString().Trim()}";
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace SpaceCG.WindowsAPI
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{x}, {y}";
+            return $"[POINT] x:{x}, y:{y}";
         }
     }
 

@@ -1,4 +1,4 @@
-﻿using SpaceCG.WindowsAPI.WinUser;
+﻿using SpaceCG.WindowsAPI.User32;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -254,7 +254,7 @@ namespace SpaceCG.Extension
 
         /// <summary>
         /// 获取当前计算机的 串行端口 完整名称 的数组
-        /// <para>与 <see cref="System.IO.Ports.SerialPort.GetPortNames"/> 函数不同，<see cref="System.IO.Ports.SerialPort.GetPortNames"/> 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
+        /// <para>与 <see cref="System.IO.Ports.SerialPort.GetPortNames"/> 函数不同，<see cref="System.IO.Ports.SerialPort.GetPortNames"/> 只输出类似"COM3,COM4,COMn"；该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
         /// <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
         /// </summary>
         /// <returns></returns>

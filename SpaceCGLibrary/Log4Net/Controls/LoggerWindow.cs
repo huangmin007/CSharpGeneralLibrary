@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Windows.Media;
 using log4net.Core;
-using SpaceCG.WindowsAPI.WinUser;
+using SpaceCG.WindowsAPI.User32;
 
 namespace SpaceCG.Log4Net.Controls
 {
@@ -55,8 +55,8 @@ namespace SpaceCG.Log4Net.Controls
 
             if (Handle != null)
             {
-                bool result = WinUser.UnregisterHotKey(Handle, 0);
-                result = result || WinUser.UnregisterHotKey(Handle, 1);
+                bool result = User32.UnregisterHotKey(Handle, 0);
+                result = result || User32.UnregisterHotKey(Handle, 1);
                 Console.WriteLine("Logger Window UnregisterHotKey State:{0}", result);
 
                 Handle = IntPtr.Zero;
@@ -171,8 +171,8 @@ namespace SpaceCG.Log4Net.Controls
         {
             Handle = new WindowInteropHelper(this).Handle;
 
-            bool result = WinUser.RegisterHotKey(Handle, 0, RhkModifier.CONTROL, VirtualKeyCode.VK_L);
-            result = result || WinUser.RegisterHotKey(Handle, 1, RhkModifier.CONTROL, VirtualKeyCode.VK_M);
+            bool result = User32.RegisterHotKey(Handle, 0, RhkModifier.CONTROL, VirtualKeyCode.VK_L);
+            result = result || User32.RegisterHotKey(Handle, 1, RhkModifier.CONTROL, VirtualKeyCode.VK_M);
             Console.WriteLine("Logger Window RegisterHotKey State:{0}", result);
 
             if (result)

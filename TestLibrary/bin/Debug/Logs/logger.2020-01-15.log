@@ -1,0 +1,60 @@
+﻿
+[Header]
+[08:52:19] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (4404) 
+[08:52:19] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (4404) 
+[08:52:25] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(52)] - Initialize. (10764) 
+[08:52:25] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(43)] - MainWindow. (10936) 
+
+[Header]
+[08:53:44] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (531) 
+[08:53:44] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (531) 
+[08:53:45] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(52)] - Initialize. (1953) 
+[08:53:45] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(43)] - MainWindow. (2375) 
+
+[Header]
+[09:08:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (515) 
+[09:08:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (515) 
+[09:08:27] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(52)] - Initialize. (1953) 
+[09:08:27] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(43)] - MainWindow. (1953) 
+
+[Header]
+[09:10:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (359) 
+[09:10:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (359) 
+[09:10:41] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(54)] - Initialize. (1624) 
+[09:10:41] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(45)] - MainWindow. (1656) 
+
+[Header]
+[09:12:53] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (499) 
+[09:12:53] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (499) 
+[09:12:55] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(56)] - Initialize. (1656) 
+[09:12:55] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(47)] - MainWindow. (1671) 
+
+[Header]
+[09:13:51] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (296) 
+[09:13:51] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (296) 
+[09:13:52] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(56)] - Initialize. (1609) 
+[09:13:52] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(47)] - MainWindow. (1640) 
+[09:14:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (29829) 
+[09:14:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (29829) 
+[Footer]
+
+
+[Header]
+[09:14:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (287) 
+[09:14:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (287) 
+[09:14:33] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(56)] - Initialize. (1738) 
+[09:14:33] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(47)] - MainWindow. (1754) 
+[09:15:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (33552) 
+[09:15:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (33552) 
+[Footer]
+
+
+[Header]
+[11:49:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (384) 
+[11:49:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (384) 
+[11:49:40] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(39)] - Initialize. (2078) 
+[11:49:40] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(30)] - MainWindow. (2097) 
+[11:49:44] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5843) 
+[11:49:44] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5843) 
+[Footer]
+

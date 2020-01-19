@@ -22,3 +22,6 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\HPSocket.Net.p
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\HPSocket.Net.xml
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\Log4Net.Config
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.csprojAssemblyReference.cache
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\HidSharp.dll
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\HidSharp.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\HidSharp.xml

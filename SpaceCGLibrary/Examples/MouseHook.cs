@@ -1,5 +1,5 @@
 ﻿#pragma warning disable CS1591,CS1572
-using SpaceCG.WindowsAPI.WinUser;
+using SpaceCG.WindowsAPI.User32;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -24,7 +24,7 @@ namespace SpaceCG.Examples
             ProcessModule processModule = process.MainModule;
             //IntPtr hInstance = Kernel32.GetModuleHandle(processModule.ModuleName);
 
-            HookIntPtr = WinUser.SetWindowsHookEx(HookType.WH_MOUSE_LL, HookProc, processModule.BaseAddress, 0);
+            HookIntPtr = User32.SetWindowsHookEx(HookType.WH_MOUSE_LL, HookProc, processModule.BaseAddress, 0);
         }
 
         protected IntPtr HookProcHandler(int nCode, IntPtr wParam, IntPtr lParam)
@@ -35,7 +35,7 @@ namespace SpaceCG.Examples
                 MouseHookStruct mouseData = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
                 Console.WriteLine("Flag:{0} mouseData:{1}", flag, mouseData);
             }
-            return WinUser.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
+            return User32.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
         }
 
         #region IDisposable Support
@@ -49,7 +49,7 @@ namespace SpaceCG.Examples
                 {
                     // TODO: 释放托管状态(托管对象)。
                     if (HookIntPtr != null && HookIntPtr != IntPtr.Zero)
-                        WinUser.UnhookWindowsHookEx(HookIntPtr);
+                        User32.UnhookWindowsHookEx(HookIntPtr);
                 }
 
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。

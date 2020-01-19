@@ -1,9 +1,28 @@
 ﻿using System;
-using SpaceCG.WindowsAPI.WinUser;
+using SpaceCG.WindowsAPI.User32;
 using System.Runtime.InteropServices;
 
-namespace SpaceCG.WindowsAPI.WinUser
+namespace SpaceCG.WindowsAPI.User32
 {
+    /// <summary>
+    /// <see cref="User32.RegisterDeviceNotification"/> 函数参考 Flags 的参数之一
+    /// <para>参考： https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerdevicenotificationa </para>
+    /// </summary>
+    public enum DeviceNotifyFlag
+    {
+        /// <summary>
+        /// 该hRecipient参数是一个窗口句柄。
+        /// </summary>
+        DEVICE_NOTIFY_WINDOW_HANDLE = 0x00000000,
+        /// <summary>
+        /// 该hRecipient参数是服务状态句柄。
+        /// </summary>
+        DEVICE_NOTIFY_SERVICE_HANDLE = 0x00000001,
+        /// <summary>
+        /// 通知接收者所有设备接口类的设备接口事件。(dbcc_classguid成员将被忽略。) 仅当 dbch_devicetype 成员是 DBT_DEVTYP_DEVICEINTERFACE 时，才可以使用此值。
+        /// </summary>
+        DEVICE_NOTIFY_ALL_INTERFACE_CLASSES = 0x00000004,
+    }
 
     /// <summary>
     /// Device Broadcast Type

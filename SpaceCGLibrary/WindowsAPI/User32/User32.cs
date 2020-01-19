@@ -2,10 +2,10 @@
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace SpaceCG.WindowsAPI.WinUser
+namespace SpaceCG.WindowsAPI.User32
 {
     /// <summary>
-    /// WinUser.h 常用/实用 函数
+    /// user32.dll 常用/实用 函数
     /// <para>Marshal.GetLastWin32Error();  new WindowInteropHelper(Window).Handle; KeyInterop.KeyFromVirtualKey((int)vkCode); </para>
     /// <para>ComponentDispatcher (OR) HwndSource.FromHwnd(hwnd).AddHook(WindowProcHandler); (OR) HwndSource hwndSource = PresentationSource.FromVisual(this) as HwndSource;hwndSource.AddHook(new HwndSourceHook(WindowProcHandler));</para>
     /// <para>#ifdef UNICODE #define Function FunctionA #else #define Function FunctionW #endif</para>
@@ -15,7 +15,7 @@ namespace SpaceCG.WindowsAPI.WinUser
     /// <para>参考： https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/  头文件目录：C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um </para>
     /// <para>本机互操作性：https://docs.microsoft.com/zh-cn/dotnet/standard/native-interop/ </para>
     /// </summary>
-    public static partial class WinUser
+    public static partial class User32
     {
         #region Set Window x,y,z,width,height
         /// <summary>
@@ -52,6 +52,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <param name="wFlags">窗口大小和位置标志 <see cref="SwpFlag"/></param>
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用GetLastError。</returns>
         [DllImport(DLL_NAME, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, SwpFlag wFlags);
         /// <summary>
         /// 更改子窗口，弹出窗口或顶级窗口的大小，位置和Z顺序；这些窗口是根据其在屏幕上的外观排序的；最顶部的窗口获得最高排名，并且是Z顺序中的第一个窗口。
@@ -69,6 +70,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <param name="wFlags">窗口大小和位置标志 <see cref="SwpFlag"/></param>
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用GetLastError。</returns>
         [DllImport(DLL_NAME, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, [MarshalAs(UnmanagedType.SysInt)]SwpState hWndInsertAfter, int x, int y, int cx, int cy, SwpFlag wFlags);
         /// <summary>
         /// 更改指定窗口的位置和尺寸。对于顶级窗口，位置和尺寸是相对于屏幕的左上角的。对于子窗口，它们相对于父窗口客户区的左上角。
@@ -83,6 +85,7 @@ namespace SpaceCG.WindowsAPI.WinUser
         /// <para>如果此参数为TRUE，则窗口会收到一条消息。如果参数为FALSE，则不会进行任何重绘。这适用于客户区域，非客户区域（包括标题栏和滚动栏）以及由于移动子窗口而暴露的父窗口的任何部分。</para></param>
         /// <returns>如果函数成功，则返回值为非零。</returns>
         [DllImport(DLL_NAME)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
         #endregion
 
@@ -708,7 +711,11 @@ namespace SpaceCG.WindowsAPI.WinUser
         public static extern bool AnimateWindow(IntPtr hWnd, uint dwTime, AwFlag dwFlags);
         #endregion
 
-        
+
+        //[DllImport("user32.dll")]
+        //public static extern uint GetWindowThreadProcessId(IntPtr hWnd, ref uint lpdwProcessId);
+
+
         /// <summary>
         /// 触发视觉信号以指示正在播放声音。
         /// <para>通过使用 SPI_SETSOUNDSENTRY 值调用 SystemParametersInfo 来设置通知行为。</para>
@@ -1154,6 +1161,31 @@ namespace SpaceCG.WindowsAPI.WinUser
         public static extern bool CloseTouchInputHandle(IntPtr hTouchInput);
         #endregion
 
+
+        /// <summary>
+        /// 注册窗口将接收其通知的设备或设备类型。
+        /// <para>应用程序使用 <see cref="BroadcastSystemMessage"/> 函数发送事件通知 。具有顶层窗口的任何应用程序都可以通过处理 <see cref="MessageType.WM_DEVICECHANGE"/> 消息来接收基本通知 。应用程序可以使用 RegisterDeviceNotification 函数进行注册以接收设备通知。</para>
+        /// <para>服务可以使用 RegisterDeviceNotification 函数进行注册以接收设备通知。如果服务在 hRecipient 参数中指定了窗口句柄 ，则将通知发送到窗口过程。如果 hRecipient 是服务状态句柄，则 SERVICE_CONTROL_DEVICEEVENT 通知将发送到服务控制处理程序。有关服务控制处理程序的更多信息，请参见 HandlerEx。</para>
+        /// <para>确保尽快处理即插即用设备事件。否则，系统可能无法响应。如果事件处理程序要执行可能阻止执行的操作（例如I / O），则最好启动另一个线程以异步方式执行该操作。</para>
+        /// <para>当不再需要 RegisterDeviceNotification 返回的设备通知句柄时， 必须通过调用 <see cref="UnregisterDeviceNotification"/> 函数来关闭 它们。</para>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerdevicenotificationa </para>
+        /// </summary>
+        /// <param name="hRecipient">窗口或服务的句柄，它将接收 NotificationFilter 参数中指定的设备的设备事件 。可以在多次调用 RegisterDeviceNotification 的过程中使用同一窗口句柄 。
+        ///     <para>服务可以指定窗口句柄或服务状态句柄。</para></param>
+        /// <param name="NotificationFilter">指向数据块的指针，该数据块指定应为其发送通知的设备的类型。该块始终以 <see cref="DEV_BROADCAST_HDR"/> 结构开始。该头之后的数据取决于 dbch_devicetype 成员的值，该值 可以是 <see cref="DeviceType.DBT_DEVTYP_DEVICEINTERFACE"/>  或 <see cref="DeviceType.DBT_DEVTYP_HANDLE"/>。</param>
+        /// <param name="Flags"><see cref="DeviceNotifyFlag"/> 值之一 </param>
+        /// <returns>如果函数成功，则返回值是设备通知句柄。如果函数失败，则返回值为NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
+        [DllImport(DLL_NAME, SetLastError = true)]
+        public static extern IntPtr RegisterDeviceNotification(IntPtr hRecipient, IntPtr NotificationFilter, DeviceNotifyFlag Flags);
+
+        /// <summary>
+        /// 关闭指定的设备通知句柄。
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unregisterdevicenotification </para>
+        /// </summary>
+        /// <param name="Handle"><see cref="RegisterDeviceNotification"/> 函数返回的设备通知句柄 。</param>
+        /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 GetLastError。</returns>
+        [DllImport(DLL_NAME, SetLastError = true)]
+        public static extern bool UnregisterDeviceNotification(IntPtr Handle);
 
     }
 }

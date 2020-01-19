@@ -2,17 +2,17 @@
 using System.Text;
 using System.Collections.Generic;
 
-namespace SpaceCG.WindowsAPI.WinUser
+namespace SpaceCG.WindowsAPI.User32
 {
     /// <summary>
     /// WinUser 实用/通用 函数
     /// </summary>
-    public static partial class WinUserUtils
+    public static partial class User32Utils
     {
         /// <summary>
         /// StringBuffer 实例所分配的内存中的最大字符数，Default 0xFF.
         /// </summary>
-        private static readonly int CAPACITY_SIZE = 0xFF;
+        private const int CAPACITY_SIZE = 0xFF;
 
         /// <summary>
         /// 遍历屏幕上所有的顶层窗口，然后给回调函数传入每个遍历窗口的句柄。
@@ -22,8 +22,9 @@ namespace SpaceCG.WindowsAPI.WinUser
         public static IReadOnlyList<IntPtr> EnumWindows()
         {
             List<IntPtr> windows = new List<IntPtr>();
-            WinUser.EnumWindows((hwnd, lParam) =>
+            User32.EnumWindows((hwnd, lParam) =>
             {
+                //lParam: process id
                 windows.Add(hwnd);
                 return true;
             }, IntPtr.Zero);
@@ -38,10 +39,10 @@ namespace SpaceCG.WindowsAPI.WinUser
         public static IReadOnlyDictionary<IntPtr, string> FindWindowByTitleName()
         {
             Dictionary<IntPtr, string> windows = new Dictionary<IntPtr, string>();
-            WinUser.EnumWindows((hwnd, IParam) =>
+            User32.EnumWindows((hwnd, IParam) =>
             {
                 StringBuilder lpString = new StringBuilder(CAPACITY_SIZE);
-                WinUser.GetWindowText(hwnd, lpString, lpString.Capacity);
+                User32.GetWindowText(hwnd, lpString, lpString.Capacity);
                 windows.Add(hwnd, lpString.ToString());
                 
                 return true;
@@ -60,10 +61,10 @@ namespace SpaceCG.WindowsAPI.WinUser
             if (string.IsNullOrWhiteSpace(titleName)) return FindWindowByTitleName();
 
             Dictionary<IntPtr, string> windows = new Dictionary<IntPtr, string>(16);
-            WinUser.EnumWindows((hwnd, IParam) =>
+            User32.EnumWindows((hwnd, IParam) =>
             {
                 StringBuilder lpString = new StringBuilder(CAPACITY_SIZE);
-                WinUser.GetWindowText(hwnd, lpString, lpString.Capacity); 
+                User32.GetWindowText(hwnd, lpString, lpString.Capacity); 
                                
                 if(lpString.ToString().IndexOf(titleName, StringComparison.OrdinalIgnoreCase) != -1)
                 {
@@ -82,10 +83,10 @@ namespace SpaceCG.WindowsAPI.WinUser
         public static IReadOnlyDictionary<IntPtr, string> FindWindowByClassName()
         {
             Dictionary<IntPtr, string> windows = new Dictionary<IntPtr, string>();
-            WinUser.EnumWindows((hwnd, IParam) =>
+            User32.EnumWindows((hwnd, IParam) =>
             {
                 StringBuilder lpString = new StringBuilder(CAPACITY_SIZE);
-                WinUser.GetClassName(hwnd, lpString, lpString.Capacity);
+                User32.GetClassName(hwnd, lpString, lpString.Capacity);
                 windows.Add(hwnd, lpString.ToString());
 
                 return true;
@@ -102,10 +103,10 @@ namespace SpaceCG.WindowsAPI.WinUser
         public static IReadOnlyDictionary<IntPtr, string> FindWindowByClassName(string className)
         {
             Dictionary<IntPtr, string> windows = new Dictionary<IntPtr, string>(16);
-            WinUser.EnumWindows((hwnd, IParam) =>
+            User32.EnumWindows((hwnd, IParam) =>
             {
                 StringBuilder lpString = new StringBuilder(CAPACITY_SIZE);
-                WinUser.GetClassName(hwnd, lpString, lpString.Capacity);
+                User32.GetClassName(hwnd, lpString, lpString.Capacity);
                 if (lpString.ToString().IndexOf(className, StringComparison.OrdinalIgnoreCase) != -1)
                 {
                     windows.Add(hwnd, lpString.ToString());
@@ -115,6 +116,26 @@ namespace SpaceCG.WindowsAPI.WinUser
             }, IntPtr.Zero);
 
             return windows;
+        }
+
+
+        /// <summary>
+        /// <see cref="WindowProc"/> Arguments lParam
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static POINT LParamToPoint(int value)
+        {
+            return new POINT(value & 0xFFFF, value >> 16);
+        }
+        /// <summary>
+        /// <see cref="WindowProc"/> Arguments lParam
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static POINT LParamToPoint(IntPtr value)
+        {
+            return LParamToPoint(value.ToInt32());
         }
     }
 }

@@ -1,0 +1,1506 @@
+﻿
+[Header]
+[10:06:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (511) 
+[10:06:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (511) 
+[10:06:57] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(40)] - Initialize. (1790) 
+[10:06:58] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(31)] - MainWindow. (1814) 
+[10:07:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10140) 
+[10:07:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10140) 
+[Footer]
+
+
+[Header]
+[10:17:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (381) 
+[10:17:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (381) 
+[10:18:00] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1596) 
+[10:18:00] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1614) 
+
+[Header]
+[11:22:40] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (366) 
+[11:22:40] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (366) 
+[11:22:42] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1533) 
+[11:22:42] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1554) 
+[11:22:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5633) 
+[11:22:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5633) 
+[Footer]
+
+
+[Header]
+[11:28:13] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (316) 
+[11:28:13] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (316) 
+[11:28:14] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1546) 
+[11:28:14] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1565) 
+[11:28:14] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1732) 
+[11:28:14] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1732) 
+
+[Header]
+[11:29:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (323) 
+[11:29:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (323) 
+[11:29:50] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1623) 
+[11:29:50] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1640) 
+[11:29:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7461) 
+[11:29:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7461) 
+[Footer]
+
+
+[Header]
+[11:30:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (363) 
+[11:30:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (363) 
+[11:30:07] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1565) 
+[11:30:07] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1582) 
+[11:30:07] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1744) 
+[11:30:07] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1744) 
+
+[Header]
+[11:32:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (420) 
+[11:32:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (420) 
+[11:32:39] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1683) 
+[11:32:39] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1697) 
+[11:32:39] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1866) 
+[11:32:39] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1866) 
+
+[Header]
+[11:35:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (369) 
+[11:35:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (369) 
+[11:35:47] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1544) 
+[11:35:47] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1563) 
+[11:35:47] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1720) 
+[11:35:47] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1720) 
+
+[Header]
+[11:41:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (328) 
+[11:41:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (328) 
+[11:41:11] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1632) 
+[11:41:11] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1649) 
+[11:41:11] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1839) 
+[11:41:11] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1839) 
+
+[Header]
+[11:42:08] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (350) 
+[11:42:08] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (350) 
+[11:42:09] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1562) 
+[11:42:10] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1577) 
+
+[Header]
+[11:43:18] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (440) 
+[11:43:18] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (440) 
+[11:43:20] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1659) 
+[11:43:20] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1676) 
+
+[Header]
+[11:43:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (397) 
+[11:43:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (397) 
+[11:44:00] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1597) 
+[11:44:00] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1615) 
+[11:44:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6628) 
+[11:44:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6628) 
+[Footer]
+
+
+[Header]
+[11:44:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (365) 
+[11:44:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (365) 
+[11:44:35] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1518) 
+[11:44:35] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1537) 
+[11:44:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5274) 
+[11:44:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5274) 
+[Footer]
+
+
+[Header]
+[11:44:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (390) 
+[11:44:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (390) 
+[11:44:47] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1519) 
+[11:44:47] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1536) 
+[11:44:47] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1697) 
+[11:44:47] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1697) 
+
+[Header]
+[11:45:08] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (1043) 
+[11:45:08] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (1043) 
+[11:45:09] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (2276) 
+[11:45:09] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (2296) 
+[11:45:10] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2483) 
+[11:45:10] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2483) 
+
+[Header]
+[11:45:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (430) 
+[11:45:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (430) 
+[11:45:43] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1717) 
+[11:45:43] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1737) 
+[11:45:43] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2025) 
+[11:45:43] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2025) 
+
+[Header]
+[11:46:08] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (402) 
+[11:46:08] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (402) 
+[11:46:09] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1704) 
+[11:46:09] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1725) 
+[11:46:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6568) 
+[11:46:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6568) 
+[Footer]
+
+
+[Header]
+[11:46:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (323) 
+[11:46:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (323) 
+[11:46:42] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1481) 
+[11:46:42] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1498) 
+[11:46:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5205) 
+[11:46:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5205) 
+[Footer]
+
+
+[Header]
+[11:48:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (336) 
+[11:48:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (336) 
+[11:48:04] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1616) 
+[11:48:04] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1633) 
+
+[Header]
+[11:48:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (391) 
+[11:48:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (391) 
+[11:48:33] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1625) 
+[11:48:33] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1649) 
+[11:48:37] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6247) 
+[11:48:37] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6247) 
+[Footer]
+
+
+[Header]
+[11:48:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (308) 
+[11:48:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (308) 
+[11:48:57] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1487) 
+[11:48:57] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1505) 
+[11:49:00] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (4599) 
+[11:49:00] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (4599) 
+[Footer]
+
+
+[Header]
+[11:49:51] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (724) 
+[11:49:51] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (724) 
+[11:49:52] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1903) 
+[11:49:53] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1925) 
+[11:49:57] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6162) 
+[11:49:57] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6162) 
+[Footer]
+
+
+[Header]
+[12:01:47] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (380) 
+[12:01:47] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (380) 
+[12:01:49] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1780) 
+[12:01:49] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1797) 
+[12:02:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (51335) 
+[12:02:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (51335) 
+[Footer]
+
+
+[Header]
+[12:03:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (364) 
+[12:03:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (364) 
+[12:03:48] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1771) 
+[12:03:48] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1789) 
+[12:03:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10275) 
+[12:03:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10275) 
+[Footer]
+
+
+[Header]
+[12:05:04] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (330) 
+[12:05:04] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (330) 
+[12:05:06] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1491) 
+[12:05:06] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1508) 
+[12:05:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (17390) 
+[12:05:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (17390) 
+[Footer]
+
+
+[Header]
+[12:11:00] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (324) 
+[12:11:00] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (324) 
+[12:11:02] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1608) 
+[12:11:02] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1627) 
+[12:11:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5547) 
+[12:11:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5547) 
+[Footer]
+
+
+[Header]
+[12:12:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (318) 
+[12:12:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (318) 
+[12:12:22] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1532) 
+[12:12:22] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1561) 
+[12:12:27] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6513) 
+[12:12:27] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6513) 
+[Footer]
+
+
+[Header]
+[12:13:13] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (321) 
+[12:13:13] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (321) 
+[12:13:14] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1576) 
+[12:13:14] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1594) 
+[12:13:19] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6951) 
+[12:13:19] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6951) 
+[Footer]
+
+
+[Header]
+[12:14:28] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (383) 
+[12:14:28] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (383) 
+[12:14:30] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1633) 
+[12:14:30] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1651) 
+
+[Header]
+[12:15:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (324) 
+[12:15:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (324) 
+[12:15:36] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1613) 
+[12:15:36] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1628) 
+
+[Header]
+[12:16:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (415) 
+[12:16:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (415) 
+[12:16:08] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1633) 
+[12:16:08] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1655) 
+
+[Header]
+[12:20:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (377) 
+[12:20:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (377) 
+[12:20:02] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1611) 
+[12:20:02] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1637) 
+[12:20:11] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (9886) 
+[12:20:11] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (9886) 
+[Footer]
+
+
+[Header]
+[12:20:29] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (348) 
+[12:20:29] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (348) 
+[12:20:30] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1527) 
+[12:20:30] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1549) 
+[12:20:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (16037) 
+[12:20:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (16037) 
+[Footer]
+
+
+[Header]
+[12:23:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (373) 
+[12:23:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (373) 
+[12:23:11] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1600) 
+[12:23:11] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1618) 
+[12:23:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7771) 
+[12:23:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7771) 
+[Footer]
+
+
+[Header]
+[12:24:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (335) 
+[12:24:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (335) 
+[12:24:35] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1628) 
+[12:24:35] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1656) 
+[12:24:40] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6299) 
+[12:24:40] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6299) 
+[Footer]
+
+
+[Header]
+[12:26:03] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (426) 
+[12:26:03] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (426) 
+[12:26:05] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1673) 
+[12:26:05] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1693) 
+[12:26:11] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7754) 
+[12:26:11] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7754) 
+[Footer]
+
+
+[Header]
+[12:30:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (328) 
+[12:30:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (328) 
+[12:30:08] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1781) 
+[12:30:08] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1797) 
+[12:30:19] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (12622) 
+[12:30:19] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (12622) 
+[Footer]
+
+
+[Header]
+[12:30:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (343) 
+[12:30:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (343) 
+[12:30:35] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1859) 
+[12:30:35] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1875) 
+[12:30:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8533) 
+[12:30:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8533) 
+[Footer]
+
+
+[Header]
+[12:33:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (359) 
+[12:33:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (359) 
+[12:33:09] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1828) 
+[12:33:09] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1844) 
+
+[Header]
+[12:34:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (312) 
+[12:34:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (312) 
+[12:34:51] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1766) 
+[12:34:51] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1813) 
+[12:35:00] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (11299) 
+[12:35:00] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (11299) 
+[Footer]
+
+
+[Header]
+[12:35:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (361) 
+[12:35:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (361) 
+[12:35:53] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1783) 
+[12:35:53] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1798) 
+
+[Header]
+[13:31:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (7652) 
+[13:31:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (7652) 
+[13:31:34] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (16433) 
+[13:31:35] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (17161) 
+
+[Header]
+[13:32:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (5933) 
+[13:32:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (5933) 
+[13:32:56] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (9380) 
+[13:32:56] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (9818) 
+
+[Header]
+[13:34:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (9560) 
+[13:34:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (9560) 
+[13:34:08] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (11777) 
+[13:34:08] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (11811) 
+[13:34:11] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (14694) 
+[13:34:11] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (14694) 
+[Footer]
+
+
+[Header]
+[13:41:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (2002) 
+[13:41:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (2002) 
+[13:41:19] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (3301) 
+[13:41:19] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (3320) 
+[13:41:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (9956) 
+[13:41:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (9956) 
+[Footer]
+
+
+[Header]
+[13:42:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (396) 
+[13:42:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (396) 
+[13:43:01] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1743) 
+[13:43:01] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1768) 
+
+[Header]
+[13:43:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (321) 
+[13:43:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (321) 
+[13:43:36] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1576) 
+[13:43:36] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1594) 
+[13:43:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7670) 
+[13:43:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7670) 
+[Footer]
+
+
+[Header]
+[13:44:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (650) 
+[13:44:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (650) 
+[13:44:37] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1940) 
+[13:44:37] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1983) 
+
+[Header]
+[13:45:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (351) 
+[13:45:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (351) 
+[13:45:40] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1793) 
+[13:45:40] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1811) 
+
+[Header]
+[13:46:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (403) 
+[13:46:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (403) 
+[13:46:08] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1651) 
+[13:46:08] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1670) 
+
+[Header]
+[13:46:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (385) 
+[13:46:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (385) 
+[13:46:36] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1626) 
+[13:46:36] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1644) 
+[13:46:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (4161) 
+[13:46:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (4161) 
+[Footer]
+
+
+[Header]
+[13:47:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (391) 
+[13:47:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (391) 
+[13:47:11] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1692) 
+[13:47:11] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1707) 
+
+[Header]
+[13:48:48] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (383) 
+[13:48:48] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (383) 
+[13:48:49] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(43)] - Initialize. (1609) 
+[13:48:49] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(34)] - MainWindow. (1632) 
+
+[Header]
+[13:49:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (437) 
+[13:49:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (437) 
+[13:49:54] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1753) 
+[13:49:54] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1771) 
+
+[Header]
+[13:50:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (356) 
+[13:50:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (356) 
+[13:50:40] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1502) 
+[13:50:40] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1522) 
+
+[Header]
+[13:54:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (394) 
+[13:54:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (394) 
+[13:54:43] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1668) 
+[13:54:43] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1686) 
+[13:54:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5127) 
+[13:54:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (5127) 
+[Footer]
+
+
+[Header]
+[13:56:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (420) 
+[13:56:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (420) 
+[13:56:43] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1639) 
+[13:56:43] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1655) 
+[13:56:48] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7346) 
+[13:56:48] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7346) 
+[Footer]
+
+
+[Header]
+[13:57:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (362) 
+[13:57:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (362) 
+[13:57:07] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1523) 
+[13:57:07] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1545) 
+
+[Header]
+[13:57:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (398) 
+[13:57:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (398) 
+[13:57:39] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1651) 
+[13:57:39] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1673) 
+
+[Header]
+[13:57:55] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (414) 
+[13:57:55] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (414) 
+[13:57:56] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1623) 
+[13:57:56] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1637) 
+[13:58:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7586) 
+[13:58:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7586) 
+[Footer]
+
+
+[Header]
+[13:59:00] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (430) 
+[13:59:00] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (430) 
+[13:59:02] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1604) 
+[13:59:02] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1621) 
+[13:59:04] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (4507) 
+[13:59:04] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (4507) 
+[Footer]
+
+
+[Header]
+[14:02:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (398) 
+[14:02:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (398) 
+[14:02:42] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1820) 
+[14:02:43] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1838) 
+
+[Header]
+[14:03:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (404) 
+[14:03:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (404) 
+[14:03:07] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(44)] - Initialize. (1888) 
+[14:03:07] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(35)] - MainWindow. (1907) 
+
+[Header]
+[14:05:58] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (426) 
+[14:05:58] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (426) 
+[14:05:59] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(45)] - Initialize. (1813) 
+[14:05:59] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(36)] - MainWindow. (1843) 
+
+[Header]
+[14:09:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (381) 
+[14:09:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (381) 
+[14:09:03] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(45)] - Initialize. (1667) 
+[14:09:03] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(36)] - MainWindow. (1694) 
+
+[Header]
+[14:10:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (396) 
+[14:10:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (396) 
+[14:10:22] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(45)] - Initialize. (1736) 
+[14:10:22] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(36)] - MainWindow. (1755) 
+
+[Header]
+[14:11:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (372) 
+[14:11:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (372) 
+[14:11:07] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(45)] - Initialize. (1580) 
+[14:11:07] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(36)] - MainWindow. (1597) 
+
+[Header]
+[14:11:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (384) 
+[14:11:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (384) 
+[14:11:34] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(45)] - Initialize. (1585) 
+[14:11:34] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(36)] - MainWindow. (1609) 
+
+[Header]
+[14:13:44] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (422) 
+[14:13:44] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (422) 
+[14:13:46] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(45)] - Initialize. (1822) 
+[14:13:46] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(36)] - MainWindow. (1841) 
+[14:13:58] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (14128) 
+[14:13:58] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (14128) 
+[Footer]
+
+
+[Header]
+[14:14:16] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (477) 
+[14:14:16] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (477) 
+[14:14:17] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(45)] - Initialize. (1871) 
+[14:14:17] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(36)] - MainWindow. (1893) 
+[14:14:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (19035) 
+[14:14:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (19035) 
+[Footer]
+
+
+[Header]
+[14:15:16] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (373) 
+[14:15:16] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (373) 
+[14:15:17] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(45)] - Initialize. (1522) 
+[14:15:17] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(36)] - MainWindow. (1539) 
+[14:15:22] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6319) 
+[14:15:22] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6319) 
+[Footer]
+
+
+[Header]
+[14:15:29] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (440) 
+[14:15:29] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (440) 
+[14:15:30] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(45)] - Initialize. (1712) 
+[14:15:30] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(36)] - MainWindow. (1734) 
+
+[Header]
+[14:26:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (406) 
+[14:26:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (406) 
+[14:26:03] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(46)] - Initialize. (1663) 
+[14:26:03] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(37)] - MainWindow. (1695) 
+
+[Header]
+[14:27:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (462) 
+[14:27:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (462) 
+[14:27:32] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(46)] - Initialize. (1807) 
+[14:27:32] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(37)] - MainWindow. (1830) 
+
+[Header]
+[14:30:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (418) 
+[14:30:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (418) 
+[14:30:03] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(47)] - Initialize. (1605) 
+[14:30:03] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(38)] - MainWindow. (1624) 
+
+[Header]
+[14:32:16] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (435) 
+[14:32:16] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (435) 
+[14:32:17] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(47)] - Initialize. (1664) 
+[14:32:17] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(38)] - MainWindow. (1684) 
+
+[Header]
+[14:32:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (543) 
+[14:32:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (543) 
+[14:32:46] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(47)] - Initialize. (1799) 
+[14:32:46] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(38)] - MainWindow. (1820) 
+
+[Header]
+[14:50:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (542) 
+[14:50:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (542) 
+[14:50:02] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(47)] - Initialize. (1838) 
+[14:50:02] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(38)] - MainWindow. (1861) 
+[14:50:36] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (35498) 
+[14:50:36] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (35498) 
+
+[Header]
+[14:51:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (347) 
+[14:51:35] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (347) 
+[14:51:37] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(47)] - Initialize. (1640) 
+[14:51:37] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(38)] - MainWindow. (1659) 
+
+[Header]
+[14:54:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (398) 
+[14:54:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (398) 
+[14:54:54] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(47)] - Initialize. (1641) 
+[14:54:54] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(38)] - MainWindow. (1661) 
+
+[Header]
+[14:55:30] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (356) 
+[14:55:30] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (356) 
+[14:55:31] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(47)] - Initialize. (1564) 
+[14:55:31] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(38)] - MainWindow. (1604) 
+
+[Header]
+[14:56:15] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (605) 
+[14:56:15] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (605) 
+[14:56:17] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(47)] - Initialize. (1875) 
+[14:56:17] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(38)] - MainWindow. (1899) 
+[14:56:23] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8624) 
+[14:56:23] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8624) 
+[Footer]
+
+
+[Header]
+[14:58:22] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (474) 
+[14:58:22] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (474) 
+[14:58:23] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1754) 
+[14:58:23] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1776) 
+[14:58:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (4133) 
+[14:58:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (4133) 
+[Footer]
+
+
+[Header]
+[14:58:37] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (437) 
+[14:58:37] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (437) 
+[14:58:38] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1635) 
+[14:58:38] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1655) 
+[14:58:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8656) 
+[14:58:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8656) 
+[Footer]
+
+
+[Header]
+[14:58:57] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (481) 
+[14:58:57] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (481) 
+[14:58:59] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1795) 
+[14:58:59] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1823) 
+[14:59:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7944) 
+[14:59:05] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7944) 
+[Footer]
+
+
+[Header]
+[14:59:29] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (667) 
+[14:59:29] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (667) 
+[14:59:31] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1857) 
+[14:59:31] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1878) 
+[14:59:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (9107) 
+[14:59:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (9107) 
+[Footer]
+
+
+[Header]
+[15:01:04] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (439) 
+[15:01:04] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (439) 
+[15:01:05] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1697) 
+[15:01:05] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1715) 
+
+[Header]
+[15:02:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (435) 
+[15:02:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (435) 
+[15:02:03] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1640) 
+[15:02:03] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1659) 
+
+[Header]
+[15:04:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (440) 
+[15:04:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (440) 
+[15:05:00] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1661) 
+[15:05:00] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1678) 
+
+[Header]
+[15:06:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (472) 
+[15:06:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (472) 
+[15:06:43] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1710) 
+[15:06:43] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1728) 
+
+[Header]
+[15:08:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (712) 
+[15:08:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (712) 
+[15:08:12] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2049) 
+[15:08:12] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2067) 
+
+[Header]
+[15:09:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (445) 
+[15:09:06] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (445) 
+[15:09:08] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2166) 
+[15:09:08] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2184) 
+[15:09:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (28414) 
+[15:09:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (28414) 
+
+[Header]
+[15:12:08] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (415) 
+[15:12:08] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (415) 
+[15:12:09] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1790) 
+[15:12:09] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1812) 
+
+[Header]
+[15:12:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (312) 
+[15:12:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (312) 
+[15:12:35] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1640) 
+[15:12:35] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1688) 
+
+[Header]
+[15:13:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (548) 
+[15:13:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (548) 
+[15:13:32] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1764) 
+[15:13:33] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1786) 
+
+[Header]
+[15:15:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (462) 
+[15:15:21] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (462) 
+[15:15:22] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1787) 
+[15:15:22] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1821) 
+
+[Header]
+[15:28:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (426) 
+[15:28:34] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (426) 
+[15:28:35] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1999) 
+[15:28:35] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2022) 
+[15:28:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8176) 
+[15:28:42] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8176) 
+
+[Header]
+[15:29:36] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (501) 
+[15:29:36] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (501) 
+[15:29:38] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1698) 
+[15:29:38] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1716) 
+
+[Header]
+[15:29:58] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (365) 
+[15:29:58] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (365) 
+[15:29:59] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1767) 
+[15:29:59] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1786) 
+
+[Header]
+[15:30:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (353) 
+[15:30:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (353) 
+[15:30:32] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1705) 
+[15:30:32] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1731) 
+
+[Header]
+[15:32:22] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (525) 
+[15:32:22] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (525) 
+[15:32:23] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1783) 
+[15:32:23] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1805) 
+
+[Header]
+[15:36:15] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (375) 
+[15:36:15] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (375) 
+[15:36:17] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1743) 
+[15:36:17] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1764) 
+[15:36:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (17807) 
+[15:36:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (17807) 
+[Footer]
+
+
+[Header]
+[15:37:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (497) 
+[15:37:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (497) 
+[15:37:32] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1695) 
+[15:37:32] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1712) 
+[15:37:47] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (16874) 
+[15:37:47] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (16874) 
+
+[Header]
+[15:39:43] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (473) 
+[15:39:43] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (473) 
+[15:39:44] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1721) 
+[15:39:44] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1743) 
+
+[Header]
+[15:44:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (476) 
+[15:44:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (476) 
+[15:44:54] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1867) 
+[15:44:54] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1892) 
+
+[Header]
+[15:47:53] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (459) 
+[15:47:53] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (459) 
+[15:47:54] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1782) 
+[15:47:54] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1831) 
+
+[Header]
+[15:59:32] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (539) 
+[15:59:32] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (539) 
+[15:59:33] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2054) 
+[15:59:33] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2088) 
+[15:59:40] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8880) 
+[15:59:40] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8880) 
+[Footer]
+
+
+[Header]
+[16:00:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (451) 
+[16:00:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (451) 
+[16:00:47] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1772) 
+[16:00:47] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1793) 
+[16:00:55] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10627) 
+[16:00:55] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10627) 
+[Footer]
+
+
+[Header]
+[16:01:30] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (493) 
+[16:01:30] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (493) 
+[16:01:32] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1741) 
+[16:01:32] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1764) 
+[16:01:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8894) 
+[16:01:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8894) 
+[Footer]
+
+
+[Header]
+[16:03:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (425) 
+[16:03:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (425) 
+[16:03:50] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1639) 
+[16:03:50] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1657) 
+[16:03:50] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1908) 
+[16:03:50] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (1908) 
+
+[Header]
+[16:05:18] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (701) 
+[16:05:18] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (701) 
+[16:05:19] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2534) 
+[16:05:19] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2551) 
+[16:05:20] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2732) 
+[16:05:20] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2732) 
+
+[Header]
+[16:07:36] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (438) 
+[16:07:36] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (438) 
+[16:07:42] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (6302) 
+[16:07:42] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (6323) 
+[16:07:44] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (8127) 
+[16:07:44] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (8127) 
+
+[Header]
+[16:08:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (671) 
+[16:08:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (671) 
+[16:08:52] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (3734) 
+[16:08:52] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (3749) 
+[16:08:54] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (5750) 
+[16:08:54] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (5750) 
+
+[Header]
+[16:11:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (654) 
+[16:11:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (654) 
+[16:11:04] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2232) 
+[16:11:04] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2248) 
+[16:11:04] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2529) 
+[16:11:04] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2529) 
+
+[Header]
+[16:12:27] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (608) 
+[16:12:27] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (608) 
+[16:12:28] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2121) 
+[16:12:28] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2137) 
+[16:12:28] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2324) 
+[16:12:28] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2324) 
+
+[Header]
+[16:17:12] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (749) 
+[16:17:12] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (749) 
+[16:17:13] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2241) 
+[16:17:13] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2262) 
+[16:17:13] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2468) 
+[16:17:13] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2468) 
+
+[Header]
+[16:18:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (862) 
+[16:18:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (862) 
+[16:18:15] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2262) 
+[16:18:15] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2280) 
+[16:18:16] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2472) 
+[16:18:16] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2472) 
+
+[Header]
+[16:18:55] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (719) 
+[16:18:55] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (719) 
+[16:18:56] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2174) 
+[16:18:56] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2193) 
+[16:18:57] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2360) 
+[16:18:57] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2360) 
+
+[Header]
+[16:20:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (690) 
+[16:20:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (690) 
+[16:20:42] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (2135) 
+[16:20:42] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (2154) 
+[16:20:42] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2332) 
+[16:20:42] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2332) 
+
+[Header]
+[16:26:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (503) 
+[16:26:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (503) 
+[16:26:32] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1797) 
+[16:26:32] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1826) 
+[16:26:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10691) 
+[16:26:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10691) 
+
+[Header]
+[16:31:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (456) 
+[16:31:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (456) 
+[16:31:15] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1878) 
+[16:31:15] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1898) 
+
+[Header]
+[16:43:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (525) 
+[16:43:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (525) 
+[16:43:15] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1854) 
+[16:43:15] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1877) 
+
+[Header]
+[16:48:15] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (556) 
+[16:48:15] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (556) 
+[16:48:16] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1868) 
+[16:48:16] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1886) 
+[16:48:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10909) 
+[16:48:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10909) 
+[Footer]
+
+
+[Header]
+[16:49:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (488) 
+[16:49:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (488) 
+[16:49:34] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1643) 
+[16:49:34] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1664) 
+
+[Header]
+[16:50:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (472) 
+[16:50:41] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (472) 
+[16:50:42] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1820) 
+[16:50:42] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1837) 
+[16:50:42] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2017) 
+[16:50:42] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2017) 
+
+[Header]
+[16:52:26] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (507) 
+[16:52:26] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (507) 
+[16:52:27] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1831) 
+[16:52:27] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1854) 
+[16:52:27] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2044) 
+[16:52:27] [ 1] [ERROR] [Library.Logger] [<RunDefaultSetting>b__0_2(43)] - Application Unhandled Exception: Handled:False  Exception:System.TypeLoadException: 未能从程序集“SpaceCGLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“SpaceCG.WindowsAPI.User32.RAWINPUT”，因为它在 16 偏移位置处包含一个对象字段，该字段已由一个非对象字段不正确地对齐或重叠。
+   在 TestLibrary.MainWindow.WindowRawInputHandler(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 System.Windows.Interop.HwndSource.PublicHooksFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
+   在 MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
+   在 System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   在 System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler) (2044) 
+
+[Header]
+[16:55:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (519) 
+[16:55:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (519) 
+[16:55:11] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1667) 
+[16:55:11] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1684) 
+
+[Header]
+[16:55:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (482) 
+[16:55:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (482) 
+[16:55:34] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1811) 
+[16:55:34] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1842) 
+[16:55:47] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (14779) 
+[16:55:47] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (14779) 
+
+[Header]
+[17:02:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (594) 
+[17:02:10] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (594) 
+[17:02:11] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1834) 
+[17:02:11] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1857) 
+[17:02:20] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (11194) 
+[17:02:20] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (11194) 
+[Footer]
+
+
+[Header]
+[17:02:28] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (607) 
+[17:02:28] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (607) 
+[17:02:30] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1963) 
+[17:02:30] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1988) 
+
+[Header]
+[17:02:54] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (346) 
+[17:02:54] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (346) 
+[17:02:56] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (1645) 
+[17:02:56] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (1666) 
+[17:03:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8436) 
+[17:03:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8436) 
+[Footer]
+
+
+[Header]
+[17:04:23] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (426) 
+[17:04:23] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (426) 
+[17:04:25] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(48)] - Initialize. (3068) 
+[17:04:25] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(39)] - MainWindow. (3091) 
+[17:04:32] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10155) 
+[17:04:32] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (10155) 
+[Footer]
+
+
+[Header]
+[17:09:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (662) 
+[17:09:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (662) 
+[17:09:19] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2208) 
+[17:09:19] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2224) 
+[17:09:23] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6834) 
+[17:09:23] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6834) 
+[Footer]
+
+
+[Header]
+[17:09:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (640) 
+[17:09:39] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (640) 
+[17:09:41] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2048) 
+[17:09:41] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2064) 
+
+[Header]
+[17:10:44] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (629) 
+[17:10:44] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (629) 
+[17:10:45] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2020) 
+[17:10:46] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2051) 
+
+[Header]
+[17:21:20] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (572) 
+[17:21:20] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (572) 
+[17:21:22] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2088) 
+[17:21:22] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2103) 
+[17:21:28] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8044) 
+[17:21:28] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8044) 
+[Footer]
+
+
+[Header]
+[17:39:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (828) 
+[17:39:52] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (828) 
+[17:39:53] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2296) 
+[17:39:53] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2328) 
+
+[Header]
+[17:43:55] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (734) 
+[17:43:55] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (734) 
+[17:43:57] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2375) 
+[17:43:57] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2390) 
+
+[Header]
+[17:55:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (921) 
+[17:55:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (921) 
+[17:55:57] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2333) 
+[17:55:57] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2349) 
+[17:56:11] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (16320) 
+[17:56:11] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (16320) 
+
+[Header]
+[18:01:19] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (765) 
+[18:01:19] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (765) 
+[18:01:21] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2328) 
+[18:01:21] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2359) 
+[18:01:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6909) 
+[18:01:25] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6909) 
+[Footer]
+
+
+[Header]
+[18:01:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (687) 
+[18:01:59] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (687) 
+[18:02:01] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2078) 
+[18:02:01] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2109) 
+[18:02:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8119) 
+[18:02:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8119) 
+[Footer]
+
+
+[Header]
+[18:02:43] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (765) 
+[18:02:43] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (765) 
+[18:02:45] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2187) 
+[18:02:45] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2249) 
+
+[Header]
+[18:03:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (746) 
+[18:03:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (746) 
+[18:03:19] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2325) 
+[18:03:19] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2340) 
+[18:03:24] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7031) 
+[18:03:24] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (7031) 
+[Footer]
+
+
+[Header]
+[18:04:15] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (656) 
+[18:04:15] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (656) 
+[18:04:17] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2077) 
+[18:04:17] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2109) 
+
+[Header]
+[18:05:12] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (593) 
+[18:05:12] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (593) 
+[18:05:14] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2061) 
+[18:05:14] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2077) 
+
+[Header]
+[18:11:57] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (718) 
+[18:11:57] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (718) 
+[18:11:59] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2234) 
+[18:11:59] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2249) 
+
+[Header]
+[18:12:23] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (687) 
+[18:12:23] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (687) 
+[18:12:25] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2079) 
+[18:12:25] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2111) 
+
+[Header]
+[18:12:36] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (390) 
+[18:12:36] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (390) 
+[18:12:37] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (1966) 
+[18:12:37] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (1981) 
+
+[Header]
+[18:16:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (679) 
+[18:16:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (679) 
+[18:16:19] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2242) 
+[18:16:19] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2273) 
+[18:16:30] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (13345) 
+[18:16:30] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (13345) 
+[Footer]
+
+
+[Header]
+[18:24:03] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (656) 
+[18:24:03] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (656) 
+[18:24:04] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2296) 
+[18:24:04] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2328) 
+[18:24:09] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6865) 
+[18:24:09] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (6865) 
+[Footer]
+
+
+[Header]
+[18:31:53] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (628) 
+[18:31:53] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (628) 
+[18:31:55] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2219) 
+[18:31:55] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2266) 
+
+[Header]
+[18:33:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (691) 
+[18:33:38] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (691) 
+[18:33:40] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2171) 
+[18:33:40] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2202) 
+
+[Header]
+[18:34:04] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (702) 
+[18:34:04] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (702) 
+[18:34:06] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2189) 
+[18:34:06] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2220) 
+
+[Header]
+[18:36:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (671) 
+[18:36:17] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (671) 
+[18:36:18] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2235) 
+[18:36:18] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2251) 
+[18:36:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (28492) 
+[18:36:45] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (28492) 
+
+[Header]
+[18:36:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (625) 
+[18:36:56] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (625) 
+[18:36:57] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2046) 
+[18:36:57] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2062) 
+[18:38:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (66490) 
+[18:38:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (66490) 
+
+[Header]
+[18:38:20] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (1460) 
+[18:38:20] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (1460) 
+[18:38:22] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2914) 
+[18:38:22] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2930) 
+
+[Header]
+[18:39:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (619) 
+[18:39:01] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (619) 
+[18:39:02] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (1988) 
+[18:39:02] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2004) 
+[18:39:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (32520) 
+[18:39:33] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (32520) 
+[Footer]
+
+
+[Header]
+[18:40:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (674) 
+[18:40:07] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (674) 
+[18:40:09] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2193) 
+[18:40:09] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2256) 
+
+[Header]
+[18:40:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (718) 
+[18:40:46] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (718) 
+[18:40:48] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2203) 
+[18:40:48] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2234) 
+
+[Header]
+[18:49:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (1078) 
+[18:49:14] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (1078) 
+[18:49:15] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2828) 
+[18:49:16] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (3047) 
+[18:49:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (36114) 
+[18:49:49] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (36114) 
+
+[Header]
+[19:24:43] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (2383) 
+[19:24:43] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (2383) 
+[19:24:45] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (4226) 
+[19:24:45] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (4251) 
+
+[Header]
+[19:26:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (1664) 
+[19:26:31] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (1664) 
+[19:26:33] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (3436) 
+[19:26:33] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (3492) 
+
+[Header]
+[19:26:54] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (469) 
+[19:26:54] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0(39)] - Application Startup. (469) 
+[19:26:55] [ 1] [ INFO] [TestLibrary.App] [OnInitialized(49)] - Initialize. (2006) 
+[19:26:55] [ 1] [ INFO] [TestLibrary.MainWindow] [.ctor(40)] - MainWindow. (2029) 
+[19:27:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8941) 
+[19:27:02] [ 1] [ INFO] [Library.Logger] [<RunDefaultSetting>b__0_1(41)] - Application Exit. (8941) 
+[Footer]
+

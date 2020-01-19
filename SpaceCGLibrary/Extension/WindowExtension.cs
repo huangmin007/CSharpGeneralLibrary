@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Interop;
-using SpaceCG.WindowsAPI.WinUser;
+using SpaceCG.WindowsAPI.User32;
 
 namespace SpaceCG.Extension
 {
@@ -74,7 +74,7 @@ namespace SpaceCG.Extension
 
         /// <summary>
         /// 设置窗口在 Z 顺序中位于定位的窗口之前的窗口的值
-        /// <para>调用 <see cref="WinUser.SetWindowPos(IntPtr, SwpState, int, int, int, int, SwpFlag)"/></para>
+        /// <para>调用 <see cref="User32.SetWindowPos(IntPtr, SwpState, int, int, int, int, SwpFlag)"/></para>
         /// <para>WPF Window Handle use <see cref="WindowInteropHelper.Handle"/></para>
         /// </summary>
         /// <param name="window"></param>
@@ -86,7 +86,7 @@ namespace SpaceCG.Extension
             if(hwnd == IntPtr.Zero)
                 throw new ArgumentException("窗口实例化未完成/未呈现，无法获取窗口句柄。");
 
-            WinUser.SetWindowPos(hwnd, state, 0, 0, 0, 0, SwpFlag.NOMOVE | SwpFlag.NOSIZE);
+            User32.SetWindowPos(hwnd, state, 0, 0, 0, 0, SwpFlag.NOMOVE | SwpFlag.NOSIZE);
         }
 
         

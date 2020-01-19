@@ -24,9 +24,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\build\Debug\SpaceCGLibrary.XML</DocumentationFile>
-    <NoWarn>CS1591,CS1572,CS1573;CS1574;CA1063</NoWarn>
-    <LangVersion>7.1</LangVersion>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <NoWarn>CS1591,CS1572,CS1573;CS1574;CA1063;CA1401;CA2101</NoWarn>
+    <LangVersion>7.3</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -38,7 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\build\Release\SpaceCGLibrary.XML</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn>CS1574;CA1063;CS1591</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
@@ -86,17 +86,25 @@
     <Compile Include="Log4Net\Log4NetUtils.cs" />
     <Compile Include="Log4Net\Controls\LoggerWindow.cs" />
     <Compile Include="Log4Net\Controls\TextBoxAppender.cs" />
-    <Compile Include="WindowsAPI\WinUser\DBTDef.cs" />
+    <Compile Include="WindowsAPI\HID\HID.cs" />
+    <Compile Include="WindowsAPI\HID\HIDDef.cs" />
+    <Compile Include="WindowsAPI\HID\HIDUtils.cs" />
+    <Compile Include="WindowsAPI\SetupAPI\SetupAPI.cs" />
+    <Compile Include="WindowsAPI\SetupAPI\SetupAPIDef.cs" />
+    <Compile Include="WindowsAPI\User32\DBTDef.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32Def.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32Utils.cs" />
-    <Compile Include="WindowsAPI\WinUser\WinUserDef.cs" />
+    <Compile Include="WindowsAPI\User32\RawInput.cs" />
+    <Compile Include="WindowsAPI\User32\User32Def.cs" />
+    <Compile Include="WindowsAPI\User32\VirtualKeyCodes.cs" />
+    <Compile Include="WindowsAPI\User32\WindowMessage.cs" />
     <Compile Include="WindowsAPI\WinDef.cs" />
-    <Compile Include="WindowsAPI\WinUser\WinUser.cs" />
+    <Compile Include="WindowsAPI\User32\User32.cs" />
     <Compile Include="SpaceCGUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extension\WindowExtension.cs" />
-    <Compile Include="WindowsAPI\WinUser\WinUserUtils.cs" />
+    <Compile Include="WindowsAPI\User32\User32Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Examples\readme.md" />
@@ -117,6 +125,7 @@
   <ItemGroup>
     <Content Include="WindowsAPI\.hFiles\Dbt.h" />
     <Content Include="WindowsAPI\.hFiles\fileapi.h" />
+    <Content Include="WindowsAPI\.hFiles\SetupAPI.h" />
     <Content Include="WindowsAPI\.hFiles\WinBase.h" />
     <Content Include="WindowsAPI\.hFiles\wingdi.h" />
     <Content Include="WindowsAPI\.hFiles\winnt.h" />
