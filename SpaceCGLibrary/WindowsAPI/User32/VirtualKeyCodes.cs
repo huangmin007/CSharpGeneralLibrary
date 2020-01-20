@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceCG.WindowsAPI.User32
 {
@@ -11,7 +7,7 @@ namespace SpaceCG.WindowsAPI.User32
     /// <para>虚拟键代码的符号/常数/名称，十六进制值以及鼠标或键盘等效项</para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes </para>
     /// </summary>
-    public enum VirtualKeyCode
+    public enum VirtualKeyCode:ushort
     {
         /// <summary>
         /// Left mouse button
@@ -803,5 +799,4 @@ namespace SpaceCG.WindowsAPI.User32
         /// </summary>
         OEM_CLEAR = 0xFE,
     }
-
 }

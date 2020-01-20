@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using SpaceCG.WindowsAPI.Kernel32;
 using SpaceCG.WindowsAPI;
+using System.Text;
 
 namespace TestLibrary
 {
@@ -126,167 +127,69 @@ namespace TestLibrary
             hwndSource = PresentationSource.FromVisual(this) as HwndSource;
             hwndSource?.AddHook(WindowRawInputHandler);
 
-            //PrintfHidDeviceInfo();
-            //Task.Run(() =>
-            //{
-                GetRawInputDeviceList();
-            //});
-            return;
             //0x01 0x06 键盘
             //0x01 0x02 鼠标
             //13, 4 SiS HID Touch
             //65280, 1 SiS HID Touch
-            RAWINPUTDEVICE rawInputDevice = new RAWINPUTDEVICE()
+            RAWINPUTDEVICE mouseDevice = new RAWINPUTDEVICE()
             {
-                usUsagePage = 0x01, //13,//0x01,
-                usUsage = 0x02, //4, //0x02,
+                usUsagePage = 0x01,
+                usUsage = 0x02,
                 dwFlags = RawInputFlags.RIDEV_INPUTSINK,
                 hwndTarget = handle,
             };
-            RAWINPUTDEVICE[] rawInputDevices = new RAWINPUTDEVICE[1] { rawInputDevice };
-            if (User32.RegisterRawInputDevices(rawInputDevices, (uint)rawInputDevices.Length, (uint)Marshal.SizeOf(typeof(RAWINPUTDEVICE))))
+            RAWINPUTDEVICE keyboardDevice = new RAWINPUTDEVICE()
+            {
+                usUsagePage = 0x01,
+                usUsage = 0x06,
+                dwFlags = RawInputFlags.RIDEV_INPUTSINK,
+                hwndTarget = handle,
+            };
+            RAWINPUTDEVICE[] rawInputDevices = new RAWINPUTDEVICE[] { mouseDevice, keyboardDevice };
+            if (User32.RegisterRawInputDevices(rawInputDevices, (uint)rawInputDevices.Length, RAWINPUTDEVICE.Size))
+            {
                 Console.WriteLine("注册原始输入数据的设备成功");
+            }
             else
+            {
                 Console.WriteLine("注册原始输入数据的设备失败");
+                Exception ex = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+                Console.WriteLine("LastWin32Error Code:{0},{1}  Message:{2}", Marshal.GetLastWin32Error(), Marshal.GetHRForLastWin32Error(), ex.Message);
+            }
         }
 
-        readonly uint cbSize = (uint)Marshal.SizeOf(typeof(RAWINPUTHEADER));
-        ConcurrentDictionary<IntPtr, string> devicesName = new ConcurrentDictionary<IntPtr, string>();
+        //readonly uint cbSize = (uint)Marshal.SizeOf(typeof(RAWINPUTHEADER));
+        //ConcurrentDictionary<IntPtr, string> devicesName = new ConcurrentDictionary<IntPtr, string>();
+
+        static readonly IReadOnlyDictionary<IntPtr, String> Devices;
+        static MainWindow()
+        {
+            Devices = User32Extension.GetRawInputDevicesName();
+        }
 
         protected IntPtr WindowRawInputHandler(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             MessageType msgType = (MessageType)msg;
-            if(msgType == MessageType.WM_INPUT_DEVICE_CHANGE)
-            {
-                Console.WriteLine("Change........");
-                return IntPtr.Zero;
-            }
             if (msgType != MessageType.WM_INPUT) return IntPtr.Zero;
 
-            Console.WriteLine(User32.GET_RAWINPUT_CODE_WPARAM(wParam));
-            Task.Run(()=>
+            RAWINPUTHEADER header = new RAWINPUTHEADER();
+            if(!User32Extension.TryGetRawInputHeader(lParam, ref header))
             {
-                uint dwSize = 128;
-                //buffer = Marshal.AllocHGlobal((int)dwSize);
-                //int result = User32.GetRawInputData(lParam, RIDFlag.RID_INPUT, buffer, ref dwSize, cbSize);
-
-                RAWINPUT raw = new RAWINPUT();
-                //int result = User32.GetRawInputData(lParam, RIDFlag.RID_INPUT, ref raw, ref dwSize, cbSize);
-                int result = User32.GetRawInputData(lParam, RIDFlag.RID_HEADER, ref raw, ref dwSize, cbSize);
-
-                Console.WriteLine("result 1:: {0} {1}", result, dwSize);
-                string message = Kernel32Utils.GetSysErrroMessage("GetRawInputData");
-                Console.WriteLine(message);
-
-                if (result > 0)
-                {
-                    //RAWINPUT raw = (RAWINPUT)Marshal.PtrToStructure(buffer, typeof(RAWINPUT));
-                    string name = null;
-                    if (!devicesName.TryGetValue(raw.header.hDevice, out name))
-                    {
-                        name = GetRawInputDeviceName(raw.header.hDevice);
-                        if (!string.IsNullOrWhiteSpace(name)) devicesName.TryAdd(raw.header.hDevice, name);
-                    }
-
-                    POINT lpPoint = new POINT();
-                    User32.GetCursorPos(ref lpPoint);
-                    Console.WriteLine("{0} {1}", name, lpPoint);
-                }
-            });
-            handled = true;
-            return IntPtr.Zero;
-
-            IntPtr buffer = IntPtr.Zero;
-            try
-            {
-#if true
-                uint dwSize = 128;
-                //buffer = Marshal.AllocHGlobal((int)dwSize);
-                //int result = User32.GetRawInputData(lParam, RIDFlag.RID_INPUT, buffer, ref dwSize, cbSize);
-
-                RAWINPUT raw = new RAWINPUT();
-                int result = User32.GetRawInputData(lParam, RIDFlag.RID_INPUT, ref raw, ref dwSize, cbSize);
-
-                Console.WriteLine("result 1:: {0} {1}", result, dwSize);
-                string message = Kernel32Utils.GetSysErrroMessage("GetRawInputData");
-                Console.WriteLine(message);
-
-                if (result > 0)
-                {
-                    //RAWINPUT raw = (RAWINPUT)Marshal.PtrToStructure(buffer, typeof(RAWINPUT));
-
-                    string name = null;
-                    if (!devicesName.TryGetValue(raw.header.hDevice, out name))
-                    {
-                        name = GetRawInputDeviceName(raw.header.hDevice);
-                        if (!string.IsNullOrWhiteSpace(name)) devicesName.TryAdd(raw.header.hDevice, name);
-                    }
-
-                    POINT lpPoint = new POINT();
-                    User32.GetCursorPos(ref lpPoint);
-                    Console.WriteLine("{0} {1}", name, lpPoint);
-#if false
-                    if (raw.header.dwType == RawInputType.RIM_TYPEMOUSE)
-                    {
-                        Console.WriteLine("{0} {1}", raw.header.hDevice, raw.mouse);
-                    }
-                    else if(raw.header.dwType == RawInputType.RIM_TYPEHID)
-                    {
-                        Console.WriteLine("{0} {1}", raw.header.hDevice, raw.hid);
-                        byte[] destination = raw.hid.GetRawData();
-                        //byte[] destination = new byte[raw.hid.dwSizeHid * raw.hid.dwCount];
-                        //Marshal.Copy(raw.hid.bRawData, destination, 0, destination.Length);
-
-                        for(int i = 0; i < destination.Length; i ++)
-                            Console.Write("{0:X2} ", destination[i]);
-                        Console.WriteLine();
-                    }
-#endif
-
-                }
-#else
-                    uint dwSize = 0;
-                int result = User32.GetRawInputData(lParam, RIDFlag.RID_INPUT, IntPtr.Zero, ref dwSize, cbSize);
-                
-                Console.WriteLine("result 1:: {0} {1}", result, dwSize);
-                string message = Kernel32Utils.GetSysErrroMessage("GetRawInputData");
-                Console.WriteLine(message);
-
-                if (result == 0)
-                {
-                    buffer = Marshal.AllocHGlobal((int)dwSize);
-                    result = User32.GetRawInputData(lParam, RIDFlag.RID_INPUT, buffer, ref dwSize, cbSize);
-                    if (result == dwSize)
-                    {
-                        RAWINPUT raw = (RAWINPUT)Marshal.PtrToStructure(buffer, typeof(RAWINPUT));
-                        if (raw.header.dwType == RawInputType.RIM_TYPEMOUSE)
-                        {
-                            Console.WriteLine("{0} {1}", raw.header.hDevice, raw.mouse);
-                        }
-
-                        string name = null;
-                        if (devicesName.TryGetValue(raw.header.hDevice, out name))
-                        {
-                            Console.WriteLine(name);
-                        }
-                        else
-                        {
-                            name = GetRawInputDeviceName(raw.header.hDevice);
-                            if (name != null) devicesName.TryAdd(raw.header.hDevice, name);
-                        }
-                    }
-                }
-#endif      
+                Console.WriteLine("Try Get Raw Input Header Failed..");
+                return IntPtr.Zero;
             }
-            catch (Exception ex)
+
+            RAWINPUT data = new RAWINPUT();
+            //if(User32Extension.TryGetRawInputData(lParam, ref data))
             {
-                Console.WriteLine(ex);
+
             }
-            finally
+            if (User32Extension.TryGetRawInputData(lParam, ref data, ref header.dwSize))
             {
-                handled = true;
-                if (buffer != IntPtr.Zero) Marshal.FreeHGlobal(buffer);
+                Console.WriteLine(data);
             }
+
+
 
             return IntPtr.Zero;
         }

@@ -67,9 +67,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\ExampleAttribute.cs" />
-    <None Include="Examples\HwndSourceExample.md" />
-    <Compile Include="Examples\KeyboardHook.cs" />
-    <Compile Include="Examples\MouseHook.cs" />
+    <Compile Include="WindowsAPI\Kernel32\SystemTime.cs" />
+    <Compile Include="WindowsAPI\Kernel32\FileSystem.cs" />
+    <Compile Include="WindowsAPI\Kernel32\FormatMessage.cs" />
+    <Compile Include="WindowsAPI\Kernel32\A_Template.cs" />
+    <Compile Include="WindowsAPI\User32\A_Template.cs" />
+    <Compile Include="WindowsAPI\User32\WindowAnimate.cs" />
+    <Compile Include="WindowsAPI\User32\ShutdownBlockReason.cs" />
+    <Compile Include="WindowsAPI\User32\DPI.cs" />
+    <Compile Include="WindowsAPI\User32\GetInputState.cs" />
+    <Compile Include="WindowsAPI\User32\HookEx.cs" />
+    <Compile Include="WindowsAPI\User32\HookExExample.cs" />
+    <Compile Include="WindowsAPI\User32\HotKeyExample.cs" />
+    <Compile Include="WindowsAPI\User32\HotKey.cs" />
+    <Compile Include="WindowsAPI\User32\RawInputExample.cs" />
+    <Compile Include="WindowsAPI\User32\SendInput.cs" />
+    <Compile Include="WindowsAPI\User32\TouchInput.cs" />
+    <Compile Include="WindowsAPI\User32\DeviceNotificationExample.cs" />
     <Compile Include="Extension\ApplicationExtension.cs" />
     <Compile Include="Extension\HPSocketExtension.cs" />
     <Compile Include="Extension\ManagementExtension.cs" />
@@ -91,20 +105,19 @@
     <Compile Include="WindowsAPI\HID\HIDUtils.cs" />
     <Compile Include="WindowsAPI\SetupAPI\SetupAPI.cs" />
     <Compile Include="WindowsAPI\SetupAPI\SetupAPIDef.cs" />
-    <Compile Include="WindowsAPI\User32\DBTDef.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32.cs" />
-    <Compile Include="WindowsAPI\Kernel32\Kernel32Def.cs" />
-    <Compile Include="WindowsAPI\Kernel32\Kernel32Utils.cs" />
     <Compile Include="WindowsAPI\User32\RawInput.cs" />
-    <Compile Include="WindowsAPI\User32\User32Def.cs" />
+    <Compile Include="WindowsAPI\User32\DeviceNotification.cs" />
+    <Compile Include="WindowsAPI\User32\WindowRect.cs" />
     <Compile Include="WindowsAPI\User32\VirtualKeyCodes.cs" />
+    <Compile Include="WindowsAPI\User32\WindowControl.cs" />
+    <Compile Include="WindowsAPI\User32\WindowMessageType.cs" />
     <Compile Include="WindowsAPI\User32\WindowMessage.cs" />
     <Compile Include="WindowsAPI\WinDef.cs" />
     <Compile Include="WindowsAPI\User32\User32.cs" />
     <Compile Include="SpaceCGUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extension\WindowExtension.cs" />
-    <Compile Include="WindowsAPI\User32\User32Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Examples\readme.md" />
@@ -127,6 +140,7 @@
     <Content Include="WindowsAPI\.hFiles\fileapi.h" />
     <Content Include="WindowsAPI\.hFiles\SetupAPI.h" />
     <Content Include="WindowsAPI\.hFiles\WinBase.h" />
+    <Content Include="WindowsAPI\.hFiles\Windows.h" />
     <Content Include="WindowsAPI\.hFiles\wingdi.h" />
     <Content Include="WindowsAPI\.hFiles\winnt.h" />
     <Content Include="WindowsAPI\.hFiles\WinDef.h" />

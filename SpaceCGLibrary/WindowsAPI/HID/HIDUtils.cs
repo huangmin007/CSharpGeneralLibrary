@@ -171,7 +171,7 @@ namespace SpaceCG.WindowsAPI.HID
                 if(handle.IsInvalid)
                 {
                     Console.WriteLine("SafeFileHandle IsInvalid");
-                    Console.WriteLine(Kernel32Utils.GetSysErrroMessage("CreateFile"));
+                    Console.WriteLine(Kernel32Extension.GetSysErrroMessage("CreateFile"));
                     continue;
                 }
 

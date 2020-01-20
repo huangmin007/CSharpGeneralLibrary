@@ -66,7 +66,7 @@ namespace SpaceCG.Extension
             };
             client.OnClose += (HPSocket.IClient sender, HPSocket.SocketOperation enOperation, int errorCode) =>
             {
-                string message = Kernel32Utils.GetSysErrroMessage((uint)errorCode);
+                string message = Kernel32Extension.GetSysErrroMessage((uint)errorCode);
                 SpaceCGUtils.Log.InfoFormat("客户端({0})连接被断开({1})，描述：({2}) {3}", typeof(IClient), enOperation, errorCode, message);
 
                 if (IsAvailable && autoConnect)
@@ -188,7 +188,7 @@ namespace SpaceCG.Extension
                 ushort port = 0;
                 string ip = "0.0.0.0";
                 server.GetRemoteAddress(connId, out ip, out port);
-                string message = Kernel32Utils.GetSysErrroMessage((uint)errorCode);
+                string message = Kernel32Extension.GetSysErrroMessage((uint)errorCode);
                 SpaceCGUtils.Log.InfoFormat("客户端 {0}:{1} 断开连接({2})，描述：({3}) {4}", ip, port, socketOperation, errorCode, message);
 
                 return HPSocket.HandleResult.Ok;
