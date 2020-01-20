@@ -84,7 +84,7 @@ namespace SpaceCG.WindowsAPI.HID
         {
             if (string.IsNullOrWhiteSpace(devicePath)) throw new ArgumentNullException(nameof(devicePath), "设备路径不能为空");
 
-            SafeFileHandle handle = Kernel32.Kernel32.CreateFile(devicePath,
+            IntPtr handle = Kernel32.Kernel32.CreateFile(devicePath,
                 AccessRights.DEFAULT,
                 ShareMode.FILE_SHARE_READ | ShareMode.FILE_SHARE_WRITE,
                 IntPtr.Zero,
@@ -92,8 +92,7 @@ namespace SpaceCG.WindowsAPI.HID
                 0,
                 IntPtr.Zero);
 
-            bool result = HID.HidD_GetAttributes(handle, ref attribute);
-            handle.Close();
+            bool result = HID.HidD_GetAttributes(new SafeFileHandle(handle, true), ref attribute);
 
             return result;
         }
@@ -126,7 +125,7 @@ namespace SpaceCG.WindowsAPI.HID
         {
             if (string.IsNullOrWhiteSpace(devicePath)) throw new ArgumentNullException(nameof(devicePath), "设备路径不能为空");
 
-            SafeFileHandle hidHandle = Kernel32.Kernel32.CreateFile(devicePath,
+            IntPtr hidHandle = Kernel32.Kernel32.CreateFile(devicePath,
                 AccessRights.DEFAULT,
                 ShareMode.FILE_SHARE_READ | ShareMode.FILE_SHARE_WRITE,
                 IntPtr.Zero,
@@ -134,8 +133,7 @@ namespace SpaceCG.WindowsAPI.HID
                 0,
                 IntPtr.Zero);
 
-            bool result = GetHIDDeviceCapabilities(hidHandle, ref caps);
-            hidHandle.Close();
+            bool result = GetHIDDeviceCapabilities(new SafeFileHandle(hidHandle, true), ref caps);
 
             return result;
         }
@@ -144,7 +142,7 @@ namespace SpaceCG.WindowsAPI.HID
         {
             if (string.IsNullOrWhiteSpace(devicePath)) throw new ArgumentNullException(nameof(devicePath), "设备路径不能为空");
 
-            SafeFileHandle hidHandle = Kernel32.Kernel32.CreateFile(devicePath,
+            IntPtr hidHandle = Kernel32.Kernel32.CreateFile(devicePath,
                 AccessRights.DEFAULT,
                 ShareMode.FILE_SHARE_READ | ShareMode.FILE_SHARE_WRITE,
                 IntPtr.Zero,
@@ -153,7 +151,7 @@ namespace SpaceCG.WindowsAPI.HID
                 IntPtr.Zero);
 
             HIDP_CAPS caps = new HIDP_CAPS();
-            bool result = GetHIDDeviceCapabilities(hidHandle, ref caps);
+            bool result = GetHIDDeviceCapabilities(new SafeFileHandle(hidHandle, true), ref caps);
 
             return caps;
         }
@@ -167,8 +165,8 @@ namespace SpaceCG.WindowsAPI.HID
             for (int i = 0; i < paths.Length; i++)
             {
                 Console.WriteLine(paths[i]);
-                SafeFileHandle handle = Kernel32.Kernel32.CreateFile(paths[i], 3221225472u, 3, IntPtr.Zero, 3, 0x40000000, IntPtr.Zero);
-                if(handle.IsInvalid)
+                IntPtr handle = Kernel32.Kernel32.CreateFile(paths[i], 3221225472u, 3, IntPtr.Zero, 3, 0x40000000, IntPtr.Zero);
+                if(handle == IntPtr.Zero)
                 {
                     Console.WriteLine("SafeFileHandle IsInvalid");
                     Console.WriteLine(Kernel32Extension.GetSysErrroMessage("CreateFile"));
@@ -176,7 +174,7 @@ namespace SpaceCG.WindowsAPI.HID
                 }
 
                 HIDD_ATTRIBUTES attributes = new HIDD_ATTRIBUTES();
-                bool result1 = HIDUtils.GetHIDDeviceAttributes(handle, ref attributes);
+                bool result1 = HIDUtils.GetHIDDeviceAttributes(new SafeFileHandle(handle, true), ref attributes);
                 if(!result1)
                 {
                     Console.WriteLine("GetHIDDeviceAttributes Error");
@@ -185,7 +183,7 @@ namespace SpaceCG.WindowsAPI.HID
                 Console.WriteLine(attributes);
 
                 HIDP_CAPS caps = new HIDP_CAPS();
-                bool result2 = HIDUtils.GetHIDDeviceCapabilities(handle, ref caps);
+                bool result2 = HIDUtils.GetHIDDeviceCapabilities(new SafeFileHandle(handle, true), ref caps);
                 if (!result2)
                 {
                     Console.WriteLine("GetHIDDeviceCapabilities Error.");
@@ -201,11 +199,11 @@ namespace SpaceCG.WindowsAPI.HID
                     }
 
                     int numberBuffer = 0;
-                    bool result3 = HID.HidD_GetNumInputBuffers(handle, ref numberBuffer);
+                    bool result3 = HID.HidD_GetNumInputBuffers(new SafeFileHandle(handle, true), ref numberBuffer);
                     Console.WriteLine("result3:{0} {1}", result3, numberBuffer);
 
                     byte[] inputReportBuffer = new byte[caps.InputReportByteLength];
-                    bool result4 = HID.HidD_GetInputReport(handle, inputReportBuffer, inputReportBuffer.Length + 1);
+                    bool result4 = HID.HidD_GetInputReport(new SafeFileHandle(handle, true), inputReportBuffer, inputReportBuffer.Length + 1);
                     Console.WriteLine("result4:{0}", result4);
 
                     DeviceInfo device = new DeviceInfo();
@@ -222,7 +220,7 @@ namespace SpaceCG.WindowsAPI.HID
                          0,
                          IntPtr.Zero);
                          */
-                    device.HidHandle = handle;
+                    device.HidHandle = new SafeFileHandle(handle, true);
                     device.InputReportLength = caps.InputReportByteLength;
                     //bool gib = HID.HidD_GetNumInputBuffers(handle, ref device.InputReportLength);
                     //Console.WriteLine("GNIB:{0} {1}", gib, device.InputReportLength);

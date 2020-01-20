@@ -17,6 +17,8 @@ using System.Collections.Concurrent;
 using SpaceCG.WindowsAPI.Kernel32;
 using SpaceCG.WindowsAPI;
 using System.Text;
+using System.Collections;
+using HidSharp.Reports.Input;
 
 namespace TestLibrary
 {
@@ -60,12 +62,14 @@ namespace TestLibrary
             }
         }
 
+        DeviceItemInputParser InputParser;
         private void PrintfHidDeviceInfo()
         {
-            HidDevice[] devices = DeviceList.Local.GetHidDevices().ToArray();
+            HidDevice[] devices = DeviceList.Local.GetHidDevices(1111, 4755).ToArray();
 
             foreach (HidDevice dev in devices)
             {
+                Console.WriteLine("-----------------------------");
                 Console.WriteLine("{0}, {1}", dev, dev.DevicePath);
 
                 try
@@ -83,19 +87,20 @@ namespace TestLibrary
                     var rawReportDescriptor = dev.GetRawReportDescriptor();
                     Console.WriteLine("Report Descriptor:");
                     Console.WriteLine("  {0} ({1} bytes)", string.Join(" ", rawReportDescriptor.Select(d => d.ToString("X2"))), rawReportDescriptor.Length);
-
                     int indent = 0;
-                    foreach (var element in EncodedItem.DecodeItems(rawReportDescriptor, 0, rawReportDescriptor.Length))
+                    foreach (EncodedItem element in EncodedItem.DecodeItems(rawReportDescriptor, 0, rawReportDescriptor.Length))
                     {
-                        if (element.ItemType == ItemType.Main && element.TagForMain == MainItemTag.EndCollection) { indent -= 2; }
+                        if (element.ItemType == ItemType.Main && element.TagForMain == MainItemTag.EndCollection) { indent -= 4; }
                         Console.WriteLine("  {0}{1}", new string(' ', indent), element);
-                        if (element.ItemType == ItemType.Main && element.TagForMain == MainItemTag.Collection) { indent += 2; }
+                        if (element.ItemType == ItemType.Main && element.TagForMain == MainItemTag.Collection) { indent += 4; }
                     }
 
                     var reportDescriptor = dev.GetReportDescriptor();
-
-                    foreach (var deviceItem in reportDescriptor.DeviceItems)
+                    foreach (DeviceItem deviceItem in reportDescriptor.DeviceItems)
                     {
+                        if(InputParser == null)
+                            InputParser = deviceItem.CreateDeviceItemInputParser();
+
                         foreach (var usage in deviceItem.Usages.GetAllValues())
                             Console.WriteLine(string.Format("Usage: {0:X4} {1}", usage, (Usage)usage));
 
@@ -103,11 +108,11 @@ namespace TestLibrary
                         {
                             Console.WriteLine(string.Format("{0}: ReportID={1}, Length={2}, Items={3}",
                                                 report.ReportType, report.ReportID, report.Length, report.DataItems.Count));
-                            foreach (var dataItem in report.DataItems)
+                            foreach (DataItem dataItem in report.DataItems)
                             {
-                                Console.WriteLine(string.Format("  {0} Elements x {1} Bits, Units: {2}, Expected Usage Type: {3}, Flags: {4}, Usages: {5}",
+                                Console.WriteLine(string.Format("  {0} Elements x {1} Bits, Units: {2}, Expected Usage Type: {3}, Flags: {4}, Usages: {5}  TotalBits: {6}",
                                     dataItem.ElementCount, dataItem.ElementBits, dataItem.Unit.System, dataItem.ExpectedUsageType, dataItem.Flags,
-                                    string.Join(", ", dataItem.Usages.GetAllValues().Select(usage => usage.ToString("X4") + " " + ((Usage)usage).ToString()))));
+                                    string.Join(", ", dataItem.Usages.GetAllValues().Select(usage => usage.ToString("X4") + " " + ((Usage)usage).ToString())), dataItem.TotalBits));
                             }
                         }
 
@@ -127,6 +132,8 @@ namespace TestLibrary
             hwndSource = PresentationSource.FromVisual(this) as HwndSource;
             hwndSource?.AddHook(WindowRawInputHandler);
 
+            PrintfHidDeviceInfo();
+
             //0x01 0x06 键盘
             //0x01 0x02 鼠标
             //13, 4 SiS HID Touch
@@ -145,7 +152,14 @@ namespace TestLibrary
                 dwFlags = RawInputFlags.RIDEV_INPUTSINK,
                 hwndTarget = handle,
             };
-            RAWINPUTDEVICE[] rawInputDevices = new RAWINPUTDEVICE[] { mouseDevice, keyboardDevice };
+            RAWINPUTDEVICE touchDevice = new RAWINPUTDEVICE()
+            {
+                usUsagePage = 13,
+                usUsage = 4,
+                dwFlags = RawInputFlags.RIDEV_INPUTSINK,
+                hwndTarget = handle,
+            };
+            RAWINPUTDEVICE[] rawInputDevices = new RAWINPUTDEVICE[] { keyboardDevice, touchDevice };//mouseDevice
             if (User32.RegisterRawInputDevices(rawInputDevices, (uint)rawInputDevices.Length, RAWINPUTDEVICE.Size))
             {
                 Console.WriteLine("注册原始输入数据的设备成功");
@@ -187,9 +201,16 @@ namespace TestLibrary
             if (User32Extension.TryGetRawInputData(lParam, ref data, ref header.dwSize))
             {
                 Console.WriteLine(data);
+                RAWHID hid = data.data.hid;
+                byte[] rawData = hid.GetRawData();
+                for(int i = 0; i < hid.dwCount * hid.dwSizeHid; i ++)
+                    Console.Write("{0:X2} ", rawData[i]);
+                Console.WriteLine(" Length:{0}", rawData.Length);
+
+                int dx = ((byte)rawData[4] << 8) | (byte)rawData[3]; 
+                int dy = ((byte)rawData[6] << 8) | (byte)rawData[5];
+                Console.WriteLine("x:{0} y:{1}", dx, dy);
             }
-
-
 
             return IntPtr.Zero;
         }
@@ -199,76 +220,6 @@ namespace TestLibrary
             //Log.Error("aaa", new Exception("Exception,Exception,Exception"));
         }
 
-        public static string GetRawInputDeviceName(IntPtr hDevice)
-        {
-            if (hDevice == IntPtr.Zero) return null;
-            uint pcbSize = 0;
-            int result = User32.GetRawInputDeviceInfo(hDevice, RIDIFlag.RIDI_DEVICENAME, IntPtr.Zero, ref pcbSize);
-            Console.WriteLine("result 1: {0} {1}", result, pcbSize);
-            if (result != 0) return null;
-
-            IntPtr pData = Marshal.AllocHGlobal((int)pcbSize);
-            result = User32.GetRawInputDeviceInfo(hDevice, RIDIFlag.RIDI_DEVICENAME, pData, ref pcbSize);
-            Console.WriteLine("result 2: {0} {1}", result, pcbSize);
-            if (result != pcbSize) return null;
-
-            string name = Marshal.PtrToStringAuto(pData, (int)pcbSize);
-            Console.WriteLine(name);
-            return name;
-        }
-
-        protected static void GetRawInputDeviceList()
-        {
-            uint deviceCount = 0;
-            uint cbSize = (uint)Marshal.SizeOf(typeof(RAWINPUTDEVICELIST));
-            int result = User32.GetRawInputDeviceList(IntPtr.Zero, ref deviceCount, cbSize);
-            Console.WriteLine("result 1: {0} {1} {2}", result, deviceCount, cbSize);
-
-            if (result >= 0)
-            {
-                IntPtr devicesList = Marshal.AllocHGlobal((int)(deviceCount * cbSize));
-                result = User32.GetRawInputDeviceList(devicesList, ref deviceCount, cbSize);
-                //Console.WriteLine("result 2:{0}", result);
-
-                if (result == deviceCount)
-                {
-                    for (int i = 0; i < deviceCount; i++)
-                    {
-                        RAWINPUTDEVICELIST rid = Marshal.PtrToStructure<RAWINPUTDEVICELIST>(IntPtr.Add(devicesList, (int)(cbSize * i)));
-                        //RAWINPUTDEVICELIST rid = Marshal.PtrToStructure<RAWINPUTDEVICELIST>(new IntPtr(devicesList.ToInt32() + (cbSize * i)));
-
-                        IntPtr pData = IntPtr.Zero;
-                        try
-                        {
-                            Console.WriteLine("index:{0}", rid);
-
-                            uint pcbSize = 0;
-                            result = User32.GetRawInputDeviceInfo(rid.hDevice, RIDIFlag.RIDI_DEVICENAME, IntPtr.Zero, ref pcbSize);
-                            Console.WriteLine("result 3: {0} {1}", result, pcbSize);
-                            if (result != 0) return;
-
-                            pData = Marshal.AllocHGlobal((int)pcbSize * 2);
-                            result = User32.GetRawInputDeviceInfo(rid.hDevice, RIDIFlag.RIDI_DEVICENAME, pData, ref pcbSize);
-                            //Console.WriteLine("result 4: {0} {1}", result, pcbSize);
-                            string name = Marshal.PtrToStringAuto(pData, (int)pcbSize);
-                            Console.WriteLine(name);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex);
-                        }
-                        finally
-                        {
-                            if (pData != IntPtr.Zero)
-                                Marshal.FreeHGlobal(pData);
-                        }
-                    }
-                }
-                Thread.Sleep(500);
-                //Marshal.FreeHGlobal(devicesList);
-                Console.WriteLine("Complete...");
-            }
-        }
 
     }
 }

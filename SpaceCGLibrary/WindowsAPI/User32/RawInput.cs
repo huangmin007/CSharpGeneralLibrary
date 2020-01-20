@@ -526,7 +526,7 @@ namespace SpaceCG.WindowsAPI.User32
     /// <para>每个 <see cref="MessageType.WM_INPUT"/> 可以指示多个输入，但是所有输入都来自相同的 HID。bRawData 数组的大小为 dwSizeHid * dwCount。</para>
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-rawhid </para>
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public unsafe struct RAWHID
     {
         /// <summary>
@@ -538,17 +538,15 @@ namespace SpaceCG.WindowsAPI.User32
         /// </summary>
         public uint dwCount;
         /// <summary>
-        /// 原始输入数据，以字节数组形式。
+        /// 原始输入数据(Buffer)，以字节数组形式。
         /// <para>参考：https://docs.microsoft.com/zh-cn/dotnet/standard/native-interop/best-practices </para>
         /// <para>参考：https://docs.microsoft.com/zh-cn/dotnet/standard/native-interop/customize-struct-marshaling </para>
         /// <para>参考：https://docs.microsoft.com/zh-cn/dotnet/framework/interop/default-marshaling-for-arrays?view=netframework-4.7.2 </para>
         /// </summary>
-        internal fixed byte bRawData[1];
-        //[MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_ARRAY)]
-        //[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1,  ArraySubType = UnmanagedType.U1)]
-        //[MarshalAs(UnmanagedType.SafeArray)]
+        private fixed byte bRawData[128];
+        //[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1, SizeConst = 128, ArraySubType = UnmanagedType.U1)]
+        //[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
         //public byte[] bRawData;
-        //public IntPtr bRawData;
 
         /// <summary>
         /// 获取原始数据
@@ -572,7 +570,8 @@ namespace SpaceCG.WindowsAPI.User32
             if (data.Length < length)
                 Array.Resize(ref data, (int)length);
 
-            for (int i = 0; i < length; i++) data[i] = bRawData[i];
+            for (int i = 0; i < length; i++) 
+                data[i] = bRawData[i];
         }
 
         public override string ToString()
