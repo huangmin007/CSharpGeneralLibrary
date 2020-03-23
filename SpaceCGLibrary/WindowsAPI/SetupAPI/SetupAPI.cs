@@ -7,6 +7,23 @@ using System.Threading.Tasks;
 
 namespace SpaceCG.WindowsAPI.SetupAPI
 {
+
+	#region Enumerations
+	#endregion
+
+
+	#region Structures
+	#endregion
+
+
+	#region Deletages
+	#endregion
+
+
+	#region Notifications
+	#endregion
+
+
 	/// <summary>
 	/// setupapi.dll
 	/// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/ </para>
@@ -14,13 +31,14 @@ namespace SpaceCG.WindowsAPI.SetupAPI
 	/// </summary>
 	public static partial class SetupAPI
     {
-		[DllImport(DLL_NAME, SetLastError = true)]
+        #region Functions 
+        [DllImport("setupapi.dll", SetLastError = true)]
 		public static extern int SetupDiCreateDeviceInfoList(ref Guid ClassGuid, int hwndParent);
 
-		[DllImport(DLL_NAME, SetLastError = true)]
+		[DllImport("setupapi.dll", SetLastError = true)]
 		public static extern int SetupDiDestroyDeviceInfoList(IntPtr DeviceInfoSet);
 
-		[DllImport(DLL_NAME, SetLastError = true)]
+		[DllImport("setupapi.dll", SetLastError = true)]
 		[return:MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SetupDiEnumDeviceInterfaces(IntPtr DeviceInfoSet, IntPtr DeviceInfoData, ref Guid InterfaceClassGuid, int MemberIndex, ref SP_DEVICE_INTERFACE_DATA DeviceInterfaceData);
 
@@ -36,15 +54,23 @@ namespace SpaceCG.WindowsAPI.SetupAPI
 		/// <param name="hwndParent">顶层窗口的句柄，用于与在设备信息集中安装设备实例相关联的用户界面。该句柄是可选的，可以为 NULL。</param>
 		/// <param name="Flags"><see cref="DIGCF"/> 此参数可以是零个或多个以下标志的按位或。 </param>
 		/// <returns></returns>
-		[DllImport(DLL_NAME, SetLastError = true)]
+		[DllImport("setupapi.dll", SetLastError = true)]
 		public static extern IntPtr SetupDiGetClassDevs(ref Guid ClassGuid, IntPtr Enumerator, IntPtr hwndParent, DIGCF Flags);
 
-		[DllImport(DLL_NAME, SetLastError = true, CharSet = CharSet.Auto)]
+		[DllImport("setupapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SetupDiGetDeviceInterfaceDetail(IntPtr DeviceInfoSet, ref SP_DEVICE_INTERFACE_DATA DeviceInterfaceData, IntPtr DeviceInterfaceDetailData, int DeviceInterfaceDetailDataSize, ref int RequiredSize, IntPtr DeviceInfoData);
 
-		[DllImport(DLL_NAME, SetLastError = true)]
+		[DllImport("setupapi.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SetupDiGetDeviceInterfaceDetail(IntPtr DeviceInfoSet, ref SP_DEVICE_INTERFACE_DATA DeviceInterfaceData, ref SP_DEVICE_INTERFACE_DETAIL_DATA DeviceInterfaceDetailData, int DeviceInterfaceDetailDataSize, ref int RequiredSize, IntPtr DeviceInfoData);
+        #endregion
+    }
+
+	/// <summary>
+	/// WindowsAPI SetupAPI 库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
+	/// </summary>
+	public static partial class SetupAPIExtension
+	{
 	}
 }

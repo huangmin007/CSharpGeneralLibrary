@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace SpaceCG.WindowsAPI
 {
+
     #region Enumerations
     /// <summary>
     /// 标识线程，进程或窗口的每英寸点数（dpi）设置。
@@ -341,14 +342,26 @@ namespace SpaceCG.WindowsAPI
     #endregion
 
 
+    #region Deletages
+    #endregion
+
+
+    #region Notifications
+    #endregion
+
+
     /// <summary>
     /// WinDef.h
     /// </summary>
     public static partial class WinDef
     {
         /// <summary>
-        /// path max chars
+        /// path max chars 260
         /// </summary>
         public const int MAX_PATH = 260;
+
+        #region Functions
+        #endregion
+
     }
 }

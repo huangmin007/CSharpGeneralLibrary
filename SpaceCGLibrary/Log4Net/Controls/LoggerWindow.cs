@@ -181,6 +181,7 @@ namespace SpaceCG.Log4Net.Controls
                 HwndSource.AddHook(WindowProcHandler);
             }
         }
+
         /// <summary>
         /// Window Process Handler
         /// </summary>

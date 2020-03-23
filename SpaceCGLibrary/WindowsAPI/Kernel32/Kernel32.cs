@@ -5,6 +5,23 @@ using System.Text;
 
 namespace SpaceCG.WindowsAPI.Kernel32
 {
+
+    #region Enumerations
+    #endregion
+
+
+    #region Structures
+    #endregion
+
+
+    #region Deletages
+    #endregion
+
+
+    #region Notifications
+    #endregion
+
+
     /// <summary>
     /// Kernel32.dll 常用/实用 函数
     /// <para>Marshal.GetLastWin32Error(), new WindowInteropHelper(Window).Handle</para>
@@ -12,7 +29,7 @@ namespace SpaceCG.WindowsAPI.Kernel32
     /// </summary>
     public static partial class Kernel32
     {
-        
+        #region Functions   
         /// <summary>
         /// 将指定的模块加载到调用进程的地址空间中。指定的模块可能会导致其他模块被加载。
         /// <para>有关其他加载选项，请使用 LoadLibraryEx 函数。</para>
@@ -65,9 +82,16 @@ namespace SpaceCG.WindowsAPI.Kernel32
         /// <returns>如果函数成功，则返回值是指定模块的句柄。如果函数失败，则返回值为NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
+        #endregion
 
 
-        
-        
+
+    }
+
+    /// <summary>
+    /// WindowsAPI Kernel32 库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
+    /// </summary>
+    public static partial class Kernel32Extension
+    {
     }
 }

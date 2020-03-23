@@ -48,9 +48,6 @@
             
             </summary>
             <summary>
-            
-            </summary>
-            <summary>
             Kernel32.dll 常用/实用 函数
             <para>Marshal.GetLastWin32Error(), new WindowInteropHelper(Window).Handle</para>
             <para>参考：C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0 </para>
@@ -170,15 +167,6 @@
                 <para>如果函数失败，则返回值为 INVALID_HANDLE_VALUE。要获取扩展的错误信息，请调用 <see cref="M:System.Runtime.InteropServices.Marshal.GetLastWin32Error"/> 或 <see cref="M:System.Runtime.InteropServices.Marshal.GetHRForLastWin32Error"/>。</para>
             </returns>
         </member>
-        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.CloseHandle(System.IntPtr)">
-            <summary>
-            关闭打开的对象句柄。
-            <para>如果应用程序在调试器下运行，则该函数将收到无效的句柄值或伪句柄值，否则将引发异常。如果您两次关闭一个句柄，或者在 <see cref="!:FindFirstFile"/> 函数返回的句柄上 调用 CloseHandle 而不是调用 FindClose 函数，则会发生这种情况。</para>
-            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle </para>
-            </summary>
-            <param name="hObject">打开对象的有效句柄。</param>
-            <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 <see cref="M:System.Runtime.InteropServices.Marshal.GetLastWin32Error"/> 或 <see cref="M:System.Runtime.InteropServices.Marshal.GetHRForLastWin32Error"/>。</returns>
-        </member>
         <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.ReadFile(System.IntPtr,System.Byte[],System.UInt32,System.UInt32@,System.IntPtr)">
             <summary>
             从指定的文件或输入/输出（I/O）设备读取数据。如果设备支持，则在文件指针指定的位置进行读取。 此功能设计用于同步和异步操作。有关专门为异步操作设计的类似功能，请参见 <see cref="!:ReadFileEx"/>
@@ -193,6 +181,15 @@
                 <para>对于支持字节偏移量的 hFile，如果使用此参数，则必须指定一个字节偏移量，从该位置开始从文件或设备读取。通过设置 <see cref="!:OVERLAPPED"/> 结构的 Offset 和 OffsetHigh 成员 来指定此偏移量 。对于不支持字节偏移量的 hFile，将忽略 Offset 和 OffsetHigh。</para>
             </param>
             <returns>如果函数成功，则返回值为非零（TRUE）。如果函数失败或异步完成，则返回值为零（FALSE）。若要获取扩展的错误信息，请调用 <see cref="M:System.Runtime.InteropServices.Marshal.GetLastWin32Error"/> 或 <see cref="M:System.Runtime.InteropServices.Marshal.GetHRForLastWin32Error"/> 函数。</returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.CloseHandle(System.IntPtr)">
+            <summary>
+            关闭打开的对象句柄。
+            <para>如果应用程序在调试器下运行，则该函数将收到无效的句柄值或伪句柄值，否则将引发异常。如果您两次关闭一个句柄，或者在 <see cref="!:FindFirstFile"/> 函数返回的句柄上 调用 CloseHandle 而不是调用 FindClose 函数，则会发生这种情况。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle </para>
+            </summary>
+            <param name="hObject">打开对象的有效句柄。</param>
+            <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 <see cref="M:System.Runtime.InteropServices.Marshal.GetLastWin32Error"/> 或 <see cref="M:System.Runtime.InteropServices.Marshal.GetHRForLastWin32Error"/>。</returns>
         </member>
         <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.DeleteFile(System.String)">
             <summary>
@@ -349,7 +346,7 @@
             WindowsAPI Kernel32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式ad
             </summary>
             <summary>
-            WindowsAPI Kernel32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式ad
+            WindowsAPI Kernel32 库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
             </summary>
         </member>
         <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.GetSysErrroMessage(System.UInt32)">
@@ -850,10 +847,144 @@
             该函数将忽略消息定义文本中的常规换行符。该函数将消息定义文本中的硬编码换行符存储到输出缓冲区中。该函数不会产生新的换行符。
             </summary>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.User32.User32">
+        <member name="T:SpaceCG.WindowsAPI.WindowAPI">
             <summary>
-            
+            DLL 库功能/主题
             </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.WindowAPIExtension">
+            <summary>
+            xxx 库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.User32.FlashFlags">
+            <summary>
+            <see cref="F:SpaceCG.WindowsAPI.User32.FLASHINFO.dwFlags"/> 字段的值之一或值组合
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_STOP">
+            <summary>
+            停止闪烁。系统将窗口还原到其原始状态。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_CAPTION">
+            <summary>
+            刷新窗口标题。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_TRAY">
+            <summary>
+            刷新任务栏按钮。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_ALL">
+            <summary>
+            同时闪烁窗口标题和任务栏按钮。这等效于设置 <see cref="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_CAPTION"/> | <see cref="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_TRAY"/> 标志。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_TIMER">
+            <summary>
+            连续闪烁，直到设置了 <see cref="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_STOP"/> 标志。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_TIMERNOFG">
+            <summary>
+            持续闪烁直到窗口到达前台。
+            </summary>
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.User32.AwFlags">
+            <summary>
+            <see cref="M:SpaceCG.WindowsAPI.User32.User32.AnimateWindow(System.IntPtr,System.UInt32,SpaceCG.WindowsAPI.User32.AwFlags)"/> 函数参数 dwFlags 的值之一或值组合
+            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-animatewindow </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HOR_POSITIVE">
+            <summary>
+            从左到右对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 或 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND"/> 一起使用时将被忽略。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HOR_NEGATIVE">
+            <summary>
+            从右到左对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 或 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND"/> 一起使用时将被忽略。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_VER_POSITIVE">
+            <summary>
+            从上到下对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 或 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND"/> 一起使用时将被忽略。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_VER_NEGATIVE">
+            <summary>
+            从底部到顶部对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 或 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND"/> 一起使用时将被忽略。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER">
+            <summary>
+            如果使用 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HIDE"/>，则使窗口看起来向内折叠；如果不使用 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HIDE"/>，则使窗口向外折叠。各种方向标记无效。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HIDE">
+            <summary>
+            隐藏窗口。默认情况下，显示窗口。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_ACTIVATE">
+            <summary>
+            激活窗口。不要将此值与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HIDE"/> 一起使用。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_SLIDE">
+            <summary>
+            使用幻灯片动画。默认情况下，使用滚动动画。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 一起使用时，将忽略此标志。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND">
+            <summary>
+            使用淡入淡出效果。仅当 hwnd 是顶级窗口时，才可以使用此标志。
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:SpaceCG.WindowsAPI.User32.FLASHINFO" -->
+        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.cbSize">
+            <summary>
+            结构的大小，以字节为单位。
+            <para>等于 (uint)Marshal.SizeOf(typeof(FLASHWINFO)); </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.hWnd">
+            <summary>
+            要刷新的窗口的句柄。该窗口可以打开或最小化。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.dwFlags">
+            <summary>
+            闪光灯状态
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.uCount">
+            <summary>
+            刷新窗口的次数。
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.dwTimeout">
+            <summary>
+            刷新窗口的速率，以毫秒为单位。如果 dwTimeout 为零，则该函数使用默认的光标闪烁速率。
+            </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.User32.FLASHINFO.#ctor(System.IntPtr)">
+            <summary>
+            FLASHWINFO 结构体
+            </summary>
+            <param name="hwnd">要刷新的窗口的句柄。该窗口可以打开或最小化。</param>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.Size">
+            <summary>
+            <see cref="!:FLASHWINFO"/> 结构体大字，以字节为单位。
+            </summary>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.User32.FLASHINFO.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:SpaceCG.WindowsAPI.User32.User32">
             <summary>
             
             </summary>
@@ -2056,9 +2187,6 @@
             WindowsAPI User32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式ad
             </summary>
             <summary>
-            WindowsAPI User32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式ad
-            </summary>
-            <summary>
             WindowsAPI User32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
             </summary>
             <summary>
@@ -2083,7 +2211,7 @@
             WindowsAPI User32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
             </summary>
             <summary>
-            WindowsAPI User32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式ad
+            WindowsAPI User32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
             </summary>
         </member>
         <member name="M:SpaceCG.WindowsAPI.User32.User32Extension.LParamToPoint(System.Int32)">
@@ -2200,133 +2328,6 @@
             </summary>
             <param name="className"></param>
             <returns>返回窗口句柄及对应的类名</returns>
-        </member>
-        <member name="T:SpaceCG.WindowsAPI.User32.FlashFlags">
-            <summary>
-            <see cref="F:SpaceCG.WindowsAPI.User32.FLASHINFO.dwFlags"/> 字段的值之一或值组合
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_STOP">
-            <summary>
-            停止闪烁。系统将窗口还原到其原始状态。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_CAPTION">
-            <summary>
-            刷新窗口标题。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_TRAY">
-            <summary>
-            刷新任务栏按钮。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_ALL">
-            <summary>
-            同时闪烁窗口标题和任务栏按钮。这等效于设置 <see cref="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_CAPTION"/> | <see cref="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_TRAY"/> 标志。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_TIMER">
-            <summary>
-            连续闪烁，直到设置了 <see cref="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_STOP"/> 标志。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FlashFlags.FLASHW_TIMERNOFG">
-            <summary>
-            持续闪烁直到窗口到达前台。
-            </summary>
-        </member>
-        <member name="T:SpaceCG.WindowsAPI.User32.AwFlags">
-            <summary>
-            <see cref="M:SpaceCG.WindowsAPI.User32.User32.AnimateWindow(System.IntPtr,System.UInt32,SpaceCG.WindowsAPI.User32.AwFlags)"/> 函数参数 dwFlags 的值之一或值组合
-            <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-animatewindow </para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HOR_POSITIVE">
-            <summary>
-            从左到右对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 或 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND"/> 一起使用时将被忽略。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HOR_NEGATIVE">
-            <summary>
-            从右到左对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 或 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND"/> 一起使用时将被忽略。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_VER_POSITIVE">
-            <summary>
-            从上到下对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 或 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND"/> 一起使用时将被忽略。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_VER_NEGATIVE">
-            <summary>
-            从底部到顶部对窗口进行动画处理。此标志可与滚动或幻灯片动画一起使用。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 或 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND"/> 一起使用时将被忽略。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER">
-            <summary>
-            如果使用 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HIDE"/>，则使窗口看起来向内折叠；如果不使用 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HIDE"/>，则使窗口向外折叠。各种方向标记无效。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HIDE">
-            <summary>
-            隐藏窗口。默认情况下，显示窗口。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_ACTIVATE">
-            <summary>
-            激活窗口。不要将此值与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_HIDE"/> 一起使用。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_SLIDE">
-            <summary>
-            使用幻灯片动画。默认情况下，使用滚动动画。与 <see cref="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_CENTER"/> 一起使用时，将忽略此标志。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.AwFlags.AW_BLEND">
-            <summary>
-            使用淡入淡出效果。仅当 hwnd 是顶级窗口时，才可以使用此标志。
-            </summary>
-        </member>
-        <!-- Badly formed XML comment ignored for member "T:SpaceCG.WindowsAPI.User32.FLASHINFO" -->
-        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.cbSize">
-            <summary>
-            结构的大小，以字节为单位。
-            <para>等于 (uint)Marshal.SizeOf(typeof(FLASHWINFO)); </para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.hWnd">
-            <summary>
-            要刷新的窗口的句柄。该窗口可以打开或最小化。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.dwFlags">
-            <summary>
-            闪光灯状态
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.uCount">
-            <summary>
-            刷新窗口的次数。
-            </summary>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.dwTimeout">
-            <summary>
-            刷新窗口的速率，以毫秒为单位。如果 dwTimeout 为零，则该函数使用默认的光标闪烁速率。
-            </summary>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.User32.FLASHINFO.#ctor(System.IntPtr)">
-            <summary>
-            FLASHWINFO 结构体
-            </summary>
-            <param name="hwnd">要刷新的窗口的句柄。该窗口可以打开或最小化。</param>
-        </member>
-        <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.Size">
-            <summary>
-            <see cref="!:FLASHWINFO"/> 结构体大字，以字节为单位。
-            </summary>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.User32.FLASHINFO.ToString">
-            <inheritdoc />
         </member>
         <member name="T:SpaceCG.WindowsAPI.User32.MapVKType">
             <summary>
@@ -3991,7 +3992,7 @@
         </member>
         <member name="F:SpaceCG.WindowsAPI.User32.RAWHID.bRawData">
             <summary>
-            原始输入数据，以字节数组形式。
+            原始输入数据(Buffer)，以字节数组形式。
             <para>参考：https://docs.microsoft.com/zh-cn/dotnet/standard/native-interop/best-practices </para>
             <para>参考：https://docs.microsoft.com/zh-cn/dotnet/standard/native-interop/customize-struct-marshaling </para>
             <para>参考：https://docs.microsoft.com/zh-cn/dotnet/framework/interop/default-marshaling-for-arrays?view=netframework-4.7.2 </para>
@@ -6917,17 +6918,15 @@
             <para>参考：https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/_hid/ </para>
             </summary>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.HID.HID.DLL_NAME">
+        <member name="T:SpaceCG.WindowsAPI.HID.HIDExtension">
             <summary>
-            dll name
+            WindowsAPI HID 库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
+            </summary>
+            <summary>
+            HID Extension
             </summary>
         </member>
-        <member name="T:SpaceCG.WindowsAPI.HID.HIDUtils">
-            <summary>
-            HID 
-            </summary>
-        </member>
-        <member name="M:SpaceCG.WindowsAPI.HID.HIDUtils.GetHIDDevicesPath">
+        <member name="M:SpaceCG.WindowsAPI.HID.HIDExtension.GetHIDDevicesPath">
             <summary>
             获取 HID 设备路径列表
             </summary>
@@ -6954,9 +6953,9 @@
             <param name="Flags"><see cref="T:SpaceCG.WindowsAPI.SetupAPI.DIGCF"/> 此参数可以是零个或多个以下标志的按位或。 </param>
             <returns></returns>
         </member>
-        <member name="F:SpaceCG.WindowsAPI.SetupAPI.SetupAPI.DLL_NAME">
+        <member name="T:SpaceCG.WindowsAPI.SetupAPI.SetupAPIExtension">
             <summary>
-            dll name
+            WindowsAPI SetupAPI 库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
             </summary>
         </member>
         <member name="T:SpaceCG.WindowsAPI.SetupAPI.DIGCF">
@@ -6990,11 +6989,32 @@
             返回支持指定设备接口类的设备接口的设备。如果 Enumerator 参数指定设备实例 ID，则必须在 Flags 参数中设置此标志。
             </summary>
         </member>
+        <member name="T:SpaceCG.WindowsAPI.SetupAPI.SP_DEVICE_INTERFACE_DATA">
+            <summary>
+            定义设备信息集中的设备接口。
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/setupapi/ns-setupapi-sp_device_interface_data </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.SetupAPI.SP_DEVICE_INTERFACE_DATA.Size">
+            <summary>
+            <see cref="T:SpaceCG.WindowsAPI.SetupAPI.SP_DEVICE_INTERFACE_DATA"/> 结构大小
+            </summary>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.SetupAPI.SP_DEVICE_INTERFACE_DETAIL_DATA.Size">
+            <summary>
+            <see cref="T:SpaceCG.WindowsAPI.SetupAPI.SP_DEVICE_INTERFACE_DETAIL_DATA"/> 结构大小
+            </summary>
+        </member>
         <member name="M:SpaceCG.WindowsAPI.SetupAPI.SP_DEVICE_INTERFACE_DETAIL_DATA.ToString">
             <summary>
             @ToString()
             </summary>
             <returns></returns>
+        </member>
+        <member name="F:SpaceCG.WindowsAPI.SetupAPI.SP_DEVINFO_DATA.Size">
+            <summary>
+            <see cref="T:SpaceCG.WindowsAPI.SetupAPI.SP_DEVINFO_DATA"/> 结构大小
+            </summary>
         </member>
         <member name="T:SpaceCG.WindowsAPI.DpiAwaeness">
             <summary>
@@ -7295,7 +7315,7 @@
         </member>
         <member name="F:SpaceCG.WindowsAPI.WinDef.MAX_PATH">
             <summary>
-            path max chars
+            path max chars 260
             </summary>
         </member>
         <member name="T:SpaceCG.Extension.ApplicationExtension">

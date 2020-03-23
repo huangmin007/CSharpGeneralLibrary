@@ -22,3 +22,6 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Release\TestLibrary.
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Release\TestLibrary.csproj.CopyComplete
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Release\Log4Net.Config
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Release\log4net.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Release\HidSharp.dll
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Release\HidSharp.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Release\HidSharp.xml

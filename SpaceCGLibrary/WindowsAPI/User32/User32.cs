@@ -41,10 +41,12 @@ namespace SpaceCG.WindowsAPI.User32
     /// </summary>
     public static partial class User32
     {
+        #region Functions
+        #endregion
     }
 
     /// <summary>
-    /// WindowsAPI User32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式ad
+    /// WindowsAPI User32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式
     /// </summary>
     public static partial class User32Extension
     {

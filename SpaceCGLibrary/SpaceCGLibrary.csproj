@@ -70,8 +70,7 @@
     <Compile Include="WindowsAPI\Kernel32\SystemTime.cs" />
     <Compile Include="WindowsAPI\Kernel32\FileSystem.cs" />
     <Compile Include="WindowsAPI\Kernel32\FormatMessage.cs" />
-    <Compile Include="WindowsAPI\Kernel32\A_Template.cs" />
-    <Compile Include="WindowsAPI\User32\A_Template.cs" />
+    <Compile Include="WindowsAPI\API_Template.cs" />
     <Compile Include="WindowsAPI\User32\WindowAnimate.cs" />
     <Compile Include="WindowsAPI\User32\ShutdownBlockReason.cs" />
     <Compile Include="WindowsAPI\User32\DPI.cs" />
@@ -101,8 +100,7 @@
     <Compile Include="Log4Net\Controls\LoggerWindow.cs" />
     <Compile Include="Log4Net\Controls\TextBoxAppender.cs" />
     <Compile Include="WindowsAPI\HID\HID.cs" />
-    <Compile Include="WindowsAPI\HID\HIDDef.cs" />
-    <Compile Include="WindowsAPI\HID\HIDUtils.cs" />
+    <Compile Include="WindowsAPI\HID\HIDExtension.cs" />
     <Compile Include="WindowsAPI\SetupAPI\SetupAPI.cs" />
     <Compile Include="WindowsAPI\SetupAPI\SetupAPIDef.cs" />
     <Compile Include="WindowsAPI\Kernel32\Kernel32.cs" />

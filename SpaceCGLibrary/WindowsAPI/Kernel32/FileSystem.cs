@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
 
 /***
  * 
@@ -453,6 +452,8 @@ namespace SpaceCG.WindowsAPI.Kernel32
         /// </summary>
         public const uint MAX_PATH = 260;
 
+
+        #region Create File
         /// <summary>
         /// 创建或打开文件或 I/O 设备。最常用的 I/O 设备如下：文件，文件流，目录，物理磁盘，卷，控制台缓冲区，磁带机，通信资源，邮筒和管道。该函数返回一个句柄，根据文件或设备以及指定的标志和属性，该句柄可用于访问各种类型的 I/O 的文件或设备。
         /// <para>要将此操作作为事务处理操作执行，从而产生可用于事务处理 I/O 的句柄，请使用 <see cref="CreateFileTransacted"/> 函数。</para>
@@ -548,17 +549,10 @@ namespace SpaceCG.WindowsAPI.Kernel32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr CreateFile(string lpFileName, AccessRights dwDesiredAccess, ShareMode dwShareMode, ref SECURITY_ATTRIBUTES lpSecurityAttributes, CreationDisposition dwCreationDisposition, uint dwFlagsAndAttributes, IntPtr hTemplateFile);
+        #endregion
 
-        /// <summary>
-        /// 关闭打开的对象句柄。
-        /// <para>如果应用程序在调试器下运行，则该函数将收到无效的句柄值或伪句柄值，否则将引发异常。如果您两次关闭一个句柄，或者在 <see cref="FindFirstFile"/> 函数返回的句柄上 调用 CloseHandle 而不是调用 FindClose 函数，则会发生这种情况。</para>
-        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle </para>
-        /// </summary>
-        /// <param name="hObject">打开对象的有效句柄。</param>
-        /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 <see cref="Marshal.GetLastWin32Error"/> 或 <see cref="Marshal.GetHRForLastWin32Error"/>。</returns>
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool CloseHandle(IntPtr hObject);
-
+       
+        #region Read File
         /// <summary>
         /// 从指定的文件或输入/输出（I/O）设备读取数据。如果设备支持，则在文件指针指定的位置进行读取。 此功能设计用于同步和异步操作。有关专门为异步操作设计的类似功能，请参见 <see cref="ReadFileEx"/>
         /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-readfile </para>
@@ -575,10 +569,26 @@ namespace SpaceCG.WindowsAPI.Kernel32
         [DllImport("kernel32.dll", SetLastError = true)]
         [return:MarshalAs(UnmanagedType.Bool)]
         public static extern bool ReadFile(IntPtr hFile, byte[] lpBuffer, uint nNumberOfBytesToRead, ref uint lpNumberOfBytesRead, IntPtr lpOverlapped);
+        #endregion
 
+
+        #region Write File
 #if 没必要的
         public static extern void WriteFile();
 #endif
+        #endregion
+
+
+        #region Close And Delete File
+        /// <summary>
+        /// 关闭打开的对象句柄。
+        /// <para>如果应用程序在调试器下运行，则该函数将收到无效的句柄值或伪句柄值，否则将引发异常。如果您两次关闭一个句柄，或者在 <see cref="FindFirstFile"/> 函数返回的句柄上 调用 CloseHandle 而不是调用 FindClose 函数，则会发生这种情况。</para>
+        /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle </para>
+        /// </summary>
+        /// <param name="hObject">打开对象的有效句柄。</param>
+        /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 <see cref="Marshal.GetLastWin32Error"/> 或 <see cref="Marshal.GetHRForLastWin32Error"/>。</returns>
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool CloseHandle(IntPtr hObject);
 
         /// <summary>
         /// 删除现有文件。
@@ -589,7 +599,7 @@ namespace SpaceCG.WindowsAPI.Kernel32
         /// <returns></returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern bool DeleteFile(string lpFileName);
-
+        #endregion
     }
 
 

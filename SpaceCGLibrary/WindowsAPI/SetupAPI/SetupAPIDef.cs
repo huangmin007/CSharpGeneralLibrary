@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace SpaceCG.WindowsAPI.SetupAPI
 {
+
+	#region Enumerations	
 	/// <summary>
 	/// <see cref="SetupAPI.SetupDiGetClassDevs"/> 函数参考的 零个或多个标志
 	/// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/setupapi/nf-setupapi-setupdigetclassdevsw </para>
@@ -31,22 +33,34 @@ namespace SpaceCG.WindowsAPI.SetupAPI
 		/// </summary>
 		DEVICEINTERFACE = 0x00000010,
 	}
+	#endregion
 
+
+	#region Structures
+	/// <summary>
+	/// 定义设备信息集中的设备接口。
+	/// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/setupapi/ns-setupapi-sp_device_interface_data </para>
+	/// </summary>
 	public struct SP_DEVICE_INTERFACE_DATA
 	{
-		public int cbSize;
+		public uint cbSize;
 
 		public Guid InterfaceClassGuid;
 
-		public int Flags;
+		public uint Flags;
 
 		public IntPtr Reserved;
+
+		/// <summary>
+		/// <see cref="SP_DEVICE_INTERFACE_DATA"/> 结构大小
+		/// </summary>
+		public readonly static uint Size = (uint)Marshal.SizeOf(typeof(SP_DEVICE_INTERFACE_DATA));
 
 		public static SP_DEVICE_INTERFACE_DATA Create()
 		{
 			return new SP_DEVICE_INTERFACE_DATA()
 			{
-				cbSize = Marshal.SizeOf(typeof(SP_DEVICE_INTERFACE_DATA)),
+				cbSize = (uint)Marshal.SizeOf(typeof(SP_DEVICE_INTERFACE_DATA)),
 			};
 		}
 	}
@@ -54,16 +68,22 @@ namespace SpaceCG.WindowsAPI.SetupAPI
 	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
 	public struct SP_DEVICE_INTERFACE_DETAIL_DATA
 	{
-		public int cbSize;
+		public uint cbSize;
 
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 		public string DevicePath;
+
+		/// <summary>
+		/// <see cref="SP_DEVICE_INTERFACE_DETAIL_DATA"/> 结构大小
+		/// </summary>
+		public readonly static uint Size = (uint)Marshal.SizeOf(typeof(SP_DEVICE_INTERFACE_DETAIL_DATA));
+
 
 		public static SP_DEVICE_INTERFACE_DETAIL_DATA Create()
 		{
 			return new SP_DEVICE_INTERFACE_DETAIL_DATA()
 			{
-				cbSize = Marshal.SizeOf(typeof(SP_DEVICE_INTERFACE_DETAIL_DATA)),
+				cbSize = (uint)Marshal.SizeOf(typeof(SP_DEVICE_INTERFACE_DETAIL_DATA)),
 			};
 		}
 
@@ -80,20 +100,35 @@ namespace SpaceCG.WindowsAPI.SetupAPI
 
 	public struct SP_DEVINFO_DATA
 	{
-		public int cbSize;
+		public uint cbSize;
 
 		public Guid ClassGuid;
 
-		public int DevInst;
+		public uint DevInst;
 
-		public int Reserved;
+		public IntPtr Reserved;
+
+		/// <summary>
+		/// <see cref="SP_DEVINFO_DATA"/> 结构大小
+		/// </summary>
+		public readonly static uint Size = (uint)Marshal.SizeOf(typeof(SP_DEVINFO_DATA));
+
 	}
+
+	
+	#endregion
+
+
+	#region Deletages
+	#endregion
+
+
+	#region Notifications
+	#endregion
+
 
 	public static partial class SetupAPI
     {
-		/// <summary>
-		/// dll name
-		/// </summary>
-		public const string DLL_NAME = "setupapi";
+		
 	}
 }

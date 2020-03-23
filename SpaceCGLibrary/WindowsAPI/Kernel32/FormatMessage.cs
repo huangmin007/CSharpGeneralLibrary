@@ -167,7 +167,6 @@ namespace SpaceCG.WindowsAPI.Kernel32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern uint FormatMessage(int dwFlags, ref long lpSource, uint dwMessageId, uint dwLanguageZId, StringBuilder lpBuffer, uint nSize, System.ArgIterator Arguments);
-
     }
 
 
