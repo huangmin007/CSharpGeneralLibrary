@@ -427,26 +427,6 @@ namespace SpaceCG.WindowsAPI.User32
         /// 笔压标准化为 0 到 1024 之间的范围。如果设备未报告压力，则默认值为 0。
         /// </summary>
         public uint pressure;
-
-        public override bool Equals(object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int GetHashCode()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static bool operator ==(POINTER_TOUCH_INFO left, POINTER_TOUCH_INFO right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(POINTER_TOUCH_INFO left, POINTER_TOUCH_INFO right)
-        {
-            return !(left == right);
-        }
     }
 
     /// <summary>

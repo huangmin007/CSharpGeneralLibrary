@@ -3,22 +3,15 @@ using System.Windows;
 using System;
 using System.ComponentModel;
 using System.Windows.Interop;
-using System.Windows.Media;
 using HidSharp;
 using System.Linq;
 using HidSharp.Reports.Encodings;
 using HidSharp.Reports;
 using SpaceCG.WindowsAPI.User32;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
-using SpaceCG.WindowsAPI.Kernel32;
-using SpaceCG.WindowsAPI;
-using System.Text;
-using System.Collections;
 using HidSharp.Reports.Input;
+using SpaceCG.WindowsAPI.GDI;
+using System.Threading;
 
 namespace TestLibrary
 {
@@ -31,6 +24,12 @@ namespace TestLibrary
 
         private IntPtr handle;
         private HwndSource hwndSource;
+
+        static readonly IReadOnlyDictionary<IntPtr, String> Devices;
+        static MainWindow()
+        {
+            Devices = User32Extension.GetRawInputDevicesName();
+        }
 
         public MainWindow()
         {
@@ -60,6 +59,8 @@ namespace TestLibrary
                 hwndSource.RemoveHook(WindowRawInputHandler);
                 hwndSource.Dispose();
             }
+
+            if (thread != null) thread.Abort();
         }
 
         DeviceItemInputParser InputParser;
@@ -125,14 +126,60 @@ namespace TestLibrary
                 }
             }
         }
+        
+        private Thread thread;
+        private void ThreadFunc()
+        {
+            Console.WriteLine("sta");
+            SpaceCG.WindowsAPI.User32.MSG msg = new SpaceCG.WindowsAPI.User32.MSG();
+            while(User32.GetMessage(ref msg, IntPtr.Zero, 0, 0))
+            {
+                Console.WriteLine("Msg:{0}", msg.message);
+            }
+            Console.WriteLine("thr");
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            thread = new Thread(ThreadFunc);
+            thread.Start();
+
+            var next = true;
+            uint index = 0;
+            Console.WriteLine(DISPLAY_DEVICE.Size);
+            do
+            {
+                DISPLAY_DEVICE lpDisplay = new DISPLAY_DEVICE();
+                lpDisplay.cb = DISPLAY_DEVICE.Size;
+                lpDisplay.StateFlags = DisplayStateFlags.DISPLAY_DEVICE_ATTACHED_TO_DESKTOP;
+
+                var result = WinGDI.EnumDisplayDevices(null, index, ref lpDisplay, 0x00000001);
+                
+                if(result)
+                {
+                    var boo = WinGDI.EnumDisplayDevices(lpDisplay.DeviceName, 0, ref lpDisplay, 0x00000001);
+                    if(boo)
+                        Console.WriteLine(">>{0} {1}", index, lpDisplay);
+                }
+
+                if (result)
+                {
+                    index++;
+                    next = true;
+                }
+                else
+                {
+                    next = false;
+                }
+            }
+            while (next);
+
             handle = new WindowInteropHelper(this).Handle;
             hwndSource = PresentationSource.FromVisual(this) as HwndSource;
             hwndSource?.AddHook(WindowRawInputHandler);
 
-            PrintfHidDeviceInfo();
+            /*
+            //PrintfHidDeviceInfo();
 
             //0x01 0x06 键盘
             //0x01 0x02 鼠标
@@ -170,20 +217,32 @@ namespace TestLibrary
                 Exception ex = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
                 Console.WriteLine("LastWin32Error Code:{0},{1}  Message:{2}", Marshal.GetLastWin32Error(), Marshal.GetHRForLastWin32Error(), ex.Message);
             }
+            */
         }
 
         //readonly uint cbSize = (uint)Marshal.SizeOf(typeof(RAWINPUTHEADER));
         //ConcurrentDictionary<IntPtr, string> devicesName = new ConcurrentDictionary<IntPtr, string>();
 
-        static readonly IReadOnlyDictionary<IntPtr, String> Devices;
-        static MainWindow()
+        public int GET_APPCOMMAND_LPARAM(int lParam)
         {
-            Devices = User32Extension.GetRawInputDevicesName();
+            return (short)((lParam >> 16) & 0xFFFF) & ~0xF0000;
+        }
+
+        public int GET_DEVICE_LPARAM(uint lParam)
+        {
+            return 0;
         }
 
         protected IntPtr WindowRawInputHandler(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             MessageType msgType = (MessageType)msg;
+            if(msgType == MessageType.WM_KEYDOWN || msgType == MessageType.WM_KEYUP || msgType == MessageType.WM_APPCOMMAND)
+            {
+                Console.WriteLine("Message Type:{0}  {1}  {2}", msgType, lParam, GET_APPCOMMAND_LPARAM(lParam.ToInt32()));
+
+            }
+            return IntPtr.Zero;
+
             if (msgType != MessageType.WM_INPUT) return IntPtr.Zero;
 
             RAWINPUTHEADER header = new RAWINPUTHEADER();

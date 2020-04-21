@@ -106,7 +106,7 @@ namespace SpaceCG.General
         /// <summary>
         /// 固定长度的字符数据分析
         /// </summary>
-        /// <param name="packetSize">字符长度</param>
+        /// <param name="length">字符长度</param>
         public FixedSizeStringAnalyse(int length) : base(length)
         {
         }

@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\ExampleAttribute.cs" />
+    <Compile Include="WindowsAPI\GDI\WinGDI.cs" />
     <Compile Include="WindowsAPI\Kernel32\SystemTime.cs" />
     <Compile Include="WindowsAPI\Kernel32\FileSystem.cs" />
     <Compile Include="WindowsAPI\Kernel32\FormatMessage.cs" />
@@ -118,6 +119,9 @@
     <Compile Include="Extension\WindowExtension.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="Examples\readme.md" />
     <None Include="Extension\README.md" />
     <None Include="General\README.md" />

@@ -209,6 +209,10 @@ namespace SpaceCG.WindowsAPI.User32
         /// 扫描代码具有 E1 前缀。
         /// </summary>
         RI_KEY_E1 = 4,
+
+        RI_KEY_TERMSRV_SET_LED = 8,
+
+        RI_KEY_TERMSRV_SHADOW = 0x10,
     }
 
     /// <summary>
@@ -548,6 +552,9 @@ namespace SpaceCG.WindowsAPI.User32
         //[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
         //public byte[] bRawData;
 
+        //未测试
+        //public IntPtr bRawData;
+
         /// <summary>
         /// 获取原始数据
         /// </summary>
@@ -567,11 +574,20 @@ namespace SpaceCG.WindowsAPI.User32
         public void GetRawData(ref byte[] data)
         {
             uint length = dwSizeHid * dwCount;
+
             if (data.Length < length)
                 Array.Resize(ref data, (int)length);
 
-            for (int i = 0; i < length; i++) 
-                data[i] = bRawData[i];
+            for (int i = 0; i < length; i++) data[i] = bRawData[i];
+
+            //length--;
+            //while(length > 0)
+            //{
+            //    data[length] = bRawData[length];
+            //    length--;
+            //}
+
+            //Marshal.Copy(bRawData, 0, data, length);
         }
 
         public override string ToString()

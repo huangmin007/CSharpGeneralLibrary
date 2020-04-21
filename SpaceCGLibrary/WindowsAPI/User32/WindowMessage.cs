@@ -7,7 +7,7 @@ namespace SpaceCG.WindowsAPI.User32
 
     #region Enumerations   
     /// <summary>
-    /// <see cref="PeekMessage"/> 函数参数 wRemoveMsg 的值之一或值组合
+    /// <see cref="User32.PeekMessage"/> 函数参数 wRemoveMsg 的值之一或值组合
     /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-peekmessagea </para>
     /// </summary>
     [Flags]
@@ -27,7 +27,6 @@ namespace SpaceCG.WindowsAPI.User32
         /// </summary>
         PM_NOYIELD = 0x0002,
     }
-
     #endregion
 
 
@@ -45,9 +44,9 @@ namespace SpaceCG.WindowsAPI.User32
         /// <para>要发送消息并立即返回，请使用 <see cref="SendMessageCallback"/> 或 <see cref="SendNotifyMessage"/> 函数。要将消息发布到线程的消息队列中并立即返回，请使用 <see cref="PostMessage"/> 或 <see cref="PostThreadMessage"/> 函数。</para>
         /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendmessage </para>
         /// </summary>
-        /// <param name="hWnd">窗口的句柄，其窗口过程将接收到该消息。如果此参数为 HWND_BROADCAST((HWND)0xFFFF)，则消息将发送到系统中的所有顶级窗口，包括禁用或不可见的无主窗口，重叠的窗口和弹出窗口；但是消息不会发送到子窗口。
+        /// <param name="hwnd">窗口的句柄，其窗口过程将接收到该消息。如果此参数为 HWND_BROADCAST((HWND)0xFFFF)，则消息将发送到系统中的所有顶级窗口，包括禁用或不可见的无主窗口，重叠的窗口和弹出窗口；但是消息不会发送到子窗口。
         /// <para>消息发送受 UIPI 约束。进程的线程只能将消息发送到完整性级别较低或相等的进程中的线程的消息队列。</para></param>
-        /// <param name="Msg">要发送的消息。</param>
+        /// <param name="msg">要发送的消息。</param>
         /// <param name="wParam">其他特定于消息的信息。</param>
         /// <param name="lParam">其他特定于消息的信息。</param>
         /// <returns>返回值指定消息处理的结果；这取决于发送的消息。使用 <see cref="Marshal.GetLastWin32Error"/> 或 <see cref="Marshal.GetHRForLastWin32Error"/> 检索错误。</returns>
@@ -95,7 +94,7 @@ namespace SpaceCG.WindowsAPI.User32
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetMessage(ref MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
-
+        
         /// <summary>
         /// 调度传入的已发送消息，检查线程消息队列中是否有已发布消息，并检索消息（如果存在）。
         /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-peekmessagea </para>

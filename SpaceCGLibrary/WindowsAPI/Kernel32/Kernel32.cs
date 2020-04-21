@@ -1,7 +1,5 @@
-﻿using Microsoft.Win32.SafeHandles;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace SpaceCG.WindowsAPI.Kernel32
 {
