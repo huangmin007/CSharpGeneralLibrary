@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 /***
@@ -20,7 +21,7 @@ namespace SpaceCG.WindowsAPI.GDI
     public enum DisplayStateFlags : uint
     {
         /// <summary>
-        /// DISPLAY_DEVICE_ACTIVE指定是否通过相应的GDI视图将监视器显示为“打开”
+        /// DISPLAY_DEVICE_ACTIVE 指定是否通过相应的 GDI 视图将监视器显示为“打开”
         /// </summary>
         DISPLAY_DEVICE_ATTACHED_TO_DESKTOP = 0x00000001,
         DISPLAY_DEVICE_MULTI_DRIVER = 0x00000002,
@@ -127,10 +128,10 @@ namespace SpaceCG.WindowsAPI.GDI
     /// </summary>
     public static partial class WinGDI
     {
-    #region Constants
-    #endregion
+        #region Constants
+        #endregion
 
-    #region Functions
+        #region Functions
         /// <summary>
         /// 使用 EnumDisplayDevices 函数可以获取有关当前会话中的显示设备的信息。
         /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-display_devicea </para>
@@ -143,7 +144,24 @@ namespace SpaceCG.WindowsAPI.GDI
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         [return:MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumDisplayDevices(string lpDevice, uint iDevNum,  ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
-    #endregion
+
+
+        [DllImport("gdi32.dll")]
+        private static extern int GetDeviceCaps(IntPtr hdc, int index);
+
+        /// <summary>
+        /// 检索用于指定窗口的客户区或整个屏幕的设备上下文（Device Context (DC)）。您可以在后续的 GDI 函数中使用返回的句柄来绘制 DC。设备上下文是一个不透明的数据结构，其值由GDI内部使用。
+        /// </summary>
+        /// <param name="hWnd">要获取其 DC 的窗口的句柄。如果此值为 NULL，则 GetDC 检索整个屏幕的 DC。</param>
+        /// <returns>如果函数成功，则返回值是指定窗口的客户区DC的句柄。如果函数失败，则返回值为NULL。</returns>
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetDC(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern int ReleaseDC(IntPtr hWnd, IntPtr hDc);
+        
+        
+        #endregion
     }
 
 
@@ -152,6 +170,44 @@ namespace SpaceCG.WindowsAPI.GDI
     /// </summary>
     public static partial class WinGDIExtension
     {
+        /// <summary>
+        /// 获取显示器设备
+        /// </summary>
+        /// <returns></returns>
+        public static DISPLAY_DEVICE[] GetDisplayDevices()
+        {
+            var next = true;
+            uint index = 0;
+            List<DISPLAY_DEVICE> list = new List<DISPLAY_DEVICE>(32);
+
+            do
+            {
+                DISPLAY_DEVICE lpDisplay = new DISPLAY_DEVICE();
+                lpDisplay.cb = DISPLAY_DEVICE.Size;
+                lpDisplay.StateFlags = DisplayStateFlags.DISPLAY_DEVICE_ATTACHED_TO_DESKTOP;
+
+                var result = WinGDI.EnumDisplayDevices(null, index, ref lpDisplay, 0x00000001);
+
+                if (result)
+                {
+                    var boo = WinGDI.EnumDisplayDevices(lpDisplay.DeviceName, 0, ref lpDisplay, 0x00000001);
+                    if (boo) list.Add(lpDisplay);
+                }
+
+                if (result)
+                {
+                    index++;
+                    next = true;
+                }
+                else
+                {
+                    next = false;
+                }
+            }
+            while (next);
+
+            return list.ToArray();
+        }
     }
 
 }

@@ -92,6 +92,13 @@
             <param name="dwFlags">将此标志设置为EDD_GET_DEVICE_INTERFACE_NAME（0x00000001），以检索GUID_DEVINTERFACE_MONITOR的设备接口名称，该名称由操作系统在每个监视器的基础上注册。该值放置在lpDisplayDevice中返回的DISPLAY_DEVICE结构的DeviceID成员中。生成的设备接口名称可与SetupAPI函数一起使用，并用作GDI监视器设备和SetupAPI监视器设备之间的链接。</param>
             <returns></returns>
         </member>
+        <member name="M:SpaceCG.WindowsAPI.GDI.WinGDI.GetDC(System.IntPtr)">
+            <summary>
+            检索用于指定窗口的客户区或整个屏幕的设备上下文（Device Context (DC)）。您可以在后续的 GDI 函数中使用返回的句柄来绘制 DC。设备上下文是一个不透明的数据结构，其值由GDI内部使用。
+            </summary>
+            <param name="hWnd">要获取其 DC 的窗口的句柄。如果此值为 NULL，则 GetDC 检索整个屏幕的 DC。</param>
+            <returns>如果函数成功，则返回值是指定窗口的客户区DC的句柄。如果函数失败，则返回值为NULL。</returns>
+        </member>
         <member name="T:SpaceCG.WindowsAPI.GDI.WinGDIExtension">
             <summary>
             xxx 库，扩展常用/通用，功能/函数，扩展示例，以及使用方式

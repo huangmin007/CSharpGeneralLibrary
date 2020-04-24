@@ -6,6 +6,13 @@ using System.Windows.Interop;
 using System.Runtime.InteropServices;
 using SpaceCG.WindowsAPI.User32;
 using System.Collections.Generic;
+using System.Linq;
+
+using HidSharp;
+using HidSharp.Reports;
+using HidSharp.Reports.Input;
+using HidSharp.Reports.Encodings;
+
 
 namespace Examples
 {
@@ -146,6 +153,70 @@ namespace Examples
             }
 
             return IntPtr.Zero;
+        }
+
+        DeviceItemInputParser InputParser;
+        private void PrintfHidDeviceInfo()
+        {
+            HidDevice[] devices = DeviceList.Local.GetHidDevices(1111, 4755).ToArray();
+
+            foreach (HidDevice dev in devices)
+            {
+                Console.WriteLine("-----------------------------");
+                Console.WriteLine("{0}, {1}", dev, dev.DevicePath);
+
+                try
+                {
+                    Console.WriteLine(string.Format("Max Lengths: Input {0}, Output {1}, Feature {2}", dev.GetMaxInputReportLength(), dev.GetMaxOutputReportLength(), dev.GetMaxFeatureReportLength()));
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    Console.WriteLine(e);
+                    continue;
+                }
+
+                try
+                {
+                    var rawReportDescriptor = dev.GetRawReportDescriptor();
+                    Console.WriteLine("Report Descriptor:");
+                    Console.WriteLine("  {0} ({1} bytes)", string.Join(" ", rawReportDescriptor.Select(d => d.ToString("X2"))), rawReportDescriptor.Length);
+                    int indent = 0;
+                    foreach (EncodedItem element in EncodedItem.DecodeItems(rawReportDescriptor, 0, rawReportDescriptor.Length))
+                    {
+                        if (element.ItemType == ItemType.Main && element.TagForMain == MainItemTag.EndCollection) { indent -= 4; }
+                        Console.WriteLine("  {0}{1}", new string(' ', indent), element);
+                        if (element.ItemType == ItemType.Main && element.TagForMain == MainItemTag.Collection) { indent += 4; }
+                    }
+
+                    var reportDescriptor = dev.GetReportDescriptor();
+                    foreach (DeviceItem deviceItem in reportDescriptor.DeviceItems)
+                    {
+                        if (InputParser == null)
+                            InputParser = deviceItem.CreateDeviceItemInputParser();
+
+                        foreach (var usage in deviceItem.Usages.GetAllValues())
+                            Console.WriteLine(string.Format("Usage: {0:X4} {1}", usage, (Usage)usage));
+
+                        foreach (var report in deviceItem.Reports)
+                        {
+                            Console.WriteLine(string.Format("{0}: ReportID={1}, Length={2}, Items={3}",
+                                                report.ReportType, report.ReportID, report.Length, report.DataItems.Count));
+                            foreach (DataItem dataItem in report.DataItems)
+                            {
+                                Console.WriteLine(string.Format("  {0} Elements x {1} Bits, Units: {2}, Expected Usage Type: {3}, Flags: {4}, Usages: {5}  TotalBits: {6}",
+                                    dataItem.ElementCount, dataItem.ElementBits, dataItem.Unit.System, dataItem.ExpectedUsageType, dataItem.Flags,
+                                    string.Join(", ", dataItem.Usages.GetAllValues().Select(usage => usage.ToString("X4") + " " + ((Usage)usage).ToString())), dataItem.TotalBits));
+                            }
+                        }
+
+                        //tryOpen
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception:::{0}", ex);
+                }
+            }
         }
     }
 }
