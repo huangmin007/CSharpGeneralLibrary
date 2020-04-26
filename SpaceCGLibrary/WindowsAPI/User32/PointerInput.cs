@@ -3,8 +3,8 @@ using System.Runtime.InteropServices;
 
 /***
  * 
- * Touch Input
- * 
+ * 指针输入消息和通知 Pointer Input Messages and Notifications
+ * 参考：https://docs.microsoft.com/zh-cn/windows/win32/api/_inputmsg/ 
  * 
  * 
 **/
@@ -365,7 +365,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// <summary>
         /// 0或消息的时间戳，基于收到消息时的系统滴答计数。
         /// </summary>
-        public int dwTime;
+        public uint dwTime;
         /// <summary>
         /// 合并到此消息中的输入计数。此计数与调用 <see cref="User32.GetPointerInfoHistory"/> 可以返回的条目总数相匹配。如果未发生合并，则对于消息表示的单个输入，此计数为1。
         /// </summary>
@@ -378,12 +378,15 @@ namespace SpaceCG.WindowsAPI.User32
         /// 指示在生成输入时按下了哪些键盘修饰键。可以为零或以下值的组合。
         /// POINTER_MOD_SHIFT –按下了SHIFT键。
         /// POINTER_MOD_CTRL –按下CTRL键。
+        /// Pointer info key states defintions.
+        /// #define POINTER_MOD_SHIFT   (0x0004)    // Shift key is held down.
+        /// #define POINTER_MOD_CTRL    (0x0008)    // Ctrl key is held down.
         /// </summary>
-        public int dwKeyStates;
+        public uint dwKeyStates;
         /// <summary>
         /// 收到指针消息时的高分辨率性能计数器的值（高精度，64 位替代 dwTime）。当触摸数字化仪硬件在其输入报告中支持扫描时间戳信息时，可以校准该值。
         /// </summary>
-        public long performanceCount;
+        public ulong performanceCount;
         /// <summary>
         /// <see cref="PointerButtonChangeType"/> 枚举中的一个值，用于指定此输入与先前输入之间的按钮状态更改。
         /// </summary>
@@ -513,6 +516,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// <param name="dwMode">接触反馈模式 <see cref="TouchFeedbackMode"/>。该 dwMode 参数必须是 <see cref="TouchFeedbackMode.DEFAULT"/>，<see cref="TouchFeedbackMode.INDIRECT"/>，或 <see cref="TouchFeedbackMode.NONE"/>。</param>
         /// <returns>如果函数成功，则返回值为 TRUE。如果函数失败，则返回值为 FALSE。要获取扩展的错误信息，请调用 <see cref="Marshal.GetLastWin32Error"/> 或 <see cref="Marshal.GetHRForLastWin32Error"/>。</returns>
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool InitializeTouchInjection(uint maxCount, TouchFeedbackMode dwMode);
 
         /// <summary>
@@ -527,6 +531,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// <param name="contacts">代表桌面上所有 contacts 的 <see cref="POINTER_TOUCH_INFO"/> 结构的数组。每个 contact 的屏幕坐标必须在桌面范围内。</param>
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 <see cref="Marshal.GetLastWin32Error"/> 或 <see cref="Marshal.GetHRForLastWin32Error"/>。</returns>
         [DllImport("user32.dll", SetLastError = true)]
+        [return:MarshalAs(UnmanagedType.Bool)]
         public static extern bool InjectTouchInput(uint count, POINTER_TOUCH_INFO[] contacts);
 
         /// <summary>
@@ -540,6 +545,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// <param name="cbSize">单个 <see cref="TOUCHINPUT"/> 结构的大小（以字节为单位, sizeof(<see cref="TOUCHINPUT"/>)）。如果 cbSize 不是单个 <see cref="TOUCHINPUT"/> 结构的大小，则该函数失败，并显示 ERROR_INVALID_PARAMETER。</param>
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。若要获取扩展的错误信息，请使用 <see cref="Marshal.GetLastWin32Error"/> 或 <see cref="Marshal.GetHRForLastWin32Error"/> 函数。</returns>
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetTouchInputInfo(IntPtr hTouchInput, uint cInputs, TOUCHINPUT[] pInputs, int cbSize);
 
         /// <summary>
@@ -550,8 +556,49 @@ namespace SpaceCG.WindowsAPI.User32
         /// <param name="hTouchInput">在触摸消息的 lParam 中接收到的触摸输入手柄。如果此句柄无效，则函数失败，并显示 ERROR_INVALID_HANDLE。请注意，在成功调用 <see cref="CloseTouchInputHandle"/> 或将其传递给 <see cref="DefWindowProc"/>，<see cref="PostMessage"/>，<see cref="SendMessage"/> 或其变体之一之后，该句柄无效。</param>
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。若要获取扩展的错误信息，请使用 <see cref="Marshal.GetLastWin32Error"/> 或 <see cref="Marshal.GetHRForLastWin32Error"/> 函数。</returns>
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseTouchInputHandle(IntPtr hTouchInput);
 
+        /// <summary>
+        /// 将窗口注册为可触摸的。
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registertouchwindow </para>
+        /// </summary>
+        /// <param name="hwnd">正在注册的窗口的句柄。如果调用线程不拥有指定的窗口，则该函数将失败，并显示 ERROR_ACCESS_DENIED。</param>
+        /// <param name="ulFlags">一组位标记，用于指定可选的修改。
+        /// <para>RegisterTouchWindow flag values </para>
+        /// <para>#define TWF_FINETOUCH       (0x00000001)</para>
+        /// <para>#define TWF_WANTPALM        (0x00000002)</para>
+        /// </param>
+        /// <returns></returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool RegisterTouchWindow(IntPtr hwnd, uint ulFlags);
+
+        /// <summary>
+        /// 将窗口注册为不再具有触摸功能。
+        /// <para>即使指定的窗口先前未注册为具有触摸功能，<see cref="UnregisterTouchWindow"/> 函数也会成功。</para>
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unregistertouchwindow </para>
+        /// </summary>
+        /// <param name="hwnd">窗口的句柄。如果调用线程不拥有指定的窗口，则该函数将失败，并显示 ERROR_ACCESS_DENIED。</param>
+        /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。若要获取扩展的错误信息，请使用 GetLastError 函数。</returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnregisterTouchWindow(IntPtr hwnd);
+
+        /// <summary>
+        /// 检查指定的窗口是否具有触摸功能，并有选择地检索为该窗口的触摸功能设置的修改器标志。
+        /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-istouchwindow </para>
+        /// </summary>
+        /// <param name="hwnd">窗口的句柄。如果调用线程不在指定窗口所在的桌面上，则该函数失败，并显示 ERROR_ACCESS_DENIED。</param>
+        /// <param name="ulFlags">ULONG变量的地址，用于接收指定窗口的触摸功能的修饰符标志。
+        /// <para>pulFlags输出参数的值：</para>
+        /// <para>#define TWF_FINETOUCH       (0x00000001)</para>
+        /// <para>#define TWF_WANTPALM        (0x00000002)</para>
+        /// </param>
+        /// <returns></returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsTouchWindow(IntPtr hwnd, out uint ulFlags);
     }
 
     /// <summary>

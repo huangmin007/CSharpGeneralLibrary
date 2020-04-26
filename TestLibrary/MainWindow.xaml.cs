@@ -73,7 +73,7 @@ namespace TestLibrary
 
             //if(msgType == MessageType.WM_KEYDOWN || msgType == MessageType.WM_KEYUP || msgType == MessageType.WM_APPCOMMAND)
             //{
-                //Console.WriteLine("Message Type:{0}  {1}  {2}", msgType, lParam, GET_APPCOMMAND_LPARAM(lParam.ToInt32()));
+            //Console.WriteLine("Message Type:{0}  {1}  {2}", msgType, lParam, GET_APPCOMMAND_LPARAM(lParam.ToInt32()));
             //}
 
             return IntPtr.Zero;

@@ -107,7 +107,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// </summary>
         KEYEVENTF_EXTENDEDKEY = 0x0001,
         /// <summary>
-        /// 如果指定，则释放密钥。如果未指定，则按下该键。
+        /// 如果指定，则释放键。如果未指定，则按下该键。
         /// </summary>
         KEYEVENTF_KEYUP = 0x0002,
         /// <summary>
@@ -115,7 +115,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// </summary>
         KEYEVENTF_UNICODE = 0x0004,
         /// <summary>
-        /// 如果指定，则 wScan 会识别密钥，而 wVk 将被忽略。
+        /// 如果指定，则 wScan 会识别键，而 wVk 将被忽略。
         /// </summary>
         KEYEVENTF_SCANCODE = 0x0008,
     }
@@ -236,7 +236,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// </summary>
         public VirtualKeyCode wVk;
         /// <summary>
-        /// 密钥的硬件扫描代码。如果 dwFlags 指定 <see cref="KeyboardEventFlags.KEYEVENTF_UNICODE"/>，则 wScan 指定要发送到前台应用程序的 Unicode 字符。
+        /// 硬件 Key 扫描代码。如果 dwFlags 指定 <see cref="KeyboardEventFlags.KEYEVENTF_UNICODE"/>，则 wScan 指定要发送到前台应用程序的 Unicode 字符。
         /// </summary>
         public ushort wScan;
         /// <summary>

@@ -85,7 +85,7 @@
     <Compile Include="WindowsAPI\User32\HotKey.cs" />
     <Compile Include="WindowsAPI\User32\RawInputExample.cs" />
     <Compile Include="WindowsAPI\User32\SendInput.cs" />
-    <Compile Include="WindowsAPI\User32\TouchInput.cs" />
+    <Compile Include="WindowsAPI\User32\PointerInput.cs" />
     <Compile Include="WindowsAPI\User32\DeviceNotificationExample.cs" />
     <Compile Include="Extension\ApplicationExtension.cs" />
     <Compile Include="Extension\HPSocketExtension.cs" />

@@ -568,7 +568,7 @@ namespace SpaceCG.WindowsAPI.User32
         }
 
         /// <summary>
-        /// 获取原始数据
+        /// 获取原始数据，数据大小为 dwSizeHid * dwCount
         /// </summary>
         /// <param name="data"></param>
         public void GetRawData(ref byte[] data)

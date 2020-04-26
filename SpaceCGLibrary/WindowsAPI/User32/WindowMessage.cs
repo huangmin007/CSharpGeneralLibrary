@@ -55,7 +55,6 @@ namespace SpaceCG.WindowsAPI.User32
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern int SendMessage(IntPtr hwnd, MessageType msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lParam);
-
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr SendMessage(IntPtr hwnd, MessageType msg, IntPtr wParam, String lParam);
         #endregion
@@ -115,6 +114,7 @@ namespace SpaceCG.WindowsAPI.User32
         [DllImport("user32.dll")]
         [return:MarshalAs(UnmanagedType.Bool)]
         public static extern bool PeekMessage(ref MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
+        
         /// <summary>
         /// 将消息信息传递到指定的窗口过程。
         /// <para>使用 <see cref="CallWindowProc"/> 函数进行窗口子类化。通常，具有相同类的所有窗口共享一个窗口过程。子类是具有相同类的一个窗口或一组窗口，其消息在传递给该类的窗口过程之前，已被另一个（或多个）过程拦截和处理。</para>
@@ -129,6 +129,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// <returns>返回值指定消息处理的结果，并取决于发送的消息。</returns>
         [DllImport("user32.dll")]
         public static extern IntPtr CallWindowProc(WindowProc lpPrevWndFunc, IntPtr hWnd, MessageType Msg, IntPtr wParam, IntPtr lParam);
+        
         /// <summary>
         /// 调用默认窗口过程以为应用程序未处理的任何窗口消息提供默认处理。此功能确保处理所有消息。<see cref="DefWindowProc"/> 用窗口过程接收到的相同参数调用。
         /// <para>参考：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defwindowproca </para>
@@ -149,6 +150,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// <returns>[LPARAM] 返回值指定额外的信息。额外信息的含义是特定于设备的。</returns>
         [DllImport("user32.dll")]
         public static extern IntPtr GetMessageExtraInfo();
+        
         /// <summary>
         /// 设置当前线程的额外消息信息。额外的消息信息是与当前线程的消息队列关联的应用程序或驱动程序定义的值。应用程序可以使用 <see cref="GetMessageExtraInfo"/> 函数来检索线程的额外消息信息。
         /// <para>参考：https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setmessageextrainfo </para>
