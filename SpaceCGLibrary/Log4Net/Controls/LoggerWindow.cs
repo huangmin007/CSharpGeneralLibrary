@@ -11,6 +11,7 @@ namespace SpaceCG.Log4Net.Controls
 {
     /// <summary>
     /// 独立的日志窗体对象
+    /// <para>使用 Ctrl+L 显示激活窗体/隐藏窗体 </para>
     /// </summary>
     public partial class LoggerWindow : Window
     {
@@ -31,6 +32,7 @@ namespace SpaceCG.Log4Net.Controls
 
         /// <summary>
         /// Logger Window
+        /// <para>使用 Ctrl+L 显示激活窗体/隐藏窗体 </para>
         /// </summary>
         /// <param name="maxLines"></param>
         public LoggerWindow(int maxLines = 512)
@@ -111,6 +113,9 @@ namespace SpaceCG.Log4Net.Controls
             this.Height = 600;
             this.Content = grid;
             this.Loaded += LoggerWindow_Loaded;
+
+            this.WindowState = WindowState.Minimized;
+            this.Show();
         }
 
         /// <summary>
@@ -180,6 +185,11 @@ namespace SpaceCG.Log4Net.Controls
                 HwndSource = HwndSource.FromHwnd(Handle);
                 HwndSource.AddHook(WindowProcHandler);
             }
+
+            this.InsertAfter(SwpInsertAfter.HWND_TOPMOST);
+            //User32.SetWindowPos(Handle, new IntPtr(-1), 0, 0, 0, 0, SwpFlags.NOMOVE | SwpFlags.NOSIZE);
+
+            this.Hide();
         }
 
         /// <summary>
@@ -205,14 +215,14 @@ namespace SpaceCG.Log4Net.Controls
                     {
                         if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
                         {
-                            this.WindowState = WindowState.Normal;
-
                             this.Show();
                             this.Activate();
+                            this.WindowState = WindowState.Normal;
                         }
                         else
                         {
                             this.WindowState = WindowState.Minimized;
+                            this.Hide();
                         }
                     }
                     if(key == VirtualKeyCode.VK_M)

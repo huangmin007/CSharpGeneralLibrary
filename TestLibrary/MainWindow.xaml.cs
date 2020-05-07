@@ -1,10 +1,10 @@
-﻿using SpaceCG.Log4Net.Controls;
+﻿using System;
 using System.Windows;
-using System;
 using System.ComponentModel;
 using System.Windows.Interop;
 using SpaceCG.WindowsAPI.User32;
 using System.Windows.Media;
+using SpaceCG.Log4Net.Controls;
 
 namespace TestLibrary
 {
@@ -17,7 +17,7 @@ namespace TestLibrary
 
         private IntPtr handle;
         private HwndSource hwndSource;
-        
+
         public MainWindow()
         {
 #if DEBUG
@@ -26,6 +26,7 @@ namespace TestLibrary
             Console.WriteLine("Tier:{0}", tier);
 #endif
             InitializeComponent();
+            LoggerWindow LoggerWindow = new LoggerWindow();
             Log.InfoFormat("MainWindow.");
         }
 
@@ -37,10 +38,6 @@ namespace TestLibrary
 
         protected override void OnInitialized(EventArgs e)
         {
-            LoggerWindow LoggerWindow = new LoggerWindow();
-            LoggerWindow.Show();
-
-            base.OnInitialized(e);
             App.Log.InfoFormat("Initialize.");
         }
 
@@ -56,6 +53,7 @@ namespace TestLibrary
      
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
             handle = new WindowInteropHelper(this).Handle;
 
             hwndSource = PresentationSource.FromVisual(this) as HwndSource;

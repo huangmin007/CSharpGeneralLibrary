@@ -1,5 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Navigation;
 using SpaceCG.Extension;
+using SpaceCG.Log4Net.Controls;
 
 namespace TestLibrary
 {
@@ -17,7 +19,8 @@ namespace TestLibrary
         {
             this.RunDefaultSetting();
         }
-        
-        
+
+
+
     }
 }

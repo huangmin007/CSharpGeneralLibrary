@@ -29,15 +29,12 @@ namespace SpaceCG.WindowsAPI.User32
     }
     #endregion
 
-
     #region Structures    
     #endregion
 
 
     public static partial class User32
     {
-
-        #region SendMessage
         /// <summary>
         /// 将指定的消息发送到一个或多个窗口。该 SendMessage 函数的函数调用指定的窗口的窗口过程，并不会返回，直到窗口过程已经处理了该消息。
         /// <para>需要使用 HWND_BROADCAST 进行通信的应用程序应使用 <see cref="RegisterWindowMessage"/> 函数来获取用于应用程序间通信的唯一消息。</para>
@@ -52,13 +49,6 @@ namespace SpaceCG.WindowsAPI.User32
         /// <returns>返回值指定消息处理的结果；这取决于发送的消息。使用 <see cref="Marshal.GetLastWin32Error"/> 或 <see cref="Marshal.GetHRForLastWin32Error"/> 检索错误。</returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern int SendMessage(IntPtr hwnd, MessageType msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern int SendMessage(IntPtr hwnd, MessageType msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lParam);
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr SendMessage(IntPtr hwnd, MessageType msg, IntPtr wParam, String lParam);
-        #endregion
-
 
         /// <summary>
         /// 将消息放置（张贴）在与创建指定窗口的线程相关联的消息队列中，并在不等待线程处理消息的情况下返回消息。

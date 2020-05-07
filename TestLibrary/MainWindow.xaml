@@ -26,6 +26,8 @@
         <TextBlock Name="TextBlock_Logs" Grid.Column="0" Grid.Row="1">
         </TextBlock>
 
+        <Image Stretch="Fill"/>
+
         <GridSplitter Grid.Row="1" Grid.Column="0" Height="5" />
 
         <Button Content="Button" Height="100" Grid.Column="1" Click="Button_Click"/>

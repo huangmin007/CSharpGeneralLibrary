@@ -653,7 +653,7 @@ namespace SpaceCG.WindowsAPI.User32
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。要获取扩展的错误信息，请调用 <see cref="Marshal.GetLastWin32Error"/> 或 <see cref="Marshal.GetHRForLastWin32Error"/> 。</returns>
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos(IntPtr hWnd, [MarshalAs(UnmanagedType.SysInt)]SwpInsertAfter hWndInsertAfter, int x, int y, int cx, int cy, SwpFlags wFlags);
+        public static extern bool SetWindowPos(IntPtr hWnd, [MarshalAs(UnmanagedType.U4)]SwpInsertAfter hWndInsertAfter, int x, int y, int cx, int cy, SwpFlags wFlags);
         
         /// <summary>
         /// 更改指定窗口的位置和尺寸。对于顶级窗口，位置和尺寸是相对于屏幕的左上角的。对于子窗口，它们相对于父窗口客户区的左上角。
