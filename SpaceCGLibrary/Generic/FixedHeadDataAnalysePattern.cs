@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SpaceCG.General
+namespace SpaceCG.Generic
 {
     /// <summary>
     /// 数据包大小 = 固定包头大小 + 动态包体大小，固定包头数据分析模式适配器基类

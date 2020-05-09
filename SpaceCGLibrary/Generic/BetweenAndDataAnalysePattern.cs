@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SpaceCG.General
+namespace SpaceCG.Generic
 {
     /// <summary>
     /// 在 包头 和 包尾 之间，数据分析模式适配器基类

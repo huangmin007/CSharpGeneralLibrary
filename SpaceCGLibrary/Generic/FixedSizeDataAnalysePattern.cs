@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SpaceCG.General
+namespace SpaceCG.Generic
 {
     /// <summary>
     /// 固定大小的数据分析模式适配器基类

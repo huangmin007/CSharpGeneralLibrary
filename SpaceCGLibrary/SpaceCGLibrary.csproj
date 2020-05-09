@@ -94,12 +94,12 @@
     <Compile Include="Extension\PerformanceExtension.cs" />
     <Compile Include="Extension\SerialPortExtension.cs" />
     <Compile Include="Extension\IEnumerableExtension.cs" />
-    <Compile Include="General\BetweenAndDataAnalysePattern.cs" />
-    <Compile Include="General\AbstractDataAnalyseAdapter.cs" />
-    <Compile Include="General\BoyerMoore.cs" />
-    <Compile Include="General\FixedHeadDataAnalysePattern.cs" />
-    <Compile Include="General\FixedSizeDataAnalysePattern.cs" />
-    <Compile Include="General\TerminatorDataAnalysePattern.cs" />
+    <Compile Include="Generic\BetweenAndDataAnalysePattern.cs" />
+    <Compile Include="Generic\AbstractDataAnalyseAdapter.cs" />
+    <Compile Include="Generic\BoyerMoore.cs" />
+    <Compile Include="Generic\FixedHeadDataAnalysePattern.cs" />
+    <Compile Include="Generic\FixedSizeDataAnalysePattern.cs" />
+    <Compile Include="Generic\TerminatorDataAnalysePattern.cs" />
     <Compile Include="Log4Net\Controls\ListBoxAppender.cs" />
     <Compile Include="Log4Net\Log4NetUtils.cs" />
     <Compile Include="Log4Net\Controls\LoggerWindow.cs" />
@@ -128,7 +128,7 @@
     </None>
     <None Include="Examples\readme.md" />
     <None Include="Extension\README.md" />
-    <None Include="General\README.md" />
+    <None Include="Generic\README.md" />
     <None Include="Log4Net.Config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

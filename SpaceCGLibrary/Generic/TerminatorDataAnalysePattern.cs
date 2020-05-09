@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SpaceCG.General
+namespace SpaceCG.Generic
 {
     /// <summary>
     /// 跟据终止字节数据分割数据包的分析模式适配器基类
