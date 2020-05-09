@@ -59,7 +59,7 @@ namespace SpaceCG.Log4Net.Controls
             {
                 bool result = User32.UnregisterHotKey(Handle, 0);
                 result = result || User32.UnregisterHotKey(Handle, 1);
-                Console.WriteLine("Logger Window UnregisterHotKey State:{0}", result);
+                //Console.WriteLine("Logger Window UnregisterHotKey State:{0}", result);
 
                 Handle = IntPtr.Zero;
             }
@@ -178,7 +178,7 @@ namespace SpaceCG.Log4Net.Controls
 
             bool result = User32.RegisterHotKey(Handle, 0, RhkModifier.CONTROL, VirtualKeyCode.VK_L);
             result = result || User32.RegisterHotKey(Handle, 1, RhkModifier.CONTROL, VirtualKeyCode.VK_M);
-            Console.WriteLine("Logger Window RegisterHotKey State:{0}", result);
+            //Console.WriteLine("Logger Window RegisterHotKey State:{0}", result);
 
             if (result)
             {

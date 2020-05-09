@@ -7878,10 +7878,6 @@
             </summary>
             <param name="window"></param>
             <param name="config">配置参数值</param>
-            <exception cref="T:System.OverflowException"></exception>
-            <exception cref="T:System.ArgumentException"></exception>
-            <exception cref="T:System.ArgumentNullException"></exception>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="M:SpaceCG.Extension.WindowExtension.SettingWindowState(System.Windows.Window,System.Boolean,System.Windows.WindowStyle,System.Windows.ResizeMode,System.Windows.WindowState)">
             <summary>

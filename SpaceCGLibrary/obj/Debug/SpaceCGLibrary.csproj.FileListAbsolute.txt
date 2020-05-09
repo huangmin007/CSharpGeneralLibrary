@@ -12,6 +12,7 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\build\Debug\Log4Net.Config
 E:\2020\001_Libraries\CSharp\GeneralLibrary\build\Debug\SpaceCGLibrary.XML
 E:\2020\001_Libraries\CSharp\GeneralLibrary\build\Debug\SpaceCGLibrary.dll
 E:\2020\001_Libraries\CSharp\GeneralLibrary\build\Debug\SpaceCGLibrary.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.csprojAssemblyReference.cache
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.csproj.CopyComplete
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.dll
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Debug\SpaceCGLibrary.pdb

@@ -37,23 +37,31 @@ namespace SpaceCG.Extension
         /// </summary>
         /// <param name="window"></param>
         /// <param name="config">配置参数值</param>
-        /// <exception cref="OverflowException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void SettingWindowState(this Window window, string config)
         {
             if (string.IsNullOrWhiteSpace(config))
-                throw new ArgumentNullException("参数 config 不能为空值");
+            {
+                SpaceCGUtils.Log.WarnFormat("参数错误：{0} 不能为空", config);
+                return;
+            }
 
             string[] cfg = config.Replace(" ", "").Split(',');
             if (cfg.Length != 4)
-                throw new ArgumentOutOfRangeException($"参数 config=[{config}] 值与设计不符合");
+            {
+                SpaceCGUtils.Log.WarnFormat("参数错误：{0} 参数数量不匹配", config);
+                return;
+            }
             
             window.Topmost = cfg[0].ToLower() == "1";
-            window.WindowStyle = (System.Windows.WindowStyle)Enum.Parse(typeof(System.Windows.WindowStyle), cfg[1]);
-            window.ResizeMode = (ResizeMode)Enum.Parse(typeof(ResizeMode), cfg[2]);
-            window.WindowState = (WindowState)Enum.Parse(typeof(WindowState), cfg[3]);
+
+            System.Windows.WindowStyle style;
+            if (Enum.TryParse<System.Windows.WindowStyle>(cfg[1], true, out style)) window.WindowStyle = style;
+
+            ResizeMode mode;
+            if (Enum.TryParse<ResizeMode>(cfg[2], true, out mode)) window.ResizeMode = mode;
+
+            WindowState state;
+            if (Enum.TryParse<WindowState>(cfg[3], true, out state)) window.WindowState = state;
         }
 
         /// <summary>
