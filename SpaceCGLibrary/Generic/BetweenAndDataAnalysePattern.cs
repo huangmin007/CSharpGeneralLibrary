@@ -5,7 +5,8 @@ using System.Text;
 namespace SpaceCG.Generic
 {
     /// <summary>
-    /// 在 包头 和 包尾 之间，数据分析模式适配器基类
+    /// 【抽象类（基类型：<see cref="byte"/>）】根据 数据起始标记 和 数据终止标记 对数据模式分析的适配器 抽象类
+    /// <para>数据模式：{ (数据起始标记) + [动态数据主体] + (数据终止标记) }</para>
     /// </summary>
     /// <typeparam name="TChannelKey"></typeparam>
     /// <typeparam name="TResultType"></typeparam>
@@ -20,19 +21,20 @@ namespace SpaceCG.Generic
         /// End Boyer Moore
         /// </summary>
         protected readonly BoyerMoore EndBoyerMoore;
-        
-        /// <summary>
-        /// 在 包头 和 包尾 之间，数据分析适配器
-        /// </summary>
-        /// <param name="start">包头数据</param>
-        /// <param name="end">包尾数据</param>
-        protected BetweenAndDataAnalysePattern(IReadOnlyList<byte> start, IReadOnlyList<byte> end)
-        {
-            if (end == null || end.Count == 0) throw new ArgumentNullException("参数 end 不能为空，长度不能为 0");
-            if (start == null || start.Count == 0) throw new ArgumentNullException("参数 start 不能为空，长度不能为 0");
 
-            EndBoyerMoore = new BoyerMoore(end);
-            StartBoyerMoore = new BoyerMoore(start);
+        /// <summary>
+        /// 根据 数据起始标记 和 数据终止标记 对数据模式分析的适配器 抽象类
+        /// <para>数据模式：{ (数据起始标记) + [动态数据主体] + (数据终止标记) }</para>
+        /// </summary>
+        /// <param name="startBytes">数据起始字节</param>
+        /// <param name="endBytes">数据终止字节</param>
+        protected BetweenAndDataAnalysePattern(IReadOnlyList<byte> startBytes, IReadOnlyList<byte> endBytes)
+        {
+            if (endBytes == null || endBytes.Count == 0) throw new ArgumentNullException(nameof(endBytes), "参数不能为空，长度不能为 0");
+            if (startBytes == null || startBytes.Count == 0) throw new ArgumentNullException(nameof(startBytes), "参数不能为空，长度不能为 0");
+
+            EndBoyerMoore = new BoyerMoore(endBytes);
+            StartBoyerMoore = new BoyerMoore(startBytes);
         }
 
         /// <inheritdoc/>
@@ -57,7 +59,7 @@ namespace SpaceCG.Generic
                 int bodySize = end - start;
                 var bodyBytes = channel.GetRange(start, bodySize);
                 TResultType result = ConvertResultType(bodyBytes);
-
+                
                 bool handled = analyseResultHandler.Invoke(key, result);
                 if (handled)
                     channel.RemoveRange(channel.Offset, bodySize + EndBoyerMoore.PatternLength);
@@ -73,56 +75,58 @@ namespace SpaceCG.Generic
         /// <summary>
         /// 通道数据块转换数据类型
         /// </summary>
-        /// <param name="body">主体源数据</param>
+        /// <param name="bodyBytes">数据主体字节</param>
         /// <returns></returns>
-        protected virtual TResultType ConvertResultType(List<byte> body)
+        protected virtual TResultType ConvertResultType(List<byte> bodyBytes)
         {
             return default;
         }
     }
 
     /// <summary>
-    /// 在 包头 和 包尾 之间，原始数据分析模式适配器
+    /// 【返回 byte[] 】根据 数据起始标记 和 数据终止标记 对数据模式分析的适配器
+    /// <para>数据模式：{ (数据起始标记) + [动态数据主体] + (数据终止标记) }</para>
     /// </summary>
     /// <typeparam name="TChannelKey"></typeparam>
     public class BetweenAndDataAnalyse<TChannelKey> : BetweenAndDataAnalysePattern<TChannelKey, byte[]>
     {
         /// <summary>
-        /// 在 包头 和 包尾 之间，数据分析适配器
+        /// 根据 数据起始标记 和 数据终止标记 对数据模式分析的适配器
+        /// <para>数据模式：{ (数据起始标记) + [动态数据主体] + (数据终止标记) }</para>
         /// </summary>
-        /// <param name="start">包头数据</param>
-        /// <param name="end">包尾数据</param>
-        public BetweenAndDataAnalyse(IReadOnlyList<byte> start, IReadOnlyList<byte> end) :base(start, end)
+        /// <param name="startBytes">数据起始字节</param>
+        /// <param name="endBytes">数据终止字节</param>
+        public BetweenAndDataAnalyse(IReadOnlyList<byte> startBytes, IReadOnlyList<byte> endBytes) :base(startBytes, endBytes)
         {
         }
 
         /// <inheritdoc/>
-        protected override byte[] ConvertResultType(List<byte> body)
+        protected override byte[] ConvertResultType(List<byte> bodyBytes)
         {
-            return body.ToArray();
+            return bodyBytes.ToArray();
         }
     }
 
     /// <summary>
-    /// 在 包头 和 包尾 之间，字符分析模式适配器
+    /// 抽象类的 代码应用示例
     /// </summary>
     /// <typeparam name="TChannelKey"></typeparam>
     public class BetweenAndStringAnalyse<TChannelKey> : BetweenAndDataAnalysePattern<TChannelKey, string>
     {
         /// <summary>
-        /// 两端字符分析模式适配器
+        /// 抽象类的 代码应用示例
         /// </summary>
-        /// <param name="start">开始字符</param>
-        /// <param name="end">结束字符</param>
-        public BetweenAndStringAnalyse(string start, string end):
-            base(Encoding.Default.GetBytes(start), Encoding.Default.GetBytes(end))
+        /// <param name="startString">起始字符</param>
+        /// <param name="endString">结束字符</param>
+        public BetweenAndStringAnalyse(string startString, string endString):
+            base(Encoding.Default.GetBytes(startString), Encoding.Default.GetBytes(endString))
         {
         }
 
         /// <inheritdoc/>
-        protected override string ConvertResultType(List<byte> body)
+        protected override string ConvertResultType(List<byte> bodyBytes)
         {
-            return Encoding.Default.GetString(body.ToArray());
+            return Encoding.Default.GetString(bodyBytes.ToArray());
         }
     }
 }

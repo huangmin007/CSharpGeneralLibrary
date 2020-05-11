@@ -8508,7 +8508,7 @@
         </member>
         <member name="T:SpaceCG.Generic.FixedHeadDataAnalysePattern`2">
             <summary>
-            数据包大小 = 固定包头大小 + 动态包体大小，固定包头数据分析模式适配器基类
+            数据包大小 = [头部标记数据] + 固定包头大小 + 动态包体大小 + [校验和大小]，固定包头数据分析模式适配器基类
             <para>跟据读取的包头(固定字节大小)内容，获取包体大小</para>
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
@@ -8526,12 +8526,21 @@
         </member>
         <member name="M:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.#ctor(System.Int32,System.Int32)">
             <summary>
-            固定包头数据分析适配器
-            <para>参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于 最大缓存大小，且大于 动态包体大小，否则算数据异常，但不抛出异常，返回 false</para>
+            固定包头数据分析适配器，固定包头大小 + 动态包体大小
+            <para>参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于 最大缓存大小，且大于 动态包体大小，否则计算数据异常，但不抛出异常，返回 false</para>
             </summary>
-            <param name="headSize">包头字节 占 整体数据包的大小</param>
+            <param name="headSize">包头占用字节大小，该数据用于计算包体占用字节大小</param>
             <param name="maxPacketSize">整体数据包 预计 最大字节大小，超出则清除处理；注意：最大包大小不得超出最大缓存大小</param>
             <exception cref="T:System.ArgumentException">参数错误，参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于缓存大小，且大于动态包体大小 + HeadSize </exception>
+        </member>
+        <member name="M:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.#ctor(System.Collections.Generic.IReadOnlyList{System.Byte},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            固定包头数据分析适配器，头部标记数据 + 固定包头大小 + 动态包体大小 + [校验和大小]
+            </summary>
+            <param name="headFlags">头部标记数据，数据包的起始标记数据</param>
+            <param name="headSize">包头占用字节大小，该数据用于计算包体占用字节大小</param>
+            <param name="checksumSize">校验和占用字节大小，0表示不需校验，n表示检验和只占用n个字节</param>
+            <param name="maxPacketSize"></param>
         </member>
         <member name="M:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{System.Byte},SpaceCG.Generic.AnalyseResultHandler{`0,`1})">
             <inheritdoc/>

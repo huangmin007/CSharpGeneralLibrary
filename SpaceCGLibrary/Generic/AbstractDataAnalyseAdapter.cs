@@ -10,7 +10,7 @@ namespace SpaceCG.Generic
     /// 数据通道对象
     /// </summary>
     /// <typeparam name="TChannelKey">通道键类型</typeparam>
-    /// <typeparam name="TDataType">数据类型</typeparam>
+    /// <typeparam name="TDataType">数据基类型</typeparam>
     public sealed class Channel<TChannelKey, TDataType> : IDisposable where TDataType : struct
     {
         private TChannelKey _Key;
@@ -24,13 +24,16 @@ namespace SpaceCG.Generic
         /// 缓存容器实例
         /// <para>不建议直接操作该实例，而是调用 <see cref="Channel{TChannelKey, TDataType}"/> 的方法操作缓存实例</para>
         /// </summary>
-        public List<TDataType> Cache => _Cache;        
+        //public List<TDataType> Cache => _Cache;
+        public IReadOnlyList<TDataType> Cache => _Cache;
+
         /// <summary>
         /// 最大缓存数据大小
         /// </summary>
         public int MaxSize { get; }
         
         private int _offset = 0;
+
         /// <summary>
         /// 数据处理的偏移量 (内部索引)
         /// <para>在 <see cref="Offset"/> 左侧的数据不会处理，只会溢出移除</para>
@@ -39,14 +42,14 @@ namespace SpaceCG.Generic
         public int Offset
         {
             get { return _offset; }
-            set { _offset = value < 0 ? 0 : value >= Cache.Count ? Cache.Count - 1 : value; }
+            set { _offset = value < 0 ? 0 : value >= _Cache.Count ? _Cache.Count - 1 : value; }
         }
 
         /// <summary>
         /// 有效元素大小/可读取的数据大小
         /// <para> <see cref="Available"/> = <see cref="Cache.Count"/> - <see cref="Offset"/></para>
         /// </summary>
-        public int Available => Cache.Count - Offset;
+        public int Available => _Cache.Count - Offset;
 
         /// <summary>
         /// 数据通道对象，默认最大缓存元素大小 1024 
@@ -76,10 +79,10 @@ namespace SpaceCG.Generic
         /// </summary>
         public void CheckOverflow()
         {
-            if (Cache.Count > MaxSize)
+            if (_Cache.Count > MaxSize)
             {
-                Offset -= Cache.Count - MaxSize;
-                Cache.RemoveRange(0, Cache.Count - MaxSize);
+                Offset -= _Cache.Count - MaxSize;
+                _Cache.RemoveRange(0, _Cache.Count - MaxSize);
             }
         }
         
@@ -89,7 +92,7 @@ namespace SpaceCG.Generic
         /// <param name="data"></param>
         public void Add(TDataType data)
         {
-            Cache.Add(data);
+            _Cache.Add(data);
             CheckOverflow();
         }
         /// <summary>
@@ -98,7 +101,7 @@ namespace SpaceCG.Generic
         /// <param name="data"></param>
         public void AddRange(IEnumerable<TDataType> data)
         {
-            Cache.AddRange(data);
+            _Cache.AddRange(data);
             CheckOverflow();
         }
 
@@ -124,10 +127,10 @@ namespace SpaceCG.Generic
         /// <returns>返回从 index 处开始的 size 元素数量</returns>
         public List<TDataType> GetRange(int index, int size, bool remove = false)
         {
-            if (index < 0 || index > Cache.Count || size < 0) return null;
+            if (index < 0 || index > _Cache.Count || size < 0) return null;
 
-            int avaliable = Cache.Count - index;
-            List<TDataType> list = Cache.GetRange(index, avaliable <= size ? avaliable : size);
+            int avaliable = _Cache.Count - index;
+            List<TDataType> list = _Cache.GetRange(index, avaliable <= size ? avaliable : size);
 
             if (remove) RemoveRange(index, size);
 
@@ -142,7 +145,7 @@ namespace SpaceCG.Generic
         {
             if (size <= 0) return;
 
-            Cache.RemoveRange(Offset, Available <= size ? Available : size);
+            _Cache.RemoveRange(Offset, Available <= size ? Available : size);
             Offset -= Available <= size ? Available : size;
         }
         /// <summary>
@@ -152,10 +155,10 @@ namespace SpaceCG.Generic
         /// <param name="size">移除数据的数量</param>
         public void RemoveRange(int index, int size)
         {
-            if (index < 0 || index > Cache.Count || size <= 0) return;
+            if (index < 0 || index > _Cache.Count || size <= 0) return;
 
-            int avaliable = Cache.Count - index;
-            Cache.RemoveRange(index, avaliable <= size ? avaliable : size);
+            int avaliable = _Cache.Count - index;
+            _Cache.RemoveRange(index, avaliable <= size ? avaliable : size);
         }
 
         /// <summary>
@@ -196,7 +199,7 @@ namespace SpaceCG.Generic
     /// <para>该类为抽象类，需继承实现 <see cref="AnalyseChannel(TChannelKey, IReadOnlyList{TDataType}, AnalyseResultHandler{TChannelKey, TResultType})"/>, <see cref="ConvertResultType(IReadOnlyList{TDataType}, object[])"/> 函数</para>
     /// </summary>
     /// <typeparam name="TChannelKey">通道键类型</typeparam>
-    /// <typeparam name="TDataType">数据类型</typeparam>
+    /// <typeparam name="TDataType">数据基类型</typeparam>
     /// <typeparam name="TResultType">数据结果封装类型</typeparam>
     public abstract class AbstractDataAnalyseAdapter<TChannelKey, TDataType, TResultType> where TDataType: struct 
     {

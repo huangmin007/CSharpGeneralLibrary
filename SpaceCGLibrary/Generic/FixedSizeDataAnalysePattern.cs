@@ -5,23 +5,24 @@ using System.Text;
 namespace SpaceCG.Generic
 {
     /// <summary>
-    /// 固定大小的数据分析模式适配器基类
-    /// <para>按固定大小的字节数据做为一个数据包分析，无头无尾，按字节大小封包转换</para>
+    /// 【抽象类（基类型：<see cref="byte"/>）】根据 数据固定大小(长度) 对数据模式分析的适配器 抽象类
+    /// <para>数据模式：{ (数据=固定长度的字节) }</para>
     /// </summary>
     /// <typeparam name="TChannelKey">通道键类型</typeparam>
     /// <typeparam name="TResultType">数据结果封装类型</typeparam>
     public abstract class FixedSizeDataAnalysePattern<TChannelKey, TResultType>:AbstractDataAnalyseAdapter<TChannelKey, byte, TResultType>
     {
         /// <summary>
-        /// 数据包固定大小
+        /// 数据固定大小
         /// </summary>
         protected readonly int PacketSize;
-        
+
         /// <summary>
-        /// 固定包大小数据分析适配器
+        /// 根据 数据固定大小(长度) 对数据模式分析的适配器 抽象类
+        /// <para>数据模式：{ (数据=固定长度的字节数据) }</para>
         /// </summary>
-        /// <param name="packetSize">整体数据包固定大小</param>
-        /// <exception cref="ArgumentException"> 参数错误，数据包不得小于 1 </exception>
+        /// <param name="packetSize">整体数据固定大小</param>
+        /// <exception cref="ArgumentException"> 参数错误，数据不得小于 1 </exception>
         protected FixedSizeDataAnalysePattern(int packetSize)
         {
             if (packetSize < 1) throw new ArgumentException($"参数 {nameof(packetSize)} 不得小于 1");
@@ -66,45 +67,45 @@ namespace SpaceCG.Generic
         /// <summary>
         /// 通道数据块转换数据类型
         /// </summary>
-        /// <param name="packet">源数据包内容</param>
+        /// <param name="packetBytes">包字节数据</param>
         /// <returns> 返回数据结果 </returns>
-        protected virtual TResultType ConvertResultType(List<byte> packet)
+        protected virtual TResultType ConvertResultType(List<byte> packetBytes)
         {
             return default;
         }
     }
 
     /// <summary>
-    /// 固定大小的原始字节数据分析
-    /// <para>按固定大小的字节数据做为一个数据包分析，无头无尾，按字节大小封包转换</para>
+    /// 【返回 byte[] 】根据 数据固定大小(长度) 对数据模式分析的适配器
+    /// <para>数据模式：{ (数据=固定长度的字节数据) }</para>
     /// </summary>
     /// <typeparam name="TChannelKey">通道键类型</typeparam>
     public class FixedSizeDataAnalyse<TChannelKey> : FixedSizeDataAnalysePattern<TChannelKey, byte[]>
     {
         /// <summary>
-        /// 固定大小的原始字节数据分析
+        /// 根据 数据固定大小(长度) 对数据模式分析的适配器
+        /// <para>数据模式：{ (数据=固定长度的字节数据) }</para>
         /// </summary>
-        /// <param name="packetSize">整体数据包固定大小</param>
+        /// <param name="packetSize">数据固定大小</param>
         public FixedSizeDataAnalyse(int packetSize) :base(packetSize)
         {
         }
 
         /// <inheritdoc/>
-        protected override byte[] ConvertResultType(List<byte> packet)
+        protected override byte[] ConvertResultType(List<byte> packetBytes)
         {
-            return packet.ToArray();
+            return packetBytes.ToArray();
         }
     }
 
     /// <summary>
-    /// 固定长度的字符数据分析
-    /// <para>按固定长度的字符做为一个数据包分析，无头无尾，按字节大小封包转换</para>
+    /// 抽象类的 代码应用示例
     /// </summary>
     /// <typeparam name="TChannelKey">通道键类型</typeparam>
     public class FixedSizeStringAnalyse<TChannelKey>: FixedSizeDataAnalysePattern<TChannelKey, string>
     {
         /// <summary>
-        /// 固定长度的字符数据分析
+        /// 抽象类的 代码应用示例
         /// </summary>
         /// <param name="length">字符长度</param>
         public FixedSizeStringAnalyse(int length) : base(length)
@@ -112,9 +113,9 @@ namespace SpaceCG.Generic
         }
 
         /// <inheritdoc/>
-        protected override string ConvertResultType(List<byte> packet)
+        protected override string ConvertResultType(List<byte> packetBytes)
         {
-            return Encoding.Default.GetString(packet.ToArray());
+            return Encoding.Default.GetString(packetBytes.ToArray());
         }
     }
 }
