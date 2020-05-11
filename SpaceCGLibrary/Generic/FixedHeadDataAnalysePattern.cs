@@ -60,7 +60,7 @@ namespace SpaceCG.Generic
                 var headBytes = channel.GetRange(channel.Offset, HeadSize);
 
                 int bodySize = GetBodySize(headBytes);
-                if (HeadSize + bodySize > MaxPacketSize || bodySize < 0)
+                if (HeadSize + bodySize > MaxPacketSize || bodySize <= 0)
                 {
                     isDataError = true;
                     Console.WriteLine("Error:当前包大小 {0}， 超出设定的最大包大小 {1}", HeadSize + bodySize, MaxPacketSize);

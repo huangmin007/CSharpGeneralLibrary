@@ -57,6 +57,8 @@ namespace SpaceCG.Generic
                 if (end < 0) break;
 
                 int bodySize = end - start;
+                if (bodySize <= 0) break;
+
                 var bodyBytes = channel.GetRange(start, bodySize);
                 TResultType result = ConvertResultType(bodyBytes);
                 

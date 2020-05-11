@@ -48,7 +48,7 @@ namespace SpaceCG.Generic
                 if (index < 0) break;
 
                 var bodySize = index - channel.Offset;
-                if (bodySize < 0) break;
+                if (bodySize <= 0) break;
 
                 var bodyBytes = channel.GetRange(channel.Offset, bodySize);
 
