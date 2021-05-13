@@ -7891,7 +7891,8 @@
         </member>
         <member name="T:SpaceCG.Generic.BetweenAndDataAnalysePattern`2">
             <summary>
-            在 包头 和 包尾 之间，数据分析模式适配器基类
+            【抽象类（基类型：<see cref="T:System.Byte"/>）】根据 数据起始标记 和 数据终止标记 对数据模式分析的适配器 抽象类
+            <para>数据模式：{ (数据起始标记) + [动态数据主体] + (数据终止标记) }</para>
             </summary>
             <typeparam name="TChannelKey"></typeparam>
             <typeparam name="TResultType"></typeparam>
@@ -7908,10 +7909,11 @@
         </member>
         <member name="M:SpaceCG.Generic.BetweenAndDataAnalysePattern`2.#ctor(System.Collections.Generic.IReadOnlyList{System.Byte},System.Collections.Generic.IReadOnlyList{System.Byte})">
             <summary>
-            在 包头 和 包尾 之间，数据分析适配器
+            根据 数据起始标记 和 数据终止标记 对数据模式分析的适配器 抽象类
+            <para>数据模式：{ (数据起始标记) + [动态数据主体] + (数据终止标记) }</para>
             </summary>
-            <param name="start">包头数据</param>
-            <param name="end">包尾数据</param>
+            <param name="startBytes">数据起始字节</param>
+            <param name="endBytes">数据终止字节</param>
         </member>
         <member name="M:SpaceCG.Generic.BetweenAndDataAnalysePattern`2.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{System.Byte},SpaceCG.Generic.AnalyseResultHandler{`0,`1})">
             <inheritdoc/>
@@ -7920,37 +7922,39 @@
             <summary>
             通道数据块转换数据类型
             </summary>
-            <param name="body">主体源数据</param>
+            <param name="bodyBytes">数据主体字节</param>
             <returns></returns>
         </member>
         <member name="T:SpaceCG.Generic.BetweenAndDataAnalyse`1">
             <summary>
-            在 包头 和 包尾 之间，原始数据分析模式适配器
+            【返回 byte[] 】根据 数据起始标记 和 数据终止标记 对数据模式分析的适配器
+            <para>数据模式：{ (数据起始标记) + [动态数据主体] + (数据终止标记) }</para>
             </summary>
             <typeparam name="TChannelKey"></typeparam>
         </member>
         <member name="M:SpaceCG.Generic.BetweenAndDataAnalyse`1.#ctor(System.Collections.Generic.IReadOnlyList{System.Byte},System.Collections.Generic.IReadOnlyList{System.Byte})">
             <summary>
-            在 包头 和 包尾 之间，数据分析适配器
+            根据 数据起始标记 和 数据终止标记 对数据模式分析的适配器
+            <para>数据模式：{ (数据起始标记) + [动态数据主体] + (数据终止标记) }</para>
             </summary>
-            <param name="start">包头数据</param>
-            <param name="end">包尾数据</param>
+            <param name="startBytes">数据起始字节</param>
+            <param name="endBytes">数据终止字节</param>
         </member>
         <member name="M:SpaceCG.Generic.BetweenAndDataAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte})">
             <inheritdoc/>
         </member>
         <member name="T:SpaceCG.Generic.BetweenAndStringAnalyse`1">
             <summary>
-            在 包头 和 包尾 之间，字符分析模式适配器
+            抽象类的 代码应用示例
             </summary>
             <typeparam name="TChannelKey"></typeparam>
         </member>
         <member name="M:SpaceCG.Generic.BetweenAndStringAnalyse`1.#ctor(System.String,System.String)">
             <summary>
-            两端字符分析模式适配器
+            抽象类的 代码应用示例
             </summary>
-            <param name="start">开始字符</param>
-            <param name="end">结束字符</param>
+            <param name="startString">起始字符</param>
+            <param name="endString">结束字符</param>
         </member>
         <member name="M:SpaceCG.Generic.BetweenAndStringAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte})">
             <inheritdoc/>
@@ -7960,7 +7964,7 @@
             数据通道对象
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
-            <typeparam name="TDataType">数据类型</typeparam>
+            <typeparam name="TDataType">数据基类型</typeparam>
         </member>
         <member name="P:SpaceCG.Generic.Channel`2.Key">
             <summary>
@@ -8081,7 +8085,7 @@
             <para>该类为抽象类，需继承实现 <see cref="M:SpaceCG.Generic.AbstractDataAnalyseAdapter`3.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{`1},SpaceCG.Generic.AnalyseResultHandler{`0,`2})"/>, <see cref="M:SpaceCG.Generic.AbstractDataAnalyseAdapter`3.ConvertResultType(System.Collections.Generic.IReadOnlyList{`1},System.Object[])"/> 函数</para>
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
-            <typeparam name="TDataType">数据类型</typeparam>
+            <typeparam name="TDataType">数据基类型</typeparam>
             <typeparam name="TResultType">数据结果封装类型</typeparam>
         </member>
         <member name="F:SpaceCG.Generic.AbstractDataAnalyseAdapter`3.Channels">
@@ -8508,63 +8512,65 @@
         </member>
         <member name="T:SpaceCG.Generic.FixedHeadDataAnalysePattern`2">
             <summary>
-            数据包大小 = 固定包头大小 + 动态包体大小，固定包头数据分析模式适配器基类
-            <para>跟据读取的包头(固定字节大小)内容，获取包体大小</para>
+            【抽象类（基类型：<see cref="T:System.Byte"/>）】根据 数据头固定长度(数据主体动态长度) 对数据模式分析的适配器 抽象类
+            <para>数据模式：{ (数据头=数据主体大小) + (数据主体=主体字节数据) }、{ (数据头=[数据起始标记 +]数据主体大小) + (数据主体=主体数据[+ 数据终止标记]) }、{ (数据头=[数据起始标记 + [其它信息 +]]数据主体大小) + (数据主体=主体数据[[+ 校验信息] + 数据终止标记]) }、...</para>
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
             <typeparam name="TResultType">数据结果封装类型</typeparam>
         </member>
         <member name="F:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.HeadSize">
             <summary>
-            包头大小, 调用 <see cref="M:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.GetBodySize(System.Collections.Generic.List{System.Byte})"/> 方法时候会返回动态包体大小；需要继承当前接口的类在构造函数中设置包头长度
+            数据头占用字节大小(长度), 调用 <see cref="M:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.GetBodySize(System.Collections.Generic.List{System.Byte})"/> 方法时候会返回 数据主体动态大小；需要继承当前接口的类在构造函数中设置 数据头占用字节长度
             </summary>
         </member>
         <member name="F:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.MaxPacketSize">
             <summary>
-             数据包最大大小，如果 数据包大小(包头长度 + 包体长度) 大于该值，表示数据错误
+             数据包最大字节大小，如果 数据包字节大小(数据头长度 + 数据主体长度) 大于该值，表示数据错误
             </summary>
         </member>
         <member name="M:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.#ctor(System.Int32,System.Int32)">
             <summary>
-            固定包头数据分析适配器
-            <para>参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于 最大缓存大小，且大于 动态包体大小，否则算数据异常，但不抛出异常，返回 false</para>
+            根据 数据头固定长度(数据主体动态长度) 对数据模式分析的适配器 抽象类
+            <para>数据模式：{ (数据头=数据主体大小) + (数据主体=主体字节数据) }、{ (数据头=[数据起始标记 +]数据主体大小) + (数据主体=主体数据[+ 数据终止标记]) }、{ (数据头=[数据起始标记 + [其它信息 +]]数据主体大小) + (数据主体=主体数据[[+ 校验信息] + 数据终止标记]) }、...</para>
+            <para>注意：参数 headSize 必须大于 0, 参数 maxPacketSize(预计最大包所占用字节大小) 必须小于 最大缓存大小，且大于 包体动态大小，否则计算数据异常，但不抛出异常，只返回 false</para>
             </summary>
-            <param name="headSize">包头字节 占 整体数据包的大小</param>
-            <param name="maxPacketSize">整体数据包 预计 最大字节大小，超出则清除处理；注意：最大包大小不得超出最大缓存大小</param>
-            <exception cref="T:System.ArgumentException">参数错误，参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于缓存大小，且大于动态包体大小 + HeadSize </exception>
+            <param name="headSize">数据头占用字节大小，获取该数据用于计算 数据主体占用字节大小</param>
+            <param name="maxPacketSize">预计数据包(数据头 + 数据主体)最大字节大小，超出则清除处理；注意：最大包大小不得超出最大缓存大小</param>
+            <exception cref="T:System.ArgumentException">参数错误，参数 headSize 必须大于 0, 参数 maxPacketSize 必须小于缓存大小，且大于包体字节动态大小 </exception>
         </member>
         <member name="M:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{System.Byte},SpaceCG.Generic.AnalyseResultHandler{`0,`1})">
             <inheritdoc/>
         </member>
         <member name="M:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.GetBodySize(System.Collections.Generic.List{System.Byte})">
             <summary>
-            分析头部字节数据
-            <para>因为字节端不确定，或是头部信息不确定，所以需要在这里实现分析头部数据并返回一个值</para>
+            数据头字节数据
+            <para>因为字节端不确定，或是数据头部信息不确定(可能包含其它数据)，所以需要在这里实现分析头部数据并返回一个值</para>
             </summary>
-            <param name="head">头部源数据</param>
-            <returns>返回包主体字节大小</returns>
+            <param name="headBytes">头部源数据</param>
+            <returns>返回数据主体字节大小</returns>
         </member>
         <member name="M:SpaceCG.Generic.FixedHeadDataAnalysePattern`2.ConvertResultType(System.Collections.Generic.List{System.Byte},System.Collections.Generic.List{System.Byte})">
             <summary>
             通道数据块转换数据类型
             </summary>
-            <param name="head">头部源数据</param>
-            <param name="body">主体源数据</param>
+            <param name="headBytes">头部源数据</param>
+            <param name="bodyBytes">主体源数据</param>
             <returns></returns>
         </member>
         <member name="T:SpaceCG.Generic.FixedHeadDataAnalyse`1">
             <summary>
-            数据包大小 = 固定包头大小 + 动态包体大小，固定包头数据分析
-            <para>跟据读取的包头(固定字节大小)内容，获取包体大小</para>
+            【基类，返回 byte[] 】根据 数据头固定长度(数据主体动态长度) 对数据模式分析的适配器 基类
+            <para>数据模式：{ (数据头=数据主体大小) + (数据主体=主体字节数据) }、{ (数据头=[数据起始标记 +]数据主体大小) + (数据主体=主体数据[+ 数据终止标记]) }、{ (数据头=[数据起始标记 + [其它信息 +]]数据主体大小) + (数据主体=主体数据[[+ 校验信息] + 数据终止标记]) }、...</para>
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
         </member>
         <member name="M:SpaceCG.Generic.FixedHeadDataAnalyse`1.#ctor(System.Int32,System.Int32)">
             <summary>
-            固定包头数据分析
+            【基类，返回 byte[] 】根据 数据头固定长度(数据主体动态长度) 对数据模式分析的适配器 基类
+            <para>数据模式：{ (数据头=数据主体大小) + (数据主体=主体字节数据) }、{ (数据头=[数据起始标记 +]数据主体大小) + (数据主体=主体数据[+ 数据终止标记]) }、{ (数据头=[数据起始标记 + [其它信息 +]]数据主体大小) + (数据主体=主体数据[[+ 校验信息] + 数据终止标记]) }、...</para>
             </summary>
-            <param name="headSize">包头字节 占 整体数据包的大小</param>
-            <param name="maxPacketSize">整体数据包 预计 最大字节大小，超出则清除处理，为 0 表示不做包的超出检测比较</param>
+            <param name="headSize">数据头占用字节大小，获取该数据用于计算 数据主体占用字节大小</param>
+            <param name="maxPacketSize">预计数据包(数据头 + 数据主体)最大字节大小，超出则清除处理；注意：最大包大小不得超出最大缓存大小</param>
         </member>
         <member name="M:SpaceCG.Generic.FixedHeadDataAnalyse`1.GetBodySize(System.Collections.Generic.List{System.Byte})">
             <inheritdoc/>
@@ -8574,23 +8580,24 @@
         </member>
         <member name="T:SpaceCG.Generic.FixedSizeDataAnalysePattern`2">
             <summary>
-            固定大小的数据分析模式适配器基类
-            <para>按固定大小的字节数据做为一个数据包分析，无头无尾，按字节大小封包转换</para>
+            【抽象类（基类型：<see cref="T:System.Byte"/>）】根据 数据固定大小(长度) 对数据模式分析的适配器 抽象类
+            <para>数据模式：{ (数据=固定长度的字节) }</para>
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
             <typeparam name="TResultType">数据结果封装类型</typeparam>
         </member>
         <member name="F:SpaceCG.Generic.FixedSizeDataAnalysePattern`2.PacketSize">
             <summary>
-            数据包固定大小
+            数据固定大小
             </summary>
         </member>
         <member name="M:SpaceCG.Generic.FixedSizeDataAnalysePattern`2.#ctor(System.Int32)">
             <summary>
-            固定包大小数据分析适配器
+            根据 数据固定大小(长度) 对数据模式分析的适配器 抽象类
+            <para>数据模式：{ (数据=固定长度的字节数据) }</para>
             </summary>
-            <param name="packetSize">整体数据包固定大小</param>
-            <exception cref="T:System.ArgumentException"> 参数错误，数据包不得小于 1 </exception>
+            <param name="packetSize">整体数据固定大小</param>
+            <exception cref="T:System.ArgumentException"> 参数错误，数据不得小于 1 </exception>
         </member>
         <member name="M:SpaceCG.Generic.FixedSizeDataAnalysePattern`2.AnalyseChannel(`0,System.Collections.Generic.IReadOnlyList{System.Byte},SpaceCG.Generic.AnalyseResultHandler{`0,`1})">
             <inheritdoc/>
@@ -8599,35 +8606,35 @@
             <summary>
             通道数据块转换数据类型
             </summary>
-            <param name="packet">源数据包内容</param>
+            <param name="packetBytes">包字节数据</param>
             <returns> 返回数据结果 </returns>
         </member>
         <member name="T:SpaceCG.Generic.FixedSizeDataAnalyse`1">
             <summary>
-            固定大小的原始字节数据分析
-            <para>按固定大小的字节数据做为一个数据包分析，无头无尾，按字节大小封包转换</para>
+            【返回 byte[] 】根据 数据固定大小(长度) 对数据模式分析的适配器
+            <para>数据模式：{ (数据=固定长度的字节数据) }</para>
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
         </member>
         <member name="M:SpaceCG.Generic.FixedSizeDataAnalyse`1.#ctor(System.Int32)">
             <summary>
-            固定大小的原始字节数据分析
+            根据 数据固定大小(长度) 对数据模式分析的适配器
+            <para>数据模式：{ (数据=固定长度的字节数据) }</para>
             </summary>
-            <param name="packetSize">整体数据包固定大小</param>
+            <param name="packetSize">数据固定大小</param>
         </member>
         <member name="M:SpaceCG.Generic.FixedSizeDataAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte})">
             <inheritdoc/>
         </member>
         <member name="T:SpaceCG.Generic.FixedSizeStringAnalyse`1">
             <summary>
-            固定长度的字符数据分析
-            <para>按固定长度的字符做为一个数据包分析，无头无尾，按字节大小封包转换</para>
+            抽象类的 代码应用示例
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
         </member>
         <member name="M:SpaceCG.Generic.FixedSizeStringAnalyse`1.#ctor(System.Int32)">
             <summary>
-            固定长度的字符数据分析
+            抽象类的 代码应用示例
             </summary>
             <param name="length">字符长度</param>
         </member>
@@ -8636,7 +8643,8 @@
         </member>
         <member name="T:SpaceCG.Generic.TerminatorDataAnalysePattern`2">
             <summary>
-            跟据终止字节数据分割数据包的分析模式适配器基类
+            【抽象类（基类型：<see cref="T:System.Byte"/>）】根据 数据终止标记 对数据模式分析的适配器 抽象类
+            <para>数据模式：{ [数据主体] + (数据终止标记) }、{ [数据主体=[数据起始标记 + [其它信息 +]]数据主体大小] + (数据终止标记) }、...</para>
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
             <typeparam name="TResultType">返回的数据结果类型</typeparam>
@@ -8648,7 +8656,8 @@
         </member>
         <member name="M:SpaceCG.Generic.TerminatorDataAnalysePattern`2.#ctor(System.Collections.Generic.IReadOnlyList{System.Byte})">
             <summary>
-            跟据终止字节数据，分割数据包分析适配器
+            根据 数据终止标记 对数据模式分析的适配器 抽象类
+            <para>数据模式：{ [数据主体] + (数据终止标记) }、{ [数据主体=[数据起始标记 + [其它信息 +]]数据主体大小] + (数据终止标记) }、...</para>
             </summary>
             <param name="terminator">终止字节数据</param>
             <exception cref="T:System.ArgumentNullException">参数错误，参数 terminator 不能为空</exception>
@@ -8660,39 +8669,25 @@
             <summary>
             通道数据块转换数据类型
             </summary>
-            <param name="packet">源数据包内容</param>
+            <param name="packetBytes">包字节数据</param>
             <returns> 返回数据结果 </returns>
         </member>
         <member name="T:SpaceCG.Generic.TerminatorDataAnalyse`1">
             <summary>
-            跟据终原始止字节数据分割数据包的分析模式适配器
+            【基类，返回 byte[] 】根据 数据终止标记 对数据模式分析的适配器 基类
+            <para>数据模式：{ [数据主体] + (数据终止标记) }、{ [数据主体=[数据起始标记 + [其它信息 +]]数据主体大小] + (数据终止标记) }、...</para>
             </summary>
             <typeparam name="TChannelKey">通道键类型</typeparam>
         </member>
         <member name="M:SpaceCG.Generic.TerminatorDataAnalyse`1.#ctor(System.Collections.Generic.IReadOnlyList{System.Byte})">
             <summary>
-            跟据终止字节数据，分割数据包分析适配器
+            根据 数据终止标记 对数据模式分析的适配器 基类
+            <para>数据模式：{ [数据主体] + (数据终止标记) }、{ [数据主体=[数据起始标记 + [其它信息 +]]数据主体大小] + (数据终止标记) }、...</para>
             </summary>
             <param name="terminator">终止字节数据</param>
             <exception cref="T:System.ArgumentNullException">参数错误，参数 terminator 不能为空</exception>
         </member>
         <member name="M:SpaceCG.Generic.TerminatorDataAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte})">
-            <inheritdoc/>
-        </member>
-        <member name="T:SpaceCG.Generic.TerminatorStringAnalyse`1">
-            <summary>
-            跟据终止字符数据分割数据包的分析模式适配器
-            </summary>
-            <typeparam name="TChannelKey"></typeparam>
-        </member>
-        <member name="M:SpaceCG.Generic.TerminatorStringAnalyse`1.#ctor(System.String)">
-            <summary>
-            跟据终止字符数据，分割数据包分析适配器
-            </summary>
-            <param name="terminator">终止字符数据</param>
-            <exception cref="T:System.ArgumentNullException">参数错误，参数 terminator 不能为空</exception>
-        </member>
-        <member name="M:SpaceCG.Generic.TerminatorStringAnalyse`1.ConvertResultType(System.Collections.Generic.List{System.Byte})">
             <inheritdoc/>
         </member>
         <member name="T:SpaceCG.Log4Net.Controls.MultiStringConverter">

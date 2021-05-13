@@ -17,7 +17,7 @@ namespace TestLibrary
 
         public App()
         {
-            this.RunDefaultSetting();
+            //this.RunDefaultSetting();
         }
 
 

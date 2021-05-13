@@ -5,6 +5,8 @@ using System.Windows.Interop;
 using SpaceCG.WindowsAPI.User32;
 using System.Windows.Media;
 using SpaceCG.Log4Net.Controls;
+using System.Runtime.InteropServices;
+using Examples;
 
 namespace TestLibrary
 {
@@ -18,6 +20,8 @@ namespace TestLibrary
         private IntPtr handle;
         private HwndSource hwndSource;
 
+        RawInputExample rawInput;
+
         public MainWindow()
         {
 #if DEBUG
@@ -28,6 +32,9 @@ namespace TestLibrary
             InitializeComponent();
             LoggerWindow LoggerWindow = new LoggerWindow();
             Log.InfoFormat("MainWindow.");
+
+
+            
         }
 
         protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
@@ -53,17 +60,23 @@ namespace TestLibrary
      
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Log.InfoFormat("Window_Loaded");
 
-            handle = new WindowInteropHelper(this).Handle;
+            Console.WriteLine();
+            rawInput = new RawInputExample(this);
 
-            hwndSource = PresentationSource.FromVisual(this) as HwndSource;
-            hwndSource?.AddHook(WindowRawInputHandler);
+            //handle = new WindowInteropHelper(this).Handle;
+
+            //hwndSource = PresentationSource.FromVisual(this) as HwndSource;
+            //hwndSource?.AddHook(WindowRawInputHandler);
         }
 
         protected IntPtr WindowRawInputHandler(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             MessageType msgType = (MessageType)msg;
-            if(msgType == MessageType.WM_DPICHANGED || msgType == MessageType.WM_DPICHANGED_BEFOREPARENT)
+            Log.InfoFormat("Message Type:{0}", msgType);
+
+            if (msgType == MessageType.WM_DPICHANGED || msgType == MessageType.WM_DPICHANGED_BEFOREPARENT)
             {
                 Console.WriteLine("testteetata");
                 Log.InfoFormat("Msg WM_DPICHANDED Event");

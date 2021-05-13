@@ -193,8 +193,8 @@ namespace SpaceCG.Log4Net.Controls
                     }
                 };
                 GridViewColumn LoggerColumn = CreateColumn("Logger", "LoggerName", 120);
-                GridViewColumn MessageColumn = CreateColumn("Message", "RenderedMessage", 240);
-                GridViewColumn ExceptionColumn = CreateColumn("Exception", "ExceptionObject", 240);
+                GridViewColumn MessageColumn = CreateColumn("Message", "RenderedMessage", 480);
+                GridViewColumn ExceptionColumn = CreateColumn("Exception", "ExceptionObject", 250);
 
                 ViewColumns = new List<GridViewColumn>();
                 ViewColumns.Add(IDColumn);

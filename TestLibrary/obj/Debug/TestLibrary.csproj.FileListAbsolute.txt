@@ -25,3 +25,4 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.cs
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.csproj.CopyComplete
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.exe
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.csproj.CoreCompileInputs.cache

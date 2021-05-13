@@ -56,7 +56,7 @@ namespace Examples
             {
                 usUsagePage = 0x01,
                 usUsage = 0x02,
-                dwFlags = RawInputFlags.RIDEV_INPUTSINK,
+                dwFlags = RawInputFlags.RIDEV_INPUTSINK | RawInputFlags.RIDEV_NOLEGACY,
                 hwndTarget = handle,
             };
             RAWINPUTDEVICE keyboardDevice = new RAWINPUTDEVICE()
@@ -96,7 +96,7 @@ namespace Examples
                 return IntPtr.Zero;
             }
             Console.WriteLine("pcbSize:{0} {1} {2} {3}", result, RAWINPUTHEADER.Size, Marshal.SizeOf(typeof(RAWKEYBOARD)), pcbSize);
-#if true
+#if false
             IntPtr pData = Marshal.AllocHGlobal((int)pcbSize);
             result = User32.GetRawInputData(lParam, RIDFlag.RID_INPUT, pData, ref pcbSize, RAWINPUTHEADER.Size);
             if (pcbSize != result)
@@ -121,16 +121,16 @@ namespace Examples
                 return IntPtr.Zero;
             }
 #endif
-
+            Console.WriteLine(raw);
             string name = null;
             if (!DevicesName.TryGetValue(raw.header.hDevice, out name))
             {
                 Console.WriteLine("不存在的设备句柄：{0}", raw.header.hDevice);
-                return IntPtr.Zero;
+                //return IntPtr.Zero;
             }
 
             //Console.WriteLine(raw);
-            //Console.WriteLine("Current Input Device Name: {0} {1}", name, raw);
+            Console.WriteLine("Current Input Device Name: {0} {1}", name, raw);
 
             switch (raw.header.dwType)
             {

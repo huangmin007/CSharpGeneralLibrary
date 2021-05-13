@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\ExampleAttribute.cs" />
+    <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="WindowsAPI\GDI\WinGDI.cs" />
     <Compile Include="WindowsAPI\Kernel32\SystemTime.cs" />
     <Compile Include="WindowsAPI\Kernel32\FileSystem.cs" />

@@ -14,3 +14,4 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\build\Release\SpaceCGLibrary.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.csproj.CopyComplete
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.dll
 E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.pdb
+E:\2020\001_Libraries\CSharp\GeneralLibrary\SpaceCGLibrary\obj\Release\SpaceCGLibrary.csproj.CoreCompileInputs.cache

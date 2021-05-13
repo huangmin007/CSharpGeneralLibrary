@@ -109,8 +109,8 @@ namespace SpaceCG.Log4Net.Controls
             Grid.SetRow(TextBox, 2);
 
             this.Title = "Local Logger Window (Ctrl+L 隐藏/唤起)";
-            this.Width = 960;
-            this.Height = 600;
+            this.Width = 1280;
+            this.Height = 720;
             this.Content = grid;
             this.Loaded += LoggerWindow_Loaded;
 
