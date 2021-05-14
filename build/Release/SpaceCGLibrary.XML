@@ -9,6 +9,476 @@
             这是一个示例
             </summary>
         </member>
+        <member name="T:SpaceCG.Extension.StringExtension">
+            <summary>
+            String Extension
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.StringExtension.ToInt32Array(System.String,System.Int32[]@,System.Char,System.Globalization.NumberStyles,System.IFormatProvider)">
+            <summary>
+            将字符解析为 <see cref="T:System.Int32"/> 类型数组
+            </summary>
+            <param name="value"></param>
+            <param name="array">如果为空，则按字符串分割的数组长度返回转换结果，如果不为空，则按 array 的长度返回转换结果；</param>
+            <param name="separator">分隔字符串中子字符串的字符数组、不包含分隔符的空数组或 null。</param>
+            <param name="style">枚举值的按位组合，用于指示可出现在 string 中的样式元素。要指定的一个典型值为 System.Globalization.NumberStyles.Integer。</param>
+            <param name="provider">一个对象，提供有关 string 的区域性特定格式设置信息。</param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.StringExtension.ToUInt32Array(System.String,System.UInt32[]@,System.Char,System.Globalization.NumberStyles,System.IFormatProvider)">
+            <summary>
+            将字符解析为 <see cref="T:System.UInt32"/> 类型数组
+            </summary>
+            <param name="value"></param>
+            <param name="array">如果为空，则字符分割的数组长度返回转换结果，如果不为空，则按 array 的长度返回转换结果</param>
+            <param name="separator">分隔字符串中子字符串的字符数组、不包含分隔符的空数组或 null。</param>
+            <param name="style">枚举值的按位组合，用于指示可出现在 string 中的样式元素。要指定的一个典型值为 System.Globalization.NumberStyles.Integer。</param>
+            <param name="provider">一个对象，提供有关 string 的区域性特定格式设置信息。</param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.StringExtension.ToByteArray(System.String,System.Byte[]@,System.Char,System.Globalization.NumberStyles,System.IFormatProvider)">
+            <summary>
+            将字符解析为 <see cref="T:System.Byte"/> 类型数组
+            </summary>
+            <param name="value"></param>
+            <param name="array">如果为空，则字符分割的数组长度返回转换结果，如果不为空，则按 array 的长度返回转换结果</param>
+            <param name="separator">分隔字符串中子字符串的字符数组、不包含分隔符的空数组或 null。</param>
+            <param name="style">枚举值的按位组合，用于指示可出现在 string 中的样式元素。要指定的一个典型值为 System.Globalization.NumberStyles.Integer。</param>
+            <param name="provider">一个对象，提供有关 string 的区域性特定格式设置信息。</param>
+            <returns></returns>
+        </member>
+        <member name="T:SpaceCG.Extension.ApplicationExtension">
+            <summary>
+            Application Extension
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.ApplicationExtension.RunDefaultSetting(System.Windows.Application,System.Windows.ShutdownMode,System.Boolean,System.String)">
+            <summary>
+            运行设置是否只运行一个实例，以及启用 Application 的事件记录，和未处理的异常信息记录
+            </summary>
+            <param name="app"></param>
+            <param name="shutdownmMode">Shutdown Mode </param>
+            <param name="runOnlyOne">只运行一个应用实例</param>
+            <param name="name">如果 runOnlyOne 为 true, 该参数有效，表示系统范围内同步事件的名称</param>
+        </member>
+        <member name="M:SpaceCG.Extension.ApplicationExtension.IsRunningInstance">
+            <summary>
+            指示应用程序是否正在运行实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ApplicationExtension.ReadApplicationProperties(System.Windows.Application,System.String)">
+            <summary>
+            读取应用程序范围属性的集合，一般发生在 <see cref="M:System.Windows.Application.OnStartup(System.Windows.StartupEventArgs)"/> 处理
+            </summary>
+            <param name="app"></param>
+            <param name="filename"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.ApplicationExtension.WriteApplicationProperties(System.Windows.Application,System.String)">
+            <summary>
+            保存应用程序范围属性的集合，一般发生在 <see cref="M:System.Windows.Application.OnExit(System.Windows.ExitEventArgs)"/> 处理
+            </summary>
+            <param name="app"></param>
+            <param name="filename"></param>
+        </member>
+        <member name="T:SpaceCG.Extension.HPSocketExtension">
+            <summary>
+            HPSocket 扩展类/功能
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean)">
+            <summary>
+            创建 HPSocket.IClient 客户端连接对象，并创建匿名监听事件。如果只关心数据的接收/处理，适用此方法，其它事件状态会记录在日志中。
+            <para>建议使用 <see cref="!:DisposeClient(HPSocket.IClient, log4net.ILog)"/> 断开销毁客户端对象。 </para>
+            <para> &lt;IClient&gt; 类型约束实现 <see cref="T:HPSocket.IClient"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpClient"/>, <see cref="T:HPSocket.Udp.UdpClient"/>, <see cref="T:HPSocket.Udp.UdpCast"/> ... </para>
+            </summary>
+            <typeparam name="IClient">&lt;IClient&gt; 类型约束实现 <see cref="T:HPSocket.IClient"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpClient"/>, <see cref="T:HPSocket.Udp.UdpClient"/>, <see cref="T:HPSocket.Udp.UdpCast"/> ...</typeparam>
+            <param name="remoteAddress">远程服务端地址</param>
+            <param name="remotePort">远程服务端端口</param>
+            <param name="receivedCallback">数据接收回调</param>
+            <param name="autoConnect">断开后是否自动连接，等待 3000ms 后重新连接</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <returns>返回 <see cref="T:HPSocket.IClient"/> 实例对象。</returns>
+        </member>
+        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeClient(HPSocket.IClient)">
+            <summary>
+            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean)"/> 创建的客户端对象
+            <para>注意：静态函数，非引用参数 client, 需实例变量 设为 null </para>
+            </summary>
+            <param name="client"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateServer``1(System.UInt16,System.Action{System.IntPtr,System.Byte[]})">
+            <summary>
+            创建简单 HPSocket.IServer 服务端对象，并创建匿名监听事件。
+            <para>建议使用 <see cref="!:DisposeServer(HPSocket.IServer, log4net.ILog)"/> 断开销毁客户端对象。 </para>
+            <para>&lt;IServer&gt; 类型约束实现 <see cref="T:HPSocket.IServer"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpServer"/>, <see cref="T:HPSocket.Udp.UdpServer"/> ... </para>
+            </summary>
+            <typeparam name="IServer">&lt;IServer&gt; 类型约束实现 <see cref="T:HPSocket.IServer"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpServer"/>, <see cref="T:HPSocket.Udp.UdpServer"/> ... </typeparam>
+            <param name="localPort">绑定的本机端口号</param>
+            <param name="receivedCallback">客户端数据接收回调函数</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <returns>返回 <see cref="T:HPSocket.IServer"/> 实例对象。</returns>
+        </member>
+        <member name="M:SpaceCG.Extension.HPSocketExtension.Broadcast(HPSocket.IServer,System.IntPtr,System.Byte[])">
+            <summary>
+            HPSokcet.IServer 广播数据
+            </summary>
+            <param name="server"></param>
+            <param name="connId">不对此 connId 广播，或可为 null </param>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeServer(HPSocket.IServer)">
+            <summary>
+            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateServer``1(System.UInt16,System.Action{System.IntPtr,System.Byte[]})"/> 创建的服务端对象
+            <para>注意：静态函数，非引用参数 server, 需实例变量 设为 null </para>
+            </summary>
+            <param name="server"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:SpaceCG.Extension.ManagementExtension">
+            <summary>
+            System.Management 命名空间 扩展/实用/通用 函数
+            <para>参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/cimwin32-wmi-providers </para>
+            <para>有关 WMI 类，参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-provider </para>
+            <para>有关 WMI Events，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/determining-the-type-of-event-to-receive </para>
+            <para>有关 WQL 语法，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.ManagementExtension.LocalPath">
+            <summary>
+            \\.\Root\CIMV2
+            <para>System.Management.ManagementScope 的服务器和命名空间。</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.ManagementExtension.InstanceCreationEvent">
+            <summary> ManagementEventWatcher Object </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.ManagementExtension.InstanceDeletionEvent">
+            <summary> ManagementEventWatcher Object </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
+            <summary>
+            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
+            <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            </summary>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
+            <param name="changeCallback"></param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.Action{System.Management.ManagementBaseObject})">
+            <summary>
+            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
+            <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            </summary>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="changeCallback"></param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChangeAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
+            <summary>
+            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
+            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
+            <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            </summary>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
+            <param name="changeCallback"></param>
+            <param name="Log"></param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange">
+            <summary>
+            移除并销毁 由 <see cref="!:ListenInstanceChange(string, TimeSpan, Action&lt;ManagementBaseObject&gt;, log4net.ILog)"/> 创建的监听。
+            <para>移除监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件</para>
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.ManagementExtension.InstanceModificationEvent">
+            <summary> ManagementEventWatcher Object </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
+            <summary>
+            监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
+            <para>请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification"/> 移除监听 </para>
+            <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            </summary>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
+            <param name="changeCallback"></param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.Action{System.Management.ManagementBaseObject})">
+            <summary>
+            监听 "__InstanceModificationEvent"(继承 "__InstanceOperationEvent") 事件 （持续监听事件，按固定 1s 查询一次状态生成事件）；有关事件请参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/--instancemodificationevent 
+            <para>请使用 RemoveInstanceModification 移除监听 </para>
+            <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            </summary>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="changeCallback"></param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModificationAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
+            <summary>
+            监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
+            <para>请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification"/> 移除监听 </para>
+            <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
+            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+            </summary>
+            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
+            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
+            <param name="changeCallback"></param>
+            <param name="Log"></param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification">
+            <summary>
+            移除并销毁 由 <see cref="!:ListenInstanceChange(string, TimeSpan, Action&lt;ManagementBaseObject&gt;, log4net.ILog)"/> 创建的监听。
+            <para>移除监听 "__InstanceModificationEvent" 事件</para>
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.GetClassProperties(System.String)">
+            <summary>
+            获取 ManagementClass 的属性
+            </summary>
+            <param name="path">WMI 类的路径。该类表示 WMI 中的一个 CIM 管理类。CIM 类表示包括硬件、软件、进程等在内的管理信息。
+                <para>系统硬件类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+                <para>操作系统类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/operating-system-classes </para>
+                <para>性能计数器类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/performance-counter-classes </para>
+                <para>WMI服务管理类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/wmi-service-management-classes </para>
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.Searcher(System.String)">
+            <summary>
+            调用指定的 WMI 查询并返回结果
+            </summary>
+            <param name="query">对象将调用的 WMI 查询</param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.Searcher(System.String,System.String,System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="path">WMI 类的路径。该类表示 WMI 中的一个 CIM 管理类。CIM 类表示包括硬件、软件、进程等在内的管理信息。
+                <para>系统硬件类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
+                <para>操作系统类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/operating-system-classes </para>
+                <para>性能计数器类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/performance-counter-classes </para>
+                <para>WMI服务管理类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/wmi-service-management-classes </para>
+            </param>
+            <param name="conditions"></param>
+            <param name="properties">需要输出的 WMI 类的属性值，为空表示所有属性</param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.GetProcessorInfo">
+            <summary>
+            获取 CPU处理器 信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.GetBaseBoardInfo">
+            <summary>
+            获取主板信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.GetPortNames">
+            <summary>
+            获取当前计算机的 串行端口 完整名称 的数组
+            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
+            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.ManagementExtension.GetPortNamesAsync">
+            <summary>
+            获取当前计算机的 串行端口 完整名称 的数组
+            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
+            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SpaceCG.Extension.PerformanceExtension">
+            <summary>
+            <see cref="T:System.Diagnostics.PerformanceCounter"/>, <see cref="T:System.Diagnostics.PerformanceCounterCategory"/>
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebugPCCs">
+            <summary>
+            检索输出本地计算机上注册的 性能计数器 类别的列表 PerformanceCounterCategory.GetCategories()。
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebug(System.Diagnostics.PerformanceCounter)">
+            <summary>
+            输出 性能计数器组件 信息
+            </summary>
+            <param name="pc"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebug(System.Diagnostics.PerformanceCounter[])">
+            <summary>
+            输出 性能计数器组件 信息
+            </summary>
+            <param name="pcs"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebug(System.Diagnostics.PerformanceCounterCategory)">
+            <summary>
+            输出 CategoryName(类别) 不能为空的 性能计数器组件 信息 
+            </summary>
+            <param name="pcc"></param>
+        </member>
+        <member name="T:SpaceCG.Extension.SerialPortExtension">
+            <summary>
+            SerialPort 串口 扩展/实用/通用 函数
+            </summary>
+        </member>
+        <member name="F:SpaceCG.Extension.SerialPortExtension.SerialErrorDescriptions">
+            <summary>
+            串口 Serial_ErrorReceived 事件的错误描述信息
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.IO.Ports.SerialPort,System.Byte[]},System.Int32,System.Boolean)">
+            <summary>
+            根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。如果只关心数据的接收/处理，适用此方法，其它事件状态会记录在日志中。
+            <para>建议使用 <see cref="!:CloseAndDispose(ref SerialPort, log4net.ILog)"/> 清理该实例。</para>
+            </summary>
+            <param name="config">串口构造函数参数，参见 <see cref="T:System.IO.Ports.SerialPort"/> 构造函数。
+                <para>参数顺序："portName, baudRate, Parity, dataBits, StopBits"，按顺序不得少于 1 个参数，如果只有一个参数时，第二个参数 baudRate 将默认为 9600。示例："COM3", "COM3,115200", "COM3,9600,0"</para>
+                <para>注意：如果构造函数参数不正确，或不规范，将抛出 <see cref="T:System.ArgumentNullException"/> 或 <see cref="T:System.ArgumentException"/> 异常信息。</para>
+            </param>
+            <param name="dataReceivedCallback">数据接收回调，为 null 时，不监听 <see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件。</param>
+            <param name="receivedBytesThreshold">接收字节阀值，对象在收到这样长度的数据之后会触发事件 (<see cref="E:System.IO.Ports.SerialPort.DataReceived"/>) 处理函数
+                <para>获取或设置 <see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件发生前内部输入缓冲区中的字节数。</para>
+                <para><see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件触发前内部输入缓冲区中的字节数；默认值为 1，可跟据数据设计大小定义。</para>
+            </param>
+            <param name="ignoreOpenError">是否忽略由 <see cref="M:System.IO.Ports.SerialPort.Open"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort)"/>。
+                <para>如果为 true 则产生的异常信息会记录在日志中，否则会抛出异常信息。</para>
+            </param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <returns> 返回串口对象 </returns>
+        </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort)">
+            <summary>
+            串口设备热插拔自动重新连接
+            <para>使用 ManagementEventWatcher WQL 事件监听模式</para>
+            </summary>
+            <param name="serialPort"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort,System.Windows.Window)">
+            <summary>
+            串口设备热插拔自动重新连接
+            <para>使用 HwndSource Hook Window Message #WM_DEVICECHANGE 事件监听模式</para>
+            </summary>
+            <param name="serialPort"></param>
+            <param name="window">IsLoaded 为 True 的窗口对象</param>
+        </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort@)">
+            <summary>
+            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.IO.Ports.SerialPort,System.Byte[]},System.Int32,System.Boolean)"/> 创建的串口实例
+            <para>注意：静态函数，引用参数 serialPort, 该方法会将 实例变量 设为 null </para>
+            </summary>
+            <param name="serialPort"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort)">
+            <summary>
+            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.IO.Ports.SerialPort,System.Byte[]},System.Int32,System.Boolean)"/> 创建的串口实例
+            <para>注意：扩展函数，需手动将实例变量设为 null</para>
+            </summary>
+            <param name="serialPort"></param>
+        </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.GetPortNames">
+            <summary>
+            获取当前计算机的 串行端口 完整名称 的数组
+            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 函数不同，<see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 只输出类似"COM3,COM4,COMn"；该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
+            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.SerialPortExtension.GetPortNamesAsync">
+            <summary>
+            获取当前计算机的 串行端口 完整名称 的数组
+            <para><see cref="M:SpaceCG.Extension.SerialPortExtension.GetPortNames"/> 的异步方法</para>
+            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SpaceCG.Extension.IEnumerableExtension">
+            <summary>
+            LINQ 扩展 扩展/实用/通用
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.IEnumerableExtension.IndexOf``1(System.Collections.Generic.IEnumerable{``0},``0)">
+            <summary>
+            获取指定对象在此集合中的位置索引
+            <para>注意：该函数是直接使用泛型类的 Equals 方法比较对象</para>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SpaceCG.Extension.IEnumerableExtension.Median(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            迭代中间值
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SpaceCG.Extension.WindowExtension">
+            <summary>
+            窗体 扩展/实用/通用 函数
+            </summary>
+        </member>
+        <member name="M:SpaceCG.Extension.WindowExtension.SettingWindowState(System.Windows.Window,System.String)">
+            <summary>
+            设置窗体显示状态，主要用于 <code>ConfigurationManager.AppSettings["WindowState"]</code> 配置使用；例 SettingWindowState("1,0,0,2");
+            <para>读取配置文件 key:WindowState，值是数值数组 [Topmost, WindowStyle, ResizeMode, WindowState]，对应转换为枚举值和Boolean值</para>
+            <para>【Topmost】窗口是否显示在最顶层 z 顺序；  
+                0：窗口不置顶；
+                1：窗口置顶
+            </para>  
+            <para>【WindowStyle】窗口的边框样式；
+                0：全屏，仅工作区可见(该标题栏和边框不会显示)；
+                1：有一个边框的窗口；
+                2：具有 三维 边框的窗口；
+                3：内置的工具窗口；
+            </para>
+            <para>【ResizeMode】窗口大小调整模式；
+                0：窗口不能调整大小；
+                1：只能将和还原窗口；
+                2：窗口的大小进行调整；
+                3：窗口的大小进行调整；
+            </para>
+            <para>【WindowState】是否还原窗口中，最小化、最大化；
+                0：还原窗口
+                1：窗口最小化
+                2：窗口最大化
+            </para>
+            </summary>
+            <param name="window"></param>
+            <param name="config">配置参数值</param>
+        </member>
+        <member name="M:SpaceCG.Extension.WindowExtension.SettingWindowState(System.Windows.Window,System.Boolean,System.Windows.WindowStyle,System.Windows.ResizeMode,System.Windows.WindowState)">
+            <summary>
+            设置窗体的基本显示参数
+            </summary>
+            <param name="window"></param>
+            <param name="topmost">窗口是否出现在 Z 顺序的最顶层 </param>
+            <param name="style">窗口的边框样式</param>
+            <param name="mode">窗口大小调整模式</param>
+            <param name="state">窗口是处于还原、最小化还是最大化状态</param>
+        </member>
         <member name="T:SpaceCG.WindowsAPI.GDI.DisplayStateFlags">
             <summary>
             Display device state
@@ -7456,438 +7926,6 @@
             <summary>
             path max chars 260
             </summary>
-        </member>
-        <member name="T:SpaceCG.Extension.ApplicationExtension">
-            <summary>
-            Application Extension
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.ApplicationExtension.RunDefaultSetting(System.Windows.Application,System.Windows.ShutdownMode,System.Boolean,System.String)">
-            <summary>
-            运行设置是否只运行一个实例，以及启用 Application 的事件记录，和未处理的异常信息记录
-            </summary>
-            <param name="app"></param>
-            <param name="shutdownmMode">Shutdown Mode </param>
-            <param name="runOnlyOne">只运行一个应用实例</param>
-            <param name="name">如果 runOnlyOne 为 true, 该参数有效，表示系统范围内同步事件的名称</param>
-        </member>
-        <member name="M:SpaceCG.Extension.ApplicationExtension.IsRunningInstance">
-            <summary>
-            指示应用程序是否正在运行实例
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Extension.ApplicationExtension.ReadApplicationProperties(System.Windows.Application,System.String)">
-            <summary>
-            读取应用程序范围属性的集合，一般发生在 <see cref="M:System.Windows.Application.OnStartup(System.Windows.StartupEventArgs)"/> 处理
-            </summary>
-            <param name="app"></param>
-            <param name="filename"></param>
-        </member>
-        <member name="M:SpaceCG.Extension.ApplicationExtension.WriteApplicationProperties(System.Windows.Application,System.String)">
-            <summary>
-            保存应用程序范围属性的集合，一般发生在 <see cref="M:System.Windows.Application.OnExit(System.Windows.ExitEventArgs)"/> 处理
-            </summary>
-            <param name="app"></param>
-            <param name="filename"></param>
-        </member>
-        <member name="T:SpaceCG.Extension.HPSocketExtension">
-            <summary>
-            HPSocket 扩展类/功能
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean)">
-            <summary>
-            创建 HPSocket.IClient 客户端连接对象，并创建匿名监听事件。如果只关心数据的接收/处理，适用此方法，其它事件状态会记录在日志中。
-            <para>建议使用 <see cref="!:DisposeClient(HPSocket.IClient, log4net.ILog)"/> 断开销毁客户端对象。 </para>
-            <para> &lt;IClient&gt; 类型约束实现 <see cref="T:HPSocket.IClient"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpClient"/>, <see cref="T:HPSocket.Udp.UdpClient"/>, <see cref="T:HPSocket.Udp.UdpCast"/> ... </para>
-            </summary>
-            <typeparam name="IClient">&lt;IClient&gt; 类型约束实现 <see cref="T:HPSocket.IClient"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpClient"/>, <see cref="T:HPSocket.Udp.UdpClient"/>, <see cref="T:HPSocket.Udp.UdpCast"/> ...</typeparam>
-            <param name="remoteAddress">远程服务端地址</param>
-            <param name="remotePort">远程服务端端口</param>
-            <param name="receivedCallback">数据接收回调</param>
-            <param name="autoConnect">断开后是否自动连接，等待 3000ms 后重新连接</param>
-            <exception cref="T:System.ArgumentException"></exception>
-            <returns>返回 <see cref="T:HPSocket.IClient"/> 实例对象。</returns>
-        </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeClient(HPSocket.IClient)">
-            <summary>
-            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateClient``1(System.String,System.UInt16,System.Action{HPSocket.IClient,System.Byte[]},System.Boolean)"/> 创建的客户端对象
-            <para>注意：静态函数，非引用参数 client, 需实例变量 设为 null </para>
-            </summary>
-            <param name="client"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.CreateServer``1(System.UInt16,System.Action{System.IntPtr,System.Byte[]})">
-            <summary>
-            创建简单 HPSocket.IServer 服务端对象，并创建匿名监听事件。
-            <para>建议使用 <see cref="!:DisposeServer(HPSocket.IServer, log4net.ILog)"/> 断开销毁客户端对象。 </para>
-            <para>&lt;IServer&gt; 类型约束实现 <see cref="T:HPSocket.IServer"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpServer"/>, <see cref="T:HPSocket.Udp.UdpServer"/> ... </para>
-            </summary>
-            <typeparam name="IServer">&lt;IServer&gt; 类型约束实现 <see cref="T:HPSocket.IServer"/> 接口，参考: <see cref="T:HPSocket.Tcp.TcpServer"/>, <see cref="T:HPSocket.Udp.UdpServer"/> ... </typeparam>
-            <param name="localPort">绑定的本机端口号</param>
-            <param name="receivedCallback">客户端数据接收回调函数</param>
-            <exception cref="T:System.ArgumentException"></exception>
-            <returns>返回 <see cref="T:HPSocket.IServer"/> 实例对象。</returns>
-        </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.Broadcast(HPSocket.IServer,System.IntPtr,System.Byte[])">
-            <summary>
-            HPSokcet.IServer 广播数据
-            </summary>
-            <param name="server"></param>
-            <param name="connId">不对此 connId 广播，或可为 null </param>
-            <param name="bytes"></param>
-        </member>
-        <member name="M:SpaceCG.Extension.HPSocketExtension.DisposeServer(HPSocket.IServer)">
-            <summary>
-            销毁由 <see cref="M:SpaceCG.Extension.HPSocketExtension.CreateServer``1(System.UInt16,System.Action{System.IntPtr,System.Byte[]})"/> 创建的服务端对象
-            <para>注意：静态函数，非引用参数 server, 需实例变量 设为 null </para>
-            </summary>
-            <param name="server"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="T:SpaceCG.Extension.ManagementExtension">
-            <summary>
-            System.Management 命名空间 扩展/实用/通用 函数
-            <para>参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/cimwin32-wmi-providers </para>
-            <para>有关 WMI 类，参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-provider </para>
-            <para>有关 WMI Events，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/determining-the-type-of-event-to-receive </para>
-            <para>有关 WQL 语法，参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.Extension.ManagementExtension.LocalPath">
-            <summary>
-            \\.\Root\CIMV2
-            <para>System.Management.ManagementScope 的服务器和命名空间。</para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.Extension.ManagementExtension.InstanceCreationEvent">
-            <summary> ManagementEventWatcher Object </summary>
-        </member>
-        <member name="F:SpaceCG.Extension.ManagementExtension.InstanceDeletionEvent">
-            <summary> ManagementEventWatcher Object </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
-            <summary>
-            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
-            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
-            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
-            <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
-            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-            </summary>
-            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
-            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
-            <param name="changeCallback"></param>
-            <exception cref="T:System.InvalidOperationException"></exception>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChange(System.String,System.Action{System.Management.ManagementBaseObject})">
-            <summary>
-            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
-            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
-            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
-            <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
-            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-            </summary>
-            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
-            <param name="changeCallback"></param>
-            <exception cref="T:System.InvalidOperationException"></exception>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceChangeAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
-            <summary>
-            监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件；请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange"/> 移除监听
-            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity'"    //监听即插即用设备状态，有关 Win32_PnPEntity(WMI类) 属性参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity </para>
-            <para>示例：$"TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({Serial.PortName})'"    //监听即插即用设备状态，且名称为串口名称</para>
-            <para>示例：$"TargetInstance ISA 'Win32_LogicalDisk' AND TargetInstance.DriveType = 2 OR TargetInstance.DriveType = 4"  //监听移动硬盘状态 </para>
-            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-            </summary>
-            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
-            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
-            <param name="changeCallback"></param>
-            <param name="Log"></param>
-            <exception cref="T:System.InvalidOperationException"></exception>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceChange">
-            <summary>
-            移除并销毁 由 <see cref="!:ListenInstanceChange(string, TimeSpan, Action&lt;ManagementBaseObject&gt;, log4net.ILog)"/> 创建的监听。
-            <para>移除监听 "__InstanceCreationEvent" AND "__InstanceDeletionEvent" 事件</para>
-            </summary>
-        </member>
-        <member name="F:SpaceCG.Extension.ManagementExtension.InstanceModificationEvent">
-            <summary> ManagementEventWatcher Object </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
-            <summary>
-            监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
-            <para>请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification"/> 移除监听 </para>
-            <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
-            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-            </summary>
-            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
-            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
-            <param name="changeCallback"></param>
-            <exception cref="T:System.InvalidOperationException"></exception>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModification(System.String,System.Action{System.Management.ManagementBaseObject})">
-            <summary>
-            监听 "__InstanceModificationEvent"(继承 "__InstanceOperationEvent") 事件 （持续监听事件，按固定 1s 查询一次状态生成事件）；有关事件请参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/--instancemodificationevent 
-            <para>请使用 RemoveInstanceModification 移除监听 </para>
-            <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
-            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-            </summary>
-            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
-            <param name="changeCallback"></param>
-            <exception cref="T:System.InvalidOperationException"></exception>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.ListenInstanceModificationAsync(System.String,System.TimeSpan,System.Action{System.Management.ManagementBaseObject})">
-            <summary>
-            监听 "__InstanceModificationEvent" 事件 （持续监听事件，按自定义时间间隔查询）
-            <para>请使用 <see cref="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification"/> 移除监听 </para>
-            <para>示例：$"TargetInstance ISA 'Win32_Battery'"    //持续监听电池状态，EstimatedChargeRemaining 表示电池电量；更多 Win32_Battery 类的属性，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery </para>
-            <para>更多 WMI 类，请参考：https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-            </summary>
-            <param name="wql_condition">要应用到指定类的事件的条件。WQL 条件语句，关于 WQL 参考：https://docs.microsoft.com/zh-cn/windows/win32/wmisdk/wql-sql-for-wmi?redirectedfrom=MSDN </param>
-            <param name="withinInterval">指定对于接收此事件而言所能接受的滞后时间。该值用于以下情况：对于所请求的查询没有显式事件提供程序，并且需要 WMI 轮询条件。该间隔是在必须发送事件通知之前可以经过的最长时间。</param>
-            <param name="changeCallback"></param>
-            <param name="Log"></param>
-            <exception cref="T:System.InvalidOperationException"></exception>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.RemoveInstanceModification">
-            <summary>
-            移除并销毁 由 <see cref="!:ListenInstanceChange(string, TimeSpan, Action&lt;ManagementBaseObject&gt;, log4net.ILog)"/> 创建的监听。
-            <para>移除监听 "__InstanceModificationEvent" 事件</para>
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.GetClassProperties(System.String)">
-            <summary>
-            获取 ManagementClass 的属性
-            </summary>
-            <param name="path">WMI 类的路径。该类表示 WMI 中的一个 CIM 管理类。CIM 类表示包括硬件、软件、进程等在内的管理信息。
-                <para>系统硬件类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-                <para>操作系统类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/operating-system-classes </para>
-                <para>性能计数器类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/performance-counter-classes </para>
-                <para>WMI服务管理类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/wmi-service-management-classes </para>
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.Searcher(System.String)">
-            <summary>
-            调用指定的 WMI 查询并返回结果
-            </summary>
-            <param name="query">对象将调用的 WMI 查询</param>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.Searcher(System.String,System.String,System.String[])">
-            <summary>
-            
-            </summary>
-            <param name="path">WMI 类的路径。该类表示 WMI 中的一个 CIM 管理类。CIM 类表示包括硬件、软件、进程等在内的管理信息。
-                <para>系统硬件类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/computer-system-hardware-classes </para>
-                <para>操作系统类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/operating-system-classes </para>
-                <para>性能计数器类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/performance-counter-classes </para>
-                <para>WMI服务管理类参考：https://docs.microsoft.com/zh-cn/windows/win32/cimwin32prov/wmi-service-management-classes </para>
-            </param>
-            <param name="conditions"></param>
-            <param name="properties">需要输出的 WMI 类的属性值，为空表示所有属性</param>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.GetProcessorInfo">
-            <summary>
-            获取 CPU处理器 信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.GetBaseBoardInfo">
-            <summary>
-            获取主板信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.GetPortNames">
-            <summary>
-            获取当前计算机的 串行端口 完整名称 的数组
-            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
-            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Extension.ManagementExtension.GetPortNamesAsync">
-            <summary>
-            获取当前计算机的 串行端口 完整名称 的数组
-            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 不同，SerialPort.GetPortNames() 只输出类似"COM3,COM4,COMn"，该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
-            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:SpaceCG.Extension.PerformanceExtension">
-            <summary>
-            <see cref="T:System.Diagnostics.PerformanceCounter"/>, <see cref="T:System.Diagnostics.PerformanceCounterCategory"/>
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebugPCCs">
-            <summary>
-            检索输出本地计算机上注册的 性能计数器 类别的列表 PerformanceCounterCategory.GetCategories()。
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebug(System.Diagnostics.PerformanceCounter)">
-            <summary>
-            输出 性能计数器组件 信息
-            </summary>
-            <param name="pc"></param>
-        </member>
-        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebug(System.Diagnostics.PerformanceCounter[])">
-            <summary>
-            输出 性能计数器组件 信息
-            </summary>
-            <param name="pcs"></param>
-        </member>
-        <member name="M:SpaceCG.Extension.PerformanceExtension.ToDebug(System.Diagnostics.PerformanceCounterCategory)">
-            <summary>
-            输出 CategoryName(类别) 不能为空的 性能计数器组件 信息 
-            </summary>
-            <param name="pcc"></param>
-        </member>
-        <member name="T:SpaceCG.Extension.SerialPortExtension">
-            <summary>
-            SerialPort 串口 扩展/实用/通用 函数
-            </summary>
-        </member>
-        <member name="F:SpaceCG.Extension.SerialPortExtension.SerialErrorDescriptions">
-            <summary>
-            串口 Serial_ErrorReceived 事件的错误描述信息
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.IO.Ports.SerialPort,System.Byte[]},System.Int32,System.Boolean)">
-            <summary>
-            根据构造函数配置，创建一个串口实例，并简单设置/监听相关参数。如果只关心数据的接收/处理，适用此方法，其它事件状态会记录在日志中。
-            <para>建议使用 <see cref="!:CloseAndDispose(ref SerialPort, log4net.ILog)"/> 清理该实例。</para>
-            </summary>
-            <param name="config">串口构造函数参数，参见 <see cref="T:System.IO.Ports.SerialPort"/> 构造函数。
-                <para>参数顺序："portName, baudRate, Parity, dataBits, StopBits"，按顺序不得少于 1 个参数，如果只有一个参数时，第二个参数 baudRate 将默认为 9600。示例："COM3", "COM3,115200", "COM3,9600,0"</para>
-                <para>注意：如果构造函数参数不正确，或不规范，将抛出 <see cref="T:System.ArgumentNullException"/> 或 <see cref="T:System.ArgumentException"/> 异常信息。</para>
-            </param>
-            <param name="dataReceivedCallback">数据接收回调，为 null 时，不监听 <see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件。</param>
-            <param name="receivedBytesThreshold">接收字节阀值，对象在收到这样长度的数据之后会触发事件 (<see cref="E:System.IO.Ports.SerialPort.DataReceived"/>) 处理函数
-                <para>获取或设置 <see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件发生前内部输入缓冲区中的字节数。</para>
-                <para><see cref="E:System.IO.Ports.SerialPort.DataReceived"/> 事件触发前内部输入缓冲区中的字节数；默认值为 1，可跟据数据设计大小定义。</para>
-            </param>
-            <param name="ignoreOpenError">是否忽略由 <see cref="M:System.IO.Ports.SerialPort.Open"/> 产生的异常，为监听设备热插拔自动重新连接做准备，参见：<see cref="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort)"/>。
-                <para>如果为 true 则产生的异常信息会记录在日志中，否则会抛出异常信息。</para>
-            </param>
-            <exception cref="T:System.ArgumentException"></exception>
-            <exception cref="T:System.ArgumentNullException"></exception>
-            <returns> 返回串口对象 </returns>
-        </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort)">
-            <summary>
-            串口设备热插拔自动重新连接
-            <para>使用 ManagementEventWatcher WQL 事件监听模式</para>
-            </summary>
-            <param name="serialPort"></param>
-        </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.AutoReconnection(System.IO.Ports.SerialPort,System.Windows.Window)">
-            <summary>
-            串口设备热插拔自动重新连接
-            <para>使用 HwndSource Hook Window Message #WM_DEVICECHANGE 事件监听模式</para>
-            </summary>
-            <param name="serialPort"></param>
-            <param name="window">IsLoaded 为 True 的窗口对象</param>
-        </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort@)">
-            <summary>
-            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.IO.Ports.SerialPort,System.Byte[]},System.Int32,System.Boolean)"/> 创建的串口实例
-            <para>注意：静态函数，引用参数 serialPort, 该方法会将 实例变量 设为 null </para>
-            </summary>
-            <param name="serialPort"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.CloseAndDispose(System.IO.Ports.SerialPort)">
-            <summary>
-            关闭并清理 由 <see cref="M:SpaceCG.Extension.SerialPortExtension.CreateInstance(System.String,System.Action{System.IO.Ports.SerialPort,System.Byte[]},System.Int32,System.Boolean)"/> 创建的串口实例
-            <para>注意：扩展函数，需手动将实例变量设为 null</para>
-            </summary>
-            <param name="serialPort"></param>
-        </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.GetPortNames">
-            <summary>
-            获取当前计算机的 串行端口 完整名称 的数组
-            <para>与 <see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 函数不同，<see cref="M:System.IO.Ports.SerialPort.GetPortNames"/> 只输出类似"COM3,COM4,COMn"；该函数输出串口对象的名称或是驱动名，类似："USB Serial Port (COM3)" ... </para>
-            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Extension.SerialPortExtension.GetPortNamesAsync">
-            <summary>
-            获取当前计算机的 串行端口 完整名称 的数组
-            <para><see cref="M:SpaceCG.Extension.SerialPortExtension.GetPortNames"/> 的异步方法</para>
-            <para>这只是 WMI 示例应用函数，用于查询 串口名称 信息。更多应用参考 WMI。</para>
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:SpaceCG.Extension.IEnumerableExtension">
-            <summary>
-            LINQ 扩展 扩展/实用/通用
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.IEnumerableExtension.IndexOf``1(System.Collections.Generic.IEnumerable{``0},``0)">
-            <summary>
-            获取指定对象在此集合中的位置索引
-            <para>注意：该函数是直接使用泛型类的 Equals 方法比较对象</para>
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="source"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:SpaceCG.Extension.IEnumerableExtension.Median(System.Collections.Generic.IEnumerable{System.Double})">
-            <summary>
-            迭代中间值
-            </summary>
-            <param name="source"></param>
-            <returns></returns>
-        </member>
-        <member name="T:SpaceCG.Extension.WindowExtension">
-            <summary>
-            窗体 扩展/实用/通用 函数
-            </summary>
-        </member>
-        <member name="M:SpaceCG.Extension.WindowExtension.SettingWindowState(System.Windows.Window,System.String)">
-            <summary>
-            设置窗体显示状态，主要用于 <code>ConfigurationManager.AppSettings["WindowState"]</code> 配置使用；例 SettingWindowState("1,0,0,2");
-            <para>读取配置文件 key:WindowState，值是数值数组 [Topmost, WindowStyle, ResizeMode, WindowState]，对应转换为枚举值和Boolean值</para>
-            <para>【Topmost】窗口是否显示在最顶层 z 顺序；  
-                0：窗口不置顶；
-                1：窗口置顶
-            </para>  
-            <para>【WindowStyle】窗口的边框样式；
-                0：全屏，仅工作区可见(该标题栏和边框不会显示)；
-                1：有一个边框的窗口；
-                2：具有 三维 边框的窗口；
-                3：内置的工具窗口；
-            </para>
-            <para>【ResizeMode】窗口大小调整模式；
-                0：窗口不能调整大小；
-                1：只能将和还原窗口；
-                2：窗口的大小进行调整；
-                3：窗口的大小进行调整；
-            </para>
-            <para>【WindowState】是否还原窗口中，最小化、最大化；
-                0：还原窗口
-                1：窗口最小化
-                2：窗口最大化
-            </para>
-            </summary>
-            <param name="window"></param>
-            <param name="config">配置参数值</param>
-        </member>
-        <member name="M:SpaceCG.Extension.WindowExtension.SettingWindowState(System.Windows.Window,System.Boolean,System.Windows.WindowStyle,System.Windows.ResizeMode,System.Windows.WindowState)">
-            <summary>
-            设置窗体的基本显示参数
-            </summary>
-            <param name="window"></param>
-            <param name="topmost">窗口是否出现在 Z 顺序的最顶层 </param>
-            <param name="style">窗口的边框样式</param>
-            <param name="mode">窗口大小调整模式</param>
-            <param name="state">窗口是处于还原、最小化还是最大化状态</param>
         </member>
         <member name="T:SpaceCG.Generic.BetweenAndDataAnalysePattern`2">
             <summary>
