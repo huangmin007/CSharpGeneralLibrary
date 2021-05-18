@@ -32,10 +32,15 @@ namespace SpaceCG.Extension
 
             for (int i = 0; i < length; i++)
             {
-                if (!String.IsNullOrWhiteSpace(stringArray[i]))
-                    Int32.TryParse(stringArray[i], style, provider, out array[i]);
+                if (!String.IsNullOrWhiteSpace(stringArray[i])) continue;
+
+                int temp = array[i];
+                if (!Int32.TryParse(stringArray[i], style, provider, out array[i]))
+                    array[i] = temp;
             }
         }
+
+
 
         /// <summary>
         /// 将字符解析为 <see cref="System.UInt32"/> 类型数组
@@ -57,8 +62,11 @@ namespace SpaceCG.Extension
 
             for (int i = 0; i < length; i++)
             {
-                if (!String.IsNullOrWhiteSpace(stringArray[i]))
-                    UInt32.TryParse(stringArray[i], style, provider, out array[i]);
+                if (String.IsNullOrWhiteSpace(stringArray[i])) continue;
+
+                uint temp = array[i];
+                if (!UInt32.TryParse(stringArray[i], style, provider, out array[i]))
+                    array[i] = temp;
             }
         }
 
@@ -82,8 +90,11 @@ namespace SpaceCG.Extension
 
             for (int i = 0; i < length; i++)
             {
-                if (!String.IsNullOrWhiteSpace(stringArray[i]))
-                    Byte.TryParse(stringArray[i], style, provider, out array[i]);
+                if (String.IsNullOrWhiteSpace(stringArray[i])) continue;
+
+                byte temp = array[i];
+                if (!Byte.TryParse(stringArray[i], style, provider, out array[i]))
+                    array[i] = temp;
             }
         }
 

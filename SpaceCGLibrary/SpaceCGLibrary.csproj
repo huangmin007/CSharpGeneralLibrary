@@ -71,7 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\ExampleAttribute.cs" />
+    <Compile Include="Extension\ColorExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
+    <Compile Include="ValueConverter\InverseBooleanConverter.cs" />
     <Compile Include="WindowsAPI\GDI\WinGDI.cs" />
     <Compile Include="WindowsAPI\Kernel32\SystemTime.cs" />
     <Compile Include="WindowsAPI\Kernel32\FileSystem.cs" />
