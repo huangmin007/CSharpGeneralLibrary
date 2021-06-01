@@ -94,7 +94,7 @@ namespace SpaceCG.WindowsAPI.User32
 
     #region Structures
     /// <summary>
-    /// FLASHWINFO 结构体。注意一定要设置 cbSize 大小，带参的构造函数 (FLASHINFO(IntPtr hwnd)) 中已经设置;(FLASHWINFO, *PFLASHWINFO<)
+    /// FLASHWINFO 结构体。注意一定要设置 cbSize 大小，带参的构造函数 (FLASHINFO(IntPtr hwnd)) 中已经设置;(FLASHWINFO, *PFLASHWINFO)
     /// <para>包含窗口的闪烁状态以及系统应刷新窗口的次数。</para>
     /// <para>示例：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-flashwinfo </para>
     /// </summary>

@@ -32,7 +32,7 @@ namespace SpaceCG.Extension
 
             for (int i = 0; i < length; i++)
             {
-                if (!String.IsNullOrWhiteSpace(stringArray[i])) continue;
+                if (String.IsNullOrWhiteSpace(stringArray[i])) continue;
 
                 int temp = array[i];
                 if (!Int32.TryParse(stringArray[i], style, provider, out array[i]))
@@ -69,6 +69,7 @@ namespace SpaceCG.Extension
                     array[i] = temp;
             }
         }
+
 
         /// <summary>
         /// 将字符解析为 <see cref="System.Byte"/> 类型数组

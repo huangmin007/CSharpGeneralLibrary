@@ -8,11 +8,12 @@ using SpaceCG.WindowsAPI.User32;
 using System.Collections.Generic;
 using System.Linq;
 
+#if false
 using HidSharp;
 using HidSharp.Reports;
 using HidSharp.Reports.Input;
 using HidSharp.Reports.Encodings;
-
+#endif
 
 namespace Examples
 {
@@ -155,6 +156,7 @@ namespace Examples
             return IntPtr.Zero;
         }
 
+#if false
         DeviceItemInputParser InputParser;
         private void PrintfHidDeviceInfo()
         {
@@ -218,6 +220,7 @@ namespace Examples
                 }
             }
         }
+#endif
     }
 }
 //```

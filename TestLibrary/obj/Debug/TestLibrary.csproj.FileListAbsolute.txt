@@ -14,7 +14,6 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\log4net.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\log4net.xml
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\HPSocket.Net.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\bin\Debug\HPSocket.Net.xml
-E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.csprojAssemblyReference.cache
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\MainWindow.baml
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\MainWindow.g.cs
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\App.g.cs
@@ -26,3 +25,4 @@ E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.cs
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.exe
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.pdb
 E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.csproj.CoreCompileInputs.cache
+E:\2020\001_Libraries\CSharp\GeneralLibrary\TestLibrary\obj\Debug\TestLibrary.csproj.AssemblyReference.cache

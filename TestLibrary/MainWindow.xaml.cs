@@ -32,9 +32,6 @@ namespace TestLibrary
             InitializeComponent();
             LoggerWindow LoggerWindow = new LoggerWindow();
             Log.InfoFormat("MainWindow.");
-
-
-            
         }
 
         protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)

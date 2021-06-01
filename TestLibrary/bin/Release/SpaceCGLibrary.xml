@@ -479,6 +479,11 @@
             <param name="mode">窗口大小调整模式</param>
             <param name="state">窗口是处于还原、最小化还是最大化状态</param>
         </member>
+        <member name="T:SpaceCG.ValueConverter.InverseBooleanConverter">
+            <summary>
+            翻转 bool 值
+            </summary>
+        </member>
         <member name="T:SpaceCG.WindowsAPI.GDI.DisplayStateFlags">
             <summary>
             Display device state
@@ -906,6 +911,78 @@
             <param name="lpModuleName">[LPCSTR] 加载的模块的名称（.dll或.exe文件）。如果省略文件扩展名，则会附加默认库扩展名.dll。</param>
             <returns>如果函数成功，则返回值是指定模块的句柄。如果函数失败，则返回值为NULL。要获取扩展的错误信息，请调用 GetLastError。</returns>
         </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlCopyMemory(System.IntPtr,System.IntPtr,System.UInt32)">
+            <summary>
+            将内存从一个位置复制到另一个位置。
+            <para><see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlCopyMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 比 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlMoveMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 运行得更快。但是，<see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlCopyMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 要求由 Source 和 Length 定义的源内存块不能与由 Destination 和 Length 定义的目标内存块重叠。相反，<see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlMoveMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 正确处理源和目标内存块重叠的情况。</para>
+            <para>新驱动程序应该使用 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlCopyMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 例程而不是 <see cref="!:RtlCopyBytes"/>。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlcopymemory?redirectedfrom=MSDN </para>
+            </summary>
+            <param name="destination">指向复制块目标起始地址的指针</param>
+            <param name="source">指向要复制的内存块起始地址的指针</param>
+            <param name="length">要复制的内存块的大小，以字节为单位。</param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlMoveMemory(System.IntPtr,System.IntPtr,System.UInt32)">
+            <summary>
+            拷贝源存储块的内容到目的地存储器块，并支持重叠的源和目的地的存储器块。
+            <para>由 Source 和 Length 定义的源内存块可以与由 Destination 和 Length 定义的目标内存块重叠。</para>
+            <para>该 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlCopyMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 程序运行速度比 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlMoveMemory(System.IntPtr,System.IntPtr,System.UInt32)"/>，但 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlCopyMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 要求源和目的地的内存块不重叠。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlmovememory </para>
+            </summary>
+            <param name="destination">指向要将字节复制到的目标内存块的指针</param>
+            <param name="source">指向要从中复制字节的源内存块的指针。</param>
+            <param name="length">要从源复制到目标的字节数。</param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlZeroMemory(System.IntPtr,System.UInt32)">
+            <summary>
+            常规的填充用零存储器，给定指针块和长度，以字节为单位的块，将被填充。
+            <para>要将内存缓冲区清零以擦除安全敏感数据，请改用 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlSecureZeroMemory(System.IntPtr,System.UInt32)"/>。</para>
+            <para>参考：https://docs.microsoft.com/zh-cn/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlzeromemory </para>
+            </summary>
+            <param name="destination">指向要填充零的内存块的指针</param>
+            <param name="length">用零填充的字节数。</param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlSecureZeroMemory(System.IntPtr,System.UInt32)">
+            <summary>
+            常规填充的内存在保证是安全的方式零块。
+            <para><see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlSecureZeroMemory(System.IntPtr,System.UInt32)"/> 的效果与 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlZeroMemory(System.IntPtr,System.UInt32)"/> 的效果相同，除了它保证将内存位置归零，即使随后没有写入。（编译器可以优化掉对 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlZeroMemory(System.IntPtr,System.UInt32)"/> 的调用，如果它确定调用者不再访问该内存范围。）</para>
+            <para>使用 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlSecureZeroMemory(System.IntPtr,System.UInt32)"/> 来保证敏感信息已被清零。例如，假设一个函数使用一个局部数组变量来存储密码信息。一旦函数退出，密码信息可以保留在相同的内存位置，除非被 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlSecureZeroMemory(System.IntPtr,System.UInt32)"/> 清零。</para>
+            <para><see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlSecureZeroMemory(System.IntPtr,System.UInt32)"/> 比 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlZeroMemory(System.IntPtr,System.UInt32)"/> 慢；因此，如果安全性不是问题，请改用 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlZeroMemory(System.IntPtr,System.UInt32)"/>。</para>
+            </summary>
+            <param name="destination">指向要填充零的内存缓冲区的指针。</param>
+            <param name="length">指定要填充零的字节数</param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlFillMemory(System.IntPtr,System.UInt32,System.Int32)">
+            <summary>
+            填充的存储器具有指定填充值的块
+            <para>参考：https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlfillmemory </para>
+            </summary>
+            <param name="destination">指向要填充的内存块的指针。</param>
+            <param name="length">要填充的内存块中的字节数</param>
+            <param name="fill">填充目标内存块的值。该值被复制到由 Destination 和 Length 定义的内存块中的每个字节。</param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlEqualMemory(System.IntPtr,System.IntPtr,System.UInt32)">
+            <summary>
+            比较两个存储器块，以确定指定的字节数是否相同。
+            <para><see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlEqualMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 以每个块的字节零开始比较。如果 Source1 和 Source2 相等，则 <see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlEqualMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 返回 TRUE；否则，它返回 FALSE。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlequalmemory </para>
+            </summary>
+            <param name="destination">指向调用者分配的要比较的内存块的指针。</param>
+            <param name="source">指向调用者分配的内存块的指针，该内存块与Source1指向的内存块进行比较。</param>
+            <param name="length">指定要比较的字节数。</param>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlCompareMemory(System.IntPtr,System.IntPtr,System.UInt32)">
+            <summary>
+            比较两个存储器块和返回的字节相匹配的数量。
+            <para><see cref="M:SpaceCG.WindowsAPI.Kernel32.Kernel32.RtlCompareMemory(System.IntPtr,System.IntPtr,System.UInt32)"/> 返回匹配的两个块中的字节数。如果所有字节都与指定的 Length 值匹配，则返回 Length 值。</para>
+            <para>该例程首先将第一个块中的第一个字节与第二个块中的第一个字节进行比较，并在字节匹配时继续比较两个块中的连续字节。当遇到第一对不相等的字节时，或当匹配字节数等于 Length 参数值时，例程停止比较字节，以先发生者为准。</para>
+            <para>参考：https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlcomparememory </para>
+            </summary>
+            <param name="source1">指向第一个内存块的指针</param>
+            <param name="source2">指向第二个内存块的指针</param>
+            <param name="length">要比较的字节数</param>
+            <returns></returns>
+        </member>
         <member name="T:SpaceCG.WindowsAPI.Kernel32.Kernel32Extension">
             <summary>
             WindowsAPI Kernel32库，扩展常用/通用，功能/函数，扩展示例，以及使用方式ad
@@ -936,6 +1013,69 @@
             </summary>
             <param name="sysFunctionName">系统函数名称，Window API 函数名称</param>
             <returns></returns>
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.CopyMemoryEx(System.Byte[],SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.DataGraphHeader@)">
+            <summary>   
+            CopyMemoryEx   
+            </summary>   
+            <param name="dest">目标缓存区</param>   
+            <param name="source">DataGraphPackage</param>   
+            <returns></returns>   
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.CopyMemoryEx(System.Byte[],System.Int32,SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.DataGraphHeader@)">
+            <summary>   
+            CopyMemoryEx   
+            </summary>   
+            <param name="dest">目标缓存区</param>   
+            <param name="DestStart">目标缓存区中的开始位置</param>   
+            <param name="source">DataGraphPackage</param>   
+            <returns></returns>   
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.CopyMemoryEx(SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.DataGraphHeader@,System.Byte[])">
+            <summary>   
+            CopyMemoryEx   
+            </summary>   
+            <param name="dest">DataGraphPackage</param>   
+            <param name="source">源数据缓存</param>   
+            <returns></returns>   
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.CopyMemoryEx(SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.DataGraphHeader@,System.Byte[],System.Int32)">
+            <summary>   
+            CopyMemoryEx   
+            </summary>   
+            <param name="dest">DataGraphPackage</param>   
+            <param name="source">源数据缓存</param>   
+            <returns></returns>   
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.CopyMemoryEx(System.Byte[],System.Byte[],System.UInt32)">
+            <summary>   
+            CopyMemoryEx   
+            </summary>   
+            <param name="dest">目标缓存</param>   
+            <param name="source">源数据</param>   
+            <param name="size">要从源数据中复制的长度</param>   
+            <returns></returns>   
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.CopyMemoryEx(System.Byte[],System.Byte[],System.Int32,System.UInt32)">
+            <summary>   
+            CopyMemoryEx   
+            </summary>   
+            <param name="dest">目标缓存</param>   
+            <param name="source">源数据</param>   
+            <param name="SourceStart">源数据缓存中开始位置</param>   
+            <param name="size">要从源数据中复制的长度</param>   
+            <returns></returns>   
+        </member>
+        <member name="M:SpaceCG.WindowsAPI.Kernel32.Kernel32Extension.CopyMemoryEx(System.Byte[],System.Int32,System.Byte[],System.Int32,System.UInt32)">
+            <summary>   
+            CopyMemoryEx   
+            </summary>   
+            <param name="dest">目标缓存</param>   
+            <param name="DestStart">目标缓存中开始复制的位置</param>   
+            <param name="source">源数据</param>   
+            <param name="SourceStart">源数据缓存中开始位置</param>   
+            <param name="size">要从源数据中复制的长度</param>   
+            <returns></returns>   
         </member>
         <member name="T:SpaceCG.WindowsAPI.Kernel32.AccessRights">
             <summary>
@@ -1514,7 +1654,13 @@
             使用淡入淡出效果。仅当 hwnd 是顶级窗口时，才可以使用此标志。
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:SpaceCG.WindowsAPI.User32.FLASHINFO" -->
+        <member name="T:SpaceCG.WindowsAPI.User32.FLASHINFO">
+            <summary>
+            FLASHWINFO 结构体。注意一定要设置 cbSize 大小，带参的构造函数 (FLASHINFO(IntPtr hwnd)) 中已经设置;(FLASHWINFO, *PFLASHWINFO)
+            <para>包含窗口的闪烁状态以及系统应刷新窗口的次数。</para>
+            <para>示例：https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-flashwinfo </para>
+            </summary>
+        </member>
         <member name="F:SpaceCG.WindowsAPI.User32.FLASHINFO.cbSize">
             <summary>
             结构的大小，以字节为单位。
