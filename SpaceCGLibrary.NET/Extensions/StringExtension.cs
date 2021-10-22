@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceCG.Extension
 {
@@ -23,7 +19,7 @@ namespace SpaceCG.Extension
         /// <param name="style">枚举值的按位组合，用于指示可出现在 string 中的样式元素。要指定的一个典型值为 System.Globalization.NumberStyles.Integer。</param>
         /// <param name="provider">一个对象，提供有关 string 的区域性特定格式设置信息。</param>
         /// <returns></returns>
-        public static void ToInt32Array(this string value, ref int[] array, char separator = ',', NumberStyles style = NumberStyles.Any, IFormatProvider provider = null)
+        public static void ToInt32Array(this string value, ref int[] array, char separator = ',', NumberStyles style = NumberStyles.None, IFormatProvider provider = null)
         {
             string[] stringArray = value.Trim().Split(separator);
 
@@ -61,7 +57,7 @@ namespace SpaceCG.Extension
         /// <param name="style">枚举值的按位组合，用于指示可出现在 string 中的样式元素。要指定的一个典型值为 System.Globalization.NumberStyles.Integer。</param>
         /// <param name="provider">一个对象，提供有关 string 的区域性特定格式设置信息。</param>
         /// <returns></returns>
-        public static void ToUInt32Array(this string value, ref uint[] array, char separator = ',', NumberStyles style = NumberStyles.Any, IFormatProvider provider = null)
+        public static void ToUInt32Array(this string value, ref uint[] array, char separator = ',', NumberStyles style = NumberStyles.None, IFormatProvider provider = null)
         {
             string[] stringArray = value.Trim().Split(separator);
 

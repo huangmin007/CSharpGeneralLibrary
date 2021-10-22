@@ -60,12 +60,12 @@ namespace TestLibrary
             Log.InfoFormat("Window_Loaded");
 
             Console.WriteLine();
-            rawInput = new RawInputExample(this);
+            //rawInput = new RawInputExample(this);
 
             //handle = new WindowInteropHelper(this).Handle;
 
-            //hwndSource = PresentationSource.FromVisual(this) as HwndSource;
-            //hwndSource?.AddHook(WindowRawInputHandler);
+            hwndSource = PresentationSource.FromVisual(this) as HwndSource;
+            hwndSource?.AddHook(WindowRawInputHandler);
         }
 
         protected IntPtr WindowRawInputHandler(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -79,10 +79,11 @@ namespace TestLibrary
                 Log.InfoFormat("Msg WM_DPICHANDED Event");
             }
 
-            //if(msgType == MessageType.WM_KEYDOWN || msgType == MessageType.WM_KEYUP || msgType == MessageType.WM_APPCOMMAND)
-            //{
+            if(msgType == MessageType.WM_KEYDOWN || msgType == MessageType.WM_KEYUP || msgType == MessageType.WM_APPCOMMAND)
+            {
+                Console.WriteLine("Key Message");
             //Console.WriteLine("Message Type:{0}  {1}  {2}", msgType, lParam, GET_APPCOMMAND_LPARAM(lParam.ToInt32()));
-            //}
+            }
 
             return IntPtr.Zero;
         }
