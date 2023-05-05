@@ -133,6 +133,7 @@ namespace SpaceCG.Extension
             SpaceCGUtils.Log.InfoFormat("ManagementEventWatcher WQL Event Listen SerialPort Name:{0}", serialPort.PortName);
 
             TimeSpan withinInterval = TimeSpan.FromSeconds(1);
+            //string wql_condition = $"TargetInstance isa 'Win32_PnPEntity' AND TargetInstance.PNPClass='WPD'"; //移动U盘
             string wql_condition = $"TargetInstance isa 'Win32_PnPEntity' AND TargetInstance.Name LIKE '%({serialPort.PortName.ToUpper()})'";
 
             ManagementScope scope = new ManagementScope(@"\\.\Root\CIMV2")
@@ -260,7 +261,8 @@ namespace SpaceCG.Extension
         /// <returns></returns>
         public static string[] GetPortNames()
         {
-            String query = "SELECT Name FROM Win32_PnPEntity WHERE Name LIKE '%(COM_)' OR Name LIKE '%(COM__)'";
+            //String query = "SELECT Name FROM Win32_PnPEntity WHERE Name LIKE '%(COM_)' OR Name LIKE '%(COM__)'";
+            String query = "SELECT Name FROM Win32_PnPEntity WHERE PNPClass='Ports' AND (Name LIKE '%(COM_)' OR Name LIKE '%(COM__)')";
 
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
             {

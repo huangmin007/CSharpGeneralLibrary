@@ -45,6 +45,7 @@ namespace SpaceCG.Log4Net.Controls
         {
             this.Hide();
             e.Cancel = true;
+			base.OnClosing(e);
         }
         /// <inheritdoc/>
         protected override void OnClosed(EventArgs e)
